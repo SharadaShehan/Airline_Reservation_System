@@ -397,9 +397,5 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# Pycharm
-.idea
 
-# Virtual Environment
-venv/
 

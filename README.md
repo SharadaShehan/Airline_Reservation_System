@@ -1,27 +1,25 @@
 # Airline_Reservation_System
 
+* First, clone the repository. 
+    
+    ```bash
+    git clone https://github.com/SharadaShehan/Airline_Reservation_System.git
+    ```
 
 ## Backend
 Recommended Python version : `Python 3.10.12`
   
 Please develop the backend in a virtual environment.
 
-   
-1) First, clone the repository. 
-    
-    ```bash
-    git clone https://github.com/SharadaShehan/Airline_Reservation_System.git
-    ```
-
-2) Go into backend repository
+1) Navigate to the backend repository
 
     ```bash
     cd Airline_Reservation_System/backend
     ```
 
-3) Then run this command to activate a python environment. After that activate the environment. 
+2) Then run this command to activate a python environment. After that activate the environment
 
-    In Unix
+    In Unix,
     ```bash
     virtualenv --python=python3 ~/venv/venv
     source ~/venv/venv/bin/activate
@@ -39,19 +37,19 @@ Please develop the backend in a virtual environment.
     (venv) C:\...\Airline_Reservation_System\backend>
     ```
 
-4) Now you have to install the required python libraries. Then run this command.
+3) Now you have to install the required python libraries. Then run this command
 
     ```bash
     pip install -r requirements.txt
     ```
 
-5) Run this command to run the local server
+4) Run this command to run the Local Server
 
     ```bash
     python run.py
     ```
 
-6) If local server is running, it must show something similar to below.
+5) If Local Server is running, it must show something similar to below
 
     ```bash
     * Serving Flask app 'run'
@@ -64,4 +62,43 @@ Please develop the backend in a virtual environment.
     * Debugger PIN: 348-962-037
     ```
 
+
+## Frontend
+Recommended Node version : `Node 18.17.1`
+
+1) Navigate to the frontend repository
+
+    ```bash
+    cd Airline_Reservation_System/frontend
+    ```
+
+2) Now install the project's dependencies specified in package.json
+
+    ```bash
+    npm install
+    ```
+
+3) Run the Development Server
+
+    ```bash
+    npm start
+    ```
+
+4) If Development Server is running, it must show something similar to below
+
+    ```bash
+    Starting the development server...
+
+    Compiled successfully!
+
+    You can now view frontend in the browser.
+
+    Local:            http://localhost:3000
+    On Your Network:  http://192.168.141.122:3000
+
+    Note that the development build is not optimized.
+    To create a production build, use npm run build.
+
+    webpack compiled successfully
+    ```
 
