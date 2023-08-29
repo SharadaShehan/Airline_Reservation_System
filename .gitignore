@@ -401,5 +401,5 @@ FodyWeavers.xsd
 .idea
 
 # Virtual Environment
-venv22/
+venv/
 
