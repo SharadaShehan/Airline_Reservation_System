@@ -11,13 +11,13 @@ Recommended Python version : `Python 3.10.12`
   
 Please develop the backend in a virtual environment.
 
-1) Navigate to the backend repository
+1) Navigate to the backend repository.
 
     ```bash
     cd Airline_Reservation_System/backend
     ```
 
-2) Then run this command to activate a python environment. After that activate the environment
+2) Then run this command to activate a python environment. After that activate the environment.
 
     In Unix,
     ```bash
@@ -37,19 +37,33 @@ Please develop the backend in a virtual environment.
     (venv) C:\...\Airline_Reservation_System\backend>
     ```
 
-3) Now you have to install the required python libraries. Then run this command
+3) Now you have to install the required python libraries. Then run this command.
 
     ```bash
     pip install -r requirements.txt
     ```
+4) create `.env` file in `/backend/app/` location with following variables in it.
 
-4) Run this command to run the Local Server
+    ```bash
+    SECRET_KEY=my-secret-key
+
+    MYSQL_HOST=localhost
+    MYSQL_PORT=3306
+    MYSQL_USER=root
+    MYSQL_PASSWORD=12345678
+    MYSQL_DB=project_database
+
+    INIT_ENABLED=1
+    ```
+    Replace above environment variables values with relevant credentials for your local MYSQL database. Set `INIT_ENABLED=1` in development enviroment.
+
+5) Run this command to run the Local Server
 
     ```bash
     python run.py
     ```
 
-5) If Local Server is running, it must show something similar to below
+6) If Local Server is running, it must show something similar to below
 
     ```bash
     * Serving Flask app 'run'
