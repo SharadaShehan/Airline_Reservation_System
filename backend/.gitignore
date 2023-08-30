@@ -4,3 +4,5 @@
 # Virtual Environment
 venv/
 
+# environment variables
+.env
