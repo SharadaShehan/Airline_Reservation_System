@@ -13,4 +13,5 @@ class Config:
     MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD')
     MYSQL_DB = os.environ.get('MYSQL_DB')
 
+    INIT_ENABLED = int(os.environ.get('INIT_ENABLED', 0))
     MYSQL_CURSORCLASS = 'DictCursor'    # ensures that query results are returned as dictionaries
