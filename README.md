@@ -57,13 +57,13 @@ Please develop the backend in a virtual environment.
     ```
     Replace above environment variables values with relevant credentials for your local MYSQL database. Set `INIT_ENABLED=1` in development enviroment.
 
-5) Run this command to run the Local Server
+5) Run this command to run the Local Server.
 
     ```bash
     python run.py
     ```
 
-6) If Local Server is running, it must show something similar to below
+6) If Local Server is running, it must show something similar to below.
 
     ```bash
     * Serving Flask app 'run'
@@ -75,7 +75,11 @@ Please develop the backend in a virtual environment.
     * Debugger is active!
     * Debugger PIN: 348-962-037
     ```
+* Now you can populate database with tables and default set of data defined in scripts, by making an API call to below endpoint.
 
+    ```bash
+    GET  http://127.0.0.1:5000/init
+    ```
 
 ## Frontend
 Recommended Node version : `Node 18.17.1`
