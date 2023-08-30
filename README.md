@@ -75,7 +75,7 @@ Please develop the backend in a virtual environment.
     * Debugger is active!
     * Debugger PIN: 348-962-037
     ```
-* Now you can populate database with tables and default set of data defined in scripts, by making an API call to below endpoint.
+* Now you can populate your local database with tables and default set of data defined in scripts, by making an API call to below endpoint.
 
     ```bash
     GET  http://127.0.0.1:5000/init
