@@ -6,5 +6,6 @@ api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
 
 
+# define urls for frontend to access data
 api.add_resource(UserSimple, '/user/<int:user_id>')
 
