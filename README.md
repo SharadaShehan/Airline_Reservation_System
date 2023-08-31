@@ -175,6 +175,10 @@ Recommended Node version : `Node 18.17.1`
    ```bash
    git push
    ```
+   or
+   ```bash
+   git push origin <branch_name>
+   ```
 
 <br>
 Repeat Above sequence of commands to introduce further enhancements to the project.
