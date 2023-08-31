@@ -139,6 +139,10 @@ Recommended Node version : `Node 18.17.1`
     ```bash
     git checkout <branch_name>
     ```
+    or 
+    ```bash
+    git checkout -b <branch_name>
+    ```
 
 3) Implementing Developments and Staging Changes:<br>
    Progress with your code developments within the local repository. After making necessary developments, stage the changes for commiting by executing:
