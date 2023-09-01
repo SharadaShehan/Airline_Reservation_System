@@ -129,17 +129,17 @@ Recommended Node version : `Node 18.17.1`
    Before initiating your work, ensure you are within the project directory on your local machine and synchronize your repository with the latest updates from the remote GitHub repository by executing the following command:
 
     ```bash
-    git pull
+    git pull origin <branch_name>
     ```
 
 
 2) ( Optional ) Branch Navigation:<br>
-   If required, navigate to another branch by using the 'checkout' command:
+   If required, navigate to an another branch by using the 'checkout' command:
 
     ```bash
     git checkout <branch_name>
     ```
-    or 
+    If you are navigating to the branch for first time, use -b flag to create the local branch with given name.
     ```bash
     git checkout -b <branch_name>
     ```
@@ -164,7 +164,7 @@ Recommended Node version : `Node 18.17.1`
    Use the 'pull' command to fetch potential changes from the GitHub repository, aligning your committed changes with any recent contributions from other project contributors:
    
    ```bash
-   git pull
+   git pull origin <branch_name>
    ```
 
    If any conflicts arise during this process, solve them through a code editor and then re-run the 'pull' command.
@@ -172,10 +172,6 @@ Recommended Node version : `Node 18.17.1`
 6) Uploading Merged Changes to GitHub:<br>
    Publish the modifications to the GitHub repository:
    
-   ```bash
-   git push
-   ```
-   or
    ```bash
    git push origin <branch_name>
    ```
