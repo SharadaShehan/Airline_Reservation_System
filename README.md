@@ -28,7 +28,7 @@ Please develop the backend in a virtual environment.
     In Windows,
     ```bash
     python -m venv "venv"
-    venv\Scripts\activate
+    venv\bin\activate
     ```
 
     If your Python virtual environment works fine, then in the command line should be something similar to this.
