@@ -178,3 +178,9 @@ Recommended Node version : `Node 18.17.1`
 
 <br>
 Repeat Above sequence of commands to introduce further enhancements to the project.
+
+<p align="center">
+    <br>
+<img src="https://github.com/SharadaShehan/Airline_Reservation_System/blob/c0242b679cd7a9f53cf57ac91fca9ad5acda57a2/git_workflow.png"  width="40%">
+</p>
+
