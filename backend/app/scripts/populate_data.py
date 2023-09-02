@@ -9,7 +9,7 @@ def populate_user_data():
         # Insert query for users table
         insert_users_query = """INSERT INTO users (id, username, email) VALUES"""
         # Read data from csv file and insert into users table
-        with open('app/scripts/users_data.csv', 'r') as file:       # use specific path to csv file
+        with open('app/scripts/data/users_data.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
             # Skip the header row
             header_row = next(csv_reader)
