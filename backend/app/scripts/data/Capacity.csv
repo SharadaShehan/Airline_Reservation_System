@@ -1,0 +1,10 @@
+'Capacity_ID','Model','Class','Seats_count'
+100,1001,'First class',16
+101,1001,'business class',54
+102,1001,'Normal Class',110
+103,1002,'First class',20
+104,1002,'business class',62
+105,1002,'Normal Class',118
+106,1003,'First class',18
+107,1003,'business class',46
+108,1003,'Normal Class',123
