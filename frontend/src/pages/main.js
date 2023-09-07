@@ -1,23 +1,26 @@
 import "../styles/main.css";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import React, { useState, useEffect } from "react";
+import NavBar from "../components/navBar";
+import LoginForm from "../components/loginForm";
+import RegisterForm from "../components/registerForm";
 
 export default function Main() {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
-  useEffect(() => {
-    // Make an API call when the component mounts
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   // Make an API call when the component mounts
+  //   fetchData();
+  // }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/user/5");
-      setData(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:5000/api/user/5");
+  //     setData(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
   return (
     <main role="main" class="container">
@@ -26,11 +29,9 @@ export default function Main() {
           <div className="overlap-group">
             <div className="text-wrapper">B Airlines</div>
           </div>
-          {/* <div className="user-detail">
-                {
-                    data.email + "  " + data.username
-                }
-            </div> */}
+          <NavBar />
+          <LoginForm />
+          {/* <RegisterForm /> */}
         </div>
       </div>
     </main>
