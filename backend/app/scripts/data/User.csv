@@ -1,21 +1,24 @@
-'username','Password','FirstName','LastName','IsAdmin','Booking_count','Category'
-'user1','Password1','First01','Last01',TRUE,2,NULL
-'user2','Password'2,'First02','Last02',TRUE,10,'Gold'
-'user3','Password3','First03','Last03',FALSE,1,NULL
-'user4','Password4','First04','Last04',TRUE,1,NULL
-'user5','Password5','First05','Last05',TRUE,1,NULL
-'user6','Password6','First06','Last06',FALSE,1,NULL
-'user7','Password7','First07','Last07',TRUE,4,NULL
-'user8','Password8','First08','Last08',TRUE,5,'Frequent'
-'user9','Password9','First09','Last09',TRUE,6,'Frequent'
-'user10','Password10','First10','Last10',TRUE,6,'Frequent'
-'user11','Password11','First11','Last11',TRUE,4,NULL
-'user12','Password12','First12','Last12',TRUE,4,NULL
-'user13','Password13','First13','Last13',FALSE,4,NULL
-'user14','Password14','First14','Last14',TRUE,3,NULL
-'user15','Password15','First15','Last15',FALSE,3,NULL
-'user16','Password16','First16','Last16',TRUE,2,NULL
-'user17','Password17','First17','Last17',FALSE,1,NULL
-'user18','Password18','First18','Last18',TRUE,1,NULL
-'user19','Password19','First19','Last19',TRUE,5,'Frequent'
-'user20','Password20','First20','Last20',TRUE,6,'Frequent'
+'Username', 'Password', 'FirstName', 'LastName', 'IsAdmin', 'IsDataEntryOperator', 'Bookings_count', 'Category'
+'SamC', 'k8p3rW', 'Sam', 'Convoy', 0, 0, 0, 1
+'AliceD', 't9x1yP', 'Alice', 'Doe', 0, 0, 0, 1
+'BobS', 'r7b3zA', 'Bob', 'Smith', 0, 0, 0, 1
+'JohnD', 'e9s1wG', 'John', 'Doe', 0, 0, 0, 1
+'JaneS', 'b5o3mE', 'Jane', 'Smith', 0, 0, 0, 1
+'MichaelJ', 's3a0dG', 'Michael', 'Johnson', 0, 0, 0, 1
+'EmilyW', 'm2v5iA', 'Emily', 'Wilson', 0, 0, 0, 1
+'DavidB', 'n7d0fE', 'David', 'Brown', 0, 0, 0, 1
+'SophiaD', 'z0x7fE', 'Sophia', 'Davis', 0, 0, 0, 1
+'JamesL', 'e8g4oE', 'James', 'Lee', 0, 0, 0, 1
+'OliviaM', 'b9k2pE', 'Olivia', 'Moore', 0, 0, 0, 1
+'WilliamT', 'r0e0zE', 'William', 'Taylor', 0, 0, 0, 1
+'AvaA', 'w0d4kE', 'Ava', 'Anderson', 0, 0, 0, 1
+'ElijahW', 'n1j0rE', 'Elijah', 'White', 0, 0, 0, 1
+'MiaH', 'x2y0mE', 'Mia', 'Harris', 0, 0, 0, 1
+'BenjaminM', 'e4z9yE', 'Benjamin', 'Martin', 0, 0, 0, 1
+'CharlotteT', 'z5p6kE', 'Charlotte', 'Thompson', 0, 0, 0, 1
+'IsabellaC', 'r1e5gE', 'Isabella', 'Clark', 0, 0, 0, 1
+'AlexanderL', 'y7d0wE', 'Alexander', 'Lewis', 0, 0, 0, 1
+'GraceM', 'm5a0dE', 'Grace', 'Moore', 0, 0, 0, 1
+'SophiaW', 'g0q2hE', 'Sophia', 'Wilson', 0, 1, 0, 1
+'DanielH', 'i8t0wE', 'Daniel', 'Hall', 0, 1, 0, 1
+'HenryW', 'y0t6dE', 'Henry', 'Walker', 1, 0, 0, 1
