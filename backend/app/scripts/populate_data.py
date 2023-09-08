@@ -1,6 +1,6 @@
 from app.scripts.db import get_db_connection
 import csv
-
+from werkzeug.security import generate_password_hash
 
 def populate_model_table():
     connection = get_db_connection()
@@ -217,7 +217,8 @@ def populate_user_table():
             for row in csv_reader:
                 # Get attributes for each record from comma separated row
                 username, password, first_name, last_name, is_admin, is_DEO, bookings_count, category = row
-                insert_user_query += f"({username}, {password}, {first_name}, {last_name}, {is_admin}, {is_DEO}, {bookings_count}, {category}),"
+                hashed_password = generate_password_hash(password.strip()[1:-1], method='scrypt')
+                insert_user_query += f"({username}, '{hashed_password}', {first_name}, {last_name}, {is_admin}, {is_DEO}, {bookings_count}, {category}),"
             insert_user_query = insert_user_query[:-1] + ';'      # remove last comma and add semicolon
         cursor.execute(insert_user_query)
         connection.commit()
@@ -236,7 +237,7 @@ def populate_booking_set_table():
             for row in csv_reader:
                 # Get attributes for each record from comma separated row
                 booking_ref_id, scheduled_flight, user, bprice_per_booking, final_price, completed = row
-                if user == '':
+                if user.strip() == '':
                     user = 'NULL'
                 insert_booking_set_query += f"({booking_ref_id}, {scheduled_flight}, {user}, {bprice_per_booking}, {final_price}, {completed}),"
             insert_booking_set_query = insert_booking_set_query[:-1] + ';'      # remove last comma and add semicolon

@@ -161,7 +161,7 @@ def create_tables():
         create_user_table_query = """
             CREATE TABLE IF NOT EXISTS User (
             Username VARCHAR(30) PRIMARY KEY,
-            Password VARCHAR(50) NOT NULL,
+            Password CHAR(162) NOT NULL,
             FirstName VARCHAR(30) NOT NULL,
             LastName VARCHAR(30) NOT NULL,
             IsAdmin BOOLEAN NOT NULL,
