@@ -23,7 +23,14 @@ class RegisterForm extends Form {
     return (
       <div>
         <h1>Register</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form
+          onSubmit={this.handleSubmit}
+          style={{
+            width: "50%",
+            margin: "auto",
+            padding: "20px",
+          }}
+        >
           {this.renderInput("username", "Username", true)}
           {this.renderInput("password", "Password", false, "password")}
           {this.renderInput("name", "Name", false)}

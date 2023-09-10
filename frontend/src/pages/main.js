@@ -24,16 +24,14 @@ export default function Main() {
 
   return (
     <main role="main" class="container">
-      <div className="desktop">
+      <h1>HomePage</h1>
+      {/* <div className="desktop">
         <div className="overlap-group-wrapper">
           <div className="overlap-group">
             <div className="text-wrapper">B Airlines</div>
           </div>
-          <NavBar />
-          <LoginForm />
-          {/* <RegisterForm /> */}
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }
