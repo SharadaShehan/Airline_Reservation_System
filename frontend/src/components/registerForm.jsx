@@ -31,7 +31,7 @@ class RegisterForm extends Form {
             padding: "20px",
           }}
         >
-          {this.renderInput("username", "Username", true)}
+          {this.renderInput("username", "Username", false)}
           {this.renderInput("password", "Password", false, "password")}
           {this.renderInput("name", "Name", false)}
           {this.renderButton("Register")}

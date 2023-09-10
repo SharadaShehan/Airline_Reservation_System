@@ -30,7 +30,7 @@ class LoginForm extends Form {
             padding: "20px",
           }}
         >
-          {this.renderInput("username", "Username", true)}
+          {this.renderInput("username", "Username", false)}
           {this.renderInput("password", "Password", false, "password")}
           {this.renderButton("Login")}
         </form>
