@@ -1,0 +1,49 @@
+
+.headerImg {
+    width: 105vw;
+    top: 0;
+    z-index: -1;
+    /* height: 100vh; */
+}
+
+.logo {
+	position: absolute;
+	top: 2%;
+	left: 4%;
+    font-size: 3em;
+}
+
+.profileIcon {
+    font-size: 2.5em;
+    position: absolute;
+    top: 1%;
+    right: 3%;
+}
+
+.navBarContainer {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    /* align-items: center; */
+}
+
+@media only screen and (max-width: 1024px) {
+    .navBarContainer {
+        width: 100%;
+    }
+    .logo {
+        position: absolute;
+        top: 1%;
+        width: 100%;
+        font-size: 1.5em;
+        color: #000;
+        font-weight: bold;
+    }
+    .headerImg {
+        transform: translate(0, 0);
+    }
+    .profileIcon {
+        color: black;
+    }
+}
+

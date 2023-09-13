@@ -1,30 +1,38 @@
-import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
-import NavBar from "./components/navBar";
-import Main from "./pages/main";
-import About from "./pages/about";
-import Contacts from "./pages/contacts";
-import Login from "./pages/login";
-import Register from "./pages/register";
-import NotFound from "./pages/not-found";
-import Flights from "./pages/flights";
+
+import Layout from "./components/Layout/Layout";
+
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import BookFlights from "./pages/BookFlights";
+import BookedTickets from "./pages/BookedTickets";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AboutUs from "./pages/AboutUs";
+import NotFound from "./pages/NotFound";
+
+import { Route, Routes, Navigate } from 'react-router-dom';
+
 
 function App() {
   return (
     <div className="App">
-      <NavBar />
-      <Switch>
-        <Route path={"/home"} component={Main}></Route>
-        <Route path={"/about"} component={About}></Route>
-        <Route path={"/contact"} component={Contacts}></Route>
-        <Route path={"/login"} component={Login}></Route>
-        <Route path={"/register"} component={Register}></Route>
-        <Route path={"/flights"} component={Flights}></Route>
-        <Route path={"/not-found"} component={NotFound}></Route>
-        <Redirect from="/" exact to="/home" />
-        <Redirect to="/not-found" />
-      </Switch>
+        <Layout>
+        <Routes>
+          <Route path="/home" element={<Home/>}></Route>
+          <Route path="/profile" element={<Profile/>}></Route>
+          <Route path="/book-flights" element={<BookFlights/>}></Route>
+          <Route path="/booked-tickets" element={<BookedTickets/>}></Route>
+          <Route path="/login" element={<Login/>}></Route>
+          <Route path="/register" element={<Register/>}></Route>
+          <Route path="/about-us" element={<AboutUs/>}></Route>
+          <Route path="/not-found" element={<NotFound/>}></Route>
+          <Route path='/' element={<Navigate to='/home' replace />} />
+          <Route path="*" element={<Navigate to="/not-found" />} />
+        </Routes>
+        </Layout>
     </div>
+    
   );
 }
 
