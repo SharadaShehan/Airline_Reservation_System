@@ -1,22 +1,27 @@
 import React from 'react';
-import { useState } from 'react';
 import FlightSearch from './FlightSearch';
 import LoginAsk from './LoginAsk';
 import SeatReserve from './SeatReserve';
 import BookingSuccess from './BookingSuccess';
+import MakePayment from './MakePayment';
+import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
 
 
 export default function Booking () {
-    const [currentView] = useState('flightSearch');
+    const { bookingStep } = BookingStepGlobalState();
 
     const renderPage = () => {
-        switch (currentView) {
+        switch (bookingStep) {
+            case null:
+                return <FlightSearch />;
             case 'flightSearch':
                 return <FlightSearch />;
             case 'loginAsk':
                 return <LoginAsk />;
             case 'seatReserve':
                 return <SeatReserve />;
+            case 'makePayment':
+                return <MakePayment />;
             case 'bookingSuccess':
                 return <BookingSuccess />;
             default:

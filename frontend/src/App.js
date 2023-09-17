@@ -6,8 +6,6 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import BookFlights from "./pages/BookFlights";
 import BookedTickets from "./pages/BookedTickets";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs";
 import NotFound from "./pages/NotFound";
 
@@ -23,8 +21,6 @@ function App() {
           <Route path="/profile" element={<Profile/>}></Route>
           <Route path="/book-flights" element={<BookFlights/>}></Route>
           <Route path="/booked-tickets" element={<BookedTickets/>}></Route>
-          <Route path="/login" element={<Login/>}></Route>
-          <Route path="/register" element={<Register/>}></Route>
           <Route path="/about-us" element={<AboutUs/>}></Route>
           <Route path="/not-found" element={<NotFound/>}></Route>
           <Route path='/' element={<Navigate to='/home' replace />} />
