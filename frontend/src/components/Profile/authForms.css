@@ -1,0 +1,135 @@
+
+.formWrapper {
+    background-color: rgb(123, 185, 255);
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+.authForm {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 2em 0;
+    display: flex;
+    flex-direction: column;
+    width:60%;
+    transform: translateX(30%);
+    background-color: #aeddff;
+    border-radius: 2.5em;
+    box-shadow: 0 0 0.4em 0 #000;
+}
+
+.header {
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 1em;
+    color: #000;
+}
+
+.formField {
+    margin-bottom: 1em;
+}
+
+.shortInput {
+    position:relative;
+    display:inline-block;
+    border:none;
+    border-radius: 2em;
+    outline: none;
+    height: 3em;
+    width: 50%;
+    margin: auto;
+    padding: 1.7em;
+}
+
+
+.shortInput:focus {
+    background: rgb(227, 246, 255);
+    color: #000;
+    box-shadow: 0 0 0.2em 0 #000;
+    transform: scale(1.03);
+    transition: all 0.2s ease-in-out;
+}
+
+.errorText {
+    color: #b10000;
+    font-weight: 500;
+    width: 50%;
+    margin: auto;
+    margin-top: 0.2em;
+}
+
+.submitBtn { 
+    position:relative;
+    background: #3474ff;
+    color:#fff;
+    border:none;
+    border-radius: 2em;
+    height: 2.7em;
+    width: 20%;
+    margin: auto;
+    cursor:pointer;
+    font-size: 1.2em;
+}
+
+.submitBtn:hover {
+    background: #1d5ade;
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+}
+
+.submitBtn:disabled {
+    background: #b1b1b1;
+}
+
+.swap {
+    font-size: 1.2em;
+    margin-top: 0.4em;
+    color: #000;
+}
+
+.swapBtn {
+    position:relative;
+    background: #8d64ff;
+    color:#fff;
+    border:none;
+    border-radius: 1em;
+    padding: 0.2em 1em;
+    margin: auto;
+    margin-left: 0.1em;
+    cursor:pointer;
+    font-size: 1em;
+}
+
+.swapBtn:hover {
+    background: #6b3dff;
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+}
+
+@media only screen and (max-width: 1024px) {
+    .authForm {
+        width: 80%;
+        transform: translateX(10%);
+        border-radius: 2em;
+    }
+    
+    .header {
+        font-size: 1.6em;
+    }
+
+    .shortInput {
+        width: 80%;
+        padding: 0.6em 1.4em;
+    }
+
+    .submitBtn {
+        margin-top: 0.5em;
+        width: 45%;
+    }
+
+    .swap {
+        margin-top: 0.5em;
+        font-size: 1.1em;
+    }
+}
+

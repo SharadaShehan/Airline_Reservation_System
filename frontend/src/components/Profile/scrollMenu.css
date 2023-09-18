@@ -1,5 +1,5 @@
 .horizontal-scroll-menu {
-    width: 105%;
+    width: 100%;
     overflow-x: auto;
     white-space: nowrap;
     border: 1px solid #ccc;
@@ -11,7 +11,7 @@
 }
 
 .menu-list {
-    width: 105%;
+    width: 100%;
     list-style: none;
     margin: 0;
     padding: 0;
