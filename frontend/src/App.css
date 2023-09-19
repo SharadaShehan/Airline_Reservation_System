@@ -36,3 +36,47 @@
     transform: rotate(360deg);
   }
 }
+
+p {
+  font-size: 14px;
+  color: #262626;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 40px;
+  font-weight: 200;
+  font-style: italic;
+  color: #262626;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.section {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.main-heading {
+  color: rgb(9, 1, 1);
+  font-size: 26px;
+}
+
+.underline {
+  width: 20%;
+  height: 4px;
+  background-color: #754aeb;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.bg-c-light {
+  background-color: #e9e8e85c;
+}
+
+.bg-c-info {
+  background-color: #2abfed60;
+}
