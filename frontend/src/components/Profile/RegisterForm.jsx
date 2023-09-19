@@ -1,44 +1,126 @@
 import React from "react";
-import Joi from "joi-browser";
-import Form from "../common/form";
+import { useState } from "react";
+import { UserGlobalState } from '../Layout/UserGlobalState';
+import "./authForms.css"
 
-class RegisterForm extends Form {
-  state = {
-    data: { username: "", password: "", name: "" },
-    errors: {},
-  };
 
-  schema = {
-    username: Joi.string().email().required().label("Username"),
-    password: Joi.string().min(5).required().label("Password"),
-    name: Joi.string().required().label("Name"),
-  };
+export default function RegisterForm () {
+  const { setCurrentUserData } = UserGlobalState();
 
-  doSubmit = () => {
-    // call the server
-    console.log("Registered");
-  };
+  const [ username, setUsername ] = useState('');
+  const [ usernameError, setUsernameError ] = useState(null);
+  const [ password, setPassword ] = useState('');
+  const [ passwordError, setPasswordError ] = useState(null);
+  const [ firstName, setFirstName ] = useState('');
+  const [ firstNameError, setFirstNameError ] = useState(null);
+  const [ lastName, setLastName ] = useState('');
+  const [ lastNameError, setLastNameError ] = useState(null);
 
-  render() {
-    return (
-      <div>
-        <h1>Register</h1>
-        <form
-          onSubmit={this.handleSubmit}
-          style={{
-            width: "50%",
-            margin: "auto",
-            padding: "20px",
-          }}
-        >
-          {this.renderInput("username", "Username", false)}
-          {this.renderInput("password", "Password", false, "password")}
-          {this.renderInput("name", "Name", false)}
-          {this.renderButton("Register")}
-        </form>
-      </div>
-    );
+  const submitfunc = (e) => {
+    console.log("Submitted");
+    e.preventDefault();
+    setCurrentUserData({
+      'username': 'SamC',
+      'firstName': 'Sam',
+      'lastName': 'Convoy',
+      'isAdmin': 0,
+      'isDataEntryOperator': 0,
+      'bookingsCount': 15,
+      'category': 'Frequent'
+    });
   }
+
+  const validateUsername = () => {
+    const usernameRegex = /^[a-zA-Z0-9_@]{3,30}$/;
+    if (usernameRegex.test(username) === false) {
+      setUsernameError(`
+          Username must be at least 3 characters long
+          and can only contain letters, numbers, _ and @
+      `);
+    } else {
+      setUsernameError(null);
+    }
+  }
+
+  const validatePassword = () => {
+    const passwordRegex = /^[a-zA-Z0-9@]{4,30}$/;
+    if (passwordRegex.test(password) === false) {
+      setPasswordError(`
+          Password must be at least 4 characters long
+          and can only contain letters, numbers and @
+      `);
+    } else {
+      setPasswordError(null);
+    }
+  }
+
+  const validateFirstName = () => {
+    const firstNameRegex = /^[A-Za-z]{1,30}$/;
+    if (firstNameRegex.test(firstName) === false) {
+      setFirstNameError(`
+          First Name cannot be empty and can only contain letters
+      `);
+    } else {
+      setFirstNameError(null);
+    }
+  }
+
+  const validateLastName = () => {
+    const lastNameRegex = /^[A-Za-z]{1,30}$/;
+    if (lastNameRegex.test(lastName) === false) {
+      setLastNameError(`
+          Last Name cannot be empty and can only contain letters
+      `);
+    } else {
+      setLastNameError(null);
+    }
+  }
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  }
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  }
+
+  const handleFirstNameChange = (e) => {
+    setFirstName(e.target.value);
+  }
+
+  const handleLastNameChange = (e) => {
+    setLastName(e.target.value);
+  }
+
+  return (
+    <div className="registerFormWrapper">
+      <form
+        className="authForm"
+        onSubmit={submitfunc}
+      >
+        <span className="header">Create a New Account</span>
+        <div className="formField">
+          <input className="shortInput" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} onBlur={validateUsername}/>
+          {usernameError && <div className="errorText">{usernameError}</div>}
+        </div>
+        <div className="formField">
+          <input className="shortInput" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} onBlur={validatePassword}/>
+          {passwordError && <div className="errorText">{passwordError}</div>}
+        </div>
+        <div className="formField">
+          <input className="shortInput" type="text" placeholder="First Name" value={firstName} onChange={handleFirstNameChange} onBlur={validateFirstName}/>
+          {firstNameError && <div className="errorText">{firstNameError}</div>}
+        </div>
+        <div className="formField">
+          <input className="shortInput" type="text" placeholder="Last Name" value={lastName} onChange={handleLastNameChange} onBlur={validateLastName}/>
+          {lastNameError && <div className="errorText">{lastNameError}</div>}
+        </div>
+        <button className="submitBtn" type="submit">Register</button>
+      </form>
+    </div>
+  );
 }
 
-export default RegisterForm;
+
+
+

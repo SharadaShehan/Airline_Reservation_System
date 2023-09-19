@@ -1,26 +1,25 @@
 import React from 'react';
-import { useEffect } from 'react';
-import LoginForm from '../components/Profile/LoginForm';
+import LoginOrRegister from '../components/Profile/LoginOrRegister';
 import UserProfile from '../components/Profile/UserProfile';
 import AdminProfile from '../components/Profile/AdminProfile';
 import DEOProfile from '../components/Profile/DEOProfile';
-import { useGlobalState } from '../components/Layout/GlobalState';
+import { UserGlobalState } from '../components/Layout/UserGlobalState';
 
 
 export default function Profile () {
-    const { currentUserData, setCurrentUserData } = useGlobalState();
+    const { currentUserData } = UserGlobalState();
 
-    useEffect(() => {
-        setCurrentUserData({
-          'username': 'SamC',
-          'firstName': 'Sam',
-          'lastName': 'Convoy',
-          'isAdmin': 0,
-          'isDataEntryOperator': 0,
-          'bookingsCount': 15,
-          'category': 'Frequent'
-          });
-    }, [setCurrentUserData]);
+    // useEffect(() => {
+    //     setCurrentUserData({
+    //       'username': null,
+    //       'firstName': null,
+    //       'lastName': null,
+    //       'isAdmin': null,
+    //       'isDataEntryOperator': null,
+    //       'bookingsCount': null,
+    //       'category': null
+    //       });
+    // }, [setCurrentUserData]);
 
     return (
       <div className="wrapper">
@@ -31,7 +30,7 @@ export default function Profile () {
 
 function renderPage(userData) {
   if (userData.username === null) {
-      return <LoginForm/>
+      return <LoginOrRegister/>
   } else if (Boolean(userData.isAdmin) === true) {
       return <AdminProfile userData={userData}/>
   } else if (Boolean(userData.isDataEntryOperator) === true) {

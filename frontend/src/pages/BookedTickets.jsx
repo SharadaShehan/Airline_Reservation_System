@@ -1,5 +1,14 @@
-const BookedTickets = () => {
-    return <h1>BookedTickets Page</h1>;
-  };
+import { useEffect } from "react";
+import { BookingStepGlobalState } from "../components/Layout/BookingStepGlobalState";
+
+
+export default function BookedTickets () {
+  const { setBookingStep } = BookingStepGlobalState();
+  useEffect(() => {
+    setBookingStep("flightSearch");
+  }, [setBookingStep]);
   
-export default BookedTickets;
+  return <h1>BookedTickets Page</h1>;
+};
+  
+

@@ -1,16 +1,26 @@
 import Header from './Header';
 import Footer from './Footer';
-import { GlobalStatesProvider } from './GlobalState';
+import { UserGlobalStateProvider } from './UserGlobalState';
+import { BookingStepGlobalStateProvider } from './BookingStepGlobalState';
+import { BookingProcessGlobalStateProvider } from './BookingProcessGlobalState';
+import { UserMenuGlobalStateProvider } from './UserMenuGlobalState';
 
 export default function Layout ({children}) {
     return (
       <>
-        <GlobalStatesProvider>
+        <UserGlobalStateProvider>
+        <UserMenuGlobalStateProvider>
+        <BookingProcessGlobalStateProvider>
+        <BookingStepGlobalStateProvider>
             <Header/>
             <div>
                 {children}
             </div>
             <Footer/>
-        </GlobalStatesProvider>
-      </>);
+        </BookingStepGlobalStateProvider>
+        </BookingProcessGlobalStateProvider>
+        </UserMenuGlobalStateProvider>
+        </UserGlobalStateProvider>
+      </>
+    );
 }

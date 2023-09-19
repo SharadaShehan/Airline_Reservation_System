@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 const GlobalStatesContext = createContext();
 
-export function GlobalStatesProvider({ children }) {
+export function UserGlobalStateProvider({ children }) {
     const [currentUserData, setCurrentUserData] = useState({
         'username': null,
         'firstName': null,
@@ -22,7 +22,7 @@ export function GlobalStatesProvider({ children }) {
 }
 
 
-export function useGlobalState() {
+export function UserGlobalState() {
   const context = useContext(GlobalStatesContext);
   if (!context) {
     throw new Error('Invalid access to global state');
