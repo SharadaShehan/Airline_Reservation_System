@@ -77,7 +77,9 @@ const Footer = () => {
         <hr className="line"></hr>
         <div className="sb__footer-bottom">
           <div className="sb__footer-copyright">
-            <p>@{new Date().getFullYear()} B Airlines. All Rights Reserved.</p>
+            <p>
+              &copy;{new Date().getFullYear()} B Airlines. All Rights Reserved.
+            </p>
           </div>
           <div className="sb__footer-bottom-links">
             <Link to="/terms">
