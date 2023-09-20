@@ -1,9 +1,10 @@
 import React from "react";
 import VMC from "./inc/VMC";
+import "../styles/aboutUs.css";
 
 const AboutUs = () => {
   return (
-    <div>
+    <div className="aboutus">
       <section className="py-4 bg-c-info border-top border- bottom">
         <div className="container">
           <div className="row">
