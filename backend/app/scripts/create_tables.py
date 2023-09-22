@@ -100,7 +100,7 @@ def create_tables():
         #------- Create scheduled flight table ----
         create_scheduled_flight_table_query = """
             CREATE TABLE IF NOT EXISTS Scheduled_Flight (
-            Scheculed_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+            Scheduled_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
             Route SMALLINT NOT NULL,
             Airplane VARCHAR(10) NOT NULL,
             Departure_Time DATETIME NOT NULL,
@@ -182,7 +182,7 @@ def create_tables():
             BPrice_Per_Booking SMALLINT NOT NULL,
             Final_Price DECIMAL(8,2) NOT NULL,
             Completed BOOLEAN NOT NULL,
-            FOREIGN KEY (Scheduled_Flight) REFERENCES Scheduled_Flight(Scheculed_ID),
+            FOREIGN KEY (Scheduled_Flight) REFERENCES Scheduled_Flight(Scheduled_ID),
             FOREIGN KEY (User) REFERENCES User(Username),
             FOREIGN KEY (BPrice_Per_Booking) REFERENCES Base_Price(Price_ID) );
         """
