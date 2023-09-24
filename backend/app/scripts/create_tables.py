@@ -8,7 +8,6 @@ def drop_all_tables():
     if connection:
         cursor = connection.cursor()
         drop_table_queries = []
-        # Get all table names from the database
         tables_list = [
             "Booking",
             "Booking_Set",
@@ -166,8 +165,7 @@ def create_tables():
             LastName VARCHAR(30) NOT NULL,
             IsAdmin BOOLEAN NOT NULL,
             IsDataEntryOperator BOOLEAN NOT NULL,
-            Bookings_Count SMALLINT NOT NULL,
-            Category SMALLINT NOT NULL,
+            Category SMALLINT NOT NULL DEFAULT 1,
             FOREIGN KEY (Category) REFERENCES Category(Category_ID) );
         """
         cursor.execute(create_user_table_query)
@@ -181,7 +179,7 @@ def create_tables():
             User VARCHAR(30),
             BPrice_Per_Booking SMALLINT NOT NULL,
             Final_Price DECIMAL(8,2) NOT NULL,
-            Completed BOOLEAN NOT NULL,
+            Completed BOOLEAN NOT NULL DEFAULT 0,
             FOREIGN KEY (Scheduled_Flight) REFERENCES Scheduled_Flight(Scheduled_ID),
             FOREIGN KEY (User) REFERENCES User(Username),
             FOREIGN KEY (BPrice_Per_Booking) REFERENCES Base_Price(Price_ID) );
@@ -198,7 +196,7 @@ def create_tables():
             FirstName VARCHAR(30) NOT NULL,
             LastName VARCHAR(30) NOT NULL,
             IsAdult BOOLEAN NOT NULL,
-            FOREIGN KEY (Booking_Set) REFERENCES Booking_Set(Booking_Ref_ID) );
+            FOREIGN KEY (Booking_Set) REFERENCES Booking_Set(Booking_Ref_ID) ON DELETE CASCADE);
         """
         cursor.execute(create_booking_table_query)
         #----------------------------------
