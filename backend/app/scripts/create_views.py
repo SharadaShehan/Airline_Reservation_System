@@ -118,10 +118,13 @@ def create_views():
                 SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT desloc.Name ORDER BY desloc.Level ASC), ',', 1) AS toCity,
                 DATE(shf.Departure_Time) AS departureDate,
                 DATE_FORMAT(shf.Departure_Time, '%H:%i') AS departureTime,
-                cls.Class_Name AS class
+                cls.Class_Name AS class,
+                bkset.Booking_Ref_ID AS bookingRefID,
+                usr.Username AS bookedUser
             FROM
                 booking AS bk
                 INNER JOIN booking_set bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                LEFT JOIN user AS usr ON bkset.User = usr.Username
                 INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                 INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                 INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
