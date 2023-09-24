@@ -24,7 +24,7 @@ def complete_booking():
 
 def guest_cancel_booking():
 
-    booking_ref_id = 'ZG1LIK020LM3'
+    booking_ref_id = 'KRSC5GIYZRKB'
     url = f'http://127.0.0.1:5000/api/booking/cancel/guest/{booking_ref_id}'
 
     response = requests.delete(url)
@@ -38,7 +38,7 @@ def guest_cancel_booking():
 
 def user_cancel_booking():
     
-    booking_ref_id = 'U4UJXRPXAF0I'
+    booking_ref_id = 'KRSC5GIYZRKB'
     url = f'http://127.0.0.1:5000/api/booking/cancel/user/{booking_ref_id}'
 
     with open('token.json', 'r') as file:
@@ -65,6 +65,6 @@ def user_cancel_booking():
 #     print('DELETE request failed with status code:', response.status_code)
 #     print(response.json()['message'])
 
-# guest_cancel_booking()
+guest_cancel_booking()
 
-complete_booking()
+# complete_booking()

@@ -58,7 +58,7 @@ class GetUserDetails(Resource):
                 username = get_jwt_identity()
                 # SQL query to get user details
                 query = """
-                SELECT Username, FirstName, LastName, Bookings_Count, Category_Name
+                SELECT Username, FirstName, LastName, Category_Name
                 FROM User join Category on User.Category = Category.Category_ID
                 where Username = %s
                 """
@@ -69,8 +69,7 @@ class GetUserDetails(Resource):
                     'username': items[0],
                     'firstName': items[1],
                     'lastName': items[2],
-                    'bookingsCount': items[3],
-                    'category': items[4]
+                    'category': items[3]
                 }
                 connection.close()
                 if items is None:

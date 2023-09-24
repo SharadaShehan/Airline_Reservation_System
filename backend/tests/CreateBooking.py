@@ -55,28 +55,28 @@ def user_create_booking():
     return requests.post(url, json=data, headers=headers)
 
 
-response = user_create_booking()
+# response = user_create_booking()
 
-if response.status_code == 201:
-    data = response.json()
-    bookingRefID = data.get('bookingRefID')
-    price = data.get('price')
-    print(f"Booking created successfully. Booking Ref ID: {bookingRefID}. Price: {price}")
-elif response.status_code == 401:
-    if get_access_token():
-        response = user_create_booking()
-        if response.status_code == 201:
-            data = response.json()
-            bookingRefID = data.get('bookingRefID')
-            price = data.get('price')
-            print(f"Booking created successfully. Booking Ref ID: {bookingRefID}. Price: {price}")
-        else:
-            print('POST request failed with status code:', response.status_code)
-    else:
-        print("Invalid username or password")
-else:
-    print('POST request failed with status code:', response.status_code)
-    print(response.json()['message'])
+# if response.status_code == 201:
+#     data = response.json()
+#     bookingRefID = data.get('bookingRefID')
+#     price = data.get('price')
+#     print(f"Booking created successfully. Booking Ref ID: {bookingRefID}. Price: {price}")
+# elif response.status_code == 401:
+#     if get_access_token():
+#         response = user_create_booking()
+#         if response.status_code == 201:
+#             data = response.json()
+#             bookingRefID = data.get('bookingRefID')
+#             price = data.get('price')
+#             print(f"Booking created successfully. Booking Ref ID: {bookingRefID}. Price: {price}")
+#         else:
+#             print('POST request failed with status code:', response.status_code)
+#     else:
+#         print("Invalid username or password")
+# else:
+#     print('POST request failed with status code:', response.status_code)
+#     print(response.json()['message'])
 
-# guest_create_booking()
+guest_create_booking()
 

@@ -23,7 +23,7 @@ class GuestCancelBookingSet(Resource):
                 query_result = cursor.fetchone()
                 # Check if booking set exists
                 if query_result is None:
-                    raise Exception("Booking set does not exist")
+                    raise Exception("404")
                 # Check if booking set belongs to a registered user
                 if query_result[0] is not None:
                     raise Exception("Unauthorized to cancel booking set")
@@ -38,6 +38,8 @@ class GuestCancelBookingSet(Resource):
                 connection.close()
                 return make_response({"message": "Booking set cancelled successfully"}, 204)
             except Exception as ex:
+                if str(ex) == "404":
+                    return abort(404, message="Booking set does not exist")
                 print(ex)
                 return abort(400, message=f"Failed to cancel booking set. Error: {ex}")
         else:
@@ -63,7 +65,7 @@ class UserCancelBookingSet(Resource):
                 query_result = cursor.fetchone()
                 # Check if booking set exists
                 if query_result is None:
-                    raise Exception("Booking set does not exist")
+                    raise Exception("404")
                 # Check if booking set belongs to a registered user
                 if query_result[0] is None or query_result[0] != get_jwt_identity():
                     raise Exception("Unauthorized to cancel booking set")
@@ -78,6 +80,8 @@ class UserCancelBookingSet(Resource):
                 connection.close()
                 return make_response({"message": "Booking set cancelled successfully"}, 204)
             except Exception as ex:
+                if str(ex) == "404":
+                    return abort(404, message="Booking set does not exist")
                 print(ex)
                 return abort(400, message=f"Failed to cancel booking set. Error: {ex}")
         else:
