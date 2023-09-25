@@ -91,7 +91,8 @@ def create_tables():
             Destination CHAR(4) NOT NULL,
             Duration_Minutes SMALLINT NOT NULL,
             FOREIGN KEY (Origin) REFERENCES Airport(ICAO_Code),
-            FOREIGN KEY (Destination) REFERENCES Airport(ICAO_Code) );
+            FOREIGN KEY (Destination) REFERENCES Airport(ICAO_Code),
+            CONSTRAINT Unique_Route_Pair UNIQUE (Origin, Destination) );
         """
         cursor.execute(create_route_table_query)
         #----------------------------------

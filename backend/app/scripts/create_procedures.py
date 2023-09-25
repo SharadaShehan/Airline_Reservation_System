@@ -123,6 +123,7 @@ def create_procedures():
                 DECLARE first_name VARCHAR(30);
                 DECLARE last_name VARCHAR(30);
                 DECLARE is_adult BOOLEAN;
+                DECLARE seat_reserved BOOLEAN;
                 
                 DECLARE done BOOLEAN DEFAULT FALSE;
                 DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult FROM booking_data;
@@ -157,6 +158,22 @@ def create_procedures():
                         FETCH recordsCursor INTO seat_number, first_name, last_name, is_adult;
                         IF done THEN
                             LEAVE readLoop;
+                        END IF;
+
+                        SET seat_reserved = 0;
+                        
+                    	SELECT 
+                            ( COUNT(*) > 0 ) INTO seat_reserved
+                        FROM
+                            booking AS bk
+                            INNER JOIN booking_set AS bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                            INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
+                            INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
+                            INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
+                        WHERE shf.Scheduled_ID = scheduled_flight_id and  cls.Class_Name = travel_class and bk.Seat_Number = seat_number;
+
+                        IF seat_reserved THEN
+                            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Already Booked';
                         END IF;
                         
                         INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult) 
