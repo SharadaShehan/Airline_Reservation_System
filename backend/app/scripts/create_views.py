@@ -44,8 +44,10 @@ def create_views():
                 des.IATA_Code AS destinationIATA,
                 GROUP_CONCAT(DISTINCT orgloc.Name ORDER BY orgloc.Level ASC SEPARATOR ',') AS originAddress,
                 GROUP_CONCAT(DISTINCT desloc.Name ORDER BY desloc.Level ASC SEPARATOR ',') AS destinationAddress,
-                DATE_ADD(shf.Departure_Time, INTERVAL shf.Delay_Minutes MINUTE) AS departureDateTime,
-                DATE_ADD(shf.Departure_Time, INTERVAL shf.Delay_Minutes + rut.Duration_Minutes MINUTE) AS arrivalDateTime,
+                DATE_ADD(shf.Departure_Time, INTERVAL shf.Delay_Minutes MINUTE) AS departureDateAndTime,
+                DATE_ADD(shf.Departure_Time, INTERVAL shf.Delay_Minutes + rut.Duration_Minutes MINUTE) AS arrivalDateAndTime,
+                rut.Duration_Minutes AS durationMinutes,
+                mdl.Name AS airplaneModel,
                 apl.Tail_Number AS tailNumber
             FROM
                 scheduled_flight AS shf
@@ -55,6 +57,7 @@ def create_views():
                 INNER JOIN airport AS des ON rut.Destination = des.ICAO_Code
                 INNER JOIN location AS desloc ON desloc.Airport = des.ICAO_Code
                 INNER JOIN airplane AS apl ON shf.Airplane = apl.Tail_Number
+                INNER JOIN model AS mdl ON apl.Model = mdl.Model_ID
             WHERE
                 DATE(DATE_ADD(shf.Departure_Time, INTERVAL shf.Delay_Minutes MINUTE)) >= CURDATE()
             GROUP BY shf.Scheduled_ID , desloc.Airport , orgloc.Airport;
