@@ -1,6 +1,5 @@
 from app.scripts.db import get_db_connection
 import csv
-from werkzeug.security import generate_password_hash
 
 booking_set_list = []
 
@@ -218,9 +217,8 @@ def populate_user_table():
             header_row = next(csv_reader)
             for row in csv_reader:
                 # Get attributes for each record from comma separated row
-                username, password, first_name, last_name, is_admin, is_DEO = row
-                hashed_password = generate_password_hash(password.strip()[1:-1], method='scrypt')
-                insert_user_query += f"({username}, '{hashed_password}', {first_name}, {last_name}, {is_admin}, {is_DEO}),"
+                username, hashed_password, first_name, last_name, is_admin, is_DEO = row
+                insert_user_query += f"({username}, {hashed_password}, {first_name}, {last_name}, {is_admin}, {is_DEO}),"
             insert_user_query = insert_user_query[:-1] + ';'      # remove last comma and add semicolon
         cursor.execute(insert_user_query)
         connection.commit()
