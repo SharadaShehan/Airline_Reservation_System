@@ -4,6 +4,7 @@ from app.scripts.create_tables import create_tables, drop_all_tables
 from app.scripts.create_views import create_views, drop_all_views
 from app.scripts.create_procedures import create_procedures, drop_all_procedures
 from app.scripts.create_functions import create_functions, drop_all_functions
+from app.scripts.create_events import create_events, drop_all_events
 from app.scripts.populate_data import populate_data
 
 
@@ -17,10 +18,12 @@ class RunScripts(Resource):
                 drop_all_views()
                 drop_all_procedures()
                 drop_all_functions()
+                drop_all_events()
                 create_tables()
                 create_views()
                 create_procedures()
                 create_functions()
+                create_events()
                 populate_data()
                 return jsonify({'message': "Scripts ran successfully. Database has been setup with default data"})
             return abort(400, message="Scripts didn't to run. Environment hasn't been setup to run scripts")

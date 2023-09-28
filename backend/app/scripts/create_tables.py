@@ -181,6 +181,7 @@ def create_tables():
             BPrice_Per_Booking SMALLINT NOT NULL,
             Final_Price DECIMAL(8,2) NOT NULL,
             Completed BOOLEAN NOT NULL DEFAULT 0,
+            Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (Scheduled_Flight) REFERENCES Scheduled_Flight(Scheduled_ID),
             FOREIGN KEY (User) REFERENCES User(Username),
             FOREIGN KEY (BPrice_Per_Booking) REFERENCES Base_Price(Price_ID) );
