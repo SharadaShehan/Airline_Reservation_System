@@ -6,12 +6,10 @@ from app.api.resources.cancel_booking_api import GuestCancelBookingSet, UserCanc
 from app.api.resources.get_available_seats_api import GetAvailableSeats
 from app.api.resources.search_api import SearchFlights
 from app.api.resources.admin_view_reports import GetRevenueByModel
-from app.api.resources.admin_search_api import GetPassengersByNextFlight
-from app.api.resources.admin_search_api import GetPassengersByDateDestination
-from app.api.resources.admin_search_api import GetBookingCountByDatePassengerType
-from app.api.resources.admin_search_api import GetPastFlightsDetails
+from app.api.resources.admin_search_api import GetPassengersByNextFlight, GetPassengersByDateDestination, GetBookingCountByDatePassengerType, GetPastFlightsDetails
 from app.api.resources.search_api import SearchBookedTickets
 from app.api.resources.register_user_api import RegisterUser
+from app.api.resources.get_all_api import GetmodelDetails,Getallroutes,Getallairports,Getallairplanes
 from flask_restful import Api
 
 api_bp = Blueprint('api', __name__)
@@ -33,8 +31,11 @@ api.add_resource(GuestCancelBookingSet, '/booking/cancel/guest/<bkset_id>')    #
 api.add_resource(CompleteBookingSet, '/booking/complete/<bkset_id>')    # POST method to complete booking
 api.add_resource(UserCreateBooking, '/booking/create/user')    # POST method to create booking
 api.add_resource(GuestCreateBooking, '/booking/create/guest')    # POST method to create booking
+api.add_resource(GetmodelDetails,'/get-all/models')
+api.add_resource(Getallroutes,'/get-all/routes')
+api.add_resource(Getallairports,'/get-all/airports')
+api.add_resource(Getallairplanes,'/get-all/airplanes')
 api.add_resource(GetUserDetails, '/user/details')   # GET method to get user details
 api.add_resource(GetAuthToken, '/user/auth')    # POST method to get JWT token
-
 
 
