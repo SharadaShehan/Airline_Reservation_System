@@ -10,6 +10,7 @@ from app.api.resources.admin_search_api import GetPassengersByNextFlight, GetPas
 from app.api.resources.search_api import SearchBookedTickets
 from app.api.resources.register_user_api import RegisterUser
 from app.api.resources.get_all_api import GetmodelDetails,Getallroutes,Getallairports,Getallairplanes
+from app.api.resources.deo_schedule_flight_api import DEOScheduleFlight
 from flask_restful import Api
 
 api_bp = Blueprint('api', __name__)
@@ -17,6 +18,7 @@ api = Api(api_bp)
 
 
 # urls for frontend to access data
+api.add_resource(DEOScheduleFlight, '/deo/schedule-flight')    # POST method to schedule flight
 api.add_resource(SearchBookedTickets, '/tickets/search')    # GET method to search bookings
 api.add_resource(GetPastFlightsDetails, '/admin/past-flights')    # GET method to get past flights details
 api.add_resource(GetBookingCountByDatePassengerType, '/admin/bookings-by-ptype')    # GET method to get booking count by date and passenger type

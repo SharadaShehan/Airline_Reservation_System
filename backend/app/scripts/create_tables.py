@@ -104,7 +104,7 @@ def create_tables():
             Route SMALLINT NOT NULL,
             Airplane VARCHAR(10) NOT NULL,
             Departure_Time DATETIME NOT NULL,
-            Delay_Minutes SMALLINT NOT NULL,
+            Delay_Minutes SMALLINT NOT NULL DEFAULT 0,
             FOREIGN KEY (Route) REFERENCES Route(Route_ID),
             FOREIGN KEY (Airplane) REFERENCES Airplane(Tail_Number) );
         """

@@ -1,6 +1,8 @@
 import re
 
 date_pattern = r'^\d{4}-\d{2}-\d{2}$'
+time_pattern = r'^\d{2}:\d{2}$'
+tail_number_pattern = r'^[A-Za-z0-9]+-?[A-Za-z0-9]+$'
 
 
 def validate_user_data(data):
@@ -70,4 +72,12 @@ def validate_date(date):
 def validate_date_range(from_date, to_date):
     if validate_date(from_date) and validate_date(to_date):
         return True
+    return False
+
+def validate_scheduling_data(route, airplane, departure_date, departure_time):
+    if isinstance(route, int) and route > 0:
+        if isinstance(airplane, str) and len(airplane) >= 4 and re.match(tail_number_pattern, airplane):
+            if isinstance(departure_date, str) and len(departure_date) == 10 and re.match(date_pattern, departure_date):
+                if isinstance(departure_time, str) and len(departure_time) == 5 and re.match(time_pattern, departure_time):
+                    return True
     return False

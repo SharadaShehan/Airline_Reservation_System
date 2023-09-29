@@ -67,9 +67,10 @@ class GuestCreateBooking(Resource):
                 result_args = cursor.callproc('CreateBookingSet', (bookingRefID, flightID, 'NULL', travelClass, bookingCount, finalPrice, 0))
                 procedureStatus = result_args[-1]
                 
+                connection.commit()
+                connection.close()
+
                 if procedureStatus == 1:
-                    connection.commit()
-                    connection.close()
                     return make_response({'message': 'Booking created successfully', 'bookingRefID': bookingRefID, 'price': finalPrice}, 201)
                 else:
                     raise Exception("Invalid booking data")

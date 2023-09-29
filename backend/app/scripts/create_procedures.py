@@ -10,7 +10,8 @@ def drop_all_procedures():
         drop_procedure_queries = []
         procedures_list = [
             "CompleteBookingSet",
-            "CreateBookingSet"
+            "CreateBookingSet",
+            "ScheduleFlight"
         ]
         
         # Generate drop queries for all procedures and append to drop_queries list
@@ -33,6 +34,7 @@ def create_procedures():
         cursor = connection.cursor()
 
         #------- Create complete booking set procedure -------
+        
         create_complete_booking_set_query = """
             CREATE PROCEDURE CompleteBookingSet(IN Ref_ID CHAR(12))
             BEGIN
@@ -187,6 +189,57 @@ def create_procedures():
             END;
         """
         cursor.execute(create_create_booking_set_query)
+        #----------------------------------
+
+        #------- Create schedule flight procedure -------
+        create_schedule_flight_query = """
+            CREATE PROCEDURE ScheduleFlight(
+                IN route_int SMALLINT, 
+                IN airplane_code VARCHAR(10), 
+                IN departure_date CHAR(10), 
+                IN departure_time CHAR(8), 
+                OUT status_var BOOLEAN)
+
+            BEGIN
+                DECLARE departure_datetime DATETIME;
+                DECLARE lower_bound DATETIME;
+                DECLARE upper_bound DATETIME;
+                DECLARE duration SMALLINT;
+                DECLARE scheduled_count SMALLINT;
+                
+                SET status_var = FALSE;
+                
+                START TRANSACTION;
+                        
+                        SELECT rut.Duration_Minutes INTO duration
+                        FROM route as rut
+                        WHERE rut.Route_ID = route_int;
+                        
+                        SET departure_datetime = STR_TO_DATE(CONCAT(departure_date, ' ', departure_time), '%Y-%m-%d %H:%i:%s');
+                        SET lower_bound = DATE_SUB(departure_datetime, INTERVAL 1 HOUR);
+                        SET upper_bound = DATE_ADD(departure_datetime, INTERVAL duration + 60 MINUTE);
+                        
+                        SELECT COUNT(*) INTO scheduled_count
+                        FROM flight as flt
+                        WHERE
+                            flt.tailNumber = airplane_code
+                            AND ( flt.departureDateAndTime > lower_bound AND flt.arrivalDateAndTime < upper_bound )
+                            OR ( flt.departureDateAndTime < lower_bound AND flt.arrivalDateAndTime > upper_bound )
+                            OR ( flt.departureDateAndTime < lower_bound AND flt.arrivalDateAndTime > lower_bound )
+                            OR ( flt.departureDateAndTime < upper_bound AND flt.arrivalDateAndTime > upper_bound );
+                        
+                        IF scheduled_count > 0 THEN
+                            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Airplane has scheduled flights at this time';
+                        END IF;
+                        
+                        INSERT INTO scheduled_flight (Route, Airplane, Departure_Time) 
+                        VALUES (route_int, airplane_code, departure_datetime);
+                        
+                COMMIT;
+                SET status_var = TRUE;
+            END;
+        """
+        cursor.execute(create_schedule_flight_query)
         #----------------------------------
         
         connection.commit()
