@@ -11,7 +11,8 @@ def drop_all_views():
         views_list = [
             "Flight",
             "Seat_Reservation",
-            "Ticket"
+            "Ticket",
+            "Passenger"
         ]
         
         # Generate drop queries for all views and append to drop_queries list
@@ -141,6 +142,38 @@ def create_views():
             GROUP BY bk.Ticket_Number , desloc.Airport , orgloc.Airport;
         """
         cursor.execute(create_ticket_view_query)
+        #----------------------------------
+
+        #------- Create passenger view -------
+        create_passenger_view_query = """
+            CREATE OR REPLACE VIEW Passenger AS
+            SELECT 
+                bk.Ticket_Number AS ticketNumber,
+                CONCAT(bk.FirstName, ' ', bk.LastName) AS name,
+                CONCAT(bk.Seat_Number, cls.Class_Code) AS seat,
+                bk.IsAdult as isAdult,
+                org.ICAO_Code AS 'fromICAO',
+                des.ICAO_Code AS 'toICAO',
+                shf.Departure_Time AS departureDateTime,
+                shf.Scheduled_ID AS flightID,
+                cls.Class_Name AS class,
+                bkset.Completed AS isPaymentDone,
+                bkset.Booking_Ref_ID AS bookingRefID,
+                IFNULL(ctg.Category_Name, 'Guest') AS userType
+            FROM
+                booking AS bk
+                INNER JOIN booking_set bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                LEFT JOIN user AS usr ON bkset.User = usr.Username
+                INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
+                INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
+                INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
+                INNER JOIN route AS rut ON shf.Route = rut.Route_ID
+                INNER JOIN airport AS org ON rut.Origin = org.ICAO_Code
+                INNER JOIN airport AS des ON rut.Destination = des.ICAO_Code
+                LEFT JOIN category AS ctg ON usr.Category = ctg.Category_ID
+			ORDER BY bk.Ticket_Number;
+        """
+        cursor.execute(create_passenger_view_query)
         #----------------------------------
         
         connection.commit()

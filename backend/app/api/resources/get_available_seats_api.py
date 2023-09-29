@@ -1,11 +1,10 @@
 from flask import jsonify, make_response
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_booking_data, validate_payment
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.utils.validators import validate_flight_id
 
 
-class GetReservedSeats(Resource):
+class GetAvailableSeats(Resource):
     def get(self, flight_id):
         try:
             connection = get_db_connection()
@@ -15,6 +14,10 @@ class GetReservedSeats(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
+
+                # Validate flight ID
+                if not validate_flight_id(flight_id):
+                    raise Exception("Invalid flight ID")
 
                 # Get all reserved seats for a flight
                 cursor.execute(f"SELECT * FROM seat_reservation WHERE ID = {int(flight_id)}")
@@ -26,7 +29,7 @@ class GetReservedSeats(Resource):
                 if query_result == []:
                     raise Exception("404")
 
-                # Get all reserved seats for each class
+                # Get available seats for each class
                 for item in query_result:
                     className, totalCount, reservedCount, bookedSeats = item[1], item[2], item[3], item[4]
                     availableCount = totalCount - reservedCount
@@ -42,6 +45,6 @@ class GetReservedSeats(Resource):
                 if str(ex) == "404":
                     return abort(404, message=f"Flight with ID {flight_id} does not exist")
                 print(ex)
-                return abort(400, message=f"Failed to get reserved seats. Error: {ex}.")
+                return abort(400, message=f"Failed to get available seats. Error: {ex}.")
         else:
             return abort(500, message="Failed to connect to database")

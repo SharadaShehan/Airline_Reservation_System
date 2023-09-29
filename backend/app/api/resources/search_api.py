@@ -1,7 +1,7 @@
 from flask import jsonify, make_response, request
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_search_parameters
+from app.utils.validators import validate_search_parameters, validate_booking_set_id_format
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
@@ -61,3 +61,67 @@ class SearchFlights(Resource):
                 return abort(400, message=f"Failed to get reserved seats. Error: {ex}.")
         else:
             return abort(500, message="Failed to connect to database")
+        
+
+class SearchBookedTickets(Resource):
+    def get(self):
+        try:
+            connection = get_db_connection()
+        except Exception as ex:
+            return abort(500, message=f"Failed to connect to database. Error: {ex}")
+
+        if connection:
+            try:
+                cursor = connection.cursor()
+                bookingRefID = request.args.get('bookingRefID')
+
+                # Validate search parameters
+                if not validate_booking_set_id_format(bookingRefID):
+                    raise Exception("Invalid search parameters")
+                
+                # Get all tickets with given bookingRefID
+                cursor.execute(f"""
+                    SELECT 
+                        ticketNumber, passenger, flight, seat,
+                        'from', fromCity, 'to', toCity,
+                        departureDate, departureTime,
+                        class
+                    from ticket
+                    WHERE bookingRefID = '{bookingRefID}';
+                """)
+                query_result = cursor.fetchall()
+
+                # Check if no tickets found
+                if query_result == []:
+                    raise Exception("404")
+                
+                response = []
+
+                for item in query_result:
+                    response.append({
+                        "ticketNumber": item[0],
+                        "passenger": item[1],
+                        "flight": item[2],
+                        "seat": item[3],
+                        "from": {
+                            "city": item[5],
+                            "IATA": item[4]
+                        },
+                        "to": {
+                            "city": item[7],
+                            "IATA": item[6]
+                        },
+                        "departureDate": item[8],
+                        "departureTime": item[9],
+                        "class": item[10]
+                    })
+
+                connection.close()
+                return make_response(response, 200)
+            except Exception as ex:
+                if str(ex) == "404":
+                    return abort(404, message=f"Invalid Booking Ref ID")
+                print(ex)
+                return abort(400, message=f"Failed to get Booked Tickets. Error: {ex}.")
+        else:
+            return abort(500, message="Failed to connect to database")  

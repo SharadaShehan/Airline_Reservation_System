@@ -25,7 +25,7 @@ def validate_booking_data(flightID, travelClass, passengers):
     return False
 
 def validate_booking_set_id_format(booking_ref_id):
-    if isinstance(booking_ref_id, str) and len(booking_ref_id) == 12:
+    if isinstance(booking_ref_id, str) and booking_ref_id.isalnum() and len(booking_ref_id) == 12:
         return True
 
 def validate_payment(booking_ref_id, transaction_id):
@@ -44,4 +44,30 @@ def validate_user_register_data(username, password, firstname, lastname):
             if isinstance(firstname, str) and len(firstname) > 0 and len(firstname) <= 30:
                 if isinstance(lastname, str) and len(lastname) > 0 and len(lastname) <= 30:
                     return True
+    return False
+
+def validate_origin_destination_parameters(from_airport, to_airport):
+    if isinstance(from_airport, str) and len(from_airport) == 4 and from_airport.isalpha():
+        if isinstance(to_airport, str) and len(to_airport) == 4 and to_airport.isalpha():
+            return True
+    return False
+
+def validate_flight_id(flight_id):
+    if isinstance(flight_id, int) and flight_id > 0:
+        return True
+    return False
+
+def validate_icao_code(airport_code):
+    if isinstance(airport_code, str) and len(airport_code) == 4 and airport_code.isalpha():
+        return True
+    return False
+
+def validate_date(date):
+    if isinstance(date, str) and len(date) == 10 and re.match(date_pattern, date):
+        return True
+    return False
+
+def validate_date_range(from_date, to_date):
+    if validate_date(from_date) and validate_date(to_date):
+        return True
     return False
