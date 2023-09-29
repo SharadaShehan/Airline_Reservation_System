@@ -1,6 +1,7 @@
 from app.scripts.db import get_db_connection
 import csv
-from werkzeug.security import generate_password_hash
+
+booking_set_list = []
 
 def populate_model_table():
     connection = get_db_connection()
@@ -208,7 +209,7 @@ def populate_user_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_user_query = """INSERT INTO User (Username, Password, FirstName, LastName, IsAdmin, IsDataEntryOperator, Bookings_Count, Category) VALUES"""
+        insert_user_query = """INSERT INTO User (Username, Password, FirstName, LastName, IsAdmin, IsDataEntryOperator) VALUES"""
         # Read data from csv file and insert into User table
         with open('app/scripts/data/User.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -216,15 +217,15 @@ def populate_user_table():
             header_row = next(csv_reader)
             for row in csv_reader:
                 # Get attributes for each record from comma separated row
-                username, password, first_name, last_name, is_admin, is_DEO, bookings_count, category = row
-                hashed_password = generate_password_hash(password.strip()[1:-1], method='scrypt')
-                insert_user_query += f"({username}, '{hashed_password}', {first_name}, {last_name}, {is_admin}, {is_DEO}, {bookings_count}, {category}),"
+                username, hashed_password, first_name, last_name, is_admin, is_DEO = row
+                insert_user_query += f"({username}, {hashed_password}, {first_name}, {last_name}, {is_admin}, {is_DEO}),"
             insert_user_query = insert_user_query[:-1] + ';'      # remove last comma and add semicolon
         cursor.execute(insert_user_query)
         connection.commit()
         connection.close()
 
 def populate_booking_set_table():
+    global booking_set_list
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
@@ -237,6 +238,8 @@ def populate_booking_set_table():
             for row in csv_reader:
                 # Get attributes for each record from comma separated row
                 booking_ref_id, scheduled_flight, user, bprice_per_booking, final_price, completed = row
+                if int(completed) == 1:
+                    booking_set_list.append(booking_ref_id)
                 if user.strip() == '':
                     user = 'NULL'
                 insert_booking_set_query += f"({booking_ref_id}, {scheduled_flight}, {user}, {bprice_per_booking}, {final_price}, {completed}),"
@@ -246,6 +249,7 @@ def populate_booking_set_table():
         connection.close()
 
 def populate_booking_table():
+    global booking_set_list
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
@@ -261,6 +265,8 @@ def populate_booking_table():
                 insert_booking_query += f"({booking_set}, {seat_number}, {first_name}, {last_name}, {is_adult}),"
             insert_booking_query = insert_booking_query[:-1] + ';'      # remove last comma and add semicolon
         cursor.execute(insert_booking_query)
+        for booking_ref_id in booking_set_list:
+            cursor.execute(f"CALL CompleteBookingSet({booking_ref_id});")
         connection.commit()
         connection.close()
 
