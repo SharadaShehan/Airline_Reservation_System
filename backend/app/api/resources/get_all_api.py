@@ -55,22 +55,24 @@ class Getallroutes(Resource):
                 cursor = connection.cursor()
                 
                 query = """
-                SELECT b.Route_ID,b.Origin,b.IATA_Code,b.Destination,airport.IATA_Code,b.Duration_Minutes from (SELECT route.Route_ID,airport.IATA_Code,route.Origin,route.Destination,route.Duration_Minutes
-                FROM route left join 
-                airport on route.Origin=airport.ICAO_Code) as b 
-                left join airport on b.Destination=airport.ICAO_Code  """
-                # Execute query with username
+                select a.Route_ID,b.IATA_Code as originIATA,d.Name as originlocation,c.IATA_Code as destinationIATA,
+                e.Name as destinationLocation,a.Duration_Minutes from route as a left join airport as b  
+                on a.Origin=b.ICAO_Code 
+                left join airport as c on a.Destination=c.ICAO_Code 
+                left join location as d on a.Origin =d.Airport and d.level=0 
+                left join location as e on a.Destination=e.Airport and e.level=0"""
+                
                 cursor.execute(query)
                 items = cursor.fetchall()
                 response=[]
                 for item in items:
                     response.append({
-                    'Route_ID': item[0],
-                    'Origin': item[1],
-                    'IATA_Code':item[2],
-                    'Destination':item[3],
-                    'Destination IATA':item[4],
-                    'Duration_Minutes':item[5]
+                    'id': item[0],
+                    'originIATA': item[1],
+                    'originlocation':item[2],
+                    'destinationIATA':item[3],
+                    'destinationLocation':item[4],
+                    'durationMinutes':item[5]
                     }
                     )
                 connection.close()
