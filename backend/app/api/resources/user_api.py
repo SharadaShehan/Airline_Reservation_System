@@ -34,6 +34,17 @@ class GetAuthToken(Resource):
                 else:
                     if check_password_hash(items[1], password):
                         access_token = create_access_token(identity=username)
+                        response_data = {
+                            'access_token': access_token,
+                            'userData': {
+                                'username': items[0],
+                                'firstName': items[2],
+                                'lastName': items[3],
+                                'category': items[4],
+                                'isAdmin': items[5],
+                                'isDataEntryOperator': items[6]
+                            }
+                        }
                         return jsonify({'message': 'Login successful', 'access_token': access_token})
                     else:
                         return jsonify({'message': 'Invalid username or password'})
@@ -65,18 +76,19 @@ class GetUserDetails(Resource):
                 # Execute query with username
                 cursor.execute(query,(username,))
                 items = cursor.fetchone()
-                response = {
-                    'username': items[0],
-                    'firstName': items[1],
-                    'lastName': items[2],
-                    'bookingsCount': items[3],
-                    'category': items[4]
-                }
                 connection.close()
                 if items is None:
                     return abort(500, message="No User Found with credentials")
                 else:
-                    return jsonify(response)
+                    response = {
+                        'username': items[0],
+                        'firstName': items[1],
+                        'lastName': items[2],
+                        'category': items[3],
+                        'isAdmin': items[4],
+                        'isDataEntryOperator': items[5]
+                    }
+                return jsonify(response)
             except Exception as ex:
                 print(ex)
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
