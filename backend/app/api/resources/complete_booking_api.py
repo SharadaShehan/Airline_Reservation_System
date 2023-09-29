@@ -43,6 +43,7 @@ class CompleteBookingSet(Resource):
                 connection.commit()
                 connection.close()
                 return make_response({'message': 'Booking completed successfully'}, 200)
+            
             except Exception as ex:
                 print(ex)
                 return abort(400, message=f"Failed to complete booking. Error: {ex}.")

@@ -24,7 +24,12 @@ class GetAuthToken(Resource):
                 username = args['username']
                 password = args['password']
                 # SQL query to get user
-                query = "SELECT Username, Password FROM User where Username = %s"
+                query = """
+                SELECT 
+                Username, Password, FirstName, LastName, Category_Name, IsAdmin, IsDataEntryOperator 
+                FROM User join Category on User.Category = Category.Category_ID
+                where Username = %s
+                """
                 # Execute query with username
                 cursor.execute(query,(username,))    # parameter values must be in a tuple
                 items = cursor.fetchone()
@@ -69,7 +74,7 @@ class GetUserDetails(Resource):
                 username = get_jwt_identity()
                 # SQL query to get user details
                 query = """
-                SELECT Username, FirstName, LastName, Category_Name
+                SELECT Username, FirstName, LastName, Category_Name, IsAdmin, IsDataEntryOperator
                 FROM User join Category on User.Category = Category.Category_ID
                 where Username = %s
                 """

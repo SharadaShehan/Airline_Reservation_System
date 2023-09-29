@@ -112,7 +112,7 @@ def populate_scheduled_flight_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_scheduled_flight_query = """INSERT INTO Scheduled_Flight (Route, Airplane, Departure_Time, Delay_Minutes) VALUES"""
+        insert_scheduled_flight_query = """INSERT INTO Scheduled_Flight (Route, Airplane, Departure_Time) VALUES"""
         # Read data from csv file and insert into Scheduled_Flight table
         with open('app/scripts/data/Scheduled_Flight.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -121,7 +121,7 @@ def populate_scheduled_flight_table():
             for row in csv_reader:
                 # Get attributes for each record from comma separated row
                 route, airplane, departure_time = row
-                insert_scheduled_flight_query += f"({route}, {airplane}, {departure_time}, 0),"
+                insert_scheduled_flight_query += f"({route}, {airplane}, {departure_time}),"
             insert_scheduled_flight_query = insert_scheduled_flight_query[:-1] + ';'      # remove last comma and add semicolon
         cursor.execute(insert_scheduled_flight_query)
         connection.commit()
