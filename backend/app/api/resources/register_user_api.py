@@ -25,7 +25,7 @@ class RegisterUser(Resource):
                 try:
                     args = parser.parse_args()
                 except Exception:
-                    raise Exception("Incomplete user data")
+                    raise Exception("Incomplete user data or invalid JSON object")
                 
                 username = args['username']
                 password = args['password']

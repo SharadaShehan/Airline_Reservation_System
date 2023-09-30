@@ -3,6 +3,9 @@ import re
 date_pattern = r'^\d{4}-\d{2}-\d{2}$'
 time_pattern = r'^\d{2}:\d{2}$'
 tail_number_pattern = r'^[A-Za-z0-9]+-?[A-Za-z0-9]+$'
+password_pattern = r'^[A-Za-z0-9@]{4,40}$'
+username_pattern = r'^[A-Za-z0-9@_]{3,30}$'
+name_pattern = r'^[A-Za-z]{1,30}$'
 
 
 def validate_user_data(data):
@@ -41,10 +44,10 @@ def validate_search_parameters(from_airport, to_airport, date):
     return False
 
 def validate_user_register_data(username, password, firstname, lastname):
-    if isinstance(username, str) and len(username) > 0 and len(username) <= 30:
-        if isinstance(password, str) and len(password) > 0 and len(password) <= 40:
-            if isinstance(firstname, str) and len(firstname) > 0 and len(firstname) <= 30:
-                if isinstance(lastname, str) and len(lastname) > 0 and len(lastname) <= 30:
+    if isinstance(username, str) and re.match(username_pattern, username):
+        if isinstance(password, str) and re.match(password_pattern, password):
+            if isinstance(firstname, str) and re.match(name_pattern, firstname):
+                if isinstance(lastname, str) and re.match(name_pattern, lastname):
                     return True
     return False
 
@@ -80,4 +83,23 @@ def validate_scheduling_data(route, airplane, departure_date, departure_time):
             if isinstance(departure_date, str) and len(departure_date) == 10 and re.match(date_pattern, departure_date):
                 if isinstance(departure_time, str) and len(departure_time) == 5 and re.match(time_pattern, departure_time):
                     return True
+    return False
+
+def validate_user_update_data_with_password(firstname, lastname, current_password, new_password):
+    if isinstance(firstname, str) and re.match(name_pattern, firstname):
+        if isinstance(lastname, str) and re.match(name_pattern, lastname):
+            if isinstance(current_password, str) and re.match(password_pattern, current_password):
+                if isinstance(new_password, str) and re.match(password_pattern, new_password):
+                    return True
+    return False
+
+def validate_user_update_data_without_password(firstname, lastname):
+    if isinstance(firstname, str) and re.match(name_pattern, firstname):
+        if isinstance(lastname, str) and re.match(name_pattern, lastname):
+            return True
+    return False
+
+def validate_Username(username):
+    if isinstance(username, str) and re.match(username_pattern, username):
+        return True
     return False
