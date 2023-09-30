@@ -1,5 +1,7 @@
 from flask import Blueprint
 from app.api.resources.user_api import GetAuthToken, GetUserDetails
+from app.api.resources.user_update_profile_api import UpdateUser
+from app.api.resources.user_pending_payments_api import UserPendingPayments
 from app.api.resources.create_booking_api import GuestCreateBooking, UserCreateBooking
 from app.api.resources.complete_booking_api import CompleteBookingSet
 from app.api.resources.cancel_booking_api import GuestCancelBookingSet, UserCancelBookingSet
@@ -18,6 +20,8 @@ api = Api(api_bp)
 
 
 # urls for frontend to access data
+api.add_resource(UserPendingPayments, '/user/pending-payments')    # GET method to get user's pending payments
+api.add_resource(UpdateUser, '/user/update')    # PATCH method to update user
 api.add_resource(DEOScheduleFlight, '/deo/schedule-flight')    # POST method to schedule flight
 api.add_resource(SearchBookedTickets, '/tickets/search')    # GET method to search bookings
 api.add_resource(GetPastFlightsDetails, '/admin/past-flights')    # GET method to get past flights details

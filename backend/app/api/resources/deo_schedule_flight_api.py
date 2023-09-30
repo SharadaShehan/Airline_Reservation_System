@@ -23,6 +23,11 @@ class DEOScheduleFlight(Resource):
             try:
                 cursor = connection.cursor()
 
+                try:
+                    request_data = parser.parse_args()
+                except Exception:
+                    raise Exception("Incomplete scheduling data or invalid JSON object")
+
                 username = get_jwt_identity()
                 cursor.execute(f"SELECT IsDataEntryOperator FROM user WHERE Username = '{username}'")
                 query_result = cursor.fetchone()
@@ -32,7 +37,6 @@ class DEOScheduleFlight(Resource):
                     raise Exception("403")
                 
                 # Retrieve request data
-                request_data = parser.parse_args()
                 route = request_data['route']
                 airplane = request_data['airplane']
                 departure_date = request_data['departureDate']

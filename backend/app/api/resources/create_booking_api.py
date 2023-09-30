@@ -24,7 +24,7 @@ class GuestCreateBooking(Resource):
                 try:
                     args = parser.parse_args()
                 except Exception:
-                    raise Exception("Incomplete booking data")
+                    raise Exception("Incomplete booking data or invalid JSON object")
 
                 flightID = args['flightID']
                 travelClass = args['travelClass']

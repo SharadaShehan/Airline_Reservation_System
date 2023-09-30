@@ -83,7 +83,7 @@ class SearchBookedTickets(Resource):
                 cursor.execute(f"""
                     SELECT 
                         ticketNumber, passenger, flight, seat,
-                        'from', fromCity, 'to', toCity,
+                        fromIATA, fromCity, toIATA, toCity,
                         departureDate, departureTime,
                         class
                     from ticket

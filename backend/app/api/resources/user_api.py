@@ -20,9 +20,15 @@ class GetAuthToken(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
-                args = parser.parse_args()
+
+                try:
+                    args = parser.parse_args()
+                except Exception:
+                    raise Exception("Incomplete user data or invalid JSON object")
+
                 username = args['username']
                 password = args['password']
+
                 # SQL query to get user
                 query = """
                 SELECT 
@@ -30,10 +36,12 @@ class GetAuthToken(Resource):
                 FROM User join Category on User.Category = Category.Category_ID
                 where Username = %s
                 """
+
                 # Execute query with username
                 cursor.execute(query,(username,))    # parameter values must be in a tuple
                 items = cursor.fetchone()
                 connection.close()
+
                 if items is None:
                     return jsonify({'message': 'Invalid username or password'})
                 else:
@@ -53,6 +61,7 @@ class GetAuthToken(Resource):
                         return jsonify({'message': 'Login successful', 'access_token': access_token})
                     else:
                         return jsonify({'message': 'Invalid username or password'})
+                    
             except Exception as ex:
                 print(ex)
                 return abort(400, message=f"Failed to get user. Error: {ex}")
