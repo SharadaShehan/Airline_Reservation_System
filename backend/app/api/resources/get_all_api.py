@@ -67,9 +67,9 @@ class GetAllRoutes(Resource):
                         INNER JOIN location AS desloc ON desloc.Airport = des.ICAO_Code
                     GROUP BY desloc.Airport , orgloc.Airport;
                 """
-                # Execute query with username
                 cursor.execute(query)
                 items = cursor.fetchall()
+                
                 response=[]
                 for item in items:
                     response.append({
