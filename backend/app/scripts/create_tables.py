@@ -47,7 +47,7 @@ def create_tables():
         create_model_table_query = """
             CREATE TABLE IF NOT EXISTS Model (
             Model_ID SMALLINT PRIMARY KEY AUTO_INCREMENT,
-            Name VARCHAR(40) NOT NULL );
+            Name VARCHAR(40) NOT NULL UNIQUE);
         """
         cursor.execute(create_model_table_query)
         #----------------------------------
@@ -78,7 +78,7 @@ def create_tables():
             Level SMALLINT,
             Name VARCHAR(20) NOT NULL,
             PRIMARY KEY (Airport, Level),
-            FOREIGN KEY (Airport) REFERENCES Airport(ICAO_Code) );
+            FOREIGN KEY (Airport) REFERENCES Airport(ICAO_Code) ON DELETE CASCADE );
         """
         cursor.execute(create_location_table_query)
         #----------------------------------
@@ -127,7 +127,7 @@ def create_tables():
             Model SMALLINT NOT NULL,
             Class VARCHAR(10) NOT NULL,
             Seats_Count SMALLINT NOT NULL,
-            FOREIGN KEY (Model) REFERENCES Model(Model_ID),
+            FOREIGN KEY (Model) REFERENCES Model(Model_ID) ON DELETE CASCADE,
             FOREIGN KEY (Class) REFERENCES Class(Class_Name) );
         """
         cursor.execute(create_capacity_table_query)

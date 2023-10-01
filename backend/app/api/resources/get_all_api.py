@@ -1,13 +1,11 @@
-from flask import jsonify
+from flask import make_response
 from app.utils.db import get_db_connection
-from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_user_data
-from werkzeug.security import check_password_hash
-from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
+from flask_restful import Resource, abort
+from app.api.cache import cache
 
 
-
-class GetmodelDetails(Resource):
+class GetAllModels(Resource):
+    @cache.cached(timeout=30)
     def get(self):
         try:
             connection = get_db_connection()
@@ -19,31 +17,28 @@ class GetmodelDetails(Resource):
                 cursor = connection.cursor()
                 
                 query = """
-                SELECT Model_ID, Name
-                FROM model """
+                    SELECT Model_ID, Name FROM model 
+                """
                 # Execute query with username
                 cursor.execute(query)
                 items = cursor.fetchall()
                 response=[]
                 for item in items:
                     response.append({
-                    'Model_ID': item[0],
-                    'Name': item[1]
-                    }
-                    )
+                        'modelID': item[0],
+                        'name': item[1]
+                    })
                 connection.close()
-                if items is None:
-                    return abort(500, message="No model details Found")
-                else:
-                    return jsonify(response)
+                
+                return make_response(response, 200)
             except Exception as ex:
-                print(ex)
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(500, message="Failed to connect to database")
         
 
-class Getallroutes(Resource):
+class GetAllRoutes(Resource):
+    @cache.cached(timeout=30)
     def get(self):
         try:
             connection = get_db_connection()
@@ -55,38 +50,49 @@ class Getallroutes(Resource):
                 cursor = connection.cursor()
                 
                 query = """
-                select a.Route_ID,b.IATA_Code as originIATA,d.Name as originlocation,c.IATA_Code as destinationIATA,
-                e.Name as destinationLocation,a.Duration_Minutes from route as a left join airport as b  
-                on a.Origin=b.ICAO_Code 
-                left join airport as c on a.Destination=c.ICAO_Code 
-                left join location as d on a.Origin =d.Airport and d.level=0 
-                left join location as e on a.Destination=e.Airport and e.level=0"""
-                
+                    SELECT 
+                        rut.Route_ID as routeID,
+                        rut.Duration_Minutes as durationMinutes,
+                        org.ICAO_Code AS fromICAO,
+                        org.IATA_Code AS fromIATA,
+                        SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT orgloc.Name ORDER BY orgloc.Level ASC), ',', 1) AS fromCity,
+                        des.ICAO_Code AS toICAO,
+                        des.IATA_Code AS toIATA,
+                        SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT desloc.Name ORDER BY desloc.Level ASC), ',', 1) AS toCity
+                    FROM
+                        route AS rut
+                        INNER JOIN airport AS org ON rut.Origin = org.ICAO_Code
+                        INNER JOIN location AS orgloc ON orgloc.Airport = org.ICAO_Code
+                        INNER JOIN airport AS des ON rut.Destination = des.ICAO_Code
+                        INNER JOIN location AS desloc ON desloc.Airport = des.ICAO_Code
+                    GROUP BY desloc.Airport , orgloc.Airport;
+                """
                 cursor.execute(query)
                 items = cursor.fetchall()
+                
                 response=[]
                 for item in items:
                     response.append({
-                    'id': item[0],
-                    'originIATA': item[1],
-                    'originlocation':item[2],
-                    'destinationIATA':item[3],
-                    'destinationLocation':item[4],
-                    'durationMinutes':item[5]
-                    }
-                    )
+                        'routeID': item[0],
+                        'durationMinutes': item[1],
+                        'fromICAO': item[2],
+                        'fromIATA': item[3],
+                        'fromCity': item[4],
+                        'toICAO': item[5],
+                        'toIATA': item[6],
+                        'toCity': item[7]
+                    })
                 connection.close()
-                if items is None:
-                    return abort(500, message="No route details Found")
-                else:
-                    return jsonify(response)
+                
+                return make_response(response, 200)
             except Exception as ex:
-                print(ex)
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(500, message="Failed to connect to database")
 
-class Getallairports(Resource):
+
+class GetAllAirports(Resource):
+    @cache.cached(timeout=60)
     def get(self):
         try:
             connection = get_db_connection()
@@ -98,32 +104,35 @@ class Getallairports(Resource):
                 cursor = connection.cursor()
                 
                 query = """
-                SELECT airport.ICAO_Code,airport.IATA_Code,location.Name from airport left join location 
-                on airport.ICAO_Code=location.Airport and location.level=0"""
+                    SELECT 
+                        airport.ICAO_Code,
+                        airport.IATA_Code,
+                        location.Name 
+                    FROM 
+                        airport
+                        LEFT JOIN location ON airport.ICAO_Code = location.Airport AND location.level = 0
+                """
                 # Execute query with username
                 cursor.execute(query)
                 items = cursor.fetchall()
                 response=[]
                 for item in items:
                     response.append({
-                    'ICAO_Code': item[0],
-                    'IATA_Code': item[1],
-                    'location':item[2]
-                    }
-                    )
+                        'icaoCode': item[0],
+                        'iataCode': item[1],
+                        'city':item[2]
+                    })
                 connection.close()
-                if items is None:
-                    return abort(500, message="No airport Found")
-                else:
-                    return jsonify(response)
+                
+                return make_response(response, 200)
             except Exception as ex:
-                print(ex)
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(500, message="Failed to connect to database")
         
-        
-class Getallairplanes(Resource):
+
+class GetAllAirplanes(Resource):
+    @cache.cached(timeout=30)
     def get(self):
         try:
             connection = get_db_connection()
@@ -135,26 +144,26 @@ class Getallairplanes(Resource):
                 cursor = connection.cursor()
                 
                 query = """
-                SELECT airplane.Tail_Number,model.name from airplane left join model 
-                on airplane.Model=model.Model_ID"""
+                    SELECT 
+                        airplane.Tail_Number,
+                        model.name 
+                    FROM 
+                        airplane 
+                        LEFT JOIN model ON airplane.Model = model.Model_ID
+                """
                 # Execute query with username
                 cursor.execute(query)
                 items = cursor.fetchall()
                 response=[]
                 for item in items:
                     response.append({
-                    'tailNumber': item[0],
-                    'modelName': item[1]
-                    }
-                    )
+                        'tailNumber': item[0],
+                        'modelName': item[1]
+                    })
                 connection.close()
-                if items is None:
-                    return abort(500, message="No airplane Found")
-                else:
-                    return jsonify(response)
+                
+                return make_response(response, 200)
             except Exception as ex:
-                print(ex)
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(500, message="Failed to connect to database")
-        

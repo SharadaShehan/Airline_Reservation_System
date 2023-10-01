@@ -1,8 +1,7 @@
 from flask import jsonify, make_response
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_booking_data, validate_payment
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.utils.validators import validate_payment
 
 parser = reqparse.RequestParser()
 parser.add_argument('transactionID', type=str, required=True)

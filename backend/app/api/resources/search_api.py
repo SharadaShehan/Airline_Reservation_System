@@ -1,4 +1,4 @@
-from flask import jsonify, make_response, request
+from flask import make_response, request
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_search_parameters, validate_booking_set_id_format,validate_user_data

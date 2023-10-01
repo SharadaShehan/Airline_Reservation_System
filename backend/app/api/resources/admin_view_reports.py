@@ -1,7 +1,6 @@
-from flask import jsonify, make_response
+from flask import make_response
 from app.utils.db import get_db_connection
-from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_booking_data, validate_payment
+from flask_restful import Resource, abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
