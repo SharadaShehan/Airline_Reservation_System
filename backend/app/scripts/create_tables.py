@@ -8,7 +8,6 @@ def drop_all_tables():
     if connection:
         cursor = connection.cursor()
         drop_table_queries = []
-        # Get all table names from the database
         tables_list = [
             "Booking",
             "Booking_Set",
@@ -92,7 +91,8 @@ def create_tables():
             Destination CHAR(4) NOT NULL,
             Duration_Minutes SMALLINT NOT NULL,
             FOREIGN KEY (Origin) REFERENCES Airport(ICAO_Code),
-            FOREIGN KEY (Destination) REFERENCES Airport(ICAO_Code) );
+            FOREIGN KEY (Destination) REFERENCES Airport(ICAO_Code),
+            CONSTRAINT Unique_Route_Pair UNIQUE (Origin, Destination) );
         """
         cursor.execute(create_route_table_query)
         #----------------------------------
@@ -100,11 +100,11 @@ def create_tables():
         #------- Create scheduled flight table ----
         create_scheduled_flight_table_query = """
             CREATE TABLE IF NOT EXISTS Scheduled_Flight (
-            Scheculed_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+            Scheduled_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
             Route SMALLINT NOT NULL,
             Airplane VARCHAR(10) NOT NULL,
             Departure_Time DATETIME NOT NULL,
-            Delay_Minutes SMALLINT NOT NULL,
+            Delay_Minutes SMALLINT NOT NULL DEFAULT 0,
             FOREIGN KEY (Route) REFERENCES Route(Route_ID),
             FOREIGN KEY (Airplane) REFERENCES Airplane(Tail_Number) );
         """
@@ -166,8 +166,7 @@ def create_tables():
             LastName VARCHAR(30) NOT NULL,
             IsAdmin BOOLEAN NOT NULL,
             IsDataEntryOperator BOOLEAN NOT NULL,
-            Bookings_Count SMALLINT NOT NULL,
-            Category SMALLINT NOT NULL,
+            Category SMALLINT NOT NULL DEFAULT 1,
             FOREIGN KEY (Category) REFERENCES Category(Category_ID) );
         """
         cursor.execute(create_user_table_query)
@@ -181,8 +180,9 @@ def create_tables():
             User VARCHAR(30),
             BPrice_Per_Booking SMALLINT NOT NULL,
             Final_Price DECIMAL(8,2) NOT NULL,
-            Completed BOOLEAN NOT NULL,
-            FOREIGN KEY (Scheduled_Flight) REFERENCES Scheduled_Flight(Scheculed_ID),
+            Completed BOOLEAN NOT NULL DEFAULT 0,
+            Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (Scheduled_Flight) REFERENCES Scheduled_Flight(Scheduled_ID),
             FOREIGN KEY (User) REFERENCES User(Username),
             FOREIGN KEY (BPrice_Per_Booking) REFERENCES Base_Price(Price_ID) );
         """
@@ -198,7 +198,7 @@ def create_tables():
             FirstName VARCHAR(30) NOT NULL,
             LastName VARCHAR(30) NOT NULL,
             IsAdult BOOLEAN NOT NULL,
-            FOREIGN KEY (Booking_Set) REFERENCES Booking_Set(Booking_Ref_ID) );
+            FOREIGN KEY (Booking_Set) REFERENCES Booking_Set(Booking_Ref_ID) ON DELETE CASCADE);
         """
         cursor.execute(create_booking_table_query)
         #----------------------------------
