@@ -1,6 +1,6 @@
 from flask import make_response, request
 from app.utils.db import get_db_connection
-from flask_restful import Resource, abort, reqparse
+from flask_restful import Resource, abort
 from app.utils.validators import validate_search_parameters, validate_booking_set_id_format,validate_user_data
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -84,9 +84,16 @@ class SearchBookedTickets(Resource):
                 # Get all tickets with given bookingRefID
                 cursor.execute(f"""
                     SELECT 
-                        ticketNumber, passenger, flight, seat,
-                        fromIATA, fromCity, toIATA, toCity,
-                        departureDate, departureTime,
+                        ticketNumber,
+                        passenger,
+                        flight,
+                        seat,
+                        fromIATA,
+                        fromCity,
+                        toIATA,
+                        toCity,
+                        departureDate,
+                        departureTime,
                         class
                     from ticket
                     WHERE bookingRefID = '{bookingRefID}';
@@ -141,18 +148,22 @@ class SearchUserBookedTickets(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
-                Username= get_jwt_identity()
 
-                # Validate search parameters
-                if not validate_user_data(Username):
-                    raise Exception("Invalid search parameters")
+                Username= get_jwt_identity()
                 
                 # Get all tickets with given username
                 cursor.execute(f"""
                     SELECT 
-                        ticketNumber, passenger, flight, seat,
-                        fromIATA, fromCity, toIATA, toCity,
-                        departureDate, departureTime,
+                        ticketNumber, 
+                        passenger,
+                        flight,
+                        seat,
+                        fromIATA,
+                        fromCity,
+                        toIATA,
+                        toCity,
+                        departureDate,
+                        departureTime,
                         class
                     from ticket
                     WHERE bookedUser = '{Username}';
@@ -186,10 +197,10 @@ class SearchUserBookedTickets(Resource):
 
                 connection.close()
                 return make_response(response, 200)
+            
             except Exception as ex:
                 if str(ex) == "404":
-                    return abort(404, message=f"Invalid Booking Ref ID")
-                print(ex)
+                    return abort(404, message=f"User does not have any valid tickets")
                 return abort(400, message=f"Failed to get Booked Tickets. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")  
+            return abort(500, message="Failed to connect to database") 

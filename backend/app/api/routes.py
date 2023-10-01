@@ -17,7 +17,7 @@ from app.api.resources.deo_create_model_api import CreateModel
 from app.api.resources.deo_create_airport_api import CreateAirport
 from app.api.resources.deo_create_airplane_api import CreateAirplane
 from app.api.resources.deo_create_route_api import CreateRoute
-from app.api.resources.deo_api import DEOupdateDelay 
+from app.api.resources.deo_update_delay_api import DEOupdateDelay 
 from flask_restful import Api
 
 api_bp = Blueprint('api', __name__)
@@ -31,7 +31,7 @@ api.add_resource(CreateAirplane, '/deo/create/airplane')    # POST method to cre
 api.add_resource(CreateAirport, '/deo/create/airport')    # POST method to create airport
 api.add_resource(CreateModel, '/deo/create/model')    # POST method to create model
 api.add_resource(DEOScheduleFlight, '/deo/schedule-flight')    # POST method to schedule flight
-api.add_resource(DEOupdateDelay,'/deo/update/delay')#post method to update delay
+api.add_resource(DEOupdateDelay,'/deo/update/delay')    # PATCH method to update delay
 
 api.add_resource(GetPastFlightsDetails, '/admin/past-flights')    # GET method to get past flights details
 api.add_resource(GetBookingCountByDatePassengerType, '/admin/bookings-by-ptype')    # GET method to get booking count by date and passenger type
@@ -39,7 +39,7 @@ api.add_resource(GetPassengersByDateDestination, '/admin/passengers-to-destinati
 api.add_resource(GetPassengersByNextFlight, '/admin/next-flight/passengers')    # GET method to get passengers by flight
 api.add_resource(GetRevenueByModel, '/admin/revenue-by-model')    # GET method to get revenue by model
 
-api.add_resource(SearchUserBookedTickets,'/booking/user-tickets')#get method to search booked tickets of user
+api.add_resource(SearchUserBookedTickets,'/tickets/user/search') # GET method to search booked tickets of user
 api.add_resource(UserCancelBookingSet, '/booking/cancel/user/<bkset_id>')    # DELETE method to cancel booking
 api.add_resource(UserPendingPayments, '/user/pending-payments')    # GET method to get user's pending payments
 api.add_resource(UserCreateBooking, '/booking/create/user')    # POST method to create booking
@@ -48,7 +48,7 @@ api.add_resource(RegisterUser, '/user/register')    # POST method to register us
 api.add_resource(GetUserDetails, '/user/details')   # GET method to get user details
 api.add_resource(GetAuthToken, '/user/auth')    # POST method to get JWT token
 
-api.add_resource(SearchBookedTickets, '/tickets/search')    # GET method to search bookings
+api.add_resource(SearchBookedTickets, '/tickets/guest/search')    # GET method to search bookings
 api.add_resource(CompleteBookingSet, '/booking/complete/<bkset_id>')    # POST method to complete booking
 api.add_resource(GuestCancelBookingSet, '/booking/cancel/guest/<bkset_id>')    # DELETE method to cancel booking
 api.add_resource(GuestCreateBooking, '/booking/create/guest')    # POST method to create booking

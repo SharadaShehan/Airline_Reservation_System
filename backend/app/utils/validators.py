@@ -144,3 +144,9 @@ def validate_Username(username):
     if isinstance(username, str) and re.match(username_pattern, username):
         return True
     return False
+
+def validate_update_delay_data(flight_id, new_delay):
+    if isinstance(flight_id, int) and flight_id > 0:
+        if isinstance(new_delay, int) and new_delay >= 0:
+            return True
+    return False
