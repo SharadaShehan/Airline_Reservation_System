@@ -400,3 +400,5 @@ FodyWeavers.xsd
 # Pycharm
 .idea
 
+# flask cache
+cache/
