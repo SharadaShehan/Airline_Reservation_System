@@ -1,7 +1,7 @@
-from flask import jsonify, make_response
+from flask import make_response
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_user_update_data_with_password, validate_user_update_data_without_password, validate_Username
+from app.utils.validators import validate_user_update_data_with_password, validate_user_update_data_without_password
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import jwt_required, get_jwt_identity
 

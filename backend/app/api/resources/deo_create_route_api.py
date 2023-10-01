@@ -1,19 +1,18 @@
-from flask import jsonify
+from flask import make_response
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_user_data
-from werkzeug.security import check_password_hash
-from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
+from app.utils.validators import validate_route_data
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 parser = reqparse.RequestParser()
 parser.add_argument('origin', type=str, required=True)
 parser.add_argument('destination', type=str, required=True)
 parser.add_argument('durationMinutes', type=int, required=True)
 
+
 class CreateRoute(Resource):
-    @jwt_required 
+    @jwt_required()
     def post(self):
-        current_user = get_jwt_identity()
         
         try:
             connection = get_db_connection()
@@ -23,12 +22,28 @@ class CreateRoute(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
+                
+                try:
+                    request_data = parser.parse_args()
+                except Exception:
+                    raise Exception("Incomplete route data or invalid JSON object")
+                
+                # check if user is data entry operator
+                current_user = get_jwt_identity()
+                cursor.execute(f"SELECT IsDataEntryOperator FROM user WHERE Username = '{current_user}'")
+                is_deo = cursor.fetchone()[0]
 
+                if is_deo != 1:
+                    raise Exception("403")
+                
                 # Retrieve request data
-                request_data = parser.parse_args()
                 origin = request_data['origin']
                 destination = request_data['destination']
                 duration_minutes = request_data['durationMinutes']
+
+                # Validate route data
+                if not validate_route_data(origin, destination, duration_minutes):
+                    raise Exception("Invalid route data")
 
                 # Insert a new record into the 'route' table
                 cursor.execute("INSERT INTO route (Origin, Destination, Duration_Minutes) VALUES (%s, %s, %s)",
@@ -38,8 +53,8 @@ class CreateRoute(Resource):
                 connection.close()
 
                 # Return a success response with a 201 status code
-                return jsonify({'message': 'Route record created successfully'}), 201
+                return make_response({"message": "Route record created successfully"}, 201)
             except Exception as ex:
-                return abort(403, message=f"Failed to create route record. Error: {ex}")
+                return abort(400, message=f"Failed to create route record. Error: {ex}")
         else:
-            return abort(403, message="Failed to connect to the database")
+            return abort(500, message="Failed to connect to the database")

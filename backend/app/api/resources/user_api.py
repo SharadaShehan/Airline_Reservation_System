@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import make_response
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_user_data
@@ -29,12 +29,23 @@ class GetAuthToken(Resource):
                 username = args['username']
                 password = args['password']
 
+                # Validate user data
+                if not validate_user_data(username, password):
+                    raise Exception("Invalid user data")
+
                 # SQL query to get user
                 query = """
-                SELECT 
-                Username, Password, FirstName, LastName, Category_Name, IsAdmin, IsDataEntryOperator 
-                FROM User join Category on User.Category = Category.Category_ID
-                where Username = %s
+                    SELECT 
+                        Username, 
+                        Password, 
+                        FirstName, 
+                        LastName, 
+                        Category_Name, 
+                        IsAdmin, 
+                        IsDataEntryOperator 
+                    FROM 
+                        User JOIN Category on User.Category = Category.Category_ID
+                    WHERE Username = %s
                 """
 
                 # Execute query with username
@@ -43,7 +54,7 @@ class GetAuthToken(Resource):
                 connection.close()
 
                 if items is None:
-                    return jsonify({'message': 'Invalid username or password'})
+                    return make_response({"message": "Invalid username or password"}, 401)
                 else:
                     if check_password_hash(items[1], password):
                         access_token = create_access_token(identity=username)
@@ -58,12 +69,11 @@ class GetAuthToken(Resource):
                                 'isDataEntryOperator': items[6]
                             }
                         }
-                        return jsonify({'message': 'Login successful', 'access_token': access_token})
+                        return make_response(response_data, 200)
                     else:
-                        return jsonify({'message': 'Invalid username or password'})
+                        return make_response({"message": "Invalid username or password"}, 401)
                     
             except Exception as ex:
-                print(ex)
                 return abort(400, message=f"Failed to get user. Error: {ex}")
         else:
             return abort(500, message="Failed to connect to database")
@@ -80,18 +90,27 @@ class GetUserDetails(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
-                username = get_jwt_identity()
+
+                username = get_jwt_identity()    # get username from jwt token
                 # SQL query to get user details
                 query = """
-                SELECT Username, FirstName, LastName, Category_Name, IsAdmin, IsDataEntryOperator
-                FROM User join Category on User.Category = Category.Category_ID
-                where Username = %s
+                    SELECT 
+                        Username, 
+                        FirstName, 
+                        LastName, 
+                        Category_Name, 
+                        IsAdmin, 
+                        IsDataEntryOperator
+                    FROM 
+                        User JOIN Category on User.Category = Category.Category_ID
+                    WHERE Username = %s
                 """
+
                 # Execute query with username
                 cursor.execute(query,(username,))
                 items = cursor.fetchone()
-
                 connection.close()
+
                 if items is None:
                     return abort(500, message="No User Found with credentials")
                 else:
@@ -103,9 +122,9 @@ class GetUserDetails(Resource):
                         'isAdmin': items[4],
                         'isDataEntryOperator': items[5]
                     }
-                return jsonify(response)
+                return make_response(response, 200)
+            
             except Exception as ex:
-                print(ex)
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(500, message="Failed to connect to database")

@@ -126,6 +126,7 @@ def create_procedures():
                 DECLARE last_name VARCHAR(30);
                 DECLARE is_adult BOOLEAN;
                 DECLARE seat_reserved BOOLEAN;
+                DECLARE max_seat_number SMALLINT;
                 
                 DECLARE done BOOLEAN DEFAULT FALSE;
                 DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult FROM booking_data;
@@ -176,6 +177,21 @@ def create_procedures():
 
                         IF seat_reserved THEN
                             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Already Booked';
+                        END IF;
+
+                        SELECT cpt.Seats_Count INTO max_seat_number
+                        FROM 
+                            scheduled_flight AS shf
+                            INNER JOIN airplane AS apl ON shf.Airplane = apl.Tail_Number
+                            INNER JOIN model AS mdl ON apl.Model = mdl.Model_ID
+                            INNER JOIN capacity AS cpt ON mdl.Model_ID = cpt.Model
+                            INNER JOIN class AS cls ON cpt.Class = cls.Class_Name
+                        WHERE 
+                            shf.Scheduled_ID = scheduled_flight_id
+                            AND cls.Class_Name = travel_class;
+                        
+                        IF seat_number > max_seat_number THEN
+                            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Number Exceeds Maximum Seat Count';
                         END IF;
                         
                         INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult) 

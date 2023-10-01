@@ -6,3 +6,11 @@ venv/
 
 # environment variables
 .env
+
+# Python Tools for Visual Studio (PTVS)
+__pycache__/
+*.pyc
+
+# flask cache
+cache/
+

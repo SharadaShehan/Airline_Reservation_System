@@ -1,17 +1,46 @@
-from flask import jsonify, make_response
+from flask import make_response, request
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_booking_data
 from flask_jwt_extended import jwt_required, get_jwt_identity
+import time
 
 parser = reqparse.RequestParser()
 parser.add_argument('flightID', type=int, required=True)
 parser.add_argument('travelClass', type=str, required=True)
 parser.add_argument('passengers', type=dict, required=True, action='append')
 
+# Throttling parameters
+GUEST_REQUESTS_LIMIT = 5  # Number of requests allowed for guest users
+USER_REQUESTS_LIMIT = 7  # Number of requests allowed for registered users
+TIME_WINDOW = 1800  # Time window in seconds (30 minutes)
+request_counts = {}  # Dictionary to store request counts for each client IP address
+
 
 class GuestCreateBooking(Resource):
     def post(self):
+        
+        # ------------------------------------- Throttling ------------------------------------------------------------
+
+        client_ip = request.remote_addr  # Get client IP address
+        # Initialize request count for new client IP addresses
+        if client_ip not in request_counts:
+            request_counts[client_ip] = []
+        
+        current_time = time.time()
+
+        # Remove requests older than the time window for current client IP address
+        request_counts[client_ip] = [t for t in request_counts[client_ip] if t > current_time - TIME_WINDOW]
+
+        # Check If the limit is exceeded
+        if len(request_counts[client_ip]) >= GUEST_REQUESTS_LIMIT:
+            abort(429, message=f"Too many requests. Please wait {round(TIME_WINDOW - (current_time - request_counts[client_ip][0]))} seconds before trying again")
+            
+        # If the number of requests is within the limit, process the request
+        request_counts[client_ip].append(current_time)
+
+        # --------------------------------------------------------------------------------------------------------------
+
         try:
             connection = get_db_connection()
         except Exception as ex:
@@ -90,6 +119,28 @@ class GuestCreateBooking(Resource):
 class UserCreateBooking(Resource):
     @jwt_required()
     def post(self):
+
+        # ------------------------------------- Throttling ------------------------------------------------------------
+
+        client_ip = request.remote_addr  # Get client IP address
+        # Initialize request count for new client IP addresses
+        if client_ip not in request_counts:
+            request_counts[client_ip] = []
+
+        current_time = time.time()
+
+        # Remove requests older than the time window for current client IP address
+        request_counts[client_ip] = [t for t in request_counts[client_ip] if t > current_time - TIME_WINDOW]
+
+        # Check If the limit is exceeded
+        if len(request_counts[client_ip]) >= USER_REQUESTS_LIMIT:
+            abort(429, message=f"Too many requests. Please wait {round((TIME_WINDOW - (current_time - request_counts[client_ip][0]))/60)} minutes before trying again")
+            
+        # If the number of requests is within the limit, process the request
+        request_counts[client_ip].append(current_time)
+
+        # --------------------------------------------------------------------------------------------------------------
+
         try:
             connection = get_db_connection()
         except Exception as ex:

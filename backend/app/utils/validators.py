@@ -6,25 +6,31 @@ tail_number_pattern = r'^[A-Za-z0-9]+-?[A-Za-z0-9]+$'
 password_pattern = r'^[A-Za-z0-9@]{4,40}$'
 username_pattern = r'^[A-Za-z0-9@_]{3,30}$'
 name_pattern = r'^[A-Za-z]{1,30}$'
+location_pattern = r'^[A-Za-z0-9 ]{1,20}$'
+model_name_pattern = r'^[A-Za-z0-9 -]{4,40}$'
+classes = ['Economy', 'Business', 'Platinum']
 
 
-def validate_user_data(data):
-    return True
+def validate_user_data(username, password):
+    if isinstance(username, str) and re.match(username_pattern, username):
+        if isinstance(password, str) and re.match(password_pattern, password):
+            return True
+    return False
 
 def validate_booking_data(flightID, travelClass, passengers):
     if isinstance(flightID, int) and flightID > 0:
-        if isinstance(travelClass, str) and travelClass in ['Economy', 'Business', 'First']:
+        if isinstance(travelClass, str) and travelClass in classes:
             if isinstance(passengers, list) and len(passengers) > 0:
                 for passenger in passengers:
                     if not isinstance(passenger, dict):
                         return False
                     if not isinstance(passenger['seatNumber'], int) or passenger['seatNumber'] < 1:
                         return False
-                    if not isinstance(passenger['firstName'], str) or len(passenger['firstName']) == 0:
+                    if not isinstance(passenger['firstName'], str) or not re.match(name_pattern, passenger['firstName']):
                         return False
-                    if not isinstance(passenger['lastName'], str) or len(passenger['lastName']) == 0:
+                    if not isinstance(passenger['lastName'], str) or not re.match(name_pattern, passenger['lastName']):
                         return False
-                    if not isinstance(passenger['isAdult'], bool):
+                    if not isinstance(passenger['isAdult'], int) or passenger['isAdult'] not in (0, 1):
                         return False
                 return True
     return False
@@ -66,6 +72,41 @@ def validate_icao_code(airport_code):
     if isinstance(airport_code, str) and len(airport_code) == 4 and airport_code.isalpha():
         return True
     return False
+
+def validate_iata_code(airport_code):
+    if isinstance(airport_code, str) and len(airport_code) == 3 and airport_code.isalpha():
+        return True
+    return False
+
+def validate_airport_data(icao_code, iata_code, location_list):
+    if validate_icao_code(icao_code) and validate_iata_code(iata_code):
+        if isinstance(location_list, list) and len(location_list) > 0:
+            for location in location_list:
+                if not isinstance(location, str) or not re.match(location_pattern, location):
+                    return False
+            return True
+    return False
+
+def validate_model_data(model_name, seats_count):
+    if isinstance(model_name, str) and re.match(model_name_pattern, model_name) :
+        if isinstance(seats_count, dict) and len(seats_count) == 3:
+            for travel_class, count in seats_count.items():
+                if travel_class not in classes:
+                    return False
+                if not isinstance(count, int) or count < 0:
+                    return False
+            return True
+
+def validate_airplane_data(tail_number, model_id):
+    if isinstance(tail_number, str) and len(tail_number) >= 4 and re.match(tail_number_pattern, tail_number):
+        if isinstance(model_id, int) and model_id > 0:
+            return True
+    return False
+
+def validate_route_data(origin, destination, duration_minutes):
+    if validate_icao_code(origin) and validate_icao_code(destination):
+        if isinstance(duration_minutes, int) and duration_minutes > 0:
+            return True
 
 def validate_date(date):
     if isinstance(date, str) and len(date) == 10 and re.match(date_pattern, date):

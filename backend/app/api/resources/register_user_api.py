@@ -1,4 +1,4 @@
-from flask import jsonify, make_response
+from flask import make_response
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_user_register_data
@@ -38,8 +38,8 @@ class RegisterUser(Resource):
                 
                 # Check if username already exists
                 cursor.execute(f"SELECT * FROM user WHERE Username = '{username}'")
-                usernamefetched = cursor.fetchone()
-                if usernamefetched is not None:
+                userfetched = cursor.fetchone()
+                if userfetched is not None:
                     raise Exception("Username already exists")
                 
                 # Check if username is NULL
@@ -48,12 +48,17 @@ class RegisterUser(Resource):
                 
                 # Register user
                 hashed_password = generate_password_hash(password.strip(), method='scrypt')
-                cursor.execute(f"INSERT INTO user (Username, Password, FirstName, LastName, IsAdmin, IsDataEntryOperator) VALUES ('{username}', '{hashed_password}', '{firstname}', '{lastname}', 0, 0)")
+                cursor.execute(f"""
+                    INSERT 
+                    INTO user 
+                        (Username, Password, FirstName, LastName, IsAdmin, IsDataEntryOperator)
+                    VALUES
+                        ('{username}', '{hashed_password}', '{firstname}', '{lastname}', 0, 0)           
+                """)
                 connection.commit()
-
                 connection.close()
 
-                return make_response(jsonify({"message": "User registered successfully"}), 201)
+                return make_response({"message": "User registered successfully"}, 201)
             
             except Exception as ex:
                 return abort(400, message=f"Failed to register user. Error: {ex}.")
