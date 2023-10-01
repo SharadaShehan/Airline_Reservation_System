@@ -5,7 +5,7 @@ from app.api.cache import cache
 
 
 class GetAllModels(Resource):
-    @cache.cached(timeout=30)
+    @cache.cached(timeout=15)
     def get(self):
         try:
             connection = get_db_connection()
@@ -38,7 +38,7 @@ class GetAllModels(Resource):
         
 
 class GetAllRoutes(Resource):
-    @cache.cached(timeout=30)
+    @cache.cached(timeout=15)
     def get(self):
         try:
             connection = get_db_connection()
@@ -92,7 +92,7 @@ class GetAllRoutes(Resource):
 
 
 class GetAllAirports(Resource):
-    @cache.cached(timeout=60)
+    @cache.cached(timeout=15)
     def get(self):
         try:
             connection = get_db_connection()
@@ -132,7 +132,7 @@ class GetAllAirports(Resource):
         
 
 class GetAllAirplanes(Resource):
-    @cache.cached(timeout=30)
+    @cache.cached(timeout=15)
     def get(self):
         try:
             connection = get_db_connection()
