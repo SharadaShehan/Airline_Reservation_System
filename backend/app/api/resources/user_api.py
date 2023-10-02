@@ -44,7 +44,7 @@ class GetAuthToken(Resource):
                         IsAdmin, 
                         IsDataEntryOperator 
                     FROM 
-                        User JOIN Category on User.Category = Category.Category_ID
+                        user JOIN category on user.Category = category.Category_ID
                     WHERE Username = %s
                 """
 
@@ -102,7 +102,7 @@ class GetUserDetails(Resource):
                         IsAdmin, 
                         IsDataEntryOperator
                     FROM 
-                        User JOIN Category on User.Category = Category.Category_ID
+                        user JOIN category on user.Category = category.Category_ID
                     WHERE Username = %s
                 """
 

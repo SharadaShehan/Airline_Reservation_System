@@ -9,10 +9,10 @@ def drop_all_views():
         cursor = connection.cursor()
         drop_view_queries = []
         views_list = [
-            "Flight",
-            "Seat_Reservation",
-            "Ticket",
-            "Passenger"
+            "flight",
+            "seat_reservation",
+            "ticket",
+            "passenger"
         ]
         
         # Generate drop queries for all views and append to drop_queries list
@@ -36,7 +36,7 @@ def create_views():
 
         #------- Create flight view -------
         create_flight_view_query = """
-            CREATE OR REPLACE VIEW Flight AS
+            CREATE OR REPLACE VIEW flight AS
             SELECT 
                 shf.Scheduled_ID AS ID,
                 org.ICAO_Code AS originICAO,
@@ -68,7 +68,7 @@ def create_views():
 
         #------- Create seat reservation view -------
         create_seat_reservation_view_query = """
-            CREATE OR REPLACE VIEW Seat_Reservation AS
+            CREATE OR REPLACE VIEW seat_reservation AS
             SELECT 
                 subquery2.id AS ID,
                 subquery2.clas AS class,
@@ -111,7 +111,7 @@ def create_views():
 
         #------- Create ticket view -------
         create_ticket_view_query = """
-            CREATE OR REPLACE VIEW Ticket AS
+            CREATE OR REPLACE VIEW ticket AS
             SELECT 
                 bk.Ticket_Number AS ticketNumber,
                 CONCAT(bk.FirstName, ' ', bk.LastName) AS passenger,
@@ -146,7 +146,7 @@ def create_views():
 
         #------- Create passenger view -------
         create_passenger_view_query = """
-            CREATE OR REPLACE VIEW Passenger AS
+            CREATE OR REPLACE VIEW passenger AS
             SELECT 
                 bk.Ticket_Number AS ticketNumber,
                 CONCAT(bk.FirstName, ' ', bk.LastName) AS name,
