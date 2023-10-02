@@ -7,7 +7,7 @@ def populate_model_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_model_query = """INSERT INTO Model (Name) VALUES"""
+        insert_model_query = """INSERT INTO model (Name) VALUES"""
         # Read data from csv file and insert into Model table
         with open('app/scripts/data/Model.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -28,7 +28,7 @@ def populate_airplane_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_airplane_query = """INSERT INTO Airplane (Tail_Number, Model) VALUES"""
+        insert_airplane_query = """INSERT INTO airplane (Tail_Number, Model) VALUES"""
         # Read data from csv file and insert into Airplane table
         with open('app/scripts/data/Airplane.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -49,7 +49,7 @@ def populate_airport_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_airport_query = """INSERT INTO Airport (ICAO_Code, IATA_Code) VALUES"""
+        insert_airport_query = """INSERT INTO airport (ICAO_Code, IATA_Code) VALUES"""
         # Read data from csv file and insert into Airport table
         with open('app/scripts/data/Airport.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -70,7 +70,7 @@ def populate_location_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_location_query = """INSERT INTO Location (Airport, Level, Name) VALUES"""
+        insert_location_query = """INSERT INTO location (Airport, Level, Name) VALUES"""
         # Read data from csv file and insert into Location table
         with open('app/scripts/data/Location.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -91,7 +91,7 @@ def populate_route_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_route_query = """INSERT INTO Route (Origin, Destination, Duration_Minutes) VALUES"""
+        insert_route_query = """INSERT INTO route (Origin, Destination, Duration_Minutes) VALUES"""
         # Read data from csv file and insert into Route table
         with open('app/scripts/data/Route.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -112,7 +112,7 @@ def populate_scheduled_flight_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_scheduled_flight_query = """INSERT INTO Scheduled_Flight (Route, Airplane, Departure_Time) VALUES"""
+        insert_scheduled_flight_query = """INSERT INTO scheduled_flight (Route, Airplane, Departure_Time) VALUES"""
         # Read data from csv file and insert into Scheduled_Flight table
         with open('app/scripts/data/Scheduled_Flight.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -133,7 +133,7 @@ def populate_class_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_class_query = """INSERT INTO Class (Class_Name, Class_Code) VALUES"""
+        insert_class_query = """INSERT INTO class (Class_Name, Class_Code) VALUES"""
         # Read data from csv file and insert into Class table
         with open('app/scripts/data/Class.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -152,7 +152,7 @@ def populate_capacity_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_capacity_query = """INSERT INTO Capacity (Model, Class, Seats_Count) VALUES"""
+        insert_capacity_query = """INSERT INTO capacity (Model, Class, Seats_Count) VALUES"""
         # Read data from csv file and insert into Capacity table
         with open('app/scripts/data/Capacity.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -171,7 +171,7 @@ def populate_base_price_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_base_price_query = """INSERT INTO Base_Price (Class, Route, Price) VALUES"""
+        insert_base_price_query = """INSERT INTO base_price (Class, Route, Price) VALUES"""
         # Read data from csv file and insert into Base_Price table
         with open('app/scripts/data/Base_Price.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -190,7 +190,7 @@ def populate_category_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_category_query = """INSERT INTO Category (Category_Name, Min_Bookings, Discount) VALUES"""
+        insert_category_query = """INSERT INTO category (Category_Name, Min_Bookings, Discount) VALUES"""
         # Read data from csv file and insert into Category table
         with open('app/scripts/data/Category.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -209,7 +209,7 @@ def populate_user_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_user_query = """INSERT INTO User (Username, Password, FirstName, LastName, IsAdmin, IsDataEntryOperator) VALUES"""
+        insert_user_query = """INSERT INTO user (Username, Password, FirstName, LastName, IsAdmin, IsDataEntryOperator) VALUES"""
         # Read data from csv file and insert into User table
         with open('app/scripts/data/User.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -229,7 +229,7 @@ def populate_booking_set_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_booking_set_query = """INSERT INTO Booking_Set (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) VALUES"""
+        insert_booking_set_query = """INSERT INTO booking_set (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) VALUES"""
         # Read data from csv file and insert into Booking_Set table
         with open('app/scripts/data/Booking_Set.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -253,7 +253,7 @@ def populate_booking_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_booking_query = """INSERT INTO Booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult) VALUES"""
+        insert_booking_query = """INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult) VALUES"""
         # Read data from csv file and insert into Booking table
         with open('app/scripts/data/Booking.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)

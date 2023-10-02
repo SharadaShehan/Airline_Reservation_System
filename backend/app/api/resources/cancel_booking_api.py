@@ -19,7 +19,7 @@ class GuestCancelBookingSet(Resource):
                 if not validate_booking_set_id_format(bkset_id):
                     raise Exception("Invalid booking set ID")
                 
-                cursor.execute(f"SELECT User, Completed FROM Booking_Set WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute(f"SELECT User, Completed FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
                 query_result = cursor.fetchone()
                 # Check if booking set exists
                 if query_result is None:
@@ -32,7 +32,7 @@ class GuestCancelBookingSet(Resource):
                     raise Exception("Completed booking set cannot be cancelled")
                 
                 # Complete booking set
-                cursor.execute(f"DELETE FROM Booking_Set WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute(f"DELETE FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
                 
                 connection.commit()
                 connection.close()
@@ -61,7 +61,7 @@ class UserCancelBookingSet(Resource):
                 if not validate_booking_set_id_format(bkset_id):
                     raise Exception("Invalid booking set ID")
 
-                cursor.execute(f"SELECT User, Completed FROM Booking_Set WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute(f"SELECT User, Completed FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
                 query_result = cursor.fetchone()
                 # Check if booking set exists
                 if query_result is None:
@@ -74,7 +74,7 @@ class UserCancelBookingSet(Resource):
                     raise Exception("Completed booking set cannot be cancelled")
                 
                 # Complete booking set
-                cursor.execute(f"DELETE FROM Booking_Set WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute(f"DELETE FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
                 
                 connection.commit()
                 connection.close()
