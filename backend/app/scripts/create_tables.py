@@ -78,7 +78,7 @@ def create_tables():
             Level SMALLINT,
             Name VARCHAR(20) NOT NULL,
             PRIMARY KEY (Airport, Level),
-            FOREIGN KEY (Airport) REFERENCES Airport(ICAO_Code) ON DELETE CASCADE );
+            FOREIGN KEY (Airport) REFERENCES airport(ICAO_Code) ON DELETE CASCADE );
         """
         cursor.execute(create_location_table_query)
         #----------------------------------
