@@ -1,4 +1,601 @@
-.aboutus {
-  font-family: sans-serif;
-  color: #444;
+.about-us-page {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.about-us-page .overlap-wrapper {
+  background-color: #ffffff;
+  height: 2568px;
+  width: 100%;
+}
+
+.about-us-page .overlap {
+  /* height: 2689px; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.about-us-page .img {
+  height: 100vw;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+}
+
+.about-us-page .group {
+  height: 694px;
+  left: 158px;
+  position: absolute;
+  top: 231px;
+  width: 1584px;
+}
+
+.about-us-page .overlap-group {
+  height: 694px;
+  position: relative;
+  width: 1578px;
+}
+
+.about-us-page .our-company-box {
+  background-color: #0b2b38;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 347px;
+  opacity: 0.7;
+  width: 789px;
+  margin-top: 2%;
+}
+
+.about-us-page .established-in {
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #fffdfd;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 88px;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  top: 444px;
+}
+
+.about-us-page .text-wrapper {
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 1.5rem;
+  font-weight: 900;
+  left: 511px;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  top: 98px;
+  width: 581px;
+}
+
+.about-us-page .p {
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 100px;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  top: 250px;
+  width: 100%;
+}
+
+.about-us-page .overlap-2 {
+  height: 125px;
+  position: relative;
+  width: 1920px;
+}
+
+.about-us-page .rectangle-3 {
+  background-color: #22415c;
+  height: 108px;
+  left: 0;
+  opacity: 0.1;
+  position: absolute;
+  top: 0;
+  width: 1920px;
+}
+
+.about-us-page .text-wrapper-2 {
+  color: #ffffff;
+  font-family: "Bree Serif", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 515px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.about-us-page .text-wrapper-3 {
+  color: #ffffff;
+  font-family: "Bree Serif", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 116px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.about-us-page .text-wrapper-4 {
+  color: #ffffff;
+  font-family: "Bree Serif", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.about-us-page .text-wrapper-5 {
+  color: #ffffff;
+  font-family: "Bree Serif", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 302px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.about-us-page .text-wrapper-6 {
+  color: #ffffff;
+  font-family: "Italianno", Helvetica;
+  font-size: 96px;
+  font-weight: 400;
+  left: 33px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 5px;
+}
+
+.about-us-page .overlap-group-wrapper {
+  margin-top: 5%;
+}
+
+.about-us-page .overlap-3 {
+  height: 287px;
+  position: relative;
+  width: 734px;
+}
+
+.about-us-page .pink-box {
+  margin-right: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #e2d5e5;
+  height: 250px;
+  opacity: 0.9;
+  width: 550px;
+}
+
+.about-us-page .content {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  width: 472px;
+}
+
+.about-us-page .sub-topic {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+  width: 348px;
+  text-align: center;
+}
+
+.about-us-page .div-wrapper {
+  height: 287px;
+  left: 1002px;
+  position: absolute;
+  top: 1128px;
+  width: 738px;
+}
+
+.about-us-page .rectangle-5 {
+  background-color: #ddd1e1;
+  height: 287px;
+  left: 0;
+  opacity: 0.9;
+  position: absolute;
+  top: 0;
+  width: 734px;
+}
+
+.about-us-page .text-wrapper-9 {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 232px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 117px;
+  width: 472px;
+}
+
+.about-us-page .text-wrapper-10 {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 1rem;
+  font-weight: 500;
+  left: 232px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 57px;
+  width: 348px;
+}
+
+.about-us-page .group-2 {
+  height: 287px;
+  left: 158px;
+  position: absolute;
+  top: 1458px;
+  width: 738px;
+}
+
+.about-us-page .text-wrapper-11 {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 232px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 102px;
+  width: 472px;
+}
+
+.about-us-page .text-wrapper-12 {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 1rem;
+  font-weight: 500;
+  left: 232px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 42px;
+  width: 348px;
+}
+
+.about-us-page .group-3 {
+  height: 287px;
+  left: 1002px;
+  position: absolute;
+  top: 1458px;
+  width: 738px;
+}
+
+.about-us-page .horizontal-line {
+  background: linear-gradient(
+    180deg,
+    rgba(217, 217, 217, 0) 0%,
+    rgb(210, 219, 226) 50%,
+    rgba(217, 217, 217, 0) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 81px;
+  position: absolute;
+  top: 394px;
+  width: 100%;
+}
+
+.row {
+  margin-top: 40px;
+  margin-bottom: 4%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-us-page .text-wrapper-13 {
+  color: #05212e;
+  font-family: "Inter", Helvetica;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+  width: 813px;
+}
+
+.about-us-page .group-4 {
+  /* height: 500px; */
+  /* left: 156px; */
+  /* position: absolute;
+  top: 1884px; */
+  /* width: 1546px; */
+}
+
+.about-us-page .overlap-4 {
+  height: 578px;
+  position: relative;
+  width: 1540px;
+}
+
+.about-us-page .rectangle-7 {
+  background-color: #d9d9d9;
+  height: 435px;
+  left: 3px;
+  opacity: 0.3;
+  position: absolute;
+  top: 4px;
+  width: 1535px;
+}
+
+.about-us-page .rectangle-8 {
+  height: 345px;
+  left: -189px;
+  position: absolute;
+  top: 3px;
+  width: 1377px;
+}
+
+.about-us-page .rectangle-9 {
+  height: 188px;
+  left: 2px;
+  position: absolute;
+  top: 251px;
+  width: 1522px;
+}
+
+.about-us-page .rectangle-10 {
+  height: 374px;
+  left: 592px;
+  position: absolute;
+  top: 3px;
+  width: 1047px;
+}
+
+.about-us-page .thank-you-for {
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 600;
+  left: 318px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 257px;
+  width: 951px;
+}
+
+.about-us-page .text-wrapper-14 {
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 1.5rem;
+  font-weight: 700;
+  left: 538px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 86px;
+  width: 507px;
+}
+
+.about-us-page .we-invite-you-to {
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 600;
+  left: 217px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 146px;
+  width: 1150px;
+}
+
+.about-us-page .overlap-5 {
+  height: 400px;
+  position: relative;
+  width: 1959px;
+}
+
+.about-us-page .rectangle-11 {
+  height: 150px;
+  left: 0;
+  position: absolute;
+  top: 129px;
+  width: 1920px;
+}
+
+.about-us-page .image {
+  height: 261px;
+  left: 1698px;
+  position: absolute;
+  top: 17px;
+  width: 261px;
+}
+
+.about-us-page .overlap-group-2 {
+  height: 261px;
+  position: relative;
+}
+
+.about-us-page .mask {
+  background-color: var(--dark);
+  border-radius: 130.5px/128.8px;
+  height: 258px;
+  left: 0;
+  opacity: 0.25;
+  position: absolute;
+  top: 0;
+  width: 261px;
+}
+
+.about-us-page .mask-2 {
+  height: 233px;
+  left: 10px;
+  position: absolute;
+  top: 11px;
+  width: 212px;
+}
+
+.about-us-page .ellipse {
+  background-color: #121528;
+  border-radius: 113.44px/109.37px;
+  height: 219px;
+  left: 18px;
+  position: absolute;
+  top: 19px;
+  width: 227px;
+}
+
+.about-us-page .istock {
+  height: 185px;
+  left: 67px;
+  object-fit: cover;
+  position: absolute;
+  top: 46px;
+  width: 138px;
+}
+
+.about-us-page .group-5 {
+  height: 224px;
+  left: 35px;
+  position: absolute;
+  top: 37px;
+  width: 174px;
+}
+
+.about-us-page .line-adn-icons {
+  height: 400px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1868px;
+}
+
+.about-us-page .overlap-6 {
+  height: 116px;
+  position: relative;
+  top: 142px;
+}
+
+.about-us-page .frame {
+  height: 20px;
+  left: 904px;
+  position: absolute;
+  top: 84px;
+  width: 109px;
+}
+
+.about-us-page .overlap-7 {
+  height: 116px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1868px;
+}
+
+.about-us-page .line {
+  height: 2px;
+  left: 48px;
+  position: absolute;
+  top: 113px;
+  width: 1820px;
+}
+
+.about-us-page .output {
+  height: 104px;
+  left: 48px;
+  object-fit: cover;
+  position: absolute;
+  top: 11px;
+  width: 113px;
+}
+
+.about-us-page .line-2 {
+  height: 116px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 583px;
+}
+
+.about-us-page .text-wrapper-15 {
+  color: #b3b3b3;
+  font-family: "Bree Serif", Helvetica;
+  font-size: 18px;
+  font-weight: 400;
+  height: 24px;
+  left: 794px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 256px;
+}
+
+.about-us-page .text-wrapper-16 {
+  color: #b3b3b3;
+  font-family: "Bree Serif", Helvetica;
+  font-size: 20px;
+  font-weight: 400;
+  height: 27px;
+  left: 920px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 185px;
+}
+
+.about-us-page .text-wrapper-17 {
+  color: #b3b3b3;
+  font-family: "Bree Serif", Helvetica;
+  font-size: 20px;
+  font-weight: 400;
+  height: 27px;
+  left: 913px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 152px;
 }
