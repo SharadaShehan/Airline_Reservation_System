@@ -9,7 +9,7 @@ export default function Header () {
 
     return (
         <div>
-            <img src={require("../../images/headerImage1.jpg")} alt="headerimg" className="headerImg" />
+            {/* <img src={require("../../images/headerImage1.jpg")} alt="headerimg" className="headerImg" /> */}
             <div className="logo">B Airlines</div>
             <div className="navBarContainer">
                 <NavBar />

@@ -20,9 +20,9 @@ export const AboutUsPage = () => {
               desired destinations, providing seamless travel experiences, and
               ensuring your journey is safe, comfortable, and memorable.
             </p>
-            <p className="established-in">
+            <p className="p">
               Established in 2023, B Airlines has been a prominent player in the
-              aviation industry, serving&nbsp;&nbsp;&nbsp;&nbsp;passengers from
+              aviation industry, serving passengers from
               around the world with a commitment to excellence. Our journey
               began with a vision to redefine air travel by combining modern
               technology, exceptional customer service, and a deep understanding
@@ -89,28 +89,13 @@ export const AboutUsPage = () => {
 
           <div className="group-4">
             <div className="overlap-4">
-              <div className="rectangle-7" />
-              <img
-                className="rectangle-8"
-                alt="Rectangle"
-                src="https://c.animaapp.com/wkCqKyaA/img/rectangle-80.svg"
-              />
-              <img
-                className="rectangle-10"
-                alt="Rectangle"
-                src="https://c.animaapp.com/wkCqKyaA/img/rectangle-164.svg"
-              />
-              <img
-                className="rectangle-9"
-                alt="Rectangle"
-                src="https://c.animaapp.com/wkCqKyaA/img/rectangle-163.svg"
-              />
+              {/* <div className="rectangle-7" /> */}
               <p className="text-wrapper-14">Join Us in the Sky</p>
               <p className="we-invite-you-to">
                 <br />
                 We invite you to explore our website, discover exciting
                 destinations, and book your next adventure with B Airlines.
-                Whether you&#39;re traveling for business or leisure, we look
+                Whether you're traveling for business or leisure, we look
                 forward to being your preferred choice for air travel.
               </p>
               <p className="thank-you-for">
