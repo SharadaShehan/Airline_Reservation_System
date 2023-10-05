@@ -1,0 +1,264 @@
+.about-us-page {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.about-us-page .overlap-wrapper {
+  background-color: #ffffff;
+  width: 100%;
+}
+
+.about-us-page .overlap {
+  /* height: 2689px; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.about-us-page .img {
+  /* height: 100vw; */
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+}
+
+.about-us-page .our-company-box {
+  background-color: #0b2b38;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  width: 70%;
+  margin-top: 10%;
+  padding : 4%;
+}
+
+.about-us-page .text-wrapper {
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 2.3vw;
+  font-weight: 900;
+  line-height: normal;
+  text-align: center;
+  top: 5%;
+  margin-bottom: 1%;
+}
+
+.about-us-page .p {
+  padding-left: 2%;
+  padding-right: 2%;
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 1.3vw;
+  font-weight: lighter;
+  left: 100px;
+  letter-spacing: 0;
+  line-height: 1.5vw;
+  text-align: center;
+  width: 100%;
+}
+
+.about-us-page .overlap-group-wrapper {
+  margin-top: 3%;
+}
+
+.about-us-page .pink-box {
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #e2d5e5;
+  height: 14.5vw;
+  opacity: 0.9;
+  width: 38%;
+}
+
+.about-us-page .content {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 1.3vw;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+  width: 88%;
+}
+
+.about-us-page .sub-topic {
+  color: #000000;
+  font-family: "Inter", Helvetica;
+  font-size: 2.1vw;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+}
+
+/* .about-us-page .group-3 {
+  height: 287px;
+  left: 1002px;
+  position: absolute;
+  top: 1458px;
+  width: 738px;
+} */
+
+.about-us-page .horizontal-line {
+  background: linear-gradient(
+    90deg,
+    rgba(217, 217, 217, 0) 0%,
+    rgb(210, 219, 226) 50%,
+    rgba(217, 217, 217, 0) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height:  4vw;
+  position: relative;
+  /* top: 394px; */
+  width: 100%;
+  margin-top: 4%;
+}
+
+.row {
+  /* margin-top: 40px; */
+  margin-bottom: 1%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-us-page .text-wrapper-13 {
+  color: #05212e;
+  font-family: "Inter", Helvetica;
+  font-size: 2.3vw;
+  font-weight: 700;
+  line-height: normal;
+  text-align: center;
+}
+
+.about-us-page .group-4 {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-us-page .overlap-4 {
+  background-color: #8E8B8B;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  width: 70%;
+  margin-top: 3%;
+  padding : 4%;
+}
+
+.about-us-page .thank-you-for {
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 1.2vw;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  opacity: 1;
+  margin: 2%;
+}
+
+.about-us-page .text-wrapper-14 {
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 2.3vw;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  margin-top: 0.5%;
+  margin-bottom: 1%;
+}
+
+.about-us-page .we-invite-you-to {
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 1.2vw;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  margin: 1%;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .about-us-page .our-company-box {
+    width: 85%;
+    padding: 8%;
+  }
+  
+  .about-us-page .p,
+  .about-us-page .content,
+  .about-us-page .text-wrapper-13,
+  .about-us-page .text-wrapper-14 {
+    font-size: 4vw;
+  }
+
+  .about-us-page .text-wrapper {
+    font-size: 5vw;
+  }
+
+  .about-us-page .text-wrapper-13 {
+    font-size: 4.5vw;
+  }
+
+  .about-us-page .text-wrapper-14 {
+    font-size: 5vw;
+  }
+
+  .about-us-page .p {
+    line-height: 4.6vw;
+  }
+  
+  .about-us-page .pink-box {
+    height: 40vw;
+    width: 80%;
+    margin-bottom: 3vw;
+  }
+
+  .about-us-page .sub-topic{
+    font-size: 5vw;
+    margin-top: 4%;
+  }
+
+  .about-us-page .horizontal-line {
+    height: 8vw;
+  }
+  
+  .about-us-page .overlap-4 {
+    width: 85%;
+  }
+
+  .about-us-page .we-invite-you-to,
+  .about-us-page .thank-you-for {
+    font-weight: 500;
+    font-size: 4.2vw;
+  }
+
+}
+
