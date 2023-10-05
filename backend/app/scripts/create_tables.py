@@ -147,14 +147,14 @@ def create_tables():
         #----------------------------------
 
         #------- Create category table ----
-        create_category_table_query = """
-            CREATE TABLE IF NOT EXISTS category (
+        create_user_category_table_query = """
+            CREATE TABLE IF NOT EXISTS user_category (
             Category_ID SMALLINT PRIMARY KEY AUTO_INCREMENT,
             Category_Name VARCHAR(10),
             Min_Bookings SMALLINT NOT NULL, 
             Discount DECIMAL(5,4) NOT NULL );
         """
-        cursor.execute(create_category_table_query)
+        cursor.execute(create_user_category_table_query)
         #----------------------------------
 
         #------- Create user table ----
@@ -163,14 +163,39 @@ def create_tables():
             Username VARCHAR(30) PRIMARY KEY,
             Password CHAR(162) NOT NULL,
             FirstName VARCHAR(30) NOT NULL,
-            LastName VARCHAR(30) NOT NULL,
-            IsAdmin BOOLEAN NOT NULL,
-            IsDataEntryOperator BOOLEAN NOT NULL,
-            Category SMALLINT NOT NULL DEFAULT 1,
-            FOREIGN KEY (Category) REFERENCES category(Category_ID) );
+            LastName VARCHAR(30) NOT NULL);
         """
         cursor.execute(create_user_table_query)
         #----------------------------------
+
+        #------- Create registered user table ----
+        create_registered_user_table_query = """
+            CREATE TABLE IF NOT EXISTS registered_user (
+            Username VARCHAR(30) PRIMARY KEY,
+            Passport_ID VARCHAR(15) NOT NULL,
+            Address VARCHAR(50) NOT NULL,
+            Category SMALLINT NOT NULL DEFAULT 1,
+            Birth_Date DATE NOT NULL,
+            Gender VARCHAR(15) NOT NULL,
+            Email VARCHAR(50) NOT NULL,
+            Contact_Number VARCHAR(16) NOT NULL,
+            Bookings_Count SMALLINT NOT NULL DEFAULT 0,
+            FOREIGN KEY (Category) REFERENCES user_category(Category_ID),
+            FOREIGN KEY (Username) REFERENCES user(Username) );
+        """
+        cursor.execute(create_registered_user_table_query)
+        #----------------------------------
+
+        #------- Create staff table ----
+        create_staff_table_query = """
+            CREATE TABLE IF NOT EXISTS staff (
+            Username VARCHAR(30) PRIMARY KEY,
+            Role VARCHAR(20) NOT NULL,
+            FOREIGN KEY (Username) REFERENCES user(Username) );
+        """
+        cursor.execute(create_staff_table_query)
+        #----------------------------------
+
 
         #------- Create booking set table ----
         create_booking_set_table_query = """
