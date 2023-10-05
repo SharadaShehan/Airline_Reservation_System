@@ -1,0 +1,505 @@
+.bookflightpage {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.bookflightpage .overlap-wrapper {
+    background-color: #ffffff;
+    height: 1095px;
+    overflow: hidden;
+    width: 1920px;
+}
+
+.bookflightpage .overlap {
+    height: 1213px;
+    position: relative;
+    width: 1965px;
+}
+
+.bookflightpage .pexels-tobias-bjrkli {
+    height: 955px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 1920px;
+}
+
+.bookflightpage .header {
+    background-color: transparent;
+    height: 125px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1922px;
+}
+
+.bookflightpage .overlap-group {
+    height: 125px;
+    position: relative;
+    width: 1920px;
+}
+
+.bookflightpage .rectangle {
+    background-color: #22415c;
+    height: 108px;
+    left: 0;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    width: 1920px;
+}
+
+.bookflightpage .navbar {
+    height: 33px;
+    left: 677px;
+    position: absolute;
+    top: 38px;
+    width: 619px;
+}
+
+.bookflightpage .text-wrapper {
+    color: #ffffff;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 515px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+}
+
+.bookflightpage .div {
+    color: #ffffff;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 116px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+}
+
+.bookflightpage .text-wrapper-2 {
+    color: #ffffff;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+}
+
+.bookflightpage .text-wrapper-3 {
+    color: #ffffff;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 302px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+}
+
+.bookflightpage .text-wrapper-4 {
+    color: #ffffff;
+    font-family: "Italianno-Regular", Helvetica;
+    font-size: 96px;
+    font-weight: 400;
+    left: 33px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 5px;
+}
+
+.bookflightpage .group {
+    height: 29px;
+    left: 1728px;
+    position: absolute;
+    top: 38px;
+    width: 113px;
+}
+
+.bookflightpage .div-wrapper {
+    background-color: #00000933;
+    border-radius: 20px;
+    height: 29px;
+    position: relative;
+    width: 111px;
+}
+
+.bookflightpage .text-wrapper-5 {
+    color: #ffffff;
+    font-family: "DM Sans-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    left: 14px;
+    letter-spacing: 0;
+    line-height: 18px;
+    position: absolute;
+    text-align: center;
+    top: 6px;
+    white-space: nowrap;
+    width: 81px;
+}
+
+.bookflightpage .overlap-group-wrapper {
+    height: 70px;
+    left: 827px;
+    position: absolute;
+    top: 677px;
+    width: 269px;
+}
+
+.bookflightpage .overlap-2 {
+    background-color: #121528;
+    border: 1px solid;
+    border-color: #ffffff;
+    border-radius: 47px;
+    height: 72px;
+    left: -1px;
+    position: relative;
+    top: -1px;
+}
+
+.bookflightpage .rectangle-2 {
+    background-color: #121528;
+    border: 1px solid;
+    border-color: #ffffff;
+    border-radius: 47px;
+    height: 72px;
+    left: -1px;
+    position: absolute;
+    top: -1px;
+    width: 269px;
+}
+
+.bookflightpage .p {
+    color: #ffffff;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    height: 33px;
+    left: 34px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 18px;
+}
+
+.bookflightpage .footer {
+    background-color: transparent;
+    height: 400px;
+    left: 0;
+    position: absolute;
+    top: 812px;
+    width: 1965px;
+}
+
+.bookflightpage .overlap-3 {
+    height: 400px;
+    position: relative;
+    width: 1959px;
+}
+
+.bookflightpage .img {
+    height: 154px;
+    left: 0;
+    position: absolute;
+    top: 129px;
+    width: 1920px;
+}
+
+.bookflightpage .image {
+    height: 261px;
+    left: 1698px;
+    position: absolute;
+    top: 17px;
+    width: 261px;
+}
+
+.bookflightpage .overlap-group-2 {
+    height: 261px;
+    position: relative;
+}
+
+.bookflightpage .mask {
+    background-color: var(--dark);
+    border-radius: 130.5px/128.8px;
+    height: 258px;
+    left: 0;
+    opacity: 0.25;
+    position: absolute;
+    top: 0;
+    width: 261px;
+}
+
+.bookflightpage .mask-2 {
+    height: 233px;
+    left: 10px;
+    position: absolute;
+    top: 11px;
+    width: 212px;
+}
+
+.bookflightpage .ellipse {
+    background-color: #121528;
+    border-radius: 113.44px/109.37px;
+    height: 219px;
+    left: 18px;
+    position: absolute;
+    top: 19px;
+    width: 227px;
+}
+
+.bookflightpage .istock {
+    height: 185px;
+    left: 67px;
+    object-fit: cover;
+    position: absolute;
+    top: 46px;
+    width: 138px;
+}
+
+.bookflightpage .group-2 {
+    height: 224px;
+    left: 35px;
+    position: absolute;
+    top: 37px;
+    width: 174px;
+}
+
+.bookflightpage .line-adn-icons {
+    height: 400px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1868px;
+}
+
+.bookflightpage .overlap-4 {
+    height: 116px;
+    position: relative;
+    top: 142px;
+}
+
+.bookflightpage .frame {
+    height: 20px;
+    left: 904px;
+    position: absolute;
+    top: 84px;
+    width: 109px;
+}
+
+.bookflightpage .overlap-5 {
+    height: 116px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1868px;
+}
+
+.bookflightpage .line {
+    height: 2px;
+    left: 48px;
+    position: absolute;
+    top: 113px;
+    width: 1820px;
+}
+
+.bookflightpage .output {
+    height: 104px;
+    left: 48px;
+    object-fit: cover;
+    position: absolute;
+    top: 11px;
+    width: 113px;
+}
+
+.bookflightpage .line-2 {
+    height: 116px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 583px;
+}
+
+.bookflightpage .text-wrapper-6 {
+    color: #b3b3b3;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    height: 24px;
+    left: 794px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 256px;
+}
+
+.bookflightpage .text-wrapper-7 {
+    color: #b3b3b3;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    height: 27px;
+    left: 920px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 185px;
+}
+
+.bookflightpage .text-wrapper-8 {
+    color: #b3b3b3;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    height: 27px;
+    left: 913px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 152px;
+}
+
+.bookflightpage .rectangle-3 {
+    background: linear-gradient(
+        180deg,
+        rgba(17, 6, 9, 0) 0%,
+        rgba(17, 6, 9, 0.78) 33.33%,
+        rgb(17, 6, 9) 66.67%,
+        rgba(17, 6, 9, 0) 100%
+    );
+    height: 442px;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 169px;
+    width: 1920px;
+}
+
+.bookflightpage .group-3 {
+    height: 378px;
+    left: 206px;
+    position: absolute;
+    top: 205px;
+    width: 467px;
+}
+
+.bookflightpage .overlap-6 {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgb(18, 21, 40) 100%);
+    height: 378px;
+    position: relative;
+    width: 465px;
+}
+
+.bookflightpage .rectangle-4 {
+    height: 237px;
+    left: 9px;
+    object-fit: cover;
+    position: absolute;
+    top: 8px;
+    width: 445px;
+}
+
+.bookflightpage .text-wrapper-9 {
+    color: #ffffff;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    left: 10px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 275px;
+    width: 444px;
+}
+
+.bookflightpage .group-4 {
+    height: 378px;
+    left: 728px;
+    position: absolute;
+    top: 205px;
+    width: 467px;
+}
+
+.bookflightpage .group-5 {
+    height: 378px;
+    left: 1251px;
+    position: absolute;
+    top: 205px;
+    width: 467px;
+}
+
+.bookflightpage .rectangle-5 {
+    background: linear-gradient(
+        180deg,
+        rgba(129, 79, 82, 0) 0%,
+        rgba(254, 231, 213, 0.79) 49.27%,
+        rgba(80, 67, 71, 0.09) 100%
+    );
+    height: 123px;
+    left: 399px;
+    position: absolute;
+    top: 780px;
+    width: 1120px;
+}
+
+.bookflightpage .group-6 {
+    height: 40px;
+    left: 891px;
+    position: absolute;
+    top: 841px;
+    width: 136px;
+}
+
+.bookflightpage .overlap-7 {
+    background-color: #ffffff;
+    border-radius: 47px;
+    height: 40px;
+    position: relative;
+    width: 134px;
+}
+
+.bookflightpage .text-wrapper-10 {
+    color: #161616;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    height: 33px;
+    left: 35px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 0;
+}
+
+.bookflightpage .text-wrapper-11 {
+    color: #313131;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    height: 33px;
+    left: 869px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 793px;
+}

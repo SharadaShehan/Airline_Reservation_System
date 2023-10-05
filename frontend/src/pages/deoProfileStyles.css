@@ -1,0 +1,611 @@
+.deoprofilepage {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.deoprofilepage .overlap-wrapper {
+    background-color: #ffffff;
+    height: 1022px;
+    overflow: hidden;
+    width: 1920px;
+}
+
+.deoprofilepage .overlap {
+    height: 1141px;
+    position: relative;
+    width: 1965px;
+}
+
+.deoprofilepage .pexels-tobias-bjrkli {
+    height: 916px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 1920px;
+}
+
+.deoprofilepage .header {
+    height: 70px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1919px;
+}
+
+.deoprofilepage .header-v {
+    align-items: center;
+    background-color: #ffffff4c;
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+    justify-content: center;
+    padding: 32px 0px;
+    position: relative;
+    width: 1919px;
+}
+
+.deoprofilepage .container-wrapper {
+    height: 44.67px;
+    margin-bottom: -19.34px;
+    margin-top: -19.34px;
+    position: relative;
+    width: 1803.54px;
+}
+
+.deoprofilepage .container {
+    height: 45px;
+    position: relative;
+    width: 1804px;
+}
+
+.deoprofilepage .group {
+    height: 29px;
+    left: 1545px;
+    position: absolute;
+    top: 8px;
+    width: 259px;
+}
+
+.deoprofilepage .overlap-group-wrapper {
+    height: 29px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 113px;
+}
+
+.deoprofilepage .overlap-group {
+    background-color: #00000933;
+    border-radius: 20px;
+    height: 29px;
+    position: relative;
+    width: 111px;
+}
+
+.deoprofilepage .text-wrapper {
+    color: #ffffff;
+    font-family: "DM Sans-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    left: 14px;
+    letter-spacing: 0;
+    line-height: 18px;
+    position: absolute;
+    text-align: center;
+    top: 6px;
+    white-space: nowrap;
+    width: 81px;
+}
+
+.deoprofilepage .div-wrapper {
+    height: 29px;
+    left: 137px;
+    position: absolute;
+    top: 0;
+    width: 124px;
+}
+
+.deoprofilepage .div {
+    background-color: #ffffff;
+    border-radius: 20px;
+    height: 29px;
+    position: relative;
+    width: 122px;
+}
+
+.deoprofilepage .text-wrapper-2 {
+    color: #000000;
+    font-family: "DM Sans-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    left: 13px;
+    letter-spacing: 0;
+    line-height: 18px;
+    position: absolute;
+    text-align: center;
+    top: 6px;
+    width: 95px;
+}
+
+.deoprofilepage .logo {
+    height: 45px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 240px;
+}
+
+.deoprofilepage .text-wrapper-3 {
+    color: var(--neutral-800);
+    font-family: "DM Sans-Bold", Helvetica;
+    font-size: 28.2px;
+    font-weight: 700;
+    left: 65px;
+    letter-spacing: 0;
+    line-height: 29.7px;
+    position: absolute;
+    top: 7px;
+    width: 173px;
+}
+
+.deoprofilepage .img {
+    height: 45px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 61px;
+}
+
+.deoprofilepage .nav-list {
+    align-items: center;
+    display: inline-flex;
+    gap: 32px;
+    justify-content: center;
+    left: 767px;
+    position: absolute;
+    top: 15px;
+}
+
+.deoprofilepage .link-instance {
+    flex: 0 0 auto !important;
+}
+
+.deoprofilepage .design-component-instance-node {
+    color: var(--neutral-800) !important;
+    font-family: "DM Sans-Regular", Helvetica !important;
+    font-size: 18px !important;
+    font-style: unset !important;
+    font-weight: 400 !important;
+    letter-spacing: 0 !important;
+    line-height: 20px !important;
+}
+
+.deoprofilepage .chevron-down {
+    height: 20px !important;
+    position: relative !important;
+    width: 20px !important;
+}
+
+.deoprofilepage .group-2 {
+    height: 358px;
+    left: 235px;
+    position: absolute;
+    top: 240px;
+    width: 767px;
+}
+
+.deoprofilepage .overlap-2 {
+    height: 358px;
+    position: relative;
+    width: 763px;
+}
+
+.deoprofilepage .rectangle {
+    background-color: #1a354e;
+    height: 358px;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    width: 763px;
+}
+
+.deoprofilepage .text-wrapper-4 {
+    color: #ffffff;
+    font-family: "Bruno Ace-Regular", Helvetica;
+    font-size: 32px;
+    font-weight: 400;
+    left: 164px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 30px;
+    white-space: nowrap;
+    width: 475px;
+}
+
+.deoprofilepage .first-name-mahinda {
+    color: #ffffff;
+    font-family: "Bruno Ace-Regular", Helvetica;
+    font-size: 32px;
+    font-weight: 400;
+    left: 152px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 148px;
+}
+
+.deoprofilepage .group-3 {
+    height: 517px;
+    left: 1262px;
+    position: absolute;
+    top: 160px;
+    width: 374px;
+}
+
+.deoprofilepage .overlap-3 {
+    height: 517px;
+    position: relative;
+    width: 372px;
+}
+
+.deoprofilepage .rectangle-2 {
+    background-color: #1a354e;
+    height: 517px;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    width: 372px;
+}
+
+.deoprofilepage .text-wrapper-5 {
+    color: #ffffff;
+    font-family: "Bruno Ace-Regular", Helvetica;
+    font-size: 32px;
+    font-weight: 400;
+    left: 29px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 17px;
+    width: 314px;
+}
+
+.deoprofilepage .group-4 {
+    height: 54px;
+    left: 77px;
+    position: absolute;
+    top: 74px;
+    width: 229px;
+}
+
+.deoprofilepage .overlap-group-2 {
+    background-color: #ffffff;
+    border-radius: 52px;
+    height: 54px;
+    position: relative;
+    width: 227px;
+}
+
+.deoprofilepage .text-wrapper-6 {
+    color: #000000;
+    font-family: "Bruno Ace-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    left: 41px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 14px;
+    white-space: nowrap;
+    width: 144px;
+}
+
+.deoprofilepage .group-5 {
+    height: 54px;
+    left: 77px;
+    position: absolute;
+    top: 143px;
+    width: 229px;
+}
+
+.deoprofilepage .text-wrapper-7 {
+    color: #000000;
+    font-family: "Bruno Ace-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    left: 55px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 13px;
+    white-space: nowrap;
+    width: 117px;
+}
+
+.deoprofilepage .group-6 {
+    height: 54px;
+    left: 77px;
+    position: absolute;
+    top: 212px;
+    width: 229px;
+}
+
+.deoprofilepage .overlap-4 {
+    background-color: #0047ff;
+    border-radius: 52px;
+    height: 54px;
+    position: relative;
+    width: 227px;
+}
+
+.deoprofilepage .text-wrapper-8 {
+    color: #ffffff;
+    font-family: "Bruno Ace-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    left: 28px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 5px;
+    white-space: nowrap;
+    width: 162px;
+}
+
+.deoprofilepage .group-7 {
+    height: 54px;
+    left: 77px;
+    position: absolute;
+    top: 280px;
+    width: 229px;
+}
+
+.deoprofilepage .text-wrapper-9 {
+    color: #000000;
+    font-family: "Bruno Ace-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    left: 19px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 15px;
+    white-space: nowrap;
+    width: 187px;
+}
+
+.deoprofilepage .group-8 {
+    height: 54px;
+    left: 77px;
+    position: absolute;
+    top: 349px;
+    width: 229px;
+}
+
+.deoprofilepage .text-wrapper-10 {
+    color: #000000;
+    font-family: "Bruno Ace-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    left: 27px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 14px;
+    white-space: nowrap;
+    width: 173px;
+}
+
+.deoprofilepage .group-9 {
+    height: 54px;
+    left: 77px;
+    position: absolute;
+    top: 417px;
+    width: 229px;
+}
+
+.deoprofilepage .text-wrapper-11 {
+    color: #000000;
+    font-family: "Bruno Ace-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    left: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 14px;
+    width: 180px;
+}
+
+.deoprofilepage .footer {
+    background-color: transparent;
+    height: 400px;
+    left: 0;
+    position: absolute;
+    top: 741px;
+    width: 1965px;
+}
+
+.deoprofilepage .overlap-5 {
+    height: 400px;
+    position: relative;
+    width: 1959px;
+}
+
+.deoprofilepage .rectangle-3 {
+    height: 152px;
+    left: 0;
+    position: absolute;
+    top: 129px;
+    width: 1920px;
+}
+
+.deoprofilepage .image {
+    height: 261px;
+    left: 1698px;
+    position: absolute;
+    top: 17px;
+    width: 261px;
+}
+
+.deoprofilepage .overlap-group-3 {
+    height: 261px;
+    position: relative;
+}
+
+.deoprofilepage .mask {
+    background-color: var(--dark);
+    border-radius: 130.5px/128.8px;
+    height: 258px;
+    left: 0;
+    opacity: 0.25;
+    position: absolute;
+    top: 0;
+    width: 261px;
+}
+
+.deoprofilepage .mask-2 {
+    height: 233px;
+    left: 10px;
+    position: absolute;
+    top: 11px;
+    width: 212px;
+}
+
+.deoprofilepage .ellipse {
+    background-color: #121528;
+    border-radius: 113.44px/109.37px;
+    height: 219px;
+    left: 18px;
+    position: absolute;
+    top: 19px;
+    width: 227px;
+}
+
+.deoprofilepage .istock {
+    height: 185px;
+    left: 67px;
+    object-fit: cover;
+    position: absolute;
+    top: 46px;
+    width: 138px;
+}
+
+.deoprofilepage .group-10 {
+    height: 224px;
+    left: 35px;
+    position: absolute;
+    top: 37px;
+    width: 174px;
+}
+
+.deoprofilepage .line-adn-icons {
+    height: 400px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1868px;
+}
+
+.deoprofilepage .overlap-6 {
+    height: 116px;
+    position: relative;
+    top: 142px;
+}
+
+.deoprofilepage .frame {
+    height: 20px;
+    left: 904px;
+    position: absolute;
+    top: 84px;
+    width: 109px;
+}
+
+.deoprofilepage .overlap-7 {
+    height: 116px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1868px;
+}
+
+.deoprofilepage .line {
+    height: 2px;
+    left: 48px;
+    position: absolute;
+    top: 113px;
+    width: 1820px;
+}
+
+.deoprofilepage .output {
+    height: 104px;
+    left: 48px;
+    object-fit: cover;
+    position: absolute;
+    top: 11px;
+    width: 113px;
+}
+
+.deoprofilepage .line-2 {
+    height: 116px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 583px;
+}
+
+.deoprofilepage .p {
+    color: #b3b3b3;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    height: 24px;
+    left: 794px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 256px;
+}
+
+.deoprofilepage .text-wrapper-12 {
+    color: #b3b3b3;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    height: 27px;
+    left: 920px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 185px;
+}
+
+.deoprofilepage .text-wrapper-13 {
+    color: #b3b3b3;
+    font-family: "Bree Serif-Regular", Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    height: 27px;
+    left: 913px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 152px;
+}

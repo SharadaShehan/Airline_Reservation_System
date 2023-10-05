@@ -1,0 +1,103 @@
+
+* {
+	font-family: "Titillium Web", sans-serif;
+}
+
+
+header {
+	display: flex;
+	align-items: center;
+	align-self: center;
+	justify-content: space-between;
+	height: 80px;
+	padding: 0 2rem;
+}
+
+nav{
+	transform: translate(55%, 0);
+}
+
+.linksContainer {
+	display: flex;
+	align-items: center;
+	align-self: center;
+	justify-content: space-between;
+}
+
+
+nav a {
+	margin: 0 1rem;
+	color: #000;
+	text-decoration: none;
+	font-size: 1.3rem;
+	font-weight: 500;
+}
+
+header .nav-button {
+	padding: 5px;
+	cursor: pointer;
+	background: transparent;
+	visibility: hidden;
+	opacity: 0;
+	border: none;
+	outline: none;
+	color: #000;
+	font-size: 1.8rem;
+}
+
+nav, nav div {
+	display: flex;
+	align-items: center;
+}
+
+
+@media only screen and (max-width: 1024px) {
+	header {
+		visibility: hidden;
+	}
+
+	header .nav-button {
+		visibility: visible;
+		opacity: 1;
+		
+	}
+
+	header nav{
+		z-index: 3;
+		position: fixed;
+		visibility: visible;
+		height: 100%;
+		width: 100%;
+		background: rgba(0,0,0,0.85);
+		top: -110vh;
+		left: 0;
+		transition: .5s;
+		justify-content: center;
+	}
+
+	nav div {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+	}
+
+	header .responsive_nav {
+		/* z-index: 3; */
+		transform: translateY(110vh);
+		
+	}
+
+	nav .close-button {
+		position: absolute;
+		top: 2rem;
+		right: 2rem;
+		color: #fff
+	}
+
+	nav a {
+		font-size: 1.5rem;
+		color: #fff
+	}
+}
