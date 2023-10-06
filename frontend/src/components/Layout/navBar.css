@@ -9,12 +9,12 @@ header {
 	align-items: center;
 	align-self: center;
 	justify-content: space-between;
-	height: 80px;
+	height: 75px;
 	padding: 0 2rem;
 }
 
 nav{
-	transform: translate(55%, 0);
+	transform: translate(31vw, 0);
 }
 
 .linksContainer {
@@ -27,10 +27,10 @@ nav{
 
 nav a {
 	margin: 0 1rem;
-	color: #000;
+	color: #fff;
 	text-decoration: none;
-	font-size: 1.3rem;
-	font-weight: 500;
+	font-size: 1.1rem;
+	font-weight: 700;
 }
 
 header .nav-button {

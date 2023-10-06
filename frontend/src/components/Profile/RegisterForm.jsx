@@ -19,15 +19,15 @@ export default function RegisterForm () {
   const submitfunc = (e) => {
     console.log("Submitted");
     e.preventDefault();
-    setCurrentUserData({
-      'username': 'SamC',
-      'firstName': 'Sam',
-      'lastName': 'Convoy',
-      'isAdmin': 0,
-      'isDataEntryOperator': 0,
-      'bookingsCount': 15,
-      'category': 'Frequent'
-    });
+    // setCurrentUserData({
+    //   'username': 'SamC',
+    //   'firstName': 'Sam',
+    //   'lastName': 'Convoy',
+    //   'isAdmin': 0,
+    //   'isDataEntryOperator': 0,
+    //   'bookingsCount': 15,
+    //   'category': 'Frequent'
+    // });
   }
 
   const validateUsername = () => {
@@ -98,7 +98,7 @@ export default function RegisterForm () {
         className="authForm"
         onSubmit={submitfunc}
       >
-        <span className="header">Create a New Account</span>
+        <span className="header">Register</span>
         <div className="formField">
           <input className="shortInput" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} onBlur={validateUsername}/>
           {usernameError && <div className="errorText">{usernameError}</div>}

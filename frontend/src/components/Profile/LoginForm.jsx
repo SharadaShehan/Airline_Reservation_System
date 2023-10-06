@@ -4,10 +4,11 @@ import { UserGlobalState } from '../Layout/UserGlobalState';
 import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
 import "./authForms.css"
 
+const apiUrl = process.env.REACT_APP_BACKEND_API_URL;
+
 export default function LoginForm () {
   const { setCurrentUserData } = UserGlobalState();
   const { setBookingStep } = BookingStepGlobalState();
-
   const [ username, setUsername ] = useState('');
   const [ usernameError, setUsernameError ] = useState(null);
   const [ password, setPassword ] = useState('');
@@ -17,13 +18,13 @@ export default function LoginForm () {
     console.log("Submitted");
     e.preventDefault();
     setCurrentUserData({
-      'username': 'SamC',
-      'firstName': 'Sam',
-      'lastName': 'Convoy',
+      'username': 'JohnD',
+      'firstName': 'John',
+      'lastName': 'Doe',
       'isAdmin': 0,
-      'isDataEntryOperator': 0,
-      'bookingsCount': 15,
-      'category': 'Frequent'
+      'isDataEntryOperator': 1,
+      'bookingsCount': 0,
+      'category': 'General'
     });
     setBookingStep('seatReserve');
   }
@@ -64,7 +65,7 @@ export default function LoginForm () {
         className="authForm"
         onSubmit={submitfunc}
       >
-        <span className="header">Log into Your Account</span>
+        <span className="header">Log in</span>
         <div className="formField">
           <input className="shortInput" type="text" placeholder="Username" value={username} onChange={handleUsernameChange} onBlur={validateUsername} />
           {usernameError && <div className="errorText">{usernameError}</div>}

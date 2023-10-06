@@ -4,6 +4,7 @@ import AdminProfileDetails from "./AdminProfileDetails";
 import AdminSearchRecords from "./AdminSearchRecords";
 import AdminViewReports from "./AdminViewReports";
 import "./scrollMenu.css";
+import "./adminProfile.css";
 
 
 export default function DEOProfile ({userData}) {
@@ -15,14 +16,20 @@ export default function DEOProfile ({userData}) {
 
     return (
         <div className="wrapper">
-            <div className="horizontal-scroll-menu">
-                <ul className="menu-list">
-                    <li className={`menu-item${adminMenuItem==="profile-details" ? "-active" : ""}`} onClick={() => changeMenuItem("profile-details")}>Profile Details</li>
-                    <li className={`menu-item${adminMenuItem==="search-records" ? "-active" : ""}`} onClick={() => changeMenuItem("search-records")}>Search Records</li>
-                    <li className={`menu-item${adminMenuItem==="view-reports" ? "-active" : ""}`} onClick={() => changeMenuItem("view-reports")}>View Reports</li>
-                </ul>
+            <img 
+                className="background-image" 
+                alt="Rectangle" 
+                src={require("../../images/AdminBackImage.jpg")} />
+            <div className="admin-container">
+                <div className="horizontal-scroll-menu">
+                    <ul className="menu-list">
+                        <li className={`menu-item${adminMenuItem==="profile-details" ? "-active" : ""}`} onClick={() => changeMenuItem("profile-details")}>Profile Details</li>
+                        <li className={`menu-item${adminMenuItem==="search-records" ? "-active" : ""}`} onClick={() => changeMenuItem("search-records")}>Search Records</li>
+                        <li className={`menu-item${adminMenuItem==="view-reports" ? "-active" : ""}`} onClick={() => changeMenuItem("view-reports")}>View Reports</li>
+                    </ul>
+                </div>
+                {renderPage()}
             </div>
-            {renderPage()}
         </div>
     );
 

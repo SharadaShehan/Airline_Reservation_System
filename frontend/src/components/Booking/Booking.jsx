@@ -5,6 +5,7 @@ import SeatReserve from './SeatReserve';
 import BookingSuccess from './BookingSuccess';
 import MakePayment from './MakePayment';
 import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
+import './booking.css';
 
 
 export default function Booking () {
@@ -30,6 +31,14 @@ export default function Booking () {
     };
 
     return (
-      <>{renderPage()}</>
+      <div className='wrapper'>
+        <img
+          className='background-image'
+          alt='Rectangle'
+          src={require('../../images/BookingBackImage.jpg')} />
+        <div className='booking-container'>
+        {renderPage()}
+        </div>
+      </div>
     );
 };
