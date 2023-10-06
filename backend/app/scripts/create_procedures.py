@@ -1,5 +1,4 @@
 from app.scripts.db import get_db_connection
-from flask import current_app
 
 
 def drop_all_procedures():
@@ -46,7 +45,7 @@ def create_procedures():
                 DECLARE idFrequent SMALLINT;
                 DECLARE minBookCountGold VARCHAR(10);
                 DECLARE idGold SMALLINT;
-                
+
                 DECLARE EXIT HANDLER FOR SQLEXCEPTION
                     BEGIN
                         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SQLError occured. Triggered ROLLBACK';
@@ -59,48 +58,52 @@ def create_procedures():
                     UPDATE booking_set 
                     SET Completed = 1
                     WHERE Booking_Ref_ID = Ref_ID;
-                    
+
                     -- Select current user
                     SELECT usr.Username INTO currentUser
                     FROM booking_set as bkset
-                    INNER JOIN user as usr on bkset.User = usr.Username
+                    INNER JOIN registered_user as usr on bkset.User = usr.Username
                     WHERE bkset.Booking_Ref_ID = Ref_ID;
-                    
+  
                     -- Get booking count of user
                     SELECT COUNT(distinct bk.Ticket_Number) INTO totalBookingsCount 
                     FROM booking_set as bkset
                     INNER JOIN booking as bk on bkset.Booking_Ref_ID = bk.Booking_Set
-                    INNER JOIN user as usr on bkset.User = usr.Username
+                    INNER JOIN registered_user as usr on bkset.User = usr.Username
                     WHERE usr.Username = currentUser;
-                    
+  
                     -- Get details related to each category
                     SELECT ctg.Category_ID, ctg.Min_Bookings INTO idGeneral, minBookCountGeneral
-                    FROM category as ctg 
+                    FROM user_category as ctg 
                     WHERE ctg.Category_Name = 'General';
                     
                     SELECT ctg.Category_ID, ctg.Min_Bookings INTO idFrequent, minBookCountFrequent
-                    FROM category as ctg 
+                    FROM user_category as ctg 
                     WHERE ctg.Category_Name = 'Frequent';
                     
                     SELECT ctg.Category_ID, ctg.Min_Bookings INTO idGold, minBookCountGold
-                    FROM category as ctg 
+                    FROM user_category as ctg 
                     WHERE ctg.Category_Name = 'Gold';
                     
                     -- Update user category
                     IF totalBookingsCount >= minBookCountGold THEN
-                        UPDATE user
+                        UPDATE registered_user
                         SET Category = idGold
                         WHERE Username = currentUser;
                     ELSEIF totalBookingsCount >= minBookCountFrequent THEN
-                        UPDATE user
+                        UPDATE registered_user
                         SET Category = idFrequent
                         WHERE Username = currentUser;
                     ELSE
-                        UPDATE user
+                        UPDATE registered_user
                         SET Category = idGeneral
                         WHERE Username = currentUser;
                     END IF;
-                
+
+                    UPDATE registered_user
+                    SET Bookings_Count = totalBookingsCount
+                    WHERE Username = currentUser;
+
                 COMMIT;
             END;
         """
@@ -125,11 +128,12 @@ def create_procedures():
                 DECLARE first_name VARCHAR(30);
                 DECLARE last_name VARCHAR(30);
                 DECLARE is_adult BOOLEAN;
+                DECLARE passportid VARCHAR(15);
                 DECLARE seat_reserved BOOLEAN;
                 DECLARE max_seat_number SMALLINT;
                 
                 DECLARE done BOOLEAN DEFAULT FALSE;
-                DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult FROM booking_data;
+                DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult, Passport_ID FROM booking_data;
                 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
                 
                 DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -158,7 +162,7 @@ def create_procedures():
                     
                     OPEN recordsCursor;
                     readLoop: LOOP
-                        FETCH recordsCursor INTO seat_number, first_name, last_name, is_adult;
+                        FETCH recordsCursor INTO seat_number, first_name, last_name, is_adult, passportid;
                         IF done THEN
                             LEAVE readLoop;
                         END IF;
@@ -194,8 +198,8 @@ def create_procedures():
                             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Number Exceeds Maximum Seat Count';
                         END IF;
                         
-                        INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult) 
-                        VALUES (refID, seat_number, first_name, last_name, is_adult);
+                        INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) 
+                        VALUES (refID, seat_number, first_name, last_name, is_adult, passportid);
                         
                     END LOOP;
                     CLOSE recordsCursor;

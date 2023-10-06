@@ -181,14 +181,15 @@ class UserCreateBooking(Resource):
                         SeatNumber SMALLINT,
                         FirstName VARCHAR(30),
                         LastName VARCHAR(30),
-                        IsAdult BOOLEAN ) ;
+                        IsAdult BOOLEAN,
+                        Passport_ID VARCHAR(15) ) ;
                 """
                 cursor.execute(create_temp_booking_table_query)
 
                 # Insert passengers booking data into temporary table
-                insert_temp_booking_table_query = """INSERT INTO booking_data (SeatNumber, FirstName, LastName, IsAdult) VALUES"""
+                insert_temp_booking_table_query = """INSERT INTO booking_data (SeatNumber, FirstName, LastName, IsAdult, Passport_ID) VALUES"""
                 for passenger in passengers:
-                    insert_temp_booking_table_query += f"({passenger['seatNumber']}, '{passenger['firstName']}', '{passenger['lastName']}', {passenger['isAdult']}),"
+                    insert_temp_booking_table_query += f"({passenger['seatNumber']}, '{passenger['firstName']}', '{passenger['lastName']}', {passenger['isAdult']}, '{passenger['passportID']}'),"
                 insert_temp_booking_table_query = insert_temp_booking_table_query[:-1] + ";"
                 cursor.execute(insert_temp_booking_table_query)
 

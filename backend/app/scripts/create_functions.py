@@ -1,5 +1,4 @@
 from app.scripts.db import get_db_connection
-from flask import current_app
 
 
 def drop_all_functions():
@@ -90,8 +89,8 @@ def create_functions():
                 ELSE
                     -- Get Discount based on Registered User's Category
                     SELECT ctg.Discount INTO discountPercent
-                    FROM user as usr
-                    INNER JOIN category as ctg on usr.Category = ctg.Category_ID
+                    FROM registered_user as usr
+                    INNER JOIN user_category as ctg on usr.Category = ctg.Category_ID
                     WHERE usr.Username = acc_username;
                 END IF;
                 

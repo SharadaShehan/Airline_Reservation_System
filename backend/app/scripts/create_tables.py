@@ -1,5 +1,4 @@
 from app.scripts.db import get_db_connection
-from flask import current_app
 
 
 def drop_all_tables():
@@ -11,8 +10,10 @@ def drop_all_tables():
         tables_list = [
             "booking",
             "booking_set",
+            "staff",
+            "registered_user",
             "user",
-            "category",
+            "user_category",
             "base_price",
             "capacity",
             "class",
@@ -223,6 +224,7 @@ def create_tables():
             FirstName VARCHAR(30) NOT NULL,
             LastName VARCHAR(30) NOT NULL,
             IsAdult BOOLEAN NOT NULL,
+            Passport_ID VARCHAR(15) NOT NULL,
             FOREIGN KEY (Booking_Set) REFERENCES booking_set(Booking_Ref_ID) ON DELETE CASCADE);
         """
         cursor.execute(create_booking_table_query)

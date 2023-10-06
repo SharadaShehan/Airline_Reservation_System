@@ -1,5 +1,5 @@
 from flask import Blueprint
-from app.api.resources.user_api import GetAuthToken, GetUserDetails
+from app.api.resources.user_api import UserGetAuthToken, GetUserDetails
 from app.api.resources.user_update_profile_api import UpdateUser
 from app.api.resources.user_pending_payments_api import UserPendingPayments
 from app.api.resources.create_booking_api import GuestCreateBooking, UserCreateBooking
@@ -46,7 +46,7 @@ api.add_resource(UserCreateBooking, '/booking/create/user')    # POST method to 
 api.add_resource(UpdateUser, '/user/update')    # PATCH method to update user
 api.add_resource(RegisterUser, '/user/register')    # POST method to register user
 api.add_resource(GetUserDetails, '/user/details')   # GET method to get user details
-api.add_resource(GetAuthToken, '/user/auth')    # POST method to get JWT token
+api.add_resource(UserGetAuthToken, '/user/auth')    # POST method to get JWT token
 
 api.add_resource(SearchBookedTickets, '/tickets/guest/search')    # GET method to search bookings
 api.add_resource(CompleteBookingSet, '/booking/complete/<bkset_id>')    # POST method to complete booking

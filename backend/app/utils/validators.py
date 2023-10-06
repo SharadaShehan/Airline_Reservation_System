@@ -8,6 +8,9 @@ username_pattern = r'^[A-Za-z0-9@_]{3,30}$'
 name_pattern = r'^[A-Za-z]{1,30}$'
 location_pattern = r'^[A-Za-z0-9 ]{1,20}$'
 model_name_pattern = r'^[A-Za-z0-9 -]{4,40}$'
+address_pattern = r'^[A-Za-z0-9 -,.]{1,50}$'
+email_pattern = r'^[A-Za-z0-9@.]{1,50}$'
+contact_number_pattern = r'^[0-9+]{8,16}$'
 classes = ['Economy', 'Business', 'Platinum']
 
 
@@ -49,7 +52,21 @@ def validate_search_parameters(from_airport, to_airport, date):
                 return True
     return False
 
-def validate_user_register_data(username, password, firstname, lastname):
+def validate_user_register_data(username, password, firstname, lastname, passportID, address, birthDate, gender, email, contactNumber):
+    if isinstance(username, str) and re.match(username_pattern, username):
+        if isinstance(password, str) and re.match(password_pattern, password):
+            if isinstance(firstname, str) and re.match(name_pattern, firstname):
+                if isinstance(lastname, str) and re.match(name_pattern, lastname):
+                    if isinstance(passportID, str) and len(passportID) <= 15 and passportID.isalnum():
+                        if isinstance(address, str) and re.match(address_pattern, address):
+                            if isinstance(birthDate, str) and re.match(date_pattern, birthDate):
+                                if isinstance(gender, str) and len(gender) <= 15:
+                                    if isinstance(email, str) and re.match(email_pattern, email):
+                                        if isinstance(contactNumber, str) and re.match(contact_number_pattern, contactNumber):
+                                            return True
+    return False
+
+def validate_staff_register_data(username, password, firstname, lastname):
     if isinstance(username, str) and re.match(username_pattern, username):
         if isinstance(password, str) and re.match(password_pattern, password):
             if isinstance(firstname, str) and re.match(name_pattern, firstname):
