@@ -1,5 +1,4 @@
 from app.scripts.db import get_db_connection
-from flask import current_app
 
 
 def drop_all_views():
@@ -124,11 +123,16 @@ def create_views():
                 DATE_FORMAT(shf.Departure_Time, '%H:%i') AS departureTime,
                 cls.Class_Name AS class,
                 bkset.Booking_Ref_ID AS bookingRefID,
-                usr.Username AS bookedUser
+                usr.Username AS bookedUser,
+                bk.Passport_ID AS passportID,
+                CASE
+                    WHEN bkset.Completed = 1 THEN 'Active'
+                    ELSE 'Payment Pending'
+                END AS status
             FROM
                 booking AS bk
                 INNER JOIN booking_set bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
-                LEFT JOIN user AS usr ON bkset.User = usr.Username
+                LEFT JOIN registered_user AS usr ON bkset.User = usr.Username
                 INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                 INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                 INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
@@ -138,7 +142,7 @@ def create_views():
                 INNER JOIN airport AS des ON rut.Destination = des.ICAO_Code
                 INNER JOIN location AS desloc ON desloc.Airport = des.ICAO_Code
             WHERE
-                bkset.Completed = 1 AND DATE(shf.Departure_Time) >= CURDATE()
+                DATE(shf.Departure_Time) >= CURDATE()
             GROUP BY bk.Ticket_Number , desloc.Airport , orgloc.Airport;
         """
         cursor.execute(create_ticket_view_query)
@@ -157,20 +161,21 @@ def create_views():
                 shf.Departure_Time AS departureDateTime,
                 shf.Scheduled_ID AS flightID,
                 cls.Class_Name AS class,
+                bk.Passport_ID AS passportID,
                 bkset.Completed AS isPaymentDone,
                 bkset.Booking_Ref_ID AS bookingRefID,
                 IFNULL(ctg.Category_Name, 'Guest') AS userType
             FROM
                 booking AS bk
                 INNER JOIN booking_set bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
-                LEFT JOIN user AS usr ON bkset.User = usr.Username
+                LEFT JOIN registered_user AS usr ON bkset.User = usr.Username
                 INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                 INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                 INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
                 INNER JOIN route AS rut ON shf.Route = rut.Route_ID
                 INNER JOIN airport AS org ON rut.Origin = org.ICAO_Code
                 INNER JOIN airport AS des ON rut.Destination = des.ICAO_Code
-                LEFT JOIN category AS ctg ON usr.Category = ctg.Category_ID
+                LEFT JOIN user_category AS ctg ON usr.Category = ctg.Category_ID
 			ORDER BY bk.Ticket_Number;
         """
         cursor.execute(create_passenger_view_query)

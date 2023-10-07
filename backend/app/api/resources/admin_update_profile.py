@@ -1,7 +1,7 @@
 from flask import make_response
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_user_update_data_with_password, validate_user_update_data_without_password
+from app.utils.validators import validate_staff_update_data_with_password, validate_staff_update_data_without_password
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -10,15 +10,9 @@ parser.add_argument('firstname', type=str, required=True)
 parser.add_argument('lastname', type=str, required=True)
 parser.add_argument('currentPassword', type=str, required=False)
 parser.add_argument('newPassword', type=str, required=False)
-parser.add_argument('passportID', type=str, required=True)
-parser.add_argument('address', type=str, required=True)
-parser.add_argument('birthDate', type=str, required=True)
-parser.add_argument('gender', type=str, required=True)
-parser.add_argument('email', type=str, required=True)
-parser.add_argument('contactNumber', type=str, required=True)
 
 
-class UpdateUser(Resource):
+class UpdateAdmin(Resource):
     @jwt_required()
     def patch(self):
         try:
@@ -39,18 +33,12 @@ class UpdateUser(Resource):
                 lastname = args['lastname']
                 current_password = args['currentPassword']
                 new_password = args['newPassword']
-                passportID = args['passportID']
-                address = args['address']
-                birthDate = args['birthDate']
-                gender = args['gender']
-                email = args['email']
-                contactNumber = args['contactNumber']
                 
                 # Get current user
                 current_user = get_jwt_identity()
 
                 query = """
-                    SELECT * FROM registered_user WHERE Username = %s
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Admin'
                 """
 
                 # Execute query with username
@@ -62,15 +50,15 @@ class UpdateUser(Resource):
 
                 if current_password is None or new_password is None:
                     # Validate user data
-                    if not validate_user_update_data_without_password(firstname, lastname, passportID, address, birthDate, gender, email, contactNumber):
+                    if not validate_staff_update_data_without_password(firstname, lastname):
                         raise Exception("Invalid user data")
                     
                     # update user
                     cursor.execute(f"UPDATE user SET FirstName = '{firstname}', LastName = '{lastname}' WHERE Username = '{current_user}'")
-                    cursor.execute(f"UPDATE registered_user SET Passport_ID = '{passportID}', Address = '{address}', Birth_Date = '{birthDate}', Gender = '{gender}', Email = '{email}', Contact_Number = '{contactNumber}' WHERE Username = '{current_user}'")
+
                 else:
                     # Validate user data
-                    if not validate_user_update_data_with_password(firstname, lastname, current_password, new_password, passportID, address, birthDate, gender, email, contactNumber):
+                    if not validate_staff_update_data_with_password(firstname, lastname, current_password, new_password):
                         raise Exception("Invalid user data")
                     
                     # Check if current password is correct
@@ -82,9 +70,8 @@ class UpdateUser(Resource):
                         raise Exception("Incorrect password")
                     
                     # update user
-                    hashed_password = generate_password_hash(new_password.strip(), method='scrypt') 
+                    hashed_password = generate_password_hash(new_password.strip(), method='scrypt')
                     cursor.execute(f"UPDATE user SET FirstName = '{firstname}', LastName = '{lastname}', Password = '{hashed_password}' WHERE Username = '{current_user}'")
-                    cursor.execute(f"UPDATE registered_user SET Passport_ID = '{passportID}', Address = '{address}', Birth_Date = '{birthDate}', Gender = '{gender}', Email = '{email}', Contact_Number = '{contactNumber}' WHERE Username = '{current_user}'")
                 
                 connection.commit()
                 connection.close()
@@ -93,7 +80,7 @@ class UpdateUser(Resource):
             
             except Exception as ex:
                 if str(ex) == "403":
-                    return abort(403, message="Unauthorized access to Passenger User API")
+                    return abort(403, message="Unauthorized access to Admin API")
                 return abort(400, message=f"Failed to update user. Error: {ex}.")
         else:
             return abort(500, message="Failed to connect to database")

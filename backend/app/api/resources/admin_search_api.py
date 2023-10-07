@@ -19,10 +19,10 @@ class GetPassengersByNextFlight(Resource):
 
                 # check if user is admin
                 username = get_jwt_identity()
-                cursor.execute(f"SELECT IsAdmin FROM user WHERE Username = '{username}'")
+                cursor.execute(f"SELECT * FROM staff WHERE Username = '{username}' AND Role = 'Admin'")
                 query_result = cursor.fetchone()
-
-                if query_result[0] != 1:
+                
+                if query_result is None or query_result[0] is None:
                     raise Exception("403")
                 
                 from_airport = request.args.get('fromAirport')
@@ -42,7 +42,8 @@ class GetPassengersByNextFlight(Resource):
                         psg.class AS travelClass,
                         psg.isPaymentDone AS isPaymentDone,
                         psg.bookingRefID AS bookingRefID,
-                        psg.userType AS userType
+                        psg.userType AS userType,
+                        psg.passportID AS passportID
                     FROM 
                         passenger as psg
                     WHERE 
@@ -69,7 +70,8 @@ class GetPassengersByNextFlight(Resource):
                         "travelClass": item[4],
                         "isPaymentDone": item[5],
                         "bookingRefID": item[6],
-                        "userType": item[7]
+                        "userType": item[7],
+                        "passportID": item[8]
                     })
 
                 connection.close()
@@ -97,10 +99,10 @@ class GetPassengersByDateDestination(Resource):
 
                 # check if user is admin
                 username = get_jwt_identity()
-                cursor.execute(f"SELECT IsAdmin FROM user WHERE Username = '{username}'")
+                cursor.execute(f"SELECT * FROM staff WHERE Username = '{username}' AND Role = 'Admin'")
                 query_result = cursor.fetchone()
-
-                if query_result[0] != 1:
+                
+                if query_result is None or query_result[0] is None:
                     raise Exception("403")
                 
                 from_date = request.args.get('fromDate')
@@ -150,10 +152,10 @@ class GetBookingCountByDatePassengerType(Resource):
 
                 # check if user is admin
                 username = get_jwt_identity()
-                cursor.execute(f"SELECT IsAdmin FROM user WHERE Username = '{username}'")
+                cursor.execute(f"SELECT * FROM staff WHERE Username = '{username}' AND Role = 'Admin'")
                 query_result = cursor.fetchone()
-
-                if query_result[0] != 1:
+                
+                if query_result is None or query_result[0] is None:
                     raise Exception("403")
                 
                 from_date = request.args.get('fromDate')
@@ -205,10 +207,10 @@ class GetPastFlightsDetails(Resource):
 
                 # check if user is admin
                 username = get_jwt_identity()
-                cursor.execute(f"SELECT IsAdmin FROM user WHERE Username = '{username}'")
+                cursor.execute(f"SELECT * FROM staff WHERE Username = '{username}' AND Role = 'Admin'")
                 query_result = cursor.fetchone()
-
-                if query_result[0] != 1:
+                
+                if query_result is None or query_result[0] is None:
                     raise Exception("403")
                 
                 from_airport = request.args.get('fromAirport')

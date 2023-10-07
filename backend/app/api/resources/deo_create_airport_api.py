@@ -28,12 +28,18 @@ class CreateAirport(Resource):
                 except Exception:
                     raise Exception("Incomplete airport data or invalid JSON object")
                 
-                # check if user is data entry operator
+                # Get current user
                 current_user = get_jwt_identity()
-                cursor.execute(f"SELECT IsDataEntryOperator FROM user WHERE Username = '{current_user}'")
-                is_deo = cursor.fetchone()[0]
 
-                if is_deo != 1:
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
                     raise Exception("403")
                 
                 # Retrieve request data
@@ -65,6 +71,8 @@ class CreateAirport(Resource):
                 
                 return make_response({'message': 'Airport and location records created successfully'}, 201)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only data entry operators can create airport records")
                 return abort(400, message=f"Failed to create airport. Error: {ex}")
         else:
             return abort(500, message="Failed to connect to the database")

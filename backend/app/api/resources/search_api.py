@@ -64,7 +64,6 @@ class SearchFlights(Resource):
         
 
 class SearchBookedTickets(Resource):
-    @jwt_required()
     def get(self):
         try:
             connection = get_db_connection()
@@ -94,7 +93,9 @@ class SearchBookedTickets(Resource):
                         toCity,
                         departureDate,
                         departureTime,
-                        class
+                        class,
+                        passportID,
+                        status
                     from ticket
                     WHERE bookingRefID = '{bookingRefID}';
                 """)
@@ -122,7 +123,9 @@ class SearchBookedTickets(Resource):
                         },
                         "departureDate": item[8],
                         "departureTime": item[9],
-                        "class": item[10]
+                        "class": item[10],
+                        "passportID": item[11],
+                        "status": item[12]
                     })
 
                 connection.close()
@@ -164,7 +167,9 @@ class SearchUserBookedTickets(Resource):
                         toCity,
                         departureDate,
                         departureTime,
-                        class
+                        class,
+                        passportID,
+                        status
                     from ticket
                     WHERE bookedUser = '{Username}';
                 """)
@@ -192,7 +197,9 @@ class SearchUserBookedTickets(Resource):
                         },
                         "departureDate": item[8],
                         "departureTime": item[9],
-                        "class": item[10]
+                        "class": item[10],
+                        "passportID": item[11],
+                        "status": item[12]
                     })
 
                 connection.close()

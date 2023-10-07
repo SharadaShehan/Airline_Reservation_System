@@ -10,7 +10,7 @@ parser.add_argument('username', type=str, required=True)
 parser.add_argument('password', type=str, required=True)
 
 
-class UserGetAuthToken(Resource):
+class DEOGetAuthToken(Resource):
     def post(self):
         try:
             connection = get_db_connection()
@@ -39,20 +39,12 @@ class UserGetAuthToken(Resource):
                         usr.Username, 
                         usr.Password, 
                         usr.FirstName, 
-                        usr.LastName, 
-                        regusr.Passport_ID,
-                        regusr.Address,
-                        ctg.Category_Name,                         
-                        regusr.Birth_Date,
-                        regusr.Gender,
-                        regusr.Email,
-                        regusr.Contact_Number,
-                        regusr.Bookings_Count
+                        usr.LastName,
+                        stf.Role
                     FROM 
-                        registered_user AS regusr
-                        JOIN user_category AS ctg ON regusr.Category = ctg.Category_ID
-                        JOIN user AS usr ON regusr.Username = usr.Username
-                    WHERE regusr.Username = %s
+                        staff AS stf
+                        JOIN user AS usr ON stf.Username = usr.Username
+                    WHERE stf.Username = %s AND stf.Role = 'Data Entry Operator'
                 """
 
                 # Execute query with username
@@ -70,15 +62,7 @@ class UserGetAuthToken(Resource):
                             'userData': {
                                 'username': items[0],
                                 'firstName': items[2],
-                                'lastName': items[3],
-                                'passportId': items[4],
-                                'address': items[5],
-                                'category': items[6],
-                                'birthDate': items[7],
-                                'gender': items[8],
-                                'email': items[9],
-                                'contactNumber': items[10],
-                                'bookingsCount': items[11]
+                                'lastName': items[3]
                             }
                         }
                         return make_response(response_data, 200)
@@ -91,7 +75,7 @@ class UserGetAuthToken(Resource):
             return abort(500, message="Failed to connect to database")
 
 
-class GetUserDetails(Resource):
+class GetDEODetails(Resource):
     @jwt_required()     # check if user is jwt authenticated
     def get(self):
         try:
@@ -107,22 +91,14 @@ class GetUserDetails(Resource):
                 # SQL query to get user details
                 query = """
                     SELECT 
-                        usr.Username,
+                        usr.Username, 
                         usr.FirstName, 
-                        usr.LastName, 
-                        regusr.Passport_ID,
-                        regusr.Address,
-                        ctg.Category_Name,                         
-                        regusr.Birth_Date,
-                        regusr.Gender,
-                        regusr.Email,
-                        regusr.Contact_Number,
-                        regusr.Bookings_Count
+                        usr.LastName,
+                        stf.Role
                     FROM 
-                        registered_user AS regusr
-                        JOIN user_category AS ctg ON regusr.Category = ctg.Category_ID
-                        JOIN user AS usr ON regusr.Username = usr.Username
-                    WHERE regusr.Username = %s
+                        staff AS stf
+                        JOIN user AS usr ON stf.Username = usr.Username
+                    WHERE stf.Username = %s AND stf.Role = 'Data Entry Operator'
                 """
 
                 # Execute query with username
@@ -131,20 +107,12 @@ class GetUserDetails(Resource):
                 connection.close()
 
                 if items is None:
-                    return abort(403, message="Unauthorized access to user account")
+                    return abort(403, message="Unauthorized access to Data Entry Operator account")
                 else:
                     response = {
                         'username': items[0],
                         'firstName': items[1],
-                        'lastName': items[2],
-                        'passportId': items[3],
-                        'address': items[4],
-                        'category': items[5],
-                        'birthDate': items[6],
-                        'gender': items[7],
-                        'email': items[8],
-                        'contactNumber': items[9],
-                        'bookingsCount': items[10]
+                        'lastName': items[2]
                     }
                 return make_response(response, 200)
             

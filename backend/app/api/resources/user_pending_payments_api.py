@@ -27,7 +27,8 @@ class UserPendingPayments(Resource):
                         bk.Seat_Number AS seat,
                         bk.FirstName AS firstName,
                         bk.LastName AS lastName,
-                        bk.IsAdult AS isAdult
+                        bk.IsAdult AS isAdult,
+                        bk.Passport_ID AS passportID
                     FROM
                         booking as bk
                         INNER JOIN booking_set as bkset on bk.Booking_Set = bkset.Booking_Ref_ID
@@ -50,7 +51,8 @@ class UserPendingPayments(Resource):
                                 'seatNumber': row[4],
                                 'firstName': row[5],
                                 'lastName': row[6],
-                                'isAdult': row[7]
+                                'isAdult': row[7],
+                                'passportID': row[8]
                             })
                             break
                     else:
@@ -63,7 +65,8 @@ class UserPendingPayments(Resource):
                                 'seatNumber': row[4],
                                 'firstName': row[5],
                                 'lastName': row[6],
-                                'isAdult': row[7]
+                                'isAdult': row[7],
+                                'passportID': row[8]
                             }]
                         })
                 return make_response(response, 200)

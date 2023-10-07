@@ -186,13 +186,13 @@ def populate_base_price_table():
         connection.commit()
         connection.close()
 
-def populate_category_table():
+def populate_user_category_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_category_query = """INSERT INTO category (Category_Name, Min_Bookings, Discount) VALUES"""
-        # Read data from csv file and insert into Category table
-        with open('app/scripts/data/Category.csv', 'r') as file:       # use specific path to csv file
+        insert_category_query = """INSERT INTO user_category (Category_Name, Min_Bookings, Discount) VALUES"""
+        # Read data from csv file and insert into User Category table
+        with open('app/scripts/data/User_Category.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
             # Skip the header row
             header_row = next(csv_reader)
@@ -209,7 +209,7 @@ def populate_user_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_user_query = """INSERT INTO user (Username, Password, FirstName, LastName, IsAdmin, IsDataEntryOperator) VALUES"""
+        insert_user_query = """INSERT INTO user (Username, Password, FirstName, LastName) VALUES"""
         # Read data from csv file and insert into User table
         with open('app/scripts/data/User.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -217,8 +217,46 @@ def populate_user_table():
             header_row = next(csv_reader)
             for row in csv_reader:
                 # Get attributes for each record from comma separated row
-                username, hashed_password, first_name, last_name, is_admin, is_DEO = row
-                insert_user_query += f"({username}, {hashed_password}, {first_name}, {last_name}, {is_admin}, {is_DEO}),"
+                username, hashed_password, first_name, last_name = row
+                insert_user_query += f"({username}, {hashed_password}, {first_name}, {last_name}),"
+            insert_user_query = insert_user_query[:-1] + ';'      # remove last comma and add semicolon
+        cursor.execute(insert_user_query)
+        connection.commit()
+        connection.close()
+
+def populate_registered_user_table():
+    connection = get_db_connection()
+    if connection:
+        cursor = connection.cursor()
+        insert_user_query = """INSERT INTO registered_user (Username, Passport_ID, Address, Birth_Date, Gender, Email, Contact_Number) VALUES"""
+        # Read data from csv file and insert into Registered User table
+        with open('app/scripts/data/Registered_User.csv', 'r') as file:       # use specific path to csv file
+            csv_reader = csv.reader(file)
+            # Skip the header row
+            header_row = next(csv_reader)
+            for row in csv_reader:
+                # Get attributes for each record from comma separated row
+                username, passport_id, address, birth_Date, gender, email, contact_number = row
+                insert_user_query += f"({username}, {passport_id}, {address.replace(';',',')}, {birth_Date}, {gender}, {email}, {contact_number}),"
+            insert_user_query = insert_user_query[:-1] + ';'      # remove last comma and add semicolon
+        cursor.execute(insert_user_query)
+        connection.commit()
+        connection.close()
+
+def populate_staff_table():
+    connection = get_db_connection()
+    if connection:
+        cursor = connection.cursor()
+        insert_user_query = """INSERT INTO staff (Username, Role) VALUES"""
+        # Read data from csv file and insert into staff table
+        with open('app/scripts/data/Staff.csv', 'r') as file:       # use specific path to csv file
+            csv_reader = csv.reader(file)
+            # Skip the header row
+            header_row = next(csv_reader)
+            for row in csv_reader:
+                # Get attributes for each record from comma separated row
+                username, role = row
+                insert_user_query += f"({username}, {role}),"
             insert_user_query = insert_user_query[:-1] + ';'      # remove last comma and add semicolon
         cursor.execute(insert_user_query)
         connection.commit()
@@ -253,7 +291,7 @@ def populate_booking_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_booking_query = """INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult) VALUES"""
+        insert_booking_query = """INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) VALUES"""
         # Read data from csv file and insert into Booking table
         with open('app/scripts/data/Booking.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -261,8 +299,8 @@ def populate_booking_table():
             header_row = next(csv_reader)
             for row in csv_reader:
                 # Get attributes for each record from comma separated row
-                booking_set, seat_number, first_name, last_name, is_adult = row
-                insert_booking_query += f"({booking_set}, {seat_number}, {first_name}, {last_name}, {is_adult}),"
+                booking_set, seat_number, first_name, last_name, is_adult, Passport_id = row
+                insert_booking_query += f"({booking_set}, {seat_number}, {first_name}, {last_name}, {is_adult}, {Passport_id}),"
             insert_booking_query = insert_booking_query[:-1] + ';'      # remove last comma and add semicolon
         cursor.execute(insert_booking_query)
         for booking_ref_id in booking_set_list:
@@ -281,8 +319,10 @@ def populate_data():
     populate_class_table()
     populate_capacity_table()
     populate_base_price_table()
-    populate_category_table()
+    populate_user_category_table()
     populate_user_table()
+    populate_registered_user_table()
+    populate_staff_table()
     populate_booking_set_table()
     populate_booking_table()
 
