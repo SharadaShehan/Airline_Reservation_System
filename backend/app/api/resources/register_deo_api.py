@@ -3,6 +3,7 @@ from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_staff_register_data
 from werkzeug.security import generate_password_hash
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 parser = reqparse.RequestParser()
 parser.add_argument('username', type=str, required=True)
@@ -12,6 +13,7 @@ parser.add_argument('lastname', type=str, required=True)
 
 
 class RegisterDEO(Resource):
+    @jwt_required()
     def post(self):
         try:
             connection = get_db_connection()
@@ -26,6 +28,14 @@ class RegisterDEO(Resource):
                     args = parser.parse_args()
                 except Exception:
                     raise Exception("Incomplete user data or invalid JSON object")
+                
+                current_user = get_jwt_identity()
+
+                # Check if current user is admin
+                cursor.execute(f"SELECT * FROM staff WHERE Username = '{current_user}' AND Role = 'Admin'")
+                userfetched = cursor.fetchone()
+                if userfetched is None:
+                    raise Exception("403")
                 
                 username = args['username']
                 password = args['password']
@@ -68,6 +78,8 @@ class RegisterDEO(Resource):
                 return make_response({"message": "User registered successfully"}, 201)
             
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only admins can register data entry operators")
                 return abort(400, message=f"Failed to register user. Error: {ex}.")
         else:
             return abort(500, message="Failed to connect to database")

@@ -143,7 +143,33 @@ def validate_scheduling_data(route, airplane, departure_date, departure_time):
                     return True
     return False
 
-def validate_user_update_data_with_password(firstname, lastname, current_password, new_password):
+def validate_user_update_data_with_password(firstname, lastname, current_password, new_password, passportID, address, birthDate, gender, email, contactNumber):
+    if isinstance(firstname, str) and re.match(name_pattern, firstname):
+        if isinstance(lastname, str) and re.match(name_pattern, lastname):
+            if isinstance(current_password, str) and re.match(password_pattern, current_password):
+                if isinstance(new_password, str) and re.match(password_pattern, new_password):
+                    if isinstance(passportID, str) and len(passportID) <= 15 and passportID.isalnum():
+                        if isinstance(address, str) and re.match(address_pattern, address):
+                            if isinstance(birthDate, str) and re.match(date_pattern, birthDate):
+                                if isinstance(gender, str) and len(gender) <= 15:
+                                    if isinstance(email, str) and re.match(email_pattern, email):
+                                        if isinstance(contactNumber, str) and re.match(contact_number_pattern, contactNumber):
+                                            return True
+    return False
+
+def validate_user_update_data_without_password(firstname, lastname, passportID, address, birthDate, gender, email, contactNumber):
+    if isinstance(firstname, str) and re.match(name_pattern, firstname):
+        if isinstance(lastname, str) and re.match(name_pattern, lastname):
+            if isinstance(passportID, str) and len(passportID) <= 15 and passportID.isalnum():
+                if isinstance(address, str) and re.match(address_pattern, address):
+                    if isinstance(birthDate, str) and re.match(date_pattern, birthDate):
+                        if isinstance(gender, str) and len(gender) <= 15:
+                            if isinstance(email, str) and re.match(email_pattern, email):
+                                if isinstance(contactNumber, str) and re.match(contact_number_pattern, contactNumber):
+                                    return True
+    return False
+
+def validate_staff_update_data_with_password(firstname, lastname, current_password, new_password):
     if isinstance(firstname, str) and re.match(name_pattern, firstname):
         if isinstance(lastname, str) and re.match(name_pattern, lastname):
             if isinstance(current_password, str) and re.match(password_pattern, current_password):
@@ -151,7 +177,7 @@ def validate_user_update_data_with_password(firstname, lastname, current_passwor
                     return True
     return False
 
-def validate_user_update_data_without_password(firstname, lastname):
+def validate_staff_update_data_without_password(firstname, lastname):
     if isinstance(firstname, str) and re.match(name_pattern, firstname):
         if isinstance(lastname, str) and re.match(name_pattern, lastname):
             return True
