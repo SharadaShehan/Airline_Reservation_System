@@ -27,12 +27,18 @@ class CreateModel(Resource):
                 except Exception:
                     raise Exception("Incomplete model data or invalid JSON object")
                 
-                # check if user is data entry operator
+                # Get current user
                 current_user = get_jwt_identity()
-                cursor.execute(f"SELECT IsDataEntryOperator FROM user WHERE Username = '{current_user}'")
-                is_deo = cursor.fetchone()[0]
 
-                if is_deo != 1:
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
                     raise Exception("403")
                 
                 model_name = request_data['name']

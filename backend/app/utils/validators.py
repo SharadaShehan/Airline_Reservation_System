@@ -35,6 +35,8 @@ def validate_booking_data(flightID, travelClass, passengers):
                         return False
                     if not isinstance(passenger['isAdult'], int) or passenger['isAdult'] not in (0, 1):
                         return False
+                    if not isinstance(passenger['passportID'], str) or not passenger['passportID'].isalnum():
+                        return False
                 return True
     return False
 

@@ -44,7 +44,6 @@ class UpdateAdmin(Resource):
                 # Execute query with username
                 cursor.execute(query,(current_user,))
                 items = cursor.fetchone()
-                connection.close()
 
                 if items is None:
                     raise Exception("403")

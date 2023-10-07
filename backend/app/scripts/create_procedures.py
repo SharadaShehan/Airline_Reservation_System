@@ -247,7 +247,7 @@ def create_procedures():
                             OR ( flt.departureDateAndTime < lower_bound AND flt.arrivalDateAndTime > upper_bound )
                             OR ( flt.departureDateAndTime < lower_bound AND flt.arrivalDateAndTime > lower_bound )
                             OR ( flt.departureDateAndTime < upper_bound AND flt.arrivalDateAndTime > upper_bound );
-                        
+
                         IF scheduled_count > 0 THEN
                             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Airplane has scheduled flights at this time';
                         END IF;

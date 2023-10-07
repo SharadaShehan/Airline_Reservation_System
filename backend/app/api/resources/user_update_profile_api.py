@@ -56,7 +56,6 @@ class UpdateUser(Resource):
                 # Execute query with username
                 cursor.execute(query,(current_user,))
                 items = cursor.fetchone()
-                connection.close()
 
                 if items is None:
                     raise Exception("403")
@@ -69,7 +68,6 @@ class UpdateUser(Resource):
                     # update user
                     cursor.execute(f"UPDATE user SET FirstName = '{firstname}', LastName = '{lastname}' WHERE Username = '{current_user}'")
                     cursor.execute(f"UPDATE registered_user SET Passport_ID = '{passportID}', Address = '{address}', Birth_Date = '{birthDate}', Gender = '{gender}', Email = '{email}', Contact_Number = '{contactNumber}' WHERE Username = '{current_user}'")
-
                 else:
                     # Validate user data
                     if not validate_user_update_data_with_password(firstname, lastname, current_password, new_password, passportID, address, birthDate, gender, email, contactNumber):

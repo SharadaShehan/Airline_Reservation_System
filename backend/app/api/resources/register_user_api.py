@@ -47,13 +47,13 @@ class RegisterUser(Resource):
                 # Validate user data
                 if not validate_user_register_data(username, password, firstname, lastname, passportID, address, birthDate, gender, email, contactNumber):
                     raise Exception("Invalid user data")
-                
+
                 # Check if username already exists
                 cursor.execute(f"SELECT * FROM user WHERE Username = '{username}'")
                 userfetched = cursor.fetchone()
                 if userfetched is not None:
                     raise Exception("Username already exists")
-                
+
                 # Check if username is NULL
                 if username == 'NULL':
                     raise Exception("Username cannot be NULL")

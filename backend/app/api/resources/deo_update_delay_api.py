@@ -30,12 +30,18 @@ class DEOupdateDelay(Resource):
                 scheduledFlightID = request_data['scheduledFlightID']
                 delayMinutes = request_data['delayMinutes']
 
-                username = get_jwt_identity()
-                cursor.execute(f"SELECT IsDataEntryOperator FROM user WHERE Username = '{username}'")
-                query_result = cursor.fetchone()
+                # Get current user
+                current_user = get_jwt_identity()
 
-                # Check if user is a data entry operator
-                if query_result[0] != 1:  # Check if query_result is None
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
                     raise Exception("403")
                 
                 # Validate data

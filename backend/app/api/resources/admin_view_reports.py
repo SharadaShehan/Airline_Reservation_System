@@ -18,10 +18,10 @@ class GetRevenueByModel(Resource):
 
                 # check if user is admin
                 username = get_jwt_identity()
-                cursor.execute(f"SELECT IsAdmin FROM user WHERE Username = '{username}'")
+                cursor.execute(f"SELECT * FROM staff WHERE Username = '{username}' AND Role = 'Admin'")
                 query_result = cursor.fetchone()
                 
-                if query_result[0] != 1:
+                if query_result is None or query_result[0] is None:
                     raise Exception("403")
                 
                 # Get revenue by model
