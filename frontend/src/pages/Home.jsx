@@ -37,136 +37,107 @@ function HomePage() {
     <div className="home-page">
       <div className="overlap-wrapper">
         <div className="overlap">
-          <img className="istockphoto" alt="Istockphoto" src={istockpng} />
-          <div className="rectangle" />
-          <img className="img" alt="Rectangle" src={rectangle2} />
-          <div className="text-wrapper">Enhance Your Experience</div>
-          <p className="welcome-to-a-world">
-            Welcome to a world where your travel dreams take flight, and every
-            journey becomes an unforgettable adventure. At our airline, we go
-            beyond expectations to craft an experience that resonates with
-            luxury, comfort, and seamless service. From the moment you step on
-            board, immerse yourself in a realm of unparalleled hospitality and
-            sophistication.Discover a new level of comfort in our meticulously
-            designed cabins, where plush seats cocoon you in relaxation. Our
-            in-flight entertainment system offers a diverse selection of movies,
-            music, and games to keep you entertained throughout the journey.
-            Indulge your senses in our gourmet cuisine, curated by world-class
-            chefs, showcasing flavors from around the globe.
-            <br />
-            <br />
-            In our commitment to personalized service, our attentive crew
-            anticipates your needs, ensuring your every request is met with a
-            smile. Experience the freedom of choice with our flexible booking
-            options, allowing you to tailor your travel plans according to your
-            preferences. Elevating your journey is not just our promise;
-            it&#39;s our passion. With priority boarding, extra legroom, and
-            exclusive access to luxurious airport lounges, your travels become
-            seamless and indulgent. We believe in creating more than just
-            flights; we create cherished memories.
-            <br />
-            <br />
-            Join us and let your travel aspirations soar. Whether you&#39;re
-            embarking on a business trip or a leisurely escape, our airline is
-            your gateway to a world where every moment is crafted with care, and
-            every flight is a celebration of your journey. Come aboard and let
-            us enhance your experience, making your travel dreams a reality
-          </p>
-          <div className="group">
-            <div className="overlap-group">
-              <div className="overlap-group-wrapper">
-                <div className="div">
-                  <div className="rectangle-2" />
-                  <div className="rectangle-3" />
-                  <div className="rectangle-4" />
-                  <div className="rectangle-5" />
-                  <div className="rectangle-6" />
-                  <div className="rectangle-7" />
-                  <div className="rectangle-8" />
-                </div>
-              </div>
-              <div className="group-wrapper">
-                <div className="div-wrapper">
-                  <div className="overlap-group-2">
-                    <img
-                      className="rectangle-9"
-                      alt="Rectangle"
-                      src={rectangle148}
-                    />
-                    <img
-                      className="rectangle-10"
-                      alt="Rectangle"
-                      src={rectangle150}
-                    />
-                    <div className="rectangle-11" />
-                    <div className="rectangle-12" />
-                    <div className="rectangle-13" />
-                    <div className="rectangle-14" />
-                    <div className="rectangle-15" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="rectangle-18" />
+          <img
+            className="home-background"
+            alt="Rectangle"
+            src={require("../images/HomeBackground.png")}
+          />
           <div className="group-4">
-            <div className="overlap-6">
               <p className="text-wrapper-9">Beyond Horizons</p>
               <p className="text-wrapper-10">Beyond Limits</p>
-            </div>
+              <button onClick={handleSearchClick} className="search-flight">
+                Search Flights Now !
+              </button>
           </div>
-          <div className="group-5">
-            <div className="overlap-7">
-              <div className="text-wrapper-11">Transportation</div>
-              <img className="rectangle-19" alt="Rectangle" src={rectangle91} />
-              <p className="text-wrapper-12">
-                Our airline promises seamless transportation, ensuring you reach
-                your destination swiftly and comfortably. With a fleet of modern
-                aircraft, punctual schedules, and efficient ground services, we
-                prioritize your convenience, making your journey as smooth as
-                possible, from takeoff to touchdown.
-              </p>
+          <div className="group-desc">
+            <div className="group-row">
+              <div className="group-5">
+                <div className="overlap-7">
+                  <img className="service-img" alt="Rectangle" src={rectangle91} />
+                  <div className="text-wrapper-11">Transportation</div>
+                  <p className="text-wrapper-12">
+                    Our airline promises seamless transportation, ensuring you reach
+                    your destination swiftly and comfortably. With a fleet of modern
+                    aircraft, punctual schedules, and efficient ground services, we
+                    prioritize your convenience, making your journey as smooth as
+                    possible, from takeoff to touchdown.
+                  </p>
+                </div>
+              </div>
+              <div className="group-5">
+                <div className="overlap-7">
+                  <img className="service-img" alt="Rectangle" src={rectangle94} />
+                  <div className="text-wrapper-11">Baggage Handling</div>
+                  <p className="text-wrapper-12">
+                    Rest easy with our meticulous baggage handling services. Your
+                    belongings are our responsibility, treated with utmost care from
+                    check-in to delivery. Our advanced tracking systems guarantee
+                    your luggage arrives promptly and intact, allowing you to focus
+                    on your travel adventures without worry.
+                  </p>
+                </div>
+              </div>
+              <div className="group-5">
+                <div className="overlap-7">
+                  <img className="service-img" alt="Rectangle" src={rectangle92} />
+                  <div className="text-wrapper-11">Customer Service</div>
+                  <p className="text-wrapper-12">
+                    At our airline, customer service is our pride. Our dedicated
+                    team is available around the clock, ready to assist you with a
+                    warm smile. Expect personalized attention, quick resolutions,
+                    and a commitment to making your experience with us truly
+                    exceptional.
+                  </p>
+                </div>
+              </div>
+              <div className="group-5">
+                <div className="overlap-7">
+                  <img className="service-img" alt="Rectangle" src={rectangle93} />
+                  <div className="text-wrapper-11">In-Flight Service</div>
+                  <p className="text-wrapper-12">
+                    Prepare for a world-class in-flight experience. From delectable
+                    cuisine crafted by renowned chefs to an array of entertainment
+                    options catering to all tastes, our attentive crew ensures your
+                    journey is not just comfortable but truly enjoyable. Sit back,
+                    relax, and let us pamper you in the skies.
+                  </p>
+                </div>
+              </div>
             </div>
+            <div className="text-wrapper-90">Enhance Your Experience</div>
+            <p className="welcome-to-a-world">
+              Welcome to a world where your travel dreams take flight, and every
+              journey becomes an unforgettable adventure. At our airline, we go
+              beyond expectations to craft an experience that resonates with
+              luxury, comfort, and seamless service. From the moment you step on
+              board, immerse yourself in a realm of unparalleled hospitality and
+              sophistication.Discover a new level of comfort in our meticulously
+              designed cabins, where plush seats cocoon you in relaxation. Our
+              in-flight entertainment system offers a diverse selection of movies,
+              music, and games to keep you entertained throughout the journey.
+              Indulge your senses in our gourmet cuisine, curated by world-class
+              chefs, showcasing flavors from around the globe.
+              <br />
+              <br />
+              In our commitment to personalized service, our attentive crew
+              anticipates your needs, ensuring your every request is met with a
+              smile. Experience the freedom of choice with our flexible booking
+              options, allowing you to tailor your travel plans according to your
+              preferences. Elevating your journey is not just our promise;
+              it&#39;s our passion. With priority boarding, extra legroom, and
+              exclusive access to luxurious airport lounges, your travels become
+              seamless and indulgent. We believe in creating more than just
+              flights; we create cherished memories.
+              <br />
+              <br />
+              Join us and let your travel aspirations soar. Whether you&#39;re
+              embarking on a business trip or a leisurely escape, our airline is
+              your gateway to a world where every moment is crafted with care, and
+              every flight is a celebration of your journey. Come aboard and let
+              us enhance your experience, making your travel dreams a reality
+            </p>
           </div>
-          <div className="group-8">
-            <div className="overlap-7">
-              <img className="rectangle-20" alt="Rectangle" src={rectangle92} />
-              <p className="text-wrapper-15">
-                At our airline, customer service is our pride. Our dedicated
-                team is available around the clock, ready to assist you with a
-                warm smile. Expect personalized attention, quick resolutions,
-                and a commitment to making your experience with us truly
-                exceptional.
-              </p>
-              <div className="text-wrapper-16">Customer Service</div>
-            </div>
-          </div>
-          <div className="group-7">
-            <div className="overlap-7">
-              <div className="text-wrapper-34">In-Flight Service</div>
-              <img className="rectangle-20" alt="Rectangle" src={rectangle93} />
-              <p className="text-wrapper-14">
-                Prepare for a world-class in-flight experience. From delectable
-                cuisine crafted by renowned chefs to an array of entertainment
-                options catering to all tastes, our attentive crew ensures your
-                journey is not just comfortable but truly enjoyable. Sit back,
-                relax, and let us pamper you in the skies.
-              </p>
-            </div>
-          </div>
-          <div className="group-6">
-            <div className="overlap-7">
-              <div className="text-wrapper-35">Baggage Handling</div>
-              <img className="rectangle-20" alt="Rectangle" src={rectangle94} />
-              <p className="text-wrapper-13">
-                Rest easy with our meticulous baggage handling services. Your
-                belongings are our responsibility, treated with utmost care from
-                check-in to delivery. Our advanced tracking systems guarantee
-                your luggage arrives promptly and intact, allowing you to focus
-                on your travel adventures without worry.
-              </p>
-            </div>
-          </div>
+          
           <img className="pexels-aleksey" alt="Pexels aleksey" src={pexels} />
           <div className="rectangle-21" />
           <div className="group-9">
@@ -349,9 +320,7 @@ function HomePage() {
               </div>
             </div>
           </div>
-          <button onClick={handleSearchClick} className="search-flight">
-            Search Flights Now !
-          </button>
+          
         </div>
       </div>
     </div>
