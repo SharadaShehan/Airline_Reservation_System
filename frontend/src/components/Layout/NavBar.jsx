@@ -17,12 +17,6 @@ export default function NavBar() {
           <Link to="/home" style={{ textDecoration: "none" }}>
             Home
           </Link>
-          <Link to="/login" style={{ textDecoration: "none" }}>
-            Login
-          </Link>
-          <Link to="/profile" style={{ textDecoration: "none" }}>
-            Profile
-          </Link>
           <Link to="/book-flights" style={{ textDecoration: "none" }}>
             Book Flights
           </Link>

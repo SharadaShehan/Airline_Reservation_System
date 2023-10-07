@@ -1,5 +1,7 @@
 .footer-box {
   position: relative;
+  /* bottom: 0; */
+  width: 100%;
 }
 
 .footer-dev {
@@ -11,11 +13,14 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  bottom: 0;
 }
 
 img {
   max-width: 100%;
+  /* height: 17vw; */
   height: auto;
+  transform: scaleY(1.15)
 }
 
 .contact,
@@ -32,48 +37,49 @@ img {
 
 .contact {
   top: 55%;
-  transform: translateY(-50%);
+  transform: translateY(20%);
 }
 
 .aboutus {
   top: 68%;
-  transform: translateY(-50%);
+  transform: translateY(20%);
 }
 
 .uom {
-  bottom: 4%;
-  font-size: 13px;
-  transform: translateY(50%);
+  bottom: 0;
+  font-size: 0.8em;
+  transform: translateY(100%);
   order: 3;
 }
 
 .icon {
   align-items: center;
   display: flex;
-  gap: 30px;
+  gap: 1.4vw;
   height: 20px;
   position: absolute;
-  width: 109px;
+  width: 7.1vw;
   order: 2;
-  top: 78%;
+  bottom: 0;
+  transform: translateY(-80%);
 }
 
 .twitter {
-  height: 14px;
+  height: 1.2vw;
   position: relative;
-  width: 18px;
+  width: 1.4vw;
 }
 
 .linked-in {
-  height: 16px;
+  height: 1.2vw;
   position: relative;
-  width: 16px;
+  width: 1.4vw;
 }
 
 .fb {
-  height: 15px;
+  height: 1.1vw;
   position: relative;
-  width: 11px;
+  width: 1.3vw;
 }
 
 @media only screen and (max-width: 768px) {
@@ -99,3 +105,4 @@ img {
     top: 60%;
   }
 }
+

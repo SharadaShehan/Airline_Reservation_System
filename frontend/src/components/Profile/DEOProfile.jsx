@@ -5,6 +5,7 @@ import DEOAddAirport from "./DEOAddAirport";
 import DEOAddRoute from "./DEOAddRoute";
 import DEOScheduleFlight from "./DEOScheduleFlight";
 import "./scrollMenu.css";
+import "./deoProfile.css"
 
 
 export default function DEOProfile ({userData}) {
@@ -16,15 +17,21 @@ export default function DEOProfile ({userData}) {
 
     return (
         <div className="wrapper">
-            <div className="horizontal-scroll-menu">
-                <ul className="menu-list">
-                    <li className={`menu-item${deoMenuItem==="profile-details" ? "-active" : ""}`} onClick={() => changeMenuItem("profile-details")}>Profile Details</li>
-                    <li className={`menu-item${deoMenuItem==="schedule-flight" ? "-active" : ""}`} onClick={() => changeMenuItem("schedule-flight")}>Schedule Flight</li>
-                    <li className={`menu-item${deoMenuItem==="add-route" ? "-active" : ""}`} onClick={() => changeMenuItem("add-route")}>Add Route</li>
-                    <li className={`menu-item${deoMenuItem==="add-airport" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airport")}>Add Airport</li>
-                </ul>
+            <img 
+                className="background-image" 
+                alt="Rectangle" 
+                src={require("../../images/DEOBackImage.jpg")} />
+            <div className="deo-container">
+                <div className="horizontal-scroll-menu">
+                    <ul className="menu-list">
+                        <li className={`menu-item${deoMenuItem==="profile-details" ? "-active" : ""}`} onClick={() => changeMenuItem("profile-details")}>Profile Details</li>
+                        <li className={`menu-item${deoMenuItem==="schedule-flight" ? "-active" : ""}`} onClick={() => changeMenuItem("schedule-flight")}>Schedule Flight</li>
+                        <li className={`menu-item${deoMenuItem==="add-route" ? "-active" : ""}`} onClick={() => changeMenuItem("add-route")}>Add Route</li>
+                        <li className={`menu-item${deoMenuItem==="add-airport" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airport")}>Add Airport</li>
+                    </ul>
+                </div>
+                {renderPage()}
             </div>
-            {renderPage()}
         </div>
     );
 

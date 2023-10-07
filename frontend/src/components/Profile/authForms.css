@@ -1,6 +1,6 @@
 
 .formWrapper {
-    background-color: rgb(123, 185, 255);
+    background-color: rgba(0, 0, 0, 0);
     padding-top: 2em;
     padding-bottom: 2em;
 }
@@ -11,9 +11,9 @@
     padding: 2em 0;
     display: flex;
     flex-direction: column;
-    width:60%;
-    transform: translateX(30%);
-    background-color: #aeddff;
+    width: 50vw;
+    /* transform: translateX(30%); */
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 2.5em;
     box-shadow: 0 0 0.4em 0 #000;
 }
@@ -22,7 +22,7 @@
     font-size: 2.5em;
     text-align: center;
     margin-bottom: 1em;
-    color: #000;
+    color: #fff;
 }
 
 .formField {
@@ -84,7 +84,7 @@
 .swap {
     font-size: 1.2em;
     margin-top: 0.4em;
-    color: #000;
+    color: #fff;
 }
 
 .swapBtn {
