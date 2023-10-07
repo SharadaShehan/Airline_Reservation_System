@@ -1,0 +1,130 @@
+.group163 {
+  width: 1305px;
+  height: 434px;
+  position: relative;
+}
+
+.rectangle77 {
+  width: 597px;
+  height: 285px;
+  left: 43px;
+  top: 103px;
+  position: absolute;
+  opacity: 0.5;
+  background: #1a354e;
+}
+
+.administratorProfile {
+  width: 475.43px;
+  height: 22.54px;
+  left: 117px;
+  top: 136px;
+  position: absolute;
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  font-family: "Bruno Ace", sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+
+.details {
+  left: 134px;
+  top: 220px;
+  position: absolute;
+  color: white;
+  font-size: 28px;
+  font-family: "Bruno Ace", sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+
+.rectangle-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #1a354e;
+  width: 387px;
+  height: 545px;
+  opacity: 0.5;
+}
+.search-records {
+  position: absolute;
+  top: 33px;
+  left: 22.89px;
+  font-size: 30px;
+  font-family: "Bruno Ace";
+  color: #fff;
+  display: inline-block;
+  width: 341.23px;
+  height: 39px;
+}
+
+.rectangle-parent1 {
+  top: 95px;
+
+  font-size: 20px;
+}
+
+.rectangle-parent2 {
+  top: 174.41px;
+  font-size: 20px;
+}
+
+.rectangle-parent3 {
+  top: 345px;
+
+  font-size: 18px;
+}
+
+.rectangle-parent4 {
+  top: 257.82px;
+
+  font-size: 18px;
+}
+
+.rectangle-parent5 {
+  top: 433.63px;
+
+  font-size: 20px;
+}
+
+.rectangle-parent1,
+.rectangle-parent2,
+.rectangle-parent3,
+.rectangle-parent4,
+.rectangle-parent5 {
+  position: absolute;
+  left: 75px;
+  width: 237px;
+  height: 51px;
+  text-align: center;
+  border-radius: 42.5px;
+  background-color: #fff;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.rectangle-parent1:hover,
+.rectangle-parent2:hover,
+.rectangle-parent3:hover,
+.rectangle-parent4:hover,
+.rectangle-parent5:hover {
+  background-color: #0047ff;
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+.group-div {
+  position: absolute;
+  top: 237px;
+  left: 930px;
+  width: 387px;
+  height: 545px;
+  text-align: center;
+  font-size: 24px;
+  color: #000;
+  font-family: "Bree Serif";
+}

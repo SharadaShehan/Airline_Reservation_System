@@ -1,6 +1,5 @@
 .horizontal-scroll-menu {
     width: 100%;
-    overflow-x: auto;
     white-space: nowrap;
     border: 1px solid #ccc;
     padding: 10px 0;
