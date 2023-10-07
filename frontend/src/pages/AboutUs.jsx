@@ -6,12 +6,7 @@ export const AboutUsPage = () => {
     <div className="about-us-page">
       <div className="overlap-wrapper">
         <div className="overlap">
-          <img
-            className="img"
-            alt="Rectangle"
-            src="https://c.animaapp.com/wkCqKyaA/img/rectangle-22.png"
-          />
-
+          <img className="img" alt="Rectangle" src={require("../images/AboutUsBackImage.png")} />
           <div className="our-company-box">
             <div className="text-wrapper">Our Company</div>
             <p className="p">
