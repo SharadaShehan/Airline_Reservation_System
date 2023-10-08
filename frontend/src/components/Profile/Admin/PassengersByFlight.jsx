@@ -3,7 +3,11 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import "./passengersByFlight.css";
 
+
 function PassengersByFlight({ setAdminMenuItem }) {
+
+  const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+
   const [airportsList, setAirportsList] = useState([]);
   const [origin, setOrigin] = useState("origin");
   const [destination, setDestination] = useState("destination");
@@ -12,7 +16,7 @@ function PassengersByFlight({ setAdminMenuItem }) {
   useEffect(function () {
     async function getAirportsList() {
       try {
-        const response = await axios.get("http://34.93.16.70/api/get/airports");
+        const response = await axios.get(`${BaseURL}/get/airports`);
         console.log(response.data);
         setAirportsList(response.data);
       } catch (error) {
@@ -27,16 +31,16 @@ function PassengersByFlight({ setAdminMenuItem }) {
   }
 
   async function handleViewClick() {
-    const token = "<access_token>";
+    const token = "<Access-Token>";
 
     console.log(origin, destination);
     console.log(
-      `http://34.93.16.70/api/admin/next-flight/passengers?fromAirport=${origin}&toAirport=${destination}`
+      `${BaseURL}/admin/next-flight/passengers?fromAirport=${origin}&toAirport=${destination}`
     );
 
     try {
       const response = await axios.get(
-        `http://34.93.16.70/api/admin/next-flight/passengers?fromAirport=${origin}&toAirport=${destination}`,
+        `${BaseURL}/admin/next-flight/passengers?fromAirport=${origin}&toAirport=${destination}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,7 +71,7 @@ function PassengersByFlight({ setAdminMenuItem }) {
               value={airport.icaoCode}
               key={airport.icaoCode}
             >
-              {airport.city}
+              {airport.city} ({airport.iataCode})
             </option>
           ))}
         </select>
@@ -85,7 +89,7 @@ function PassengersByFlight({ setAdminMenuItem }) {
               value={airport.icaoCode}
               key={airport.icaoCode}
             >
-              {airport.city}
+              {airport.city} ({airport.iataCode})
             </option>
           ))}
         </select>
