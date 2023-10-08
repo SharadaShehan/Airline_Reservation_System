@@ -1,6 +1,6 @@
 import React from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import AdminProfileDetails from "./AdminProfileDetails";
 import ViewRevenue from "./ViewRevenue";
 import PassengersByFlight from "./PassengersByFlight";
