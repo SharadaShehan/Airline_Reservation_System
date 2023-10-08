@@ -1,20 +1,20 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { useEffect } from "react";
 import AdminProfileDetails from "./AdminProfileDetails";
 import ViewRevenue from "./ViewRevenue";
 import PassengersByFlight from "./PassengersByFlight";
 import PastFlightDetails from "./PastFlightDetails";
 import PassengersByDestination from "./PassengersByDestination";
 import PassengersByType from "./PassengersByType";
-import "../scrollMenu.css";
 import "./adminProfile.css";
 
-export default function DEOProfile({ userData }) {
-  const [adminMenuItem, setAdminMenuItem] = useState("profile-details");
+export default function AdminProfile({ userData }) {
+  const { userMenuItem, setUserMenuItem } = UserMenuGlobalState();
 
-  useEffect(() => {
-    setAdminMenuItem("profile-details");
-  }, [setAdminMenuItem]);
+  // useEffect(() => {
+  //   setUserMenuItem("profile-details");
+  // }, [setUserMenuItem]);
 
   return (
     <div className="wrapper">
@@ -46,23 +46,30 @@ export default function DEOProfile({ userData }) {
   // }
 
   function renderPage() {
-    if (adminMenuItem === "profile-details") {
+    if (userMenuItem === "profile-details") {
       return (
         <AdminProfileDetails
           userData={userData}
-          setAdminMenuItem={setAdminMenuItem}
+          setAdminMenuItem={setUserMenuItem}
         />
       );
-    } else if (adminMenuItem === "view-revenue-by-model") {
-      return <ViewRevenue setAdminMenuItem={setAdminMenuItem} />;
-    } else if (adminMenuItem === "view-passengers-by-flight") {
-      return <PassengersByFlight setAdminMenuItem={setAdminMenuItem} />;
-    } else if (adminMenuItem === "view-passengers-by-date-and-destination") {
-      return <PassengersByDestination setAdminMenuItem={setAdminMenuItem} />;
-    } else if (adminMenuItem === "view-passengers-by-date-and-type") {
-      return <PassengersByType setAdminMenuItem={setAdminMenuItem} />;
-    } else if (adminMenuItem === "view-past-flight-details") {
-      return <PastFlightDetails setAdminMenuItem={setAdminMenuItem} />;
+    } else if (userMenuItem === "view-revenue-by-model") {
+      return <ViewRevenue setAdminMenuItem={setUserMenuItem} />;
+    } else if (userMenuItem === "view-passengers-by-flight") {
+      return <PassengersByFlight setAdminMenuItem={setUserMenuItem} />;
+    } else if (userMenuItem === "view-passengers-by-date-and-destination") {
+      return <PassengersByDestination setAdminMenuItem={setUserMenuItem} />;
+    } else if (userMenuItem === "view-passengers-by-date-and-type") {
+      return <PassengersByType setAdminMenuItem={setUserMenuItem} />;
+    } else if (userMenuItem === "view-past-flight-details") {
+      return <PastFlightDetails setAdminMenuItem={setUserMenuItem} />;
+    } else {
+      return (
+        <AdminProfileDetails
+          userData={userData}
+          setAdminMenuItem={setUserMenuItem}
+        />
+      );
     }
   }
 }
