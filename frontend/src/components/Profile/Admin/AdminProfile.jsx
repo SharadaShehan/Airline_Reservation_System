@@ -1,8 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import AdminProfileDetails from "./AdminProfileDetails";
-import AdminSearchRecords from "./AdminSearchRecords";
-import AdminViewReports from "./AdminViewReports";
 import ViewRevenue from "./ViewRevenue";
 import PassengersByFlight from "./PassengersByFlight";
 import PastFlightDetails from "./PastFlightDetails";
@@ -26,7 +24,7 @@ export default function DEOProfile({ userData }) {
         src={require("../../../images/AdminBackImage.jpg")}
       />
       <div className="admin-container">
-        <div className="horizontal-scroll-menu">
+        {/* <div className="horizontal-scroll-menu">
           <ul className="menu-list">
             <li
               className={`menu-item${
@@ -36,32 +34,16 @@ export default function DEOProfile({ userData }) {
             >
               Profile Details
             </li>
-            <li
-              className={`menu-item${
-                adminMenuItem === "search-records" ? "-active" : ""
-              }`}
-              onClick={() => changeMenuItem("search-records")}
-            >
-              Search Records
-            </li>
-            <li
-              className={`menu-item${
-                adminMenuItem === "view-reports" ? "-active" : ""
-              }`}
-              onClick={() => changeMenuItem("view-reports")}
-            >
-              View Reports
-            </li>
           </ul>
-        </div>
+        </div> */}
         {renderPage()}
       </div>
     </div>
   );
 
-  function changeMenuItem(item) {
-    setAdminMenuItem(item);
-  }
+  // function changeMenuItem(item) {
+  //   setAdminMenuItem(item);
+  // }
 
   function renderPage() {
     if (adminMenuItem === "profile-details") {
@@ -71,20 +53,16 @@ export default function DEOProfile({ userData }) {
           setAdminMenuItem={setAdminMenuItem}
         />
       );
-    } else if (adminMenuItem === "search-records") {
-      return <AdminSearchRecords />;
-    } else if (adminMenuItem === "view-reports") {
-      return <AdminViewReports />;
     } else if (adminMenuItem === "view-revenue-by-model") {
-      return <ViewRevenue />;
+      return <ViewRevenue setAdminMenuItem={setAdminMenuItem} />;
     } else if (adminMenuItem === "view-passengers-by-flight") {
-      return <PassengersByFlight />;
+      return <PassengersByFlight setAdminMenuItem={setAdminMenuItem} />;
     } else if (adminMenuItem === "view-passengers-by-date-and-destination") {
-      return <PassengersByDestination />;
+      return <PassengersByDestination setAdminMenuItem={setAdminMenuItem} />;
     } else if (adminMenuItem === "view-passengers-by-date-and-type") {
-      return <PassengersByType />;
+      return <PassengersByType setAdminMenuItem={setAdminMenuItem} />;
     } else if (adminMenuItem === "view-past-flight-details") {
-      return <PastFlightDetails />;
+      return <PastFlightDetails setAdminMenuItem={setAdminMenuItem} />;
     }
   }
 }

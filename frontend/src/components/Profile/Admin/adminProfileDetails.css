@@ -1,5 +1,13 @@
+.container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .group163 {
-  width: 1305px;
+  width: 1135px;
   height: 434px;
   position: relative;
 }
@@ -119,7 +127,7 @@
 
 .group-div {
   position: absolute;
-  top: 237px;
+  top: 150px;
   left: 930px;
   width: 387px;
   height: 545px;

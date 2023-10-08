@@ -10,9 +10,6 @@
 }
 
 .inner-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 90%;
   height: 100%;
   background: rgb(217, 217, 217, 0.5);
@@ -39,7 +36,7 @@ th {
   font-weight: 500;
 }
 
-.view-revenue {
+.view-by-date-dest {
   color: #fff;
   opacity: 1;
   font-family: "Bruno Ace", Helvetica;
@@ -51,20 +48,69 @@ th {
   margin-bottom: 20px;
 }
 
-.model-selection {
-  width: 320px;
-  height: 60px;
+.selection-box {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.type-selection {
+  margin-left: 53px;
+  margin-right: 112px;
+  width: 230px;
+  height: 51px;
   font-family: "Montserrat";
   font-size: 20px;
   text-align: center;
   border-radius: 42.5px;
   background-color: #fff;
+  margin-bottom: 20px;
 }
 
-.model-option {
+.type-option {
   font-family: "Montserrat";
   font-size: 20px;
   text-align: center;
+}
+
+.date-selection {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 378px;
+  justify-content: center;
+  align-items: center;
+  font-family: "Montserrat";
+  font-size: 20px;
+  text-align: center;
+}
+
+.date-selection input {
+  margin: 0;
+  position: absolute;
+  top: 2px;
+  left: 10px;
+}
+
+.to {
+  margin: 0;
+  font-family: "Montserrat";
+  color: #fff;
+  font-weight: 500;
+  position: absolute;
+  top: 13px;
+  left: -24px;
+}
+
+.from {
+  margin: 0;
+  font-family: "Montserrat";
+  color: #fff;
+  font-weight: 500;
+  position: absolute;
+  top: 12px;
+  left: -53px;
 }
 
 .buttons-div {
