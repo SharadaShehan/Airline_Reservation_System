@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 import "./passengersByFlight.css";
 
 function PassengersByFlight({ setAdminMenuItem }) {
@@ -26,7 +27,7 @@ function PassengersByFlight({ setAdminMenuItem }) {
   }
 
   async function handleViewClick() {
-    const token = "access_token";
+    const token = "<access_token>";
 
     console.log(origin, destination);
     console.log(
@@ -98,19 +99,21 @@ function PassengersByFlight({ setAdminMenuItem }) {
           <table>
             <thead>
               <tr>
-                <th>Date</th>
+                <th>Passport ID</th>
                 <th>Passenger Name</th>
-                <th>Passenger Type</th>
+                <th>Travel Class</th>
                 <th>Seat Number</th>
+                <th>User Category</th>
               </tr>
             </thead>
             <tbody>
               {passengers.map((passenger) => (
-                <tr key={passenger.id}>
-                  <td>{passenger.date}</td>
+                <tr key={uuidv4()}>
+                  <td>{passenger.passportID}</td>
                   <td>{passenger.name}</td>
-                  <td>{passenger.userType}</td>
+                  <td>{passenger.travelClass}</td>
                   <td>{passenger.seatNumber}</td>
+                  <td>{passenger.userType}</td>
                 </tr>
               ))}
             </tbody>
