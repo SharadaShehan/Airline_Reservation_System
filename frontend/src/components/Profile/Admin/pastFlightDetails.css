@@ -15,6 +15,53 @@
   background: rgb(217, 217, 217, 0.5);
   margin-bottom: 10px;
 }
+
+.selection-box {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.model-selection {
+  margin-left: 60px;
+  margin-right: 47px;
+  width: 436px;
+  height: 51px;
+  font-family: "Montserrat";
+  font-size: 20px;
+  text-align: center;
+  border-radius: 42.5px;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.model-option {
+  font-family: "Montserrat";
+  font-size: 20px;
+  text-align: center;
+}
+
+table {
+  width: 90%;
+  /* max-width: 800px; */
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+  font-family: "Montserrat";
+  font-size: 18px;
+  /* border: 1px solid #ddd; */
+}
+
+th {
+  color: #fff;
+  font-weight: 500;
+}
+
 .view-details {
   color: #fff;
   opacity: 1;

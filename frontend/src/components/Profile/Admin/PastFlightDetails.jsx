@@ -1,19 +1,134 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { v4 as uuid4 } from "uuid";
 import "./pastFlightDetails.css";
 
 function PastFlightDetails({ setAdminMenuItem }) {
+  const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+
+  const [origin, setOrigin] = useState("origin");
+  const [destination, setDestination] = useState("destination");
+  const [airportsList, setAirportsList] = useState([]);
+  const [response, setResponse] = useState([]);
+
+  useEffect(
+    function () {
+      async function getAirportsList() {
+        try {
+          const response = await axios.get(`${BaseURL}/get/airports`);
+          console.log(response.data);
+          setAirportsList(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getAirportsList();
+    },
+    [BaseURL]
+  );
+
   function handleBackClick() {
     setAdminMenuItem("profile-details");
   }
 
-  function handleViewClick() {
-    console.log("View past flight details");
+  async function handleViewClick() {
+    const token = "<Access_Token>";
+
+    console.log(
+      `${BaseURL}/admin/past-flights?fromAirport=${origin}&toAirport=${destination}`
+    );
+
+    try {
+      const response = await axios.get(
+        `${BaseURL}/admin/past-flights?fromAirport=${origin}&toAirport=${destination}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setResponse(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
     <div className="outer-box">
       <span className="view-details">View Past Flight Details</span>
-      <div className="inner-box"></div>
+      <div className="selection-box">
+        <select
+          className="model-selection"
+          value={origin}
+          onChange={(e) => setOrigin(e.target.value)}
+        >
+          <option disabled value="origin" className="model-option">
+            Origin
+          </option>
+          {airportsList.map((airport) => (
+            <option
+              className="model-option"
+              value={airport.icaoCode}
+              key={airport.icaoCode}
+            >
+              {airport.city} ({airport.iataCode})
+            </option>
+          ))}
+        </select>
+        <select
+          className="model-selection"
+          value={destination}
+          onChange={(e) => setDestination(e.target.value)}
+        >
+          <option disabled value="destination" className="model-option">
+            Destination
+          </option>
+          {airportsList.map((airport) => (
+            <option
+              className="model-option"
+              value={airport.icaoCode}
+              key={airport.icaoCode}
+            >
+              {airport.city} ({airport.iataCode})
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="inner-box">
+        {response.length ? (
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Airplane Model</th>
+                <th>Arrived At</th>
+                <th>Departed At</th>
+                <th>Passengers Count</th>
+                <th>Status</th>
+                <th>Tail Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              {response.map((item) => (
+                <tr key={uuid4()}>
+                  <td>{item.ID}</td>
+                  <td>{item.airplaneModel}</td>
+                  <td>{item.arrivalDateAndTime}</td>
+                  <td>{item.departureDateAndTime}</td>
+                  <td>{item.passengersCount}</td>
+                  <td>{item.status}</td>
+                  <td>{item.tailNumber}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="no-passengers">
+            Select Origin and Destination Airports and Click View
+          </div>
+        )}
+      </div>
       <div className="buttons-div">
         <button onClick={handleBackClick} className="buttons">
           Back

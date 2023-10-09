@@ -1,13 +1,57 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./passengersByDestination.css";
 
 function PassengersByDestination({ setAdminMenuItem }) {
+  const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+
+  const [airportsList, setAirportsList] = useState([]);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [destination, setDestination] = useState("destination");
+  const [passengersCount, setPassengersCount] = useState({});
+
+  useEffect(
+    function () {
+      async function getAirportsList() {
+        try {
+          const response = await axios.get(`${BaseURL}/get/airports`);
+          console.log(response.data);
+          setAirportsList(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getAirportsList();
+    },
+    [BaseURL]
+  );
+
   function handleBackClick() {
     setAdminMenuItem("profile-details");
   }
 
-  function handleViewClick() {
-    console.log("View Passengers by Date & Destination");
+  async function handleViewClick() {
+    const token = "<Access-Token>";
+    console.log(
+      `${BaseURL}/admin/passengers-to-destination?fromDate=${from}&toDate=${to}&toAirport=${destination}`
+    );
+
+    try {
+      const response = await axios.get(
+        `${BaseURL}/admin/passengers-to-destination?fromDate=${from}&toDate=${to}&toAirport=${destination}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setPassengersCount(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
   return (
     <div className="outer-box">
@@ -16,7 +60,7 @@ function PassengersByDestination({ setAdminMenuItem }) {
       </span>
       <div className="selection-box">
         <div className="date-selection">
-          <label className="from" for="start-date-input">
+          <label className="from" htmlFor="start-date-input">
             From
           </label>
           <input
@@ -26,10 +70,12 @@ function PassengersByDestination({ setAdminMenuItem }) {
             name="start-date"
             min="2023-10-01"
             max="2023-12-31"
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
           />
         </div>
         <div className="date-selection">
-          <label className="to" for="end-date-input">
+          <label className="to" htmlFor="end-date-input">
             To
           </label>
           <input
@@ -39,59 +85,39 @@ function PassengersByDestination({ setAdminMenuItem }) {
             name="end-date"
             min="2023-10-01"
             max="2023-12-31"
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
           />
         </div>
 
-        <select className="model-selection" placeholder="Destination">
-          <option className="model-option" value="destination" selected>
+        <select
+          value={destination}
+          onChange={(e) => setDestination(e.target.value)}
+          className="model-selection"
+          placeholder="Destination"
+        >
+          <option className="model-option" value="destination" disabled>
             Destination
           </option>
-          <option className="model-option" value="model1">
-            Model 1
-          </option>
-          <option className="model-option" value="model2">
-            Model 2
-          </option>
-          <option className="model-option" value="model3">
-            Model 3
-          </option>
-          <option className="model-option" value="model4">
-            Model 4
-          </option>
+          {airportsList.map((airport) => (
+            <option
+              className="model-option"
+              value={airport.icaoCode}
+              key={airport.icaoCode}
+            >
+              {airport.city} ({airport.iataCode})
+            </option>
+          ))}
         </select>
       </div>
       <div className="inner-box">
-        <table>
-          <thead>
-            <tr>
-              <th>Model</th>
-              <th>Flight ID</th>
-              <th>Passenger Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Row 1, Column 1</td>
-              <td>Row 1, Column 2</td>
-              <td>Row 1, Column 3</td>
-            </tr>
-            <tr>
-              <td>Row 2, Column 1</td>
-              <td>Row 2, Column 2</td>
-              <td>Row 2, Column 3</td>
-            </tr>
-            <tr>
-              <td>Row 2, Column 1</td>
-              <td>Row 2, Column 2</td>
-              <td>Row 2, Column 3</td>
-            </tr>
-            <tr>
-              <td>Row 2, Column 1</td>
-              <td>Row 2, Column 2</td>
-              <td>Row 2, Column 3</td>
-            </tr>
-          </tbody>
-        </table>
+        {passengersCount ? (
+          <div className="no-passengers">
+            Select From Date, To Date and Destination Airport and click View
+          </div>
+        ) : (
+          <input disabled type="text" value={passengersCount.passengersCount} />
+        )}
       </div>
       <div className="buttons-div">
         <button onClick={handleBackClick} className="buttons">

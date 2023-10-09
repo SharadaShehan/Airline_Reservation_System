@@ -3,9 +3,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import "./passengersByFlight.css";
 
-
 function PassengersByFlight({ setAdminMenuItem }) {
-
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
   const [airportsList, setAirportsList] = useState([]);
@@ -13,18 +11,21 @@ function PassengersByFlight({ setAdminMenuItem }) {
   const [destination, setDestination] = useState("destination");
   const [passengers, setPassengers] = useState([]);
 
-  useEffect(function () {
-    async function getAirportsList() {
-      try {
-        const response = await axios.get(`${BaseURL}/get/airports`);
-        console.log(response.data);
-        setAirportsList(response.data);
-      } catch (error) {
-        console.log(error);
+  useEffect(
+    function () {
+      async function getAirportsList() {
+        try {
+          const response = await axios.get(`${BaseURL}/get/airports`);
+          console.log(response.data);
+          setAirportsList(response.data);
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
-    getAirportsList();
-  }, []);
+      getAirportsList();
+    },
+    [BaseURL]
+  );
 
   function handleBackClick() {
     setAdminMenuItem("profile-details");

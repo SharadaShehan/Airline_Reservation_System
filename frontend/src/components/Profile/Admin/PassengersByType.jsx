@@ -1,37 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import "./passengersByType.css";
 
 function PassengersByType({ setAdminMenuItem }) {
+  const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+
+  const [to, setTo] = useState("");
+  const [from, setFrom] = useState("");
+
+  const [response, setResponse] = useState([]);
+
   function handleBackClick() {
     setAdminMenuItem("profile-details");
   }
 
-  function handleViewClick() {
-    console.log("View Passenger By Date & Type");
+  async function handleViewClick() {
+    const token = "<Access_Token>";
+
+    console.log(
+      `${BaseURL}/admin/bookings-by-ptype?fromDate=${from}&toDate=${to}`
+    );
+
+    try {
+      const response = await axios.get(
+        `${BaseURL}/admin/bookings-by-ptype?fromDate=${from}&toDate=${to}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setResponse(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
   return (
     <div className="outer-box">
       <span className="view-by-date-dest">View Passenger By Date & Type</span>
       <div className="selection-box">
-        <select className="type-selection" placeholder="Type">
-          <option className="type-option" value="type" selected>
-            Type
-          </option>
-          <option className="type-option" value="type1">
-            Type 1
-          </option>
-          <option className="type-option" value="type2">
-            Type 2
-          </option>
-          <option className="type-option" value="type3">
-            Type 3
-          </option>
-          <option className="type-option" value="type4">
-            Type 4
-          </option>
-        </select>
         <div className="date-selection">
-          <label className="from" for="start-date-input">
+          <label className="from" htmlFor="start-date-input">
             From
           </label>
           <input
@@ -41,10 +51,12 @@ function PassengersByType({ setAdminMenuItem }) {
             name="start-date"
             min="2023-10-01"
             max="2023-12-31"
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
           />
         </div>
         <div className="date-selection">
-          <label className="to" for="end-date-input">
+          <label className="to" htmlFor="end-date-input">
             To
           </label>
           <input
@@ -54,46 +66,34 @@ function PassengersByType({ setAdminMenuItem }) {
             name="end-date"
             min="2023-10-01"
             max="2023-12-31"
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
           />
         </div>
       </div>
       <div className="inner-box">
-        <table>
-          <thead>
-            <tr>
-              <th>Model</th>
-              <th>Origin</th>
-              <th>Destination</th>
-              <th>Passengers Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Row 1, Column 1</td>
-              <td>Row 1, Column 2</td>
-              <td>Row 1, Column 3</td>
-              <td>Row 1, Column 4</td>
-            </tr>
-            <tr>
-              <td>Row 2, Column 1</td>
-              <td>Row 2, Column 2</td>
-              <td>Row 2, Column 3</td>
-              <td>Row 2, Column 4</td>
-            </tr>
-            <tr>
-              <td>Row 2, Column 1</td>
-              <td>Row 2, Column 2</td>
-              <td>Row 2, Column 3</td>
-              <td>Row 2, Column 4</td>
-            </tr>
-            <tr>
-              <td>Row 2, Column 1</td>
-              <td>Row 2, Column 2</td>
-              <td>Row 2, Column 3</td>
-              <td>Row 2, Column 4</td>
-            </tr>
-          </tbody>
-        </table>
+        {response.length ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Passenger Type</th>
+                <th>Bookings Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              {response.map((item) => (
+                <tr key={item.passengerType}>
+                  <td>{item.passengerType}</td>
+                  <td>{item.bookingsCount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="no-passengers">
+            Select From and To dates and click View
+          </div>
+        )}
       </div>
       <div className="buttons-div">
         <button onClick={handleBackClick} className="buttons">
