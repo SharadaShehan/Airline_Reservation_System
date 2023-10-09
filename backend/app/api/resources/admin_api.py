@@ -62,7 +62,8 @@ class AdminGetAuthToken(Resource):
                             'userData': {
                                 'username': items[0],
                                 'firstName': items[2],
-                                'lastName': items[3]
+                                'lastName': items[3],
+                                'role': 'Admin'
                             }
                         }
                         return make_response(response_data, 200)
@@ -112,7 +113,8 @@ class GetAdminDetails(Resource):
                     response = {
                         'username': items[0],
                         'firstName': items[1],
-                        'lastName': items[2]
+                        'lastName': items[2],
+                        'role': 'Admin'
                     }
                 return make_response(response, 200)
             
