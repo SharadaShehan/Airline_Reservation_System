@@ -6,7 +6,78 @@ function ViewRevenue({ setAdminMenuItem }) {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = "<Access_Token>";
 
-  const [modelsList, setModelsList] = useState([]);
+  const [modelsList, setModelsList] = useState([
+    {
+      bookingSetsCount: 30,
+      model: "Boeing 737",
+      revenue: "18400.00",
+    },
+    {
+      bookingSetsCount: 24,
+      model: "Boeing 757",
+      revenue: "22380.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+    {
+      bookingSetsCount: 9,
+      model: "Airbus A380",
+      revenue: "11110.00",
+    },
+  ]);
   const [isView, setIsView] = useState(false);
 
   useEffect(
@@ -44,24 +115,26 @@ function ViewRevenue({ setAdminMenuItem }) {
       <span className="view-revenue">View Revenue By Model</span>
       <div className="inner-box">
         {isView ? (
-          <table>
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>Booking Sets Count</th>
-                <th>Revenue</th>
-              </tr>
-            </thead>
-            <tbody>
-              {modelsList.map((model) => (
-                <tr key={model.model}>
-                  <td>{model.model}</td>
-                  <td>{model.bookingSetsCount}</td>
-                  <td>{model.revenue}</td>
+          <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Booking Sets Count</th>
+                  <th>Revenue</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {modelsList.map((model) => (
+                  <tr key={model.model}>
+                    <td>{model.model}</td>
+                    <td>{model.bookingSetsCount}</td>
+                    <td>{model.revenue}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="no-data">Click view to see the revenue by model</div>
         )}

@@ -9,7 +9,11 @@
   background: rgb(26, 53, 78, 0.5);
 }
 
-.inner-box {
+.inner-box-dest {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   width: 90%;
   height: 100%;
   background: rgb(217, 217, 217, 0.5);
@@ -48,14 +52,41 @@ th {
   margin-bottom: 20px;
 }
 
-.selection-box {
-  width: 90%;
+.selection-box-dest {
+  margin-left: -49px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.model-selection {
+.count-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 247px;
+}
+
+.passengers-count {
+  color: #fff;
+  font-family: "Montserrat";
+  font-size: 20px;
+  text-align: center;
+  font-weight: 400;
+}
+
+.count-input {
+  border-radius: 42.5px;
+  background-color: #fff;
+  width: 158px;
+  height: 41px;
+  font-family: "Montserrat";
+  font-size: 20px;
+  text-align: center;
+  border: none;
+}
+
+.model-selection-dest {
+  margin-top: 22px;
   margin-left: 24px;
   margin-right: 11px;
   width: 314px;
@@ -74,10 +105,10 @@ th {
   text-align: center;
 }
 
-.date-selection {
+.date-selection-dest {
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 378px;
   justify-content: center;
   align-items: center;
@@ -93,24 +124,18 @@ th {
   left: 10px;
 }
 
-.to {
+.to-dest {
   margin: 0;
   font-family: "Montserrat";
   color: #fff;
   font-weight: 500;
-  position: absolute;
-  top: 13px;
-  left: -24px;
 }
 
-.from {
+.from-dest {
   margin: 0;
   font-family: "Montserrat";
   color: #fff;
   font-weight: 500;
-  position: absolute;
-  top: 12px;
-  left: -53px;
 }
 
 .buttons-div {

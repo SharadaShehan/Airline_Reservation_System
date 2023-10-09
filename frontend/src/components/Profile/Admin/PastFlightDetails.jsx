@@ -97,32 +97,34 @@ function PastFlightDetails({ setAdminMenuItem }) {
       </div>
       <div className="inner-box">
         {response.length ? (
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Airplane Model</th>
-                <th>Arrived At</th>
-                <th>Departed At</th>
-                <th>Passengers Count</th>
-                <th>Status</th>
-                <th>Tail Number</th>
-              </tr>
-            </thead>
-            <tbody>
-              {response.map((item) => (
-                <tr key={uuid4()}>
-                  <td>{item.ID}</td>
-                  <td>{item.airplaneModel}</td>
-                  <td>{item.arrivalDateAndTime}</td>
-                  <td>{item.departureDateAndTime}</td>
-                  <td>{item.passengersCount}</td>
-                  <td>{item.status}</td>
-                  <td>{item.tailNumber}</td>
+          <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Airplane Model</th>
+                  <th>Arrived At</th>
+                  <th>Departed At</th>
+                  <th>Passengers Count</th>
+                  <th>Status</th>
+                  <th>Tail Number</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {response.map((item) => (
+                  <tr key={uuid4()}>
+                    <td>{item.ID}</td>
+                    <td>{item.airplaneModel}</td>
+                    <td>{item.arrivalDateAndTime}</td>
+                    <td>{item.departureDateAndTime}</td>
+                    <td>{item.passengersCount}</td>
+                    <td>{item.status}</td>
+                    <td>{item.tailNumber}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="no-passengers">
             Select Origin and Destination Airports and Click View

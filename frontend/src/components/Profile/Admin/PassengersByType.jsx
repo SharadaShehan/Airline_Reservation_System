@@ -73,22 +73,24 @@ function PassengersByType({ setAdminMenuItem }) {
       </div>
       <div className="inner-box">
         {response.length ? (
-          <table>
-            <thead>
-              <tr>
-                <th>Passenger Type</th>
-                <th>Bookings Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              {response.map((item) => (
-                <tr key={item.passengerType}>
-                  <td>{item.passengerType}</td>
-                  <td>{item.bookingsCount}</td>
+          <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Passenger Type</th>
+                  <th>Bookings Count</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {response.map((item) => (
+                  <tr key={item.passengerType}>
+                    <td>{item.passengerType}</td>
+                    <td>{item.bookingsCount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="no-passengers">
             Select From and To dates and click View

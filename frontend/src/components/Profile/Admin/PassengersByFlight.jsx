@@ -101,28 +101,30 @@ function PassengersByFlight({ setAdminMenuItem }) {
             Select Origin and Destination airports
           </div>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Passport ID</th>
-                <th>Passenger Name</th>
-                <th>Travel Class</th>
-                <th>Seat Number</th>
-                <th>User Category</th>
-              </tr>
-            </thead>
-            <tbody>
-              {passengers.map((passenger) => (
-                <tr key={uuidv4()}>
-                  <td>{passenger.passportID}</td>
-                  <td>{passenger.name}</td>
-                  <td>{passenger.travelClass}</td>
-                  <td>{passenger.seatNumber}</td>
-                  <td>{passenger.userType}</td>
+          <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Passport ID</th>
+                  <th>Passenger Name</th>
+                  <th>Travel Class</th>
+                  <th>Seat Number</th>
+                  <th>User Category</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {passengers.map((passenger) => (
+                  <tr key={uuidv4()}>
+                    <td>{passenger.passportID}</td>
+                    <td>{passenger.name}</td>
+                    <td>{passenger.travelClass}</td>
+                    <td>{passenger.seatNumber}</td>
+                    <td>{passenger.userType}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
       <div className="buttons-div">

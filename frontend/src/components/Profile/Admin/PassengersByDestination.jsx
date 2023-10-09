@@ -58,66 +58,76 @@ function PassengersByDestination({ setAdminMenuItem }) {
       <span className="view-by-date-dest">
         View Passengers by Date & Destination
       </span>
-      <div className="selection-box">
-        <div className="date-selection">
-          <label className="from" htmlFor="start-date-input">
-            From
-          </label>
-          <input
-            id="start-date-input"
-            className="model-selection"
-            type="date"
-            name="start-date"
-            min="2023-10-01"
-            max="2023-12-31"
-            value={from}
-            onChange={(e) => setFrom(e.target.value)}
-          />
-        </div>
-        <div className="date-selection">
-          <label className="to" htmlFor="end-date-input">
-            To
-          </label>
-          <input
-            id="end-date-input"
-            className="model-selection"
-            type="date"
-            name="end-date"
-            min="2023-10-01"
-            max="2023-12-31"
-            value={to}
-            onChange={(e) => setTo(e.target.value)}
-          />
-        </div>
 
-        <select
-          value={destination}
-          onChange={(e) => setDestination(e.target.value)}
-          className="model-selection"
-          placeholder="Destination"
-        >
-          <option className="model-option" value="destination" disabled>
-            Destination
-          </option>
-          {airportsList.map((airport) => (
-            <option
-              className="model-option"
-              value={airport.icaoCode}
-              key={airport.icaoCode}
-            >
-              {airport.city} ({airport.iataCode})
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="inner-box">
-        {passengersCount ? (
-          <div className="no-passengers">
-            Select From Date, To Date and Destination Airport and click View
+      <div className="inner-box-dest">
+        <div className="selection-box-dest">
+          <div className="date-selection-dest">
+            <label className="from-dest" htmlFor="start-date-input">
+              From
+            </label>
+            <input
+              id="start-date-input"
+              className="model-selection"
+              type="date"
+              name="start-date"
+              min="2023-10-01"
+              max="2023-12-31"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+            />
           </div>
-        ) : (
-          <input disabled type="text" value={passengersCount.passengersCount} />
-        )}
+          <div className="date-selection-dest">
+            <label className="to-dest" htmlFor="end-date-input">
+              To
+            </label>
+            <input
+              id="end-date-input"
+              className="model-selection"
+              type="date"
+              name="end-date"
+              min="2023-10-01"
+              max="2023-12-31"
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+            />
+          </div>
+          <select
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            className="model-selection-dest"
+            placeholder="Destination"
+          >
+            <option className="model-option" value="destination" disabled>
+              Destination
+            </option>
+            {airportsList.map((airport) => (
+              <option
+                className="model-option"
+                value={airport.icaoCode}
+                key={airport.icaoCode}
+              >
+                {airport.city} ({airport.iataCode})
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="count-box">
+          {!passengersCount ? (
+            <div className="no-passengers">
+              Select From Date, To Date and Destination Airport and click View
+            </div>
+          ) : (
+            <>
+              <label className="passengers-count">Passengers Count</label>
+              <input
+                className="count-input"
+                disabled
+                type="text"
+                value={passengersCount.passengersCount}
+              />
+            </>
+          )}
+        </div>
       </div>
       <div className="buttons-div">
         <button onClick={handleBackClick} className="buttons">
