@@ -4,10 +4,12 @@ import { UserGlobalStateProvider } from './UserGlobalState';
 import { BookingStepGlobalStateProvider } from './BookingStepGlobalState';
 import { BookingProcessGlobalStateProvider } from './BookingProcessGlobalState';
 import { UserMenuGlobalStateProvider } from './UserMenuGlobalState';
+import { AuthFormGlobalStateProvider } from './AuthFormGlobalState';
 
 export default function Layout ({children}) {
     return (
       <>
+        <AuthFormGlobalStateProvider>
         <UserGlobalStateProvider>
         <UserMenuGlobalStateProvider>
         <BookingProcessGlobalStateProvider>
@@ -21,6 +23,7 @@ export default function Layout ({children}) {
         </BookingProcessGlobalStateProvider>
         </UserMenuGlobalStateProvider>
         </UserGlobalStateProvider>
+        </AuthFormGlobalStateProvider> 
       </>
     );
 }

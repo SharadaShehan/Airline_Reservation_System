@@ -9,6 +9,7 @@ import PassengersByDestination from "./PassengersByDestination";
 import PassengersByType from "./PassengersByType";
 import "./adminProfile.css";
 
+
 export default function AdminProfile({ userData }) {
   const { userMenuItem, setUserMenuItem } = UserMenuGlobalState();
 

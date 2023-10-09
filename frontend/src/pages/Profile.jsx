@@ -1,5 +1,5 @@
 import React from "react";
-import LoginOrRegister from "../components/Profile/LoginOrRegister";
+import LoginOrRegister from "../components/Profile/Authentication/LoginOrRegister";
 import UserProfile from "../components/Profile/UserProfile";
 import AdminProfile from "../components/Profile//Admin/AdminProfile";
 import DEOProfile from "../components/Profile/DEOProfile";
@@ -26,14 +26,13 @@ export default function Profile() {
 function renderPage(userData) {
   if (userData.username === null) {
     return <LoginOrRegister />;
-  } else if (Boolean(userData.isAdmin) === true) {
-    return <AdminProfile userData={userData} />;
-  } else if (Boolean(userData.isDataEntryOperator) === true) {
-    return <DEOProfile userData={userData} />;
-  } else if (
-    Boolean(userData.isDataEntryOperator) === false &&
-    Boolean(userData.isAdmin) === false
-  ) {
+  } else if (userData.username !== null && userData.role === undefined) {
     return <UserProfile userData={userData} />;
+  } else if (userData.role === "Admin") {
+    return <AdminProfile userData={userData} />;
+  } else if (userData.role === "DataEntryOperator") {
+    return <DEOProfile userData={userData} />;
+  } else {
+    return <LoginOrRegister />;
   }
 }

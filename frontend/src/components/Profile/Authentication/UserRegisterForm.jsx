@@ -1,12 +1,14 @@
 import React from "react";
 import { useState } from "react";
-import { UserGlobalState } from '../Layout/UserGlobalState';
+import { UserGlobalState } from '../../Layout/UserGlobalState';
+import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
 import "./authForms.css"
 
 
-export default function RegisterForm () {
+export default function UserRegisterForm () {
   const { setCurrentUserData } = UserGlobalState();
 
+  const { setAuthForm } = AuthFormGlobalState();
   const [ username, setUsername ] = useState('');
   const [ usernameError, setUsernameError ] = useState(null);
   const [ password, setPassword ] = useState('');
@@ -117,6 +119,10 @@ export default function RegisterForm () {
         </div>
         <button className="submitBtn" type="submit">Register</button>
       </form>
+      <div className="swap">
+            Do you already have an account?&nbsp;
+            <button className="swapBtn" onClick={() => setAuthForm("user-login")}>Login</button>
+      </div>
     </div>
   );
 }

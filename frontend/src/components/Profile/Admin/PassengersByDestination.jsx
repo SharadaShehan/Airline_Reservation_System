@@ -53,6 +53,7 @@ function PassengersByDestination({ setAdminMenuItem }) {
       console.error(error);
     }
   }
+  
   return (
     <div className="outer-box">
       <span className="view-by-date-dest">
