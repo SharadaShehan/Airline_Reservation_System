@@ -1,7 +1,7 @@
 import React from 'react';
 import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
 import { UserGlobalState } from '../Layout/UserGlobalState';
-import LoginOrRegister from '../Profile/LoginOrRegister';
+import LoginOrRegister from '../Profile/Authentication/LoginOrRegister';
 import "./commonComps.css"
 
 

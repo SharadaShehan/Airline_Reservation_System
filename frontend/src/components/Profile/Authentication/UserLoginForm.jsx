@@ -1,33 +1,24 @@
 import React from "react";
 import { useState } from "react";
-import { UserGlobalState } from "../Layout/UserGlobalState";
-import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
+import { BookingStepGlobalState } from "../../Layout/BookingStepGlobalState";
+import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
+import axios from "axios";
+import Cookies from 'js-cookie';
 import "./authForms.css";
 
-const apiUrl = process.env.REACT_APP_BACKEND_API_URL;
 
-export default function LoginForm() {
+export default function UserLoginForm() {
+  const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+
+  const { setAuthForm } = AuthFormGlobalState();
   const { setCurrentUserData } = UserGlobalState();
   const { setBookingStep } = BookingStepGlobalState();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null);
-
-  const submitfunc = (e) => {
-    console.log("Submitted");
-    e.preventDefault();
-    setCurrentUserData({
-      username: "JohnD",
-      firstName: "John",
-      lastName: "Doe",
-      isAdmin: 1,
-      isDataEntryOperator: 0,
-      bookingsCount: 0,
-      category: "General",
-    });
-    setBookingStep("seatReserve");
-  };
+  const [randomError, setRandomError] = useState(null);
 
   const validateUsername = () => {
     const usernameRegex = /^[a-zA-Z0-9_@]{3,30}$/;
@@ -37,6 +28,7 @@ export default function LoginForm() {
       `);
     } else {
       setUsernameError(null);
+      setRandomError(null);
     }
   };
 
@@ -48,6 +40,7 @@ export default function LoginForm() {
       `);
     } else {
       setPasswordError(null);
+      setRandomError(null);
     }
   };
 
@@ -59,9 +52,45 @@ export default function LoginForm() {
     setPassword(e.target.value);
   };
 
+  async function handleSubmitClick(e) {
+    e.preventDefault();
+
+    if (usernameError || passwordError) {
+      setRandomError("Fill all the fields correctly");
+      return;
+    } else if (username === "" || password === "") {
+      setRandomError("Fill username and password");
+      return;
+    }
+
+    const postData = {
+      username: username,
+      password: password
+    };
+
+    try {
+      const response = await axios.post(`${BaseURL}/user/auth`, postData);
+      
+      if (response.status === 200) {
+        Cookies.set('access-token', response.data.access_token, { expires: 1 });
+        setCurrentUserData(response.data.userData);
+        setBookingStep("seatReserve");
+      } else {
+        throw new Error("Something went wrong");
+      }
+      
+    } catch (error) {
+      if (error.response.status) {
+        if (error.response.status === 401) {
+          setRandomError("Invalid username or password");
+        }
+      }
+    }
+  }
+
   return (
     <div className="loginFormWrapper">
-      <form className="authForm" onSubmit={submitfunc}>
+      <form className="authForm" onSubmit={handleSubmitClick}>
         <span className="header">Log in</span>
         <div className="formField">
           <input
@@ -85,10 +114,16 @@ export default function LoginForm() {
           />
           {passwordError && <div className="errorText">{passwordError}</div>}
         </div>
+        {randomError && <div className="errorText">{randomError}</div>}
         <button className="submitBtn" type="submit">
           Log In
         </button>
       </form>
+      <div className="swap">
+            Don't have an account?&nbsp;
+            <button className="swapBtn" onClick={() => setAuthForm("user-register")}>Register</button>
+      </div>
     </div>
   );
 }
+
