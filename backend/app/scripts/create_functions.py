@@ -53,7 +53,7 @@ def create_functions():
                             ) AS randomString
                     );
 
-                UNTIL NOT EXISTS (SELECT 1 FROM booking_set WHERE Booking_Ref_ID = randomString)
+                UNTIL NOT EXISTS (SELECT 1 FROM booking WHERE Booking_Ref_ID = randomString)
                 END REPEAT;
 
                 RETURN randomString;

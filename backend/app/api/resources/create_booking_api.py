@@ -108,7 +108,7 @@ class GuestCreateBooking(Resource):
                 try :
                     cursor = connection.cursor()
                     # Delete booking set if booking process failed (but booking set was created)
-                    cursor.execute(f"DELETE FROM booking_set WHERE Booking_Ref_ID = '{bookingRefID}'")
+                    cursor.execute(f"DELETE FROM booking WHERE Booking_Ref_ID = '{bookingRefID}'")
                     connection.commit()
                     connection.close()
                 except Exception: pass
@@ -209,7 +209,7 @@ class UserCreateBooking(Resource):
                 try :
                     cursor = connection.cursor()
                     # Delete booking set if booking process failed (but booking set was created)
-                    cursor.execute(f"DELETE FROM booking_set WHERE Booking_Ref_ID = '{bookingRefID}'")
+                    cursor.execute(f"DELETE FROM booking WHERE Booking_Ref_ID = '{bookingRefID}'")
                     connection.commit()
                     connection.close()
                 except Exception: pass

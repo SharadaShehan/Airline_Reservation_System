@@ -8,8 +8,8 @@ def drop_all_tables():
         cursor = connection.cursor()
         drop_table_queries = []
         tables_list = [
+            "booked_seat",
             "booking",
-            "booking_set",
             "staff",
             "registered_user",
             "user",
@@ -198,9 +198,9 @@ def create_tables():
         #----------------------------------
 
 
-        #------- Create booking set table ----
+        #------- Create booking  table ----
         create_booking_set_table_query = """
-            CREATE TABLE IF NOT EXISTS booking_set (
+            CREATE TABLE IF NOT EXISTS booking (
             Booking_Ref_ID CHAR(12) PRIMARY KEY ,
             Scheduled_Flight INTEGER NOT NULL,
             User VARCHAR(30),
@@ -215,17 +215,17 @@ def create_tables():
         cursor.execute(create_booking_set_table_query)
         #----------------------------------
 
-        #------- Create booking table ----
+        #------- Create booked_seat table ----
         create_booking_table_query = """
-            CREATE TABLE IF NOT EXISTS booking (
+            CREATE TABLE IF NOT EXISTS booked_seat (
             Ticket_Number INTEGER PRIMARY KEY AUTO_INCREMENT,
-            Booking_Set CHAR(12) NOT NULL,
+            Booking CHAR(12) NOT NULL,
             Seat_Number SMALLINT NOT NULL,
             FirstName VARCHAR(30) NOT NULL,
             LastName VARCHAR(30) NOT NULL,
             IsAdult BOOLEAN NOT NULL,
             Passport_ID VARCHAR(15) NOT NULL,
-            FOREIGN KEY (Booking_Set) REFERENCES booking_set(Booking_Ref_ID) ON DELETE CASCADE);
+            FOREIGN KEY (Booking_Set) REFERENCES booking(Booking_Ref_ID) ON DELETE CASCADE);
         """
         cursor.execute(create_booking_table_query)
         #----------------------------------

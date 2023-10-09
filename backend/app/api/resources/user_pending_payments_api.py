@@ -30,8 +30,8 @@ class UserPendingPayments(Resource):
                         bk.IsAdult AS isAdult,
                         bk.Passport_ID AS passportID
                     FROM
-                        booking as bk
-                        INNER JOIN booking_set as bkset on bk.Booking_Set = bkset.Booking_Ref_ID
+                        booked_seat as bk
+                        INNER JOIN booking_set as bkset on bk.booking = bkset.Booking_Ref_ID
                         INNER JOIN base_price as bprc on bkset.BPrice_Per_Booking = bprc.Price_ID
                         INNER JOIN scheduled_flight as shf on bkset.Scheduled_Flight = shf.Scheduled_ID
                     WHERE

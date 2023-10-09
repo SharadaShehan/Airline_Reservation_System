@@ -39,7 +39,7 @@ def create_events():
             ON SCHEDULE EVERY 20 MINUTE STARTS CURRENT_TIMESTAMP
             DO
             BEGIN
-            DELETE FROM booking_set 
+            DELETE FROM booking
             WHERE 
                 Created_At < NOW() - INTERVAL 120 MINUTE
                 AND User IS NULL

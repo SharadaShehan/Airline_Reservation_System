@@ -54,21 +54,21 @@ def create_procedures():
                 
                 START TRANSACTION;
 
-                    -- Set booking set as completed
-                    UPDATE booking_set 
+                    -- Set booked_seat set as completed
+                    UPDATE booking
                     SET Completed = 1
                     WHERE Booking_Ref_ID = Ref_ID;
 
                     -- Select current user
                     SELECT usr.Username INTO currentUser
-                    FROM booking_set as bkset
+                    FROM booking as bkset
                     INNER JOIN registered_user as usr on bkset.User = usr.Username
                     WHERE bkset.Booking_Ref_ID = Ref_ID;
   
                     -- Get booking count of user
                     SELECT COUNT(distinct bk.Ticket_Number) INTO totalBookingsCount 
-                    FROM booking_set as bkset
-                    INNER JOIN booking as bk on bkset.Booking_Ref_ID = bk.Booking_Set
+                    FROM booking as bkset
+                    INNER JOIN booked_seat as bk on bkset.Booking_Ref_ID = bk.Booking_Set
                     INNER JOIN registered_user as usr on bkset.User = usr.Username
                     WHERE usr.Username = currentUser;
   
@@ -172,8 +172,8 @@ def create_procedures():
                     	SELECT 
                             ( COUNT(*) > 0 ) INTO seat_reserved
                         FROM
-                            booking AS bk
-                            INNER JOIN booking_set AS bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                            booked_seat AS bk
+                            INNER JOIN booking AS bkset ON bk.booking = bkset.Booking_Ref_ID
                             INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                             INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                             INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
@@ -198,7 +198,7 @@ def create_procedures():
                             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Number Exceeds Maximum Seat Count';
                         END IF;
                         
-                        INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) 
+                        INSERT INTO booked_seat (booking, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) 
                         VALUES (refID, seat_number, first_name, last_name, is_adult, passportid);
                         
                     END LOOP;

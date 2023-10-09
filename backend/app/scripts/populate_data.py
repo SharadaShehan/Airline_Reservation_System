@@ -267,7 +267,7 @@ def populate_booking_set_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_booking_set_query = """INSERT INTO booking_set (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) VALUES"""
+        insert_booking_set_query = """INSERT INTO booking (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) VALUES"""
         # Read data from csv file and insert into Booking_Set table
         with open('app/scripts/data/Booking_Set.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -291,7 +291,7 @@ def populate_booking_table():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_booking_query = """INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) VALUES"""
+        insert_booking_query = """INSERT INTO booked_seat (booking, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) VALUES"""
         # Read data from csv file and insert into Booking table
         with open('app/scripts/data/Booking.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
