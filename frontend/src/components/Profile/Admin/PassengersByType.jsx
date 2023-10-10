@@ -2,17 +2,20 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./passengersByType.css";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
-function PassengersByType({ setAdminMenuItem }) {
+
+function PassengersByType() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
+  const { setUserMenuItem } = UserMenuGlobalState();
   const [to, setTo] = useState("");
   const [from, setFrom] = useState("");
 
   const [response, setResponse] = useState([]);
 
   function handleBackClick() {
-    setAdminMenuItem("profile-details");
+    setUserMenuItem("profile-details");
   }
 
   async function handleViewClick() {

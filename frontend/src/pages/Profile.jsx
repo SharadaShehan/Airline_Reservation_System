@@ -1,8 +1,8 @@
 import React from "react";
 import LoginOrRegister from "../components/Profile/Authentication/LoginOrRegister";
-import UserProfile from "../components/Profile/UserProfile";
-import AdminProfile from "../components/Profile//Admin/AdminProfile";
-import DEOProfile from "../components/Profile/DEOProfile";
+import UserProfile from "../components/Profile/RegisteredUser/UserProfile";
+import AdminProfile from "../components/Profile/Admin/AdminProfile";
+import DEOProfile from "../components/Profile/DEO/DEOProfile";
 import { UserGlobalState } from "../components/Layout/UserGlobalState";
 
 export default function Profile() {

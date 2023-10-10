@@ -1,5 +1,5 @@
 import React from "react";
-import "./scrollMenu.css";
+import "../scrollMenu.css";
 
 
 export default function UserProfileDetails ({userData}) {

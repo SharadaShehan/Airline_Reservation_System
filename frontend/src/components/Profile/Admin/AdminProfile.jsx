@@ -49,27 +49,21 @@ export default function AdminProfile({ userData }) {
   function renderPage() {
     if (userMenuItem === "profile-details") {
       return (
-        <AdminProfileDetails
-          userData={userData}
-          setAdminMenuItem={setUserMenuItem}
-        />
+        <AdminProfileDetails userData={userData} />
       );
     } else if (userMenuItem === "view-revenue-by-model") {
-      return <ViewRevenue setAdminMenuItem={setUserMenuItem} />;
+      return <ViewRevenue/>;
     } else if (userMenuItem === "view-passengers-by-flight") {
-      return <PassengersByFlight setAdminMenuItem={setUserMenuItem} />;
+      return <PassengersByFlight/>;
     } else if (userMenuItem === "view-passengers-by-date-and-destination") {
-      return <PassengersByDestination setAdminMenuItem={setUserMenuItem} />;
+      return <PassengersByDestination/>;
     } else if (userMenuItem === "view-passengers-by-date-and-type") {
-      return <PassengersByType setAdminMenuItem={setUserMenuItem} />;
+      return <PassengersByType/>;
     } else if (userMenuItem === "view-past-flight-details") {
-      return <PastFlightDetails setAdminMenuItem={setUserMenuItem} />;
+      return <PastFlightDetails/>;
     } else {
       return (
-        <AdminProfileDetails
-          userData={userData}
-          setAdminMenuItem={setUserMenuItem}
-        />
+        <AdminProfileDetails userData={userData} />
       );
     }
   }

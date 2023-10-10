@@ -3,10 +3,13 @@ import axios from "axios";
 import { v4 as uuid4 } from "uuid";
 import "./pastFlightDetails.css";
 import Cookies from "js-cookie";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
-function PastFlightDetails({ setAdminMenuItem }) {
+
+function PastFlightDetails() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
+  const { setUserMenuItem } = UserMenuGlobalState();
   const [origin, setOrigin] = useState("origin");
   const [destination, setDestination] = useState("destination");
   const [airportsList, setAirportsList] = useState([]);
@@ -29,7 +32,7 @@ function PastFlightDetails({ setAdminMenuItem }) {
   );
 
   function handleBackClick() {
-    setAdminMenuItem("profile-details");
+    setUserMenuItem("profile-details");
   }
 
   async function handleViewClick() {

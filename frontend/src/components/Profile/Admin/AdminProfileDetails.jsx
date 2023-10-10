@@ -1,25 +1,29 @@
 import React from "react";
 import "./adminProfileDetails.css";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
-export default function AdminProfileDetails({ userData, setAdminMenuItem }) {
+
+export default function AdminProfileDetails({ userData }) {
+  const { setUserMenuItem } = UserMenuGlobalState();
+
   function handleClickRevenue() {
-    setAdminMenuItem("view-revenue-by-model");
+    setUserMenuItem("view-revenue-by-model");
   }
 
   function handleClickByFlight() {
-    setAdminMenuItem("view-passengers-by-flight");
+    setUserMenuItem("view-passengers-by-flight");
   }
 
   function handleClickByDate() {
-    setAdminMenuItem("view-passengers-by-date-and-type");
+    setUserMenuItem("view-passengers-by-date-and-type");
   }
 
   function handleClickByDestination() {
-    setAdminMenuItem("view-passengers-by-date-and-destination");
+    setUserMenuItem("view-passengers-by-date-and-destination");
   }
 
   function handleClickPastDetails() {
-    setAdminMenuItem("view-past-flight-details");
+    setUserMenuItem("view-past-flight-details");
   }
 
   return (
@@ -32,7 +36,7 @@ export default function AdminProfileDetails({ userData, setAdminMenuItem }) {
           <br />
           last Name : {userData.lastName}
           <br />
-          Category : Administrator
+          Role : Administrator
           <br />
         </div>
       </div>

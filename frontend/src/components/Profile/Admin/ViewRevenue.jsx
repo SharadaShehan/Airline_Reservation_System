@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./viewRevenue.css";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
-function ViewRevenue({ setAdminMenuItem }) {
+
+function ViewRevenue() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
 
+  const { setUserMenuItem } = UserMenuGlobalState();
   const [modelsList, setModelsList] = useState([]);
   const [isView, setIsView] = useState(false);
 
@@ -34,7 +37,7 @@ function ViewRevenue({ setAdminMenuItem }) {
   );
 
   function handleBackClick() {
-    setAdminMenuItem("profile-details");
+    setUserMenuItem("profile-details");
   }
 
   function handleViewClick() {

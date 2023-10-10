@@ -5,6 +5,7 @@ import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
 import axios from "axios";
 import "./authForms.css";
 
+
 export default function AdminRegisterForm() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const { setCurrentUserData } = UserGlobalState();
