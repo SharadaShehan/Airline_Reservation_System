@@ -1,0 +1,30 @@
+.navigateBtn {
+    background-color: #0096FF;
+    border-radius: 0.6em;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.4em;
+    margin: 1.5vw 0.5vw;
+    padding: 0.3em 1em;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+        background-color: #0066FF;
+    }
+    &:active {
+        background-color: #0066FF;
+    }
+    &:disabled {
+        background-color: #B6D0E2;
+        color: #fff;
+        cursor: not-allowed;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .navigateBtn {
+        font-size: 1em;
+    }
+}

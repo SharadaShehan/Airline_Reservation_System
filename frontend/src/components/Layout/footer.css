@@ -1,0 +1,107 @@
+.footer-box {
+  position: relative;
+  /* bottom: 0; */
+  width: 100%;
+}
+
+.footer-dev {
+  width: 100%;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  bottom: 0;
+}
+
+img {
+  max-width: 100%;
+  /* height: 17vw; */
+  height: auto;
+  transform: scaleY(1.15);
+}
+
+.contact,
+.aboutus,
+.uom {
+  position: absolute;
+  color: #b3b3b3;
+  font-family: "Bree Serif-Regular", Helvetica;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+}
+
+.contact {
+  top: 55%;
+  transform: translateY(20%);
+}
+
+.aboutus {
+  top: 68%;
+  transform: translateY(20%);
+}
+
+.uom {
+  bottom: 0;
+  font-size: 0.8em;
+  transform: translateY(100%);
+  order: 3;
+}
+
+.icon {
+  align-items: center;
+  display: flex;
+  gap: 1.4vw;
+  height: 20px;
+  position: absolute;
+  width: 7.1vw;
+  order: 2;
+  bottom: 0;
+  transform: translateY(-80%);
+}
+
+.twitter {
+  height: 1.2vw;
+  position: relative;
+  width: 1.4vw;
+}
+
+.linked-in {
+  height: 1.2vw;
+  position: relative;
+  width: 1.4vw;
+}
+
+.fb {
+  height: 1.1vw;
+  position: relative;
+  width: 1.3vw;
+}
+
+@media only screen and (max-width: 768px) {
+  .contact,
+  .aboutus,
+  .uom {
+    font-size: 16px;
+  }
+
+  .icon {
+    top: 70%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .contact,
+  .aboutus,
+  .uom {
+    font-size: 14px;
+  }
+
+  .icon {
+    top: 60%;
+  }
+}
