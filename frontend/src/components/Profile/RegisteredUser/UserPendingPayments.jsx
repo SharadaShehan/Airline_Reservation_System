@@ -1,6 +1,6 @@
 import React from 'react';
-import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
-import { UserMenuGlobalState } from '../Layout/UserMenuGlobalState';
+import { BookingStepGlobalState } from '../../Layout/BookingStepGlobalState';
+import { UserMenuGlobalState } from '../../Layout/UserMenuGlobalState';
 
 
 export default function PendingPayments () {

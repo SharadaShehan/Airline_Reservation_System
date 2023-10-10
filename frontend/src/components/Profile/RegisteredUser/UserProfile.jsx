@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import UserProfileDetails from "./UserProfileDetails";
 import UserBookedTickets from "./UserBookedTickets";
 import PendingPayments from "./UserPendingPayments";
-import { UserMenuGlobalState } from "../Layout/UserMenuGlobalState";
-import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
-import "./scrollMenu.css";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { BookingStepGlobalState } from "../../Layout/BookingStepGlobalState";
+import "../scrollMenu.css";
 import "./userProfile.css";
 
 
@@ -22,7 +22,7 @@ export default function UserProfile ({userData}) {
             <img 
                 className="background-image" 
                 alt="Rectangle" 
-                src={require("../../images/UserBackImage.jpg")} />
+                src={require("../../../images/UserBackImage.jpg")} />
             <div className="registered-user-container">
                 <div className="horizontal-scroll-menu">
                     <ul className="menu-list">

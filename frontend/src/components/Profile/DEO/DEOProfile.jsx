@@ -4,7 +4,7 @@ import DEOProfileDetails from "./DEOProfileDetails";
 import DEOAddAirport from "./DEOAddAirport";
 import DEOAddRoute from "./DEOAddRoute";
 import DEOScheduleFlight from "./DEOScheduleFlight";
-import "./scrollMenu.css";
+import "../scrollMenu.css";
 import "./deoProfile.css"
 
 
@@ -20,7 +20,7 @@ export default function DEOProfile ({userData}) {
             <img 
                 className="background-image" 
                 alt="Rectangle" 
-                src={require("../../images/DEOBackImage.jpg")} />
+                src={require("../../../images/DEOBackImage.jpg")} />
             <div className="deo-container">
                 <div className="horizontal-scroll-menu">
                     <ul className="menu-list">
