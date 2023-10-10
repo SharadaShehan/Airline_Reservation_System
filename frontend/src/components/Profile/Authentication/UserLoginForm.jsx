@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import { BookingStepGlobalState } from "../../Layout/BookingStepGlobalState";
@@ -114,7 +115,9 @@ export default function UserLoginForm() {
         </div>
         {randomError && <div className="errorText">{randomError}</div>}
         <div className="button-container">
-          <button className="submitBtn">Cancel</button>
+          <Link to="/home">
+            <button className="submitBtn">Cancel</button>
+          </Link>
           <button
             className="submitBtn"
             onClick={() => setAuthForm("user-register")}

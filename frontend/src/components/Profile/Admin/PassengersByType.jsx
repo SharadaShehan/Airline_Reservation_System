@@ -74,7 +74,7 @@ function PassengersByType({ setAdminMenuItem }) {
       </div>
       <div className="inner-box">
         {response.length ? (
-          <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+          <div style={{ overflow: "auto", width: "100%" }}>
             <table>
               <thead>
                 <tr>

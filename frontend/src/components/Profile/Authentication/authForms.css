@@ -25,11 +25,83 @@
   color: #fff;
 }
 
+.registerFormWrapper {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Add this line to align items horizontally center */
+  align-items: center;
+}
+
+.register-authForm {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 2em 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* transform: translateX(30%); */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* border-radius: 2.5em; */
+  box-shadow: 0 0 0.4em 0 #000;
+}
+
+.reg-formField {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-bottom: 1em;
+}
+
+.field-box {
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
 .formField {
   margin-bottom: 1em;
 }
 
+.field-label {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  text-align: center;
+  width: 260px;
+}
+
+.field-label {
+  color: #fff;
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+.auth-select {
+  width: 195px;
+  font-family: "Lexend";
+  color: #fff;
+  background: rgb(255, 255, 255, 0.2);
+  position: relative;
+  display: inline-block;
+  border: 2px solid #fff;
+  border-radius: 1em; /* Add this line to add round borders */
+  outline: none;
+  height: 3em;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.auth-option {
+  color: #000;
+}
+
 .shortInput {
+  width: 100%;
   font-family: "Lexend";
   background: rgb(255, 255, 255, 0.2);
   color: #fff;
@@ -65,13 +137,19 @@
 
 .button-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
   margin-top: 1.5em;
-  margin-left: 30%;
-  margin-right: 10%;
-  gap: 1em;
 }
+
+.button-container button:first-child {
+  margin-right: 1em;
+}
+
+.button-container button:last-child {
+  margin-left: 1em; /* Add this line to align the second button with the input fields */
+}
+
 .portal-button-container {
   display: flex;
   align-items: center;
@@ -126,7 +204,6 @@
   /* border-radius: 2em; */
   /* height: 2.7em;
   width: 20%; */
-  margin: auto;
   cursor: pointer;
   font-family: "Lexend";
   font-size: 1.1em;
@@ -144,6 +221,8 @@
 
 .submitBtn:disabled {
   background: #b1b1b1;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .swap {

@@ -85,15 +85,17 @@ function PassengersByFlight({ setAdminMenuItem }) {
           <option disabled value="destination" className="model-option">
             Destination
           </option>
-          {airportsList.map((airport) => (
-            <option
-              className="model-option"
-              value={airport.icaoCode}
-              key={airport.icaoCode}
-            >
-              {airport.city} ({airport.iataCode})
-            </option>
-          ))}
+          {airportsList
+            .filter((airport) => airport.icaoCode !== origin)
+            .map((airport) => (
+              <option
+                className="model-option"
+                value={airport.icaoCode}
+                key={airport.icaoCode}
+              >
+                {airport.city} ({airport.iataCode})
+              </option>
+            ))}
         </select>
       </div>
       <div className="inner-box">

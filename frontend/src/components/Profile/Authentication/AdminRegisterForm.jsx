@@ -141,9 +141,11 @@ export default function AdminRegisterForm() {
           />
           {lastNameError && <div className="errorText">{lastNameError}</div>}
         </div>
-        <button className="submitBtn" type="submit">
-          Register
-        </button>
+        <div className="button-container">
+          <button className="submitBtn" type="submit">
+            Register
+          </button>
+        </div>
       </form>
       <div className="swap">
         Do you already have an account?&nbsp;
