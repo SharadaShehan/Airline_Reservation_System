@@ -234,8 +234,8 @@ class GetPastFlightsDetails(Resource):
                             ELSE 'Delayed'
                         END AS status
                     FROM
-                        booking as bk
-                        INNER JOIN booking_set AS bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                        booked_seat as bk
+                        INNER JOIN booking AS bkset ON bk.Booking = bkset.Booking_Ref_ID
                         INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
                         INNER JOIN route AS rut ON rut.Route_ID = shf.Route
                         INNER JOIN airport AS org ON rut.Origin = org.ICAO_Code

@@ -1,12 +1,12 @@
 from flask import make_response
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort
-from app.utils.validators import validate_booking_set_id_format
+from app.utils.validators import validate_booking_set_id_format, validate_guest_id_format
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
-class GuestCancelBookingSet(Resource):
-    def delete(self, bkset_id):
+class GuestCancelBooking(Resource):
+    def delete(self, bkset_id, guest_id):
         try:
             connection = get_db_connection()
         except Exception as ex:
@@ -15,38 +15,47 @@ class GuestCancelBookingSet(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
-                # Check if booking set ID is in correct format
-                if not validate_booking_set_id_format(bkset_id):
-                    raise Exception("Invalid booking set ID")
+                # Check if booking ID and guest ID are in correct format
+                if not validate_booking_set_id_format(bkset_id) or not validate_guest_id_format(guest_id):
+                    raise Exception("Invalid booking ID or guest ID")
                 
-                cursor.execute(f"SELECT User, Completed FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute(f"""
+                    SELECT 
+                        bkset.User, bkset.Completed
+                    FROM 
+                        booking as bkset
+                        INNER JOIN guest as gst ON bkset.Booking_Ref_ID = gst.Booking_Ref_ID
+                    WHERE
+                        bkset.Booking_Ref_ID = '{bkset_id}' AND gst.Guest_ID = '{guest_id}'           
+                """)
+
                 query_result = cursor.fetchone()
-                # Check if booking set exists
+                # Check if booking exists
                 if query_result is None:
                     raise Exception("404")
-                # Check if booking set belongs to a registered user
+                # Check if booking belongs to a registered user
                 if query_result[0] is not None:
-                    raise Exception("Unauthorized to cancel booking set")
-                # Check if booking set is already completed
+                    raise Exception("Unauthorized to cancel booking")
+                # Check if booking is already completed
                 if query_result[1] == 1:
-                    raise Exception("Completed booking set cannot be cancelled")
+                    raise Exception("Completed booking cannot be cancelled")
                 
-                # Complete booking set
-                cursor.execute(f"DELETE FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
+                # Complete booking
+                cursor.execute(f"DELETE FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
                 
                 connection.commit()
                 connection.close()
-                return make_response({"message": "Booking set cancelled successfully"}, 204)
+                return make_response({"message": "Booking cancelled successfully"}, 204)
             except Exception as ex:
                 if str(ex) == "404":
-                    return abort(404, message="Booking set does not exist")
+                    return abort(404, message="Booking does not exist")
                 print(ex)
-                return abort(400, message=f"Failed to cancel booking set. Error: {ex}")
+                return abort(400, message=f"Failed to cancel booking. Error: {ex}")
         else:
             return abort(500, message="Failed to connect to database")
 
 
-class UserCancelBookingSet(Resource):
+class UserCancelBooking(Resource):
     @jwt_required()
     def delete(self, bkset_id):
         try:
@@ -57,32 +66,32 @@ class UserCancelBookingSet(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
-                # Check if booking set ID is in correct format
+                # Check if booking ID is in correct format
                 if not validate_booking_set_id_format(bkset_id):
-                    raise Exception("Invalid booking set ID")
+                    raise Exception("Invalid booking ID")
 
-                cursor.execute(f"SELECT User, Completed FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute(f"SELECT User, Completed FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
                 query_result = cursor.fetchone()
-                # Check if booking set exists
+                # Check if booking exists
                 if query_result is None:
                     raise Exception("404")
-                # Check if booking set belongs to a registered user
+                # Check if booking belongs to a registered user
                 if query_result[0] is None or query_result[0] != get_jwt_identity():
-                    raise Exception("Unauthorized to cancel booking set")
-                # Check if booking set is already completed
+                    raise Exception("Unauthorized to cancel booking")
+                # Check if booking is already completed
                 if query_result[1] == 1:
-                    raise Exception("Completed booking set cannot be cancelled")
+                    raise Exception("Completed booking cannot be cancelled")
                 
-                # Complete booking set
-                cursor.execute(f"DELETE FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
+                # Complete booking
+                cursor.execute(f"DELETE FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
                 
                 connection.commit()
                 connection.close()
-                return make_response({"message": "Booking set cancelled successfully"}, 204)
+                return make_response({"message": "Booking cancelled successfully"}, 204)
             except Exception as ex:
                 if str(ex) == "404":
-                    return abort(404, message="Booking set does not exist")
+                    return abort(404, message="Booking does not exist")
                 print(ex)
-                return abort(400, message=f"Failed to cancel booking set. Error: {ex}")
+                return abort(400, message=f"Failed to cancel booking. Error: {ex}")
         else:
             return abort(500, message="Failed to connect to database")

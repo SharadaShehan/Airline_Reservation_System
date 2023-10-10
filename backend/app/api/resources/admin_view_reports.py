@@ -28,7 +28,7 @@ class GetRevenueByModel(Resource):
                 cursor.execute("""
                     SELECT mdl.Name AS model, COUNT(*) AS bookingSetsCount, SUM(bkset.Final_Price) AS revenue
                     FROM
-                        booking_set AS bkset
+                        booking AS bkset
                         INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
                         INNER JOIN airplane AS apl ON shf.Airplane = apl.Tail_Number
                         INNER JOIN model AS mdl ON apl.Model = mdl.Model_ID

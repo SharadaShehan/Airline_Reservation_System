@@ -7,7 +7,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('transactionID', type=str, required=True)
 
 
-class CompleteBookingSet(Resource):
+class CompleteBooking(Resource):
     def post(self, bkset_id):
         try:
             connection = get_db_connection()
@@ -27,17 +27,17 @@ class CompleteBookingSet(Resource):
                 if not validate_payment(bkset_id, transactionID):
                     raise Exception("Invalid payment data")
                 
-                cursor.execute(f"SELECT Completed FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute(f"SELECT Completed FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
                 query_result = cursor.fetchone()
-                # Check if booking set exists
+                # Check if booking exists
                 if query_result is None:
-                    raise Exception("Booking set does not exist")
-                # Check if booking set is already completed
+                    raise Exception("Booking  does not exist")
+                # Check if booking is already completed
                 if query_result[0] == 1:
-                    raise Exception("Booking set is already completed")
+                    raise Exception("Booking  is already completed")
 
-                # Complete booking set
-                cursor.callproc('CompleteBookingSet', (bkset_id,))
+                # Complete booking
+                cursor.callproc('CompleteBooking', (bkset_id,))
                 
                 connection.commit()
                 connection.close()
