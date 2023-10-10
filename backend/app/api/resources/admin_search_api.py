@@ -235,7 +235,7 @@ class GetPastFlightsDetails(Resource):
                         END AS status
                     FROM
                         booked_seat as bk
-                        INNER JOIN booking AS bkset ON bk.booking = bkset.Booking_Ref_ID
+                        INNER JOIN booking AS bkset ON bk.Booking = bkset.Booking_Ref_ID
                         INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
                         INNER JOIN route AS rut ON rut.Route_ID = shf.Route
                         INNER JOIN airport AS org ON rut.Origin = org.ICAO_Code

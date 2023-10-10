@@ -43,6 +43,12 @@ def validate_booking_data(flightID, travelClass, passengers):
 def validate_booking_set_id_format(booking_ref_id):
     if isinstance(booking_ref_id, str) and booking_ref_id.isalnum() and len(booking_ref_id) == 12:
         return True
+    return False
+
+def validate_guest_id_format(guest_id):
+    if isinstance(guest_id, str) and guest_id.isalnum() and len(guest_id) == 12:
+        return True
+    return False
 
 def validate_payment(booking_ref_id, transaction_id):
     return validate_booking_set_id_format(booking_ref_id)

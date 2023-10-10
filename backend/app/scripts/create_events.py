@@ -36,12 +36,12 @@ def create_events():
         #------- Create check booking validity event -------
         create_check_booking_validity_event_query = """
             CREATE EVENT CheckBookingValidity
-            ON SCHEDULE EVERY 20 MINUTE STARTS CURRENT_TIMESTAMP
+            ON SCHEDULE EVERY 60 MINUTE STARTS CURRENT_TIMESTAMP
             DO
             BEGIN
             DELETE FROM booking
             WHERE 
-                Created_At < NOW() - INTERVAL 120 MINUTE
+                Created_At < NOW() - INTERVAL 300 MINUTE
                 AND User IS NULL
                 AND Completed = 0;
             END;

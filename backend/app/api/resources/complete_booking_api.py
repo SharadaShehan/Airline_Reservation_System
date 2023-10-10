@@ -7,7 +7,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('transactionID', type=str, required=True)
 
 
-class CompleteBookingSet(Resource):
+class CompleteBooking(Resource):
     def post(self, bkset_id):
         try:
             connection = get_db_connection()
@@ -29,14 +29,14 @@ class CompleteBookingSet(Resource):
                 
                 cursor.execute(f"SELECT Completed FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
                 query_result = cursor.fetchone()
-                # Check if booking set exists
+                # Check if booking exists
                 if query_result is None:
                     raise Exception("Booking  does not exist")
-                # Check if booking set is already completed
+                # Check if booking is already completed
                 if query_result[0] == 1:
                     raise Exception("Booking  is already completed")
 
-                # Complete booking set
+                # Complete booking
                 cursor.callproc('CompleteBooking', (bkset_id,))
                 
                 connection.commit()

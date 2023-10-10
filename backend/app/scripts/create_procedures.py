@@ -8,8 +8,8 @@ def drop_all_procedures():
         cursor = connection.cursor()
         drop_procedure_queries = []
         procedures_list = [
-            "CompleteBookingSet",
-            "CreateBookingSet",
+            "CompleteBooking",
+            "CreateBooking",
             "ScheduleFlight"
         ]
         
@@ -32,10 +32,10 @@ def create_procedures():
     if connection:
         cursor = connection.cursor()
 
-        #------- Create complete booking set procedure -------
+        #------- Create complete booking procedure -------
         
-        create_complete_booking_set_query = """
-            CREATE PROCEDURE CompleteBookingSet(IN Ref_ID CHAR(12))
+        create_complete_booking_query = """
+            CREATE PROCEDURE CompleteBooking(IN Ref_ID CHAR(12))
             BEGIN
                 DECLARE totalBookingsCount SMALLINT;
                 DECLARE currentUser VARCHAR(30);
@@ -53,8 +53,8 @@ def create_procedures():
                     END;
                 
                 START TRANSACTION;
-
-                    -- Set booked_seat set as completed
+                    
+                    -- Set booking as completed
                     UPDATE booking
                     SET Completed = 1
                     WHERE Booking_Ref_ID = Ref_ID;
@@ -68,7 +68,7 @@ def create_procedures():
                     -- Get booking count of user
                     SELECT COUNT(distinct bk.Ticket_Number) INTO totalBookingsCount 
                     FROM booking as bkset
-                    INNER JOIN booked_seat as bk on bkset.Booking_Ref_ID = bk.Booking_Set
+                    INNER JOIN booked_seat as bk on bkset.Booking_Ref_ID = bk.Booking
                     INNER JOIN registered_user as usr on bkset.User = usr.Username
                     WHERE usr.Username = currentUser;
   
@@ -107,13 +107,13 @@ def create_procedures():
                 COMMIT;
             END;
         """
-        cursor.execute(create_complete_booking_set_query)
+        cursor.execute(create_complete_booking_query)
         #----------------------------------
 
-        #------- Create create booking set procedure -------
+        #------- Create create booking procedure -------
         
-        create_create_booking_set_query = """
-            CREATE PROCEDURE CreateBookingSet(
+        create_create_booking_query = """
+            CREATE PROCEDURE CreateBooking(
                 IN refID CHAR(12), 
                 IN scheduled_flight_id INTEGER, 
                 IN acc_username VARCHAR(30), 
@@ -131,6 +131,7 @@ def create_procedures():
                 DECLARE passportid VARCHAR(15);
                 DECLARE seat_reserved BOOLEAN;
                 DECLARE max_seat_number SMALLINT;
+                DECLARE guest_id CHAR(12);
                 
                 DECLARE done BOOLEAN DEFAULT FALSE;
                 DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult, Passport_ID FROM booking_data;
@@ -157,7 +158,7 @@ def create_procedures():
                     INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                     WHERE shf.Scheduled_ID = scheduled_flight_id AND cls.Class_Name = travel_class;
                     
-                    INSERT INTO booking_set (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price) 
+                    INSERT INTO booking (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price) 
                     VALUES (refID, scheduled_flight_id, acc_username, basePricePerBooking, finalPrice);
                     
                     OPEN recordsCursor;
@@ -173,7 +174,7 @@ def create_procedures():
                             ( COUNT(*) > 0 ) INTO seat_reserved
                         FROM
                             booked_seat AS bk
-                            INNER JOIN booking AS bkset ON bk.booking = bkset.Booking_Ref_ID
+                            INNER JOIN booking AS bkset ON bk.Booking = bkset.Booking_Ref_ID
                             INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                             INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                             INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
@@ -198,17 +199,23 @@ def create_procedures():
                             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Number Exceeds Maximum Seat Count';
                         END IF;
                         
-                        INSERT INTO booked_seat (booking, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) 
+                        INSERT INTO booked_seat (Booking, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) 
                         VALUES (refID, seat_number, first_name, last_name, is_adult, passportid);
                         
                     END LOOP;
                     CLOSE recordsCursor;
-                
+
+                    IF acc_username IS NULL THEN
+                        SET guest_id = GenerateRandomGuestID();
+                        INSERT INTO guest (Guest_ID, Booking_Ref_ID) 
+                        VALUES (guest_id, refID);
+                    END IF;
+
                 COMMIT;
                 SET status_var = TRUE;
             END;
         """
-        cursor.execute(create_create_booking_set_query)
+        cursor.execute(create_create_booking_query)
         #----------------------------------
 
         #------- Create schedule flight procedure -------

@@ -1,7 +1,7 @@
 from flask import make_response, request
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort
-from app.utils.validators import validate_search_parameters, validate_booking_set_id_format,validate_user_data
+from app.utils.validators import validate_search_parameters, validate_booking_set_id_format, validate_user_data
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 

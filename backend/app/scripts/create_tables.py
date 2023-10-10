@@ -8,6 +8,7 @@ def drop_all_tables():
         cursor = connection.cursor()
         drop_table_queries = []
         tables_list = [
+            "guest",
             "booked_seat",
             "booking",
             "staff",
@@ -198,8 +199,8 @@ def create_tables():
         #----------------------------------
 
 
-        #------- Create booking  table ----
-        create_booking_set_table_query = """
+        #------- Create booking table ----
+        create_booking_table_query = """
             CREATE TABLE IF NOT EXISTS booking (
             Booking_Ref_ID CHAR(12) PRIMARY KEY ,
             Scheduled_Flight INTEGER NOT NULL,
@@ -212,11 +213,11 @@ def create_tables():
             FOREIGN KEY (User) REFERENCES user(Username),
             FOREIGN KEY (BPrice_Per_Booking) REFERENCES base_price(Price_ID) );
         """
-        cursor.execute(create_booking_set_table_query)
+        cursor.execute(create_booking_table_query)
         #----------------------------------
 
         #------- Create booked_seat table ----
-        create_booking_table_query = """
+        create_booked_seat_table_query = """
             CREATE TABLE IF NOT EXISTS booked_seat (
             Ticket_Number INTEGER PRIMARY KEY AUTO_INCREMENT,
             Booking CHAR(12) NOT NULL,
@@ -225,9 +226,22 @@ def create_tables():
             LastName VARCHAR(30) NOT NULL,
             IsAdult BOOLEAN NOT NULL,
             Passport_ID VARCHAR(15) NOT NULL,
-            FOREIGN KEY (Booking_Set) REFERENCES booking(Booking_Ref_ID) ON DELETE CASCADE);
+            FOREIGN KEY (Booking) REFERENCES booking(Booking_Ref_ID) ON DELETE CASCADE);
         """
-        cursor.execute(create_booking_table_query)
+        cursor.execute(create_booked_seat_table_query)
+        #----------------------------------
+        
+        #------- Create guest table ----
+        create_guest_table_query = """
+            CREATE TABLE IF NOT EXISTS guest (
+            Guest_ID CHAR(12) PRIMARY KEY,
+            Booking_Ref_ID CHAR(12) NOT NULL,
+            Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            Email VARCHAR(50),
+            Contact_Number VARCHAR(16),
+            FOREIGN KEY (Booking_Ref_ID) REFERENCES booking(Booking_Ref_ID) ON DELETE CASCADE);
+        """
+        cursor.execute(create_guest_table_query)
         #----------------------------------
         
         connection.commit()

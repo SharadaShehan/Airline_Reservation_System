@@ -94,24 +94,25 @@ class GuestCreateBooking(Resource):
 
                 # Create booking set
                 procedureStatus = 0
-                result_args = cursor.callproc('CreateBookingSet', (bookingRefID, flightID, 'NULL', travelClass, bookingCount, finalPrice, 0))
+                result_args = cursor.callproc('CreateBooking', (bookingRefID, flightID, 'NULL', travelClass, bookingCount, finalPrice, 0))
                 procedureStatus = result_args[-1]
-                
-                connection.commit()
-                connection.close()
 
                 if procedureStatus == 1:
-                    return make_response({'message': 'Booking created successfully', 'bookingRefID': bookingRefID, 'price': finalPrice}, 201)
+                    cursor.execute(f"SELECT Guest_ID FROM guest WHERE Booking_Ref_ID = '{bookingRefID}'")
+                    guestID = cursor.fetchone()[0]
+                    connection.commit()
+                    connection.close()
+                    return make_response({'message': 'Booking created successfully', 'bookingRefID': bookingRefID, 'price': finalPrice, 'guestID': guestID }, 201)
                 else:
                     raise Exception("Invalid booking data")
             except Exception as ex:
                 try :
                     cursor = connection.cursor()
                     # Delete booking set if booking process failed (but booking set was created)
-                    cursor.execute(f"DELETE FROM booking WHERE Booking_Ref_ID = '{bookingRefID}'")
-                    connection.commit()
-                    connection.close()
+                    cursor.execute(f"DELETE FROM booking WHERE Booking_Ref_ID = '{bookingRefID}'")    
                 except Exception: pass
+                connection.commit()
+                connection.close()
                 return abort(400, message=f"Failed to create booking. Error: {ex}.")
         else:
             return abort(500, message="Failed to connect to database")
@@ -196,7 +197,7 @@ class UserCreateBooking(Resource):
 
                 # Create booking set
                 procedureStatus = 0
-                result_args = cursor.callproc('CreateBookingSet', (bookingRefID, flightID, username, travelClass, bookingCount, finalPrice, 0))
+                result_args = cursor.callproc('CreateBooking', (bookingRefID, flightID, username, travelClass, bookingCount, finalPrice, 0))
                 procedureStatus = result_args[-1]
                 
                 if procedureStatus == 1:
