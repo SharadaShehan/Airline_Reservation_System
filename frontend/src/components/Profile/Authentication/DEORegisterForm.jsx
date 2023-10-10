@@ -2,22 +2,25 @@ import React from "react";
 import { useState } from "react";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
+import axios from "axios";
 import "./authForms.css";
 
 export default function DEORegisterForm() {
+  const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const { setCurrentUserData } = UserGlobalState();
 
   const { setAuthForm } = AuthFormGlobalState();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [firstNameError, setFirstNameError] = useState(null);
   const [lastName, setLastName] = useState("");
   const [lastNameError, setLastNameError] = useState(null);
 
-  const submitfunc = (e) => {
+  const submitfunc = async (e) => {
     console.log("Submitted");
     e.preventDefault();
     // setCurrentUserData({
@@ -29,6 +32,37 @@ export default function DEORegisterForm() {
     //   'bookingsCount': 15,
     //   'category': 'Frequent'
     // });
+    const postData = {
+      username: username,
+      password: password,
+      firstname: firstName,
+      lastname: lastName,
+    };
+
+    try {
+      const response = await axios.post(`${BaseURL}/deo/register`, postData);
+      console.log(response);
+      if (response.status === 201) {
+        setCurrentUserData(response.data);
+        setAuthForm("deo-login");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const isFormValid = () => {
+    return (
+      username !== "" &&
+      password !== "" &&
+      firstName !== "" &&
+      lastName !== "" &&
+      confirmPassword !== "" &&
+      usernameError === null &&
+      passwordError === null &&
+      firstNameError === null &&
+      lastNameError === null
+    );
   };
 
   const validateUsername = () => {
@@ -49,6 +83,10 @@ export default function DEORegisterForm() {
       setPasswordError(`
           Password must be at least 4 characters long
           and can only contain letters, numbers and @
+      `);
+    } else if (password !== confirmPassword) {
+      setPasswordError(`
+          Passwords do not match
       `);
     } else {
       setPasswordError(null);
@@ -95,54 +133,84 @@ export default function DEORegisterForm() {
 
   return (
     <div className="registerFormWrapper">
-      <form className="authForm" onSubmit={submitfunc}>
+      <form
+        className="authForm"
+        onSubmit={submitfunc}
+        style={{ height: "650px", overflow: "auto" }}
+      >
         <span className="header">DEO Register</span>
-        <div className="formField">
-          <input
-            className="shortInput"
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={handleUsernameChange}
-            onBlur={validateUsername}
-          />
-          {usernameError && <div className="errorText">{usernameError}</div>}
-        </div>
-        <div className="formField">
-          <input
-            className="shortInput"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={handlePasswordChange}
-            onBlur={validatePassword}
-          />
-          {passwordError && <div className="errorText">{passwordError}</div>}
-        </div>
-        <div className="formField">
-          <input
-            className="shortInput"
-            type="text"
-            placeholder="First Name"
-            value={firstName}
-            onChange={handleFirstNameChange}
-            onBlur={validateFirstName}
-          />
+        <div className="reg-formField">
+          <div className="field-box">
+            <label className="field-label">First Name</label>
+            <input
+              className="shortInput"
+              type="text"
+              placeholder="First Name"
+              value={firstName}
+              onChange={handleFirstNameChange}
+              onBlur={validateFirstName}
+            />
+          </div>
           {firstNameError && <div className="errorText">{firstNameError}</div>}
         </div>
-        <div className="formField">
-          <input
-            className="shortInput"
-            type="text"
-            placeholder="Last Name"
-            value={lastName}
-            onChange={handleLastNameChange}
-            onBlur={validateLastName}
-          />
+        <div className="reg-formField">
+          <div className="field-box">
+            <label className="field-label">Last Name</label>
+            <input
+              className="shortInput"
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={handleLastNameChange}
+              onBlur={validateLastName}
+            />
+          </div>
           {lastNameError && <div className="errorText">{lastNameError}</div>}
         </div>
+        <div className="reg-formField">
+          <div className="field-box">
+            <label className="field-label">Username</label>
+            <input
+              className="shortInput"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={handleUsernameChange}
+              onBlur={validateUsername}
+            />
+          </div>
+          {usernameError && <div className="errorText">{usernameError}</div>}
+        </div>
+        <div className="reg-formField">
+          <div className="field-box">
+            <label className="field-label">Password</label>
+            <input
+              className="shortInput"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordChange}
+              onBlur={validatePassword}
+            />
+          </div>
+          {passwordError && <div className="errorText">{passwordError}</div>}
+        </div>
+        <div className="reg-formField">
+          <div className="field-box">
+            <label className="field-label">Confirm Password</label>
+            <input
+              className="shortInput"
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              onBlur={validatePassword}
+            />
+          </div>
+          {passwordError && <div className="errorText">{passwordError}</div>}
+        </div>
         <div className="button-container">
-          <button className="submitBtn" type="submit">
+          <button className="submitBtn" type="submit" disabled={!isFormValid()}>
             Register
           </button>
         </div>
