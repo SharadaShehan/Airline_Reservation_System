@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import "./passengersByType.css";
 
 function PassengersByType({ setAdminMenuItem }) {
@@ -15,7 +16,7 @@ function PassengersByType({ setAdminMenuItem }) {
   }
 
   async function handleViewClick() {
-    const token = "<Access_Token>";
+    const token = Cookies.get("access-token");
 
     console.log(
       `${BaseURL}/admin/bookings-by-ptype?fromDate=${from}&toDate=${to}`

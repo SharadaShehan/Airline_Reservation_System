@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./passengersByDestination.css";
+import Cookies from "js-cookie";
 
 function PassengersByDestination({ setAdminMenuItem }) {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -33,7 +34,7 @@ function PassengersByDestination({ setAdminMenuItem }) {
   }
 
   async function handleViewClick() {
-    const token = "<Access-Token>";
+    const token = Cookies.get("access-token");
     console.log(
       `${BaseURL}/admin/passengers-to-destination?fromDate=${from}&toDate=${to}&toAirport=${destination}`
     );
@@ -53,7 +54,7 @@ function PassengersByDestination({ setAdminMenuItem }) {
       console.error(error);
     }
   }
-  
+
   return (
     <div className="outer-box">
       <span className="view-by-date-dest">

@@ -1,43 +1,47 @@
 import UserLoginForm from "./UserLoginForm";
 import UserRegisterForm from "./UserRegisterForm";
+import AdminLoginForm from "./AdminLoginForm";
+import AdminRegisterForm from "./AdminRegisterForm";
+import DEOLoginForm from "./DEOLoginForm";
+import DEORegisterForm from "./DEORegisterForm";
+import AdminPortal from "./AdminPortal";
 import "./authForms.css";
 import "./loginOrRegister.css";
 import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
 
+export default function LoginOrRegister() {
+  const { authForm } = AuthFormGlobalState();
 
-export default function LoginOrRegister () {
-    const { authForm } = AuthFormGlobalState();
-
-    return (
-        <div className="formWrapper">
-          <div className="wrapper">
-            <img 
-                className="background-image" 
-                alt="Rectangle" 
-                src={require("../../../images/UserLogin.jpg")} />
-            <div className="user-login-or-register-container">
-              {renderPage()}
-            </div>
-          </div>
-        </div>
-    )
+  return (
+    <div className="formWrapper">
+      <div className="wrapper">
+        <img
+          className="background-image"
+          alt="Rectangle"
+          src={require("../../../images/UserLogin.jpg")}
+        />
+        <div className="user-login-or-register-container">{renderPage()}</div>
+      </div>
+    </div>
+  );
 
   function renderPage() {
     if (authForm === "user-login") {
-      return <UserLoginForm/>;
+      return <UserLoginForm />;
     } else if (authForm === "user-register") {
-      return <UserRegisterForm/>;
+      return <UserRegisterForm />;
     } else if (authForm === "deo-login") {
-      return <div>DEO Login</div>;
+      return <DEOLoginForm />;
     } else if (authForm === "deo-register") {
-      return <div>DEO Register</div>;
+      return <DEORegisterForm />;
     } else if (authForm === "admin-login") {
-      return <div>Admin Login</div>;
+      return <AdminLoginForm />;
     } else if (authForm === "admin-register") {
-      return <div>Admin Register</div>;
+      return <AdminRegisterForm />;
+    } else if (authForm === "admin-portal") {
+      return <AdminPortal />;
     } else {
       return <div>Invalid AuthForm</div>;
     }
   }
-
-};
+}

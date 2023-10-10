@@ -1,18 +1,16 @@
 import React from "react";
 import { useState } from "react";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
-import { BookingStepGlobalState } from "../../Layout/BookingStepGlobalState";
 import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./authForms.css";
 
-export default function UserLoginForm() {
+function DEOLoginForm() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
   const { setAuthForm } = AuthFormGlobalState();
   const { setCurrentUserData } = UserGlobalState();
-  const { setBookingStep } = BookingStepGlobalState();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
   const [password, setPassword] = useState("");
@@ -23,8 +21,8 @@ export default function UserLoginForm() {
     const usernameRegex = /^[a-zA-Z0-9_@]{3,30}$/;
     if (usernameRegex.test(username) === false) {
       setUsernameError(`
-          Enter a valid username
-      `);
+            Enter a valid username
+        `);
     } else {
       setUsernameError(null);
       setRandomError(null);
@@ -35,8 +33,8 @@ export default function UserLoginForm() {
     const passwordRegex = /^[a-zA-Z0-9@]{4,30}$/;
     if (passwordRegex.test(password) === false) {
       setPasswordError(`
-          Enter a valid password
-      `);
+            Enter a valid password
+        `);
     } else {
       setPasswordError(null);
       setRandomError(null);
@@ -68,12 +66,12 @@ export default function UserLoginForm() {
     };
 
     try {
-      const response = await axios.post(`${BaseURL}/user/auth`, postData);
+      const response = await axios.post(`${BaseURL}/deo/auth`, postData);
 
       if (response.status === 200) {
         Cookies.set("access-token", response.data.access_token, { expires: 1 });
         setCurrentUserData(response.data.userData);
-        setBookingStep("seatReserve");
+        //setAdmin profile Details
       } else {
         throw new Error("Something went wrong");
       }
@@ -89,7 +87,7 @@ export default function UserLoginForm() {
   return (
     <div className="loginFormWrapper">
       <form className="authForm" onSubmit={handleSubmitClick}>
-        <span className="header">Log in</span>
+        <span className="header">DEO Log in</span>
         <div className="formField">
           <input
             className="shortInput"
@@ -114,10 +112,15 @@ export default function UserLoginForm() {
         </div>
         {randomError && <div className="errorText">{randomError}</div>}
         <div className="button-container">
-          <button className="submitBtn">Cancel</button>
           <button
             className="submitBtn"
-            onClick={() => setAuthForm("user-register")}
+            onClick={() => setAuthForm("admin-portal")}
+          >
+            Back
+          </button>
+          <button
+            className="submitBtn"
+            onClick={() => setAuthForm("deo-register")}
           >
             Register Now
           </button>
@@ -126,12 +129,8 @@ export default function UserLoginForm() {
           </button>
         </div>
       </form>
-      <div className="swap">
-        One of Ours?&nbsp;
-        <button className="swapBtn" onClick={() => setAuthForm("admin-portal")}>
-          Staff Login
-        </button>
-      </div>
     </div>
   );
 }
+
+export default DEOLoginForm;

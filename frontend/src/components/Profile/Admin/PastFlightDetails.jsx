@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { v4 as uuid4 } from "uuid";
 import "./pastFlightDetails.css";
+import Cookies from "js-cookie";
 
 function PastFlightDetails({ setAdminMenuItem }) {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -32,7 +33,7 @@ function PastFlightDetails({ setAdminMenuItem }) {
   }
 
   async function handleViewClick() {
-    const token = "<Access_Token>";
+    const token = Cookies.get("access-token");
 
     console.log(
       `${BaseURL}/admin/past-flights?fromAirport=${origin}&toAirport=${destination}`

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import Cookies from "js-cookie";
 import "./passengersByFlight.css";
 
 function PassengersByFlight({ setAdminMenuItem }) {
@@ -32,7 +33,7 @@ function PassengersByFlight({ setAdminMenuItem }) {
   }
 
   async function handleViewClick() {
-    const token = "<Access-Token>";
+    const token = Cookies.get("access-token");
 
     console.log(origin, destination);
     console.log(

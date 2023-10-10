@@ -1,135 +1,203 @@
-
 .formWrapper {
-    background-color: rgba(0, 0, 0, 0);
-    padding-top: 2em;
-    padding-bottom: 2em;
+  background-color: rgba(0, 0, 0, 0);
+  padding-top: 2em;
+  padding-bottom: 2em;
 }
 
 .authForm {
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 2em 0;
-    display: flex;
-    flex-direction: column;
-    width: 50vw;
-    /* transform: translateX(30%); */
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 2.5em;
-    box-shadow: 0 0 0.4em 0 #000;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 2em 0;
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  /* transform: translateX(30%); */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* border-radius: 2.5em; */
+  box-shadow: 0 0 0.4em 0 #000;
 }
 
 .header {
-    font-size: 2.5em;
-    text-align: center;
-    margin-bottom: 1em;
-    color: #fff;
+  font-size: 2.5em;
+  font-family: "Bree Serif";
+  text-align: center;
+  margin-bottom: 1em;
+  color: #fff;
 }
 
 .formField {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .shortInput {
-    position:relative;
-    display:inline-block;
-    border:none;
-    border-radius: 2em;
-    outline: none;
-    height: 3em;
-    width: 50%;
-    margin: auto;
-    padding: 1.7em;
+  font-family: "Lexend";
+  background: rgb(255, 255, 255, 0.2);
+  color: #fff;
+  position: relative;
+  display: inline-block;
+  border: 2px solid #fff;
+  border-radius: 0.5em;
+  outline: none;
+  height: 3em;
+  width: 70%;
+  margin: auto;
+  padding: 1.7em;
+}
+.shortInput::placeholder {
+  color: white;
 }
 
-
 .shortInput:focus {
-    background: rgb(227, 246, 255);
-    color: #000;
-    box-shadow: 0 0 0.2em 0 #000;
-    transform: scale(1.03);
-    transition: all 0.2s ease-in-out;
+  background: rgb(227, 246, 255, 0.5);
+  color: #000;
+  box-shadow: 0 0 0.2em 0 #000;
+  transform: scale(1.03);
+  transition: all 0.2s ease-in-out;
 }
 
 .errorText {
-    color: #b10000;
-    font-weight: 500;
-    width: 50%;
-    margin: auto;
-    margin-top: 0.2em;
+  color: #b10000;
+  font-weight: 500;
+  width: 50%;
+  margin: auto;
+  margin-top: 0.2em;
 }
 
-.submitBtn { 
-    position:relative;
-    background: #3474ff;
-    color:#fff;
-    border:none;
-    border-radius: 2em;
-    height: 2.7em;
-    width: 20%;
-    margin: auto;
-    cursor:pointer;
-    font-size: 1.2em;
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5em;
+  margin-left: 30%;
+  margin-right: 10%;
+  gap: 1em;
+}
+.portal-button-container {
+  display: flex;
+  align-items: center;
+  margin-top: 1.5em;
+  margin-left: 70%;
+}
+
+.portal-button {
+  position: relative;
+  background: rgb(255, 255, 255, 0.2);
+  border: none;
+  margin: auto;
+  cursor: pointer;
+  font-family: "Lexend";
+  font-size: 1.5em;
+  border-radius: 7px;
+  color: #fff;
+  width: 620px;
+  height: 60px;
+}
+
+.portal-button:hover {
+  background: #1d5ade;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.portal-back-btn {
+  position: relative;
+  background: rgb(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  font-family: "Lexend";
+  font-size: 1.1em;
+  border-radius: 7px;
+  color: #fff;
+  width: 152px;
+  height: 44px;
+}
+
+.portal-back-btn:hover {
+  background: #1d5ade;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.submitBtn {
+  position: relative;
+  /* background: #3474ff; */
+  background: rgb(255, 255, 255, 0.2);
+  border: none;
+  /* border-radius: 2em; */
+  /* height: 2.7em;
+  width: 20%; */
+  margin: auto;
+  cursor: pointer;
+  font-family: "Lexend";
+  font-size: 1.1em;
+  border-radius: 7px;
+  color: #fff;
+  width: 152px;
+  height: 44px;
 }
 
 .submitBtn:hover {
-    background: #1d5ade;
-    transform: scale(1.05);
-    transition: all 0.2s ease-in-out;
+  background: #1d5ade;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
 }
 
 .submitBtn:disabled {
-    background: #b1b1b1;
+  background: #b1b1b1;
 }
 
 .swap {
-    font-size: 1.2em;
-    margin-top: 0.4em;
-    color: #fff;
+  font-family: "Lexend";
+  font-size: 1.2em;
+  margin-top: 1em;
+  color: #fff;
+  gap: 10px;
 }
 
 .swapBtn {
-    position:relative;
-    background: #8d64ff;
-    color:#fff;
-    border:none;
-    border-radius: 1em;
-    padding: 0.2em 1em;
-    margin: auto;
-    margin-left: 0.1em;
-    cursor:pointer;
-    font-size: 1em;
+  position: relative;
+  background: rgb(141, 100, 255, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 1em;
+  padding: 0.2em 1em;
+  margin: auto;
+  margin-left: 0.1em;
+  cursor: pointer;
+  font-size: 1em;
+  width: 162px;
+  height: 40px;
 }
 
 .swapBtn:hover {
-    background: #6b3dff;
-    transform: scale(1.05);
-    transition: all 0.2s ease-in-out;
+  background: #6b3dff;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
 }
 
 @media only screen and (max-width: 1024px) {
-    .authForm {
-        width: 80%;
-        transform: translateX(10%);
-        border-radius: 2em;
-    }
-    
-    .header {
-        font-size: 1.6em;
-    }
+  .authForm {
+    width: 80%;
+    transform: translateX(10%);
+    border-radius: 2em;
+  }
 
-    .shortInput {
-        width: 80%;
-        padding: 0.6em 1.4em;
-    }
+  .header {
+    font-size: 1.6em;
+  }
 
-    .submitBtn {
-        margin-top: 0.5em;
-        width: 45%;
-    }
+  .shortInput {
+    width: 80%;
+    padding: 0.6em 1.4em;
+  }
 
-    .swap {
-        margin-top: 0.5em;
-        font-size: 1.1em;
-    }
+  .submitBtn {
+    margin-top: 0.5em;
+    width: 45%;
+  }
+
+  .swap {
+    margin-top: 0.5em;
+    font-size: 1.1em;
+  }
 }
-

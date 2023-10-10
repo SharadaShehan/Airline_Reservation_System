@@ -1,83 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import "./viewRevenue.css";
 
 function ViewRevenue({ setAdminMenuItem }) {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
-  const token = "<Access_Token>";
+  const token = Cookies.get("access-token");
 
-  const [modelsList, setModelsList] = useState([
-    {
-      bookingSetsCount: 30,
-      model: "Boeing 737",
-      revenue: "18400.00",
-    },
-    {
-      bookingSetsCount: 24,
-      model: "Boeing 757",
-      revenue: "22380.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-    {
-      bookingSetsCount: 9,
-      model: "Airbus A380",
-      revenue: "11110.00",
-    },
-  ]);
+  const [modelsList, setModelsList] = useState([]);
   const [isView, setIsView] = useState(false);
 
   useEffect(
@@ -100,7 +30,7 @@ function ViewRevenue({ setAdminMenuItem }) {
       }
       getModelsList();
     },
-    [BaseURL]
+    [BaseURL, token]
   );
 
   function handleBackClick() {
