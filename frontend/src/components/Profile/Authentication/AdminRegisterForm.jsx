@@ -2,13 +2,14 @@ import React from "react";
 import { useState } from "react";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
+import Cookies from "js-cookie";
 import axios from "axios";
 import "./authForms.css";
-
 
 export default function AdminRegisterForm() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const { setCurrentUserData } = UserGlobalState();
+  const [randomError, setRandomError] = useState(null);
 
   const { setAuthForm } = AuthFormGlobalState();
   const [username, setUsername] = useState("");
@@ -44,8 +45,32 @@ export default function AdminRegisterForm() {
       const response = await axios.post(`${BaseURL}/admin/register`, postData);
       console.log(response);
       if (response.status === 201) {
-        setCurrentUserData(response.data);
-        setAuthForm("admin-login");
+        const postDataToken = {
+          username: username,
+          password: password,
+        };
+        try {
+          const responseToken = await axios.post(
+            `${BaseURL}/admin/auth`,
+            postDataToken
+          );
+
+          if (responseToken.status === 200) {
+            Cookies.set("access-token", responseToken.data.access_token, {
+              expires: 1,
+            });
+            setCurrentUserData(responseToken.data.userData);
+            setAuthForm("admin-login");
+          } else {
+            throw new Error("Something went wrong");
+          }
+        } catch (error) {
+          if (error.responseToken.status) {
+            if (error.responseToken.status === 401) {
+              setRandomError("Invalid username or password");
+            }
+          }
+        }
       }
     } catch (err) {
       console.log(err);
@@ -210,6 +235,7 @@ export default function AdminRegisterForm() {
           </div>
           {passwordError && <div className="errorText">{passwordError}</div>}
         </div>
+        {randomError && <div className="errorText">{randomError}</div>}
         <div className="button-container">
           <button className="submitBtn" type="submit" disabled={!isFormValid()}>
             Register
