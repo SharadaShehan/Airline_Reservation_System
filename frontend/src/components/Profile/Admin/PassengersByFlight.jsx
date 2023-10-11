@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Cookies from "js-cookie";
 import "./passengersByFlight.css";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
-
 function PassengersByFlight() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
   const { setUserMenuItem } = UserMenuGlobalState();
+  const { setCurrentUserData } = UserGlobalState();
   const [airportsList, setAirportsList] = useState([]);
   const [origin, setOrigin] = useState("origin");
   const [destination, setDestination] = useState("destination");
@@ -24,11 +25,22 @@ function PassengersByFlight() {
           setAirportsList(response.data);
         } catch (error) {
           console.log(error);
+          if (error.response && error.response.status === 401) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getAirportsList();
     },
-    [BaseURL]
+    [BaseURL, setCurrentUserData]
   );
 
   function handleBackClick() {
@@ -55,7 +67,18 @@ function PassengersByFlight() {
       console.log(response.data);
       setPassengers(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      if (error.response && error.response.status === 401) {
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
+      }
     }
   }
   return (
