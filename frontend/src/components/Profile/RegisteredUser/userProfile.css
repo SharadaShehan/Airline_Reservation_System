@@ -1,6 +1,3 @@
-
-
-
 .background-image {
   left: 0;
   object-fit: cover;
@@ -11,11 +8,121 @@
 }
 
 .registered-user-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 7%;
-    margin-bottom: 0;
-    height: 48vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 7%;
+  margin-bottom: 0;
+  height: 48vw;
+}
+
+.profileDetailsWrapper {
+  background: rgb(0, 0, 0, 0.5);
+  color: #fff;
+  width: 90%;
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.user-header {
+  font-family: "Bruno Ace", sans-serif;
+  margin-top: 20px;
+}
+
+.profileDetailsBox {
+  /* background-color: #333; */
+  color: #fff;
+  padding: 1em;
+  border-radius: 0.5em;
+  margin-top: 1em;
+}
+
+.profileDetailsBox div {
+  display: flex;
+  margin-bottom: 0.5em;
+}
+
+.profileDetailsBox label {
+  font-weight: bold;
+  margin-right: 2.5em;
+  width: 175px;
+  font-family: "Bruno Ace", sans-serif;
+}
+
+.profileDetailsBox span {
+  flex-grow: 1;
+  font-family: "Bruno Ace", sans-serif;
+}
+
+.user-buttonWrapper {
+  display: flex;
+  margin-top: 5%;
+  gap: 2em;
+  margin-bottom: 2%;
+}
+
+.user-button {
+  font-family: "Lexend", sans-serif;
+  height: 45px;
+  width: 250px;
+  border: none;
+  border-radius: 0.5em;
+  background: rgb(255, 255, 255, 0.2);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.user-button:hover:not(:disabled) {
+  background-color: blue;
+  color: white;
+  transform: translateY(-5px);
+}
+
+.user-button:disabled {
+  background: rgb(255, 255, 255, 0.2);
+}
+
+.not-clicked {
+  color: white;
+  font-family: "Lexend", sans-serif;
+  font-size: 1.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.user-table {
+  margin-top: 2em;
+  margin-left: 73px;
+  width: 90%;
+  /* max-width: 800px; */
+  border-collapse: collapse;
+}
+
+.user-th,
+.user-td {
+  padding: 10px;
+  text-align: center;
+  font-family: "Montserrat";
+  font-size: 18px;
+  /* border: 1px solid #ddd; */
+}
+
+.user-th {
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 1px solid #fff;
+}
+
+.user-td {
+  color: #fff;
+  font-weight: 400;
+}
+
+.checkbox {
+  width: 16px; /* Increase the width to enlarge the checkbox */
+  height: 16px; /* Increase the height to enlarge the checkbox */
 }
