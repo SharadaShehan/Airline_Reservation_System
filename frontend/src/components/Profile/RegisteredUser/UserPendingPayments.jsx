@@ -2,7 +2,9 @@ import React from "react";
 import { BookingStepGlobalState } from "../../Layout/BookingStepGlobalState";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
+import { BookingProcessGlobalState } from "../../Layout/BookingProcessGlobalState";
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Cookies from "js-cookie";
 import { v4 as uuvidv4 } from "uuid";
@@ -13,10 +15,12 @@ import "./userProfile.css";
 export default function PendingPayments() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
+  const navigate = useNavigate();
 
   const { setBookingStep } = BookingStepGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
   const { setCurrentUserData } = UserGlobalState();
+  const { setBookingProcessDetails } = BookingProcessGlobalState();
 
   const [isViewing, setIsViewing] = useState(false);
   const [pendingPayments, setPendingPayments] = useState([]);
@@ -68,7 +72,9 @@ export default function PendingPayments() {
 
   const handlePayNow = () => {
     setBookingStep("makePayment");
-    setUserMenuItem("book-flights");
+    // setBookingProcessDetails(selectedSingleBookingDetails);
+    setUserMenuItem("profile-details");
+    navigate('/book-flights');
   };
 
   console.log(selectedBookings);
