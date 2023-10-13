@@ -12,7 +12,6 @@ function ViewRevenue() {
   const { setUserMenuItem } = UserMenuGlobalState();
   const { setCurrentUserData } = UserGlobalState();
   const [modelsList, setModelsList] = useState([]);
-  const [isView, setIsView] = useState(false);
 
   useEffect(
     function () {
@@ -52,44 +51,34 @@ function ViewRevenue() {
     setUserMenuItem("profile-details");
   }
 
-  function handleViewClick() {
-    setIsView(true);
-  }
   return (
     <div className="outer-box">
       <span className="view-revenue">View Revenue By Model</span>
       <div className="inner-box">
-        {isView ? (
-          <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Model</th>
-                  <th>Booking Sets Count</th>
-                  <th>Revenue</th>
+        <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Booking Sets Count</th>
+                <th>Revenue</th>
+              </tr>
+            </thead>
+            <tbody>
+              {modelsList.map((model) => (
+                <tr key={model.model}>
+                  <td>{model.model}</td>
+                  <td>{model.bookingSetsCount}</td>
+                  <td>{model.revenue}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {modelsList.map((model) => (
-                  <tr key={model.model}>
-                    <td>{model.model}</td>
-                    <td>{model.bookingSetsCount}</td>
-                    <td>{model.revenue}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="no-data">Click view to see the revenue by model</div>
-        )}
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="buttons-div">
         <button onClick={handleBackClick} className="buttons">
           Back
-        </button>
-        <button onClick={handleViewClick} className="buttons">
-          View
         </button>
       </div>
     </div>
