@@ -34,6 +34,7 @@ td {
 th {
   color: #fff;
   font-weight: 500;
+  border-bottom: solid 2px #fff;
 }
 
 .view-revenue {

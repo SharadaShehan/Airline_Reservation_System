@@ -14,6 +14,7 @@ function PassengersByFlight() {
   const [airportsList, setAirportsList] = useState([]);
   const [origin, setOrigin] = useState("origin");
   const [destination, setDestination] = useState("destination");
+  const [filter, setFilter] = useState("all"); // ["all", "adults", "children"
   const [passengers, setPassengers] = useState([]);
 
   useEffect(
@@ -123,6 +124,21 @@ function PassengersByFlight() {
               </option>
             ))}
         </select>
+        <select
+          className="model-selection"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          <option className="model-option" value="all">
+            All
+          </option>
+          <option className="model-option" value="adults">
+            Adults
+          </option>
+          <option className="model-option" value="children">
+            Children
+          </option>
+        </select>
       </div>
       <div className="inner-box">
         {passengers.length === 0 ? (
@@ -142,15 +158,40 @@ function PassengersByFlight() {
                 </tr>
               </thead>
               <tbody>
-                {passengers.map((passenger) => (
-                  <tr key={uuidv4()}>
-                    <td>{passenger.passportID}</td>
-                    <td>{passenger.name}</td>
-                    <td>{passenger.travelClass}</td>
-                    <td>{passenger.seatNumber}</td>
-                    <td>{passenger.userType}</td>
-                  </tr>
-                ))}
+                {filter === "all" &&
+                  passengers.map((passenger) => (
+                    <tr key={uuidv4()}>
+                      <td>{passenger.passportID}</td>
+                      <td>{passenger.name}</td>
+                      <td>{passenger.travelClass}</td>
+                      <td>{passenger.seatNumber}</td>
+                      <td>{passenger.userType}</td>
+                    </tr>
+                  ))}
+                {filter === "adults" &&
+                  passengers
+                    .filter((passenger) => passenger.isAdult)
+                    .map((passenger) => (
+                      <tr key={uuidv4()}>
+                        <td>{passenger.passportID}</td>
+                        <td>{passenger.name}</td>
+                        <td>{passenger.travelClass}</td>
+                        <td>{passenger.seatNumber}</td>
+                        <td>{passenger.userType}</td>
+                      </tr>
+                    ))}
+                {filter === "children" &&
+                  passengers
+                    .filter((passenger) => !passenger.isAdult)
+                    .map((passenger) => (
+                      <tr key={uuidv4()}>
+                        <td>{passenger.passportID}</td>
+                        <td>{passenger.name}</td>
+                        <td>{passenger.travelClass}</td>
+                        <td>{passenger.seatNumber}</td>
+                        <td>{passenger.userType}</td>
+                      </tr>
+                    ))}
               </tbody>
             </table>
           </div>
