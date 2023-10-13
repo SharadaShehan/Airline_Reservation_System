@@ -122,7 +122,8 @@
   font-weight: 400;
 }
 
-.checkbox {
-  width: 16px; /* Increase the width to enlarge the checkbox */
-  height: 16px; /* Increase the height to enlarge the checkbox */
+.radio {
+  margin-top: 10px;
+  width: 18px; /* Increase the width to enlarge the radio button */
+  height: 18px; /* Increase the height to enlarge the radio button */
 }

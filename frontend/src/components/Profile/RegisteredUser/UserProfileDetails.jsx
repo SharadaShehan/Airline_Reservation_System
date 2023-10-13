@@ -1,9 +1,19 @@
 import React from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { BookingStepGlobalState } from "../../Layout/BookingStepGlobalState";
+import { useNavigate } from "react-router-dom";
 import "./userProfile.css";
 
 export default function UserProfileDetails({ userData }) {
   const { setUserMenuItem } = UserMenuGlobalState();
+  const { setBookingStep } = BookingStepGlobalState();
+  const navigate = useNavigate();
+
+  function handleBookFlightClick() {
+    setBookingStep("flightSearch");
+    setUserMenuItem("profile-details");
+    navigate("/book-flights");
+  }
 
   //   address: "123, Main St, Yishun, Singapore";
   //   birthDate: "Wed, 15 Mar 1995 00:00:00 GMT";
@@ -79,10 +89,7 @@ export default function UserProfileDetails({ userData }) {
           >
             View Pending Payments
           </button>
-          <button
-            className="user-button"
-            // handle button click to go to flight search page
-          >
+          <button className="user-button" onClick={handleBookFlightClick}>
             Book a Flight
           </button>
         </div>

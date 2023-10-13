@@ -4,7 +4,7 @@ import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import { BookingProcessGlobalState } from "../../Layout/BookingProcessGlobalState";
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { v4 as uuvidv4 } from "uuid";
@@ -25,7 +25,7 @@ export default function PendingPayments() {
   const [isViewing, setIsViewing] = useState(false);
   const [pendingPayments, setPendingPayments] = useState([]);
 
-  const [selectedBookings, setSelectedBookings] = useState([]);
+  const [selectedBooking, setSelectedBooking] = useState({});
 
   useEffect(
     function () {
@@ -62,22 +62,14 @@ export default function PendingPayments() {
     setIsViewing(true);
   }
 
-  const handleBookingSelect = (bookingRefID) => {
-    if (selectedBookings.includes(bookingRefID)) {
-      setSelectedBookings(selectedBookings.filter((tn) => tn !== bookingRefID));
-    } else {
-      setSelectedBookings([...selectedBookings, bookingRefID]);
-    }
-  };
-
   const handlePayNow = () => {
     setBookingStep("makePayment");
-    // setBookingProcessDetails(selectedSingleBookingDetails);
+    setBookingProcessDetails(selectedBooking);
     setUserMenuItem("profile-details");
-    navigate('/book-flights');
+    navigate("/book-flights");
   };
 
-  console.log(selectedBookings);
+  console.log(selectedBooking);
 
   return (
     <div className="profileDetailsWrapper">
@@ -100,10 +92,11 @@ export default function PendingPayments() {
                 <tr className="user-tr" key={payment.bookingRefID}>
                   <td className="user-td">
                     <input
-                    className="checkbox"
-                      type="checkbox"
-                      checked={selectedBookings.includes(payment.bookingRefID)}
-                      onChange={() => handleBookingSelect(payment.bookingRefID)}
+                      className="radio"
+                      type="radio"
+                      value={payment}
+                      checked={selectedBooking === payment}
+                      onChange={() => setSelectedBooking(payment)}
                     />
                   </td>
                   <td className="user-td">{payment.bookingRefID}</td>
@@ -152,7 +145,7 @@ export default function PendingPayments() {
           Go to Booked Tickets
         </button>
         <button
-          disabled={!selectedBookings.length}
+          disabled={!selectedBooking}
           className="user-button"
           onClick={handlePayNow}
         >
