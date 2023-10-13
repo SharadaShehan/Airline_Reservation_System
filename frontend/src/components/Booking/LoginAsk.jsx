@@ -1,26 +1,54 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
 import { UserGlobalState } from '../Layout/UserGlobalState';
-import LoginOrRegister from '../Profile/Authentication/LoginOrRegister';
-import "./commonComps.css"
-
+import "./loginAsk.css";
 
 export default function LoginAsk () {
     const { setBookingStep } = BookingStepGlobalState();
     const { currentUserData } = UserGlobalState();
     if (currentUserData.username != null )  { setBookingStep('seatReserve')};
 
+    function handleNext() {
+      setBookingStep('seatReserve');
+    }
+
+    function handleLogin() {
+      setBookingStep('userLogin');
+    }
+    
+    function handleBack(){
+      setBookingStep('flightSearch');
+    }
+
     return (
-        <>
-          <h1>Login Ask View</h1>
-          <div>
-              <LoginOrRegister/>
-              <div>
-                <button className='navigateBtn' onClick={() => setBookingStep('flightSearch')}>Back</button>
-                <button className='navigateBtn'  onClick={() => setBookingStep('seatReserve')}>Continue As Guest</button>
-              </div>
+      <>
+        <div className='back-box'>
+          <div className="glass-background"></div>
+          <div className="main-container">
+            <div className='front-content front-text title'>
+              Book Flight
+            </div>
+            <div className='sub-content'>
+              Continue as ...
+            </div>
+            <div className="search-btn">
+              <button class="transparent-button" onClick={handleNext}>Guest</button>
+            </div>
+            <div className="search-btn">
+              <button class="transparent-button" onClick={handleLogin}>Log in</button>
+            </div>
+            <div className="btn-set">
+              <button type="button" class="action-button btn">
+                  <Link to="/home" style={{color:"white", textDecoration:"none"}}>
+                    Cancel
+                  </Link>
+              </button>
+              <button type="button" class="action-button btn" onClick={handleBack}>Back</button>
+            </div>
           </div>
-        </>
+        </div>
+      </>
     )
 };
 
