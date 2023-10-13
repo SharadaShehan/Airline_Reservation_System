@@ -1,0 +1,115 @@
+.center-back{
+    width: 100%;
+    height: 100%;
+}
+.glass-back{
+    width: 100%;
+    height: 100%;
+    background-color: #20141a;
+    opacity: 0.7;
+    z-index: -1;
+    position: absolute;
+}
+.head-txt{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+}
+.des-contents{
+    width: 98%;
+    height: 68%;
+    margin: 1% 1% 1% 1%;
+    position: relative;
+}
+.success-txt{
+    font-size: 2.5em;
+}
+.id-txt{
+    font-size: 1.5em;
+}
+.des-txt{
+    font-size: 1.5em;
+    margin-top: 1%;
+    color: aliceblue;
+}
+.des-boxes{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    z-index: 0;
+    overflow: hidden;
+}
+.des-box-1{
+    width: 17.5%;
+    height: 100%;
+    margin-right: 0.5%;
+    display: flex;
+    flex-direction: column;
+}
+.des-box-2{
+    width: 22.5%;
+    height: 100%;
+    margin-right: 0.5%;
+}
+.des-box-3{
+    width: 18%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.des-box-4{
+    width: 22.5%;
+    height: 100%;
+    margin-left: 0.5%;
+}
+.des-box-5{
+    width: 17.5%;
+    height: 100%;
+    margin-left: 0.5%;
+    display: flex;
+    flex-direction: column;
+}
+.des-img {
+    width: 100%;
+    object-fit: cover;
+}
+.img-l{
+    height: 100%;
+}
+.img-s{
+    height: 50%;
+}
+.des-txt-box-corner{
+    padding: 2em 1em 1em 1em;
+    text-align: justify;
+    color: aliceblue;
+    font-size: 0.75em;
+}
+.des-txt-box-center{
+    padding: 1em 1em 2em 1em;
+    text-align: justify;
+    color: aliceblue;
+    font-size: 0.75em;
+}
+.btn-finish{
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+    margin: 2% 5% 2% 0;
+}
+.finish-button {
+    width: 15%;
+    background-color: gray;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 2;
+}
+.finish-button:hover {
+    background-color: #005EF5; /* Change background color to blue on hover */
+    color: white;
+    opacity: 90%;
+    border: none;
+} 

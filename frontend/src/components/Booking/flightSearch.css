@@ -169,7 +169,7 @@ td {
     border-radius: 6px; 
 }
 .table-container::-webkit-scrollbar-track:hover {
-    background-color: #f0f0f0; 
+    background-color: transparent
 }
 .table-container::-webkit-scrollbar-thumb:hover {
     background-color: #0056b3; 
@@ -194,4 +194,14 @@ td {
     color: white;
     opacity: 90%;
     border: none;
+}
+.ticket-data{
+    color: #ffffff;
+}
+.tck-data{
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
 }
