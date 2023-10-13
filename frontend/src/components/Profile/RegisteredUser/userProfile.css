@@ -127,3 +127,9 @@
   width: 18px; /* Increase the width to enlarge the radio button */
   height: 18px; /* Increase the height to enlarge the radio button */
 }
+
+.loading-text {
+  margin-top: 150px;
+  color: #fff;
+  font-family: "Lexend", sans-serif;
+}

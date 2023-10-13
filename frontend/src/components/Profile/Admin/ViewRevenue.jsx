@@ -56,24 +56,28 @@ function ViewRevenue() {
       <span className="view-revenue">View Revenue By Model</span>
       <div className="inner-box">
         <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
-          <table>
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>Booking Sets Count</th>
-                <th>Revenue</th>
-              </tr>
-            </thead>
-            <tbody>
-              {modelsList.map((model) => (
-                <tr key={model.model}>
-                  <td>{model.model}</td>
-                  <td>{model.bookingSetsCount}</td>
-                  <td>{model.revenue}</td>
+          {modelsList.length ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Booking Sets Count</th>
+                  <th>Revenue</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {modelsList.map((model) => (
+                  <tr key={model.model}>
+                    <td>{model.model}</td>
+                    <td>{model.bookingSetsCount}</td>
+                    <td>{model.revenue}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <h4 className="loading-text">Loading Details Please Wait....</h4>
+          )}
         </div>
       </div>
       <div className="buttons-div">

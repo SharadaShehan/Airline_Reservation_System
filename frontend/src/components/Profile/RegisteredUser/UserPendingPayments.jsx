@@ -69,50 +69,54 @@ export default function PendingPayments() {
     <div className="profileDetailsWrapper">
       <h1 className="user-header">Pending Payments</h1>
       <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
-        <table className="user-table">
-          <thead className="user-thead">
-            <tr className="user-tr">
-              <th className="user-th">Select / Deselect</th>
-              <th className="user-th">Booking Ref ID</th>
-              <th className="user-th">Flight ID</th>
-              <th className="user-th">Passengers</th>
-              <th className="user-th">Price</th>
-              <th className="user-th">Travel Class</th>
-            </tr>
-          </thead>
-          <tbody className="user-tbody">
-            {pendingPayments.map((payment) => (
-              <tr className="user-tr" key={payment.bookingRefID}>
-                <td className="user-td">
-                  <input
-                    className="radio"
-                    type="radio"
-                    value={payment}
-                    checked={selectedBooking === payment}
-                    onChange={() => setSelectedBooking(payment)}
-                  />
-                </td>
-                <td className="user-td">{payment.bookingRefID}</td>
-                <td className="user-td">{payment.flightID}</td>
-                <td className="user-td">
-                  <ul>
-                    {payment.passengers.map((passenger) => (
-                      <li key={uuvidv4()}>
-                        {passenger.firstName} {passenger.lastName} (
-                        {passenger.isAdult ? "Adult" : "Child"},{" "}
-                        {"Passport ID : "}
-                        {passenger.passportID}, {" Seat No : "}
-                        {passenger.seatNumber})
-                      </li>
-                    ))}
-                  </ul>
-                </td>
-                <td className="user-td">{payment.price}</td>
-                <td className="user-td">{payment.travelClass}</td>
+        {pendingPayments.length ? (
+          <table className="user-table">
+            <thead className="user-thead">
+              <tr className="user-tr">
+                <th className="user-th">Select / Deselect</th>
+                <th className="user-th">Booking Ref ID</th>
+                <th className="user-th">Flight ID</th>
+                <th className="user-th">Passengers</th>
+                <th className="user-th">Price</th>
+                <th className="user-th">Travel Class</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="user-tbody">
+              {pendingPayments.map((payment) => (
+                <tr className="user-tr" key={payment.bookingRefID}>
+                  <td className="user-td">
+                    <input
+                      className="radio"
+                      type="radio"
+                      value={payment}
+                      checked={selectedBooking === payment}
+                      onChange={() => setSelectedBooking(payment)}
+                    />
+                  </td>
+                  <td className="user-td">{payment.bookingRefID}</td>
+                  <td className="user-td">{payment.flightID}</td>
+                  <td className="user-td">
+                    <ul>
+                      {payment.passengers.map((passenger) => (
+                        <li key={uuvidv4()}>
+                          {passenger.firstName} {passenger.lastName} (
+                          {passenger.isAdult ? "Adult" : "Child"},{" "}
+                          {"Passport ID : "}
+                          {passenger.passportID}, {" Seat No : "}
+                          {passenger.seatNumber})
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td className="user-td">{payment.price}</td>
+                  <td className="user-td">{payment.travelClass}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <h4 className="loading-text">Loading Details Please Wait....</h4>
+        )}
       </div>
       <div className="user-buttonWrapper">
         <button

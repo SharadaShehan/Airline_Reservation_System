@@ -94,3 +94,9 @@ th {
   transform: scale(1.1);
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
 }
+
+.loading-text {
+  margin-top: 150px;
+  color: #fff;
+  font-family: "Lexend", Helvetica;
+}

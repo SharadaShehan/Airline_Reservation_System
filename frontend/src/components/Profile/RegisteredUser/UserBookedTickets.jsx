@@ -48,36 +48,40 @@ export default function UserBookedTickets({ userData }) {
     <div className="profileDetailsWrapper">
       <h1 className="user-header">Booked Tickets</h1>
       <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
-        <table className="user-table">
-          <thead className="user-thead">
-            <tr className="user-tr">
-              <th className="user-th">Ticket Number</th>
-              <th className="user-th">Passenger</th>
-              <th className="user-th">Passport ID</th>
-              <th className="user-th">From</th>
-              <th className="user-th">To</th>
-              <th className="user-th">Seat</th>
-              <th className="user-th">Class</th>
-              <th className="user-th">Depature Date</th>
-              <th className="user-th">Depature Time</th>
-            </tr>
-          </thead>
-          <tbody className="user-tbody">
-            {bookedTickets.map((ticket) => (
-              <tr className="user-tr" key={ticket.ticketNumber}>
-                <td className="user-td">{ticket.ticketNumber}</td>
-                <td className="user-td">{ticket.passenger}</td>
-                <td className="user-td">{ticket.passportID}</td>
-                <td className="user-td">{ticket.from.city}</td>
-                <td className="user-td">{ticket.to.city}</td>
-                <td className="user-td">{ticket.seat}</td>
-                <td className="user-td">{ticket.class}</td>
-                <td className="user-td">{ticket.departureDate}</td>
-                <td className="user-td">{ticket.departureTime}</td>
+        {bookedTickets.length ? (
+          <table className="user-table">
+            <thead className="user-thead">
+              <tr className="user-tr">
+                <th className="user-th">Ticket Number</th>
+                <th className="user-th">Passenger</th>
+                <th className="user-th">Passport ID</th>
+                <th className="user-th">From</th>
+                <th className="user-th">To</th>
+                <th className="user-th">Seat</th>
+                <th className="user-th">Class</th>
+                <th className="user-th">Depature Date</th>
+                <th className="user-th">Depature Time</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="user-tbody">
+              {bookedTickets.map((ticket) => (
+                <tr className="user-tr" key={ticket.ticketNumber}>
+                  <td className="user-td">{ticket.ticketNumber}</td>
+                  <td className="user-td">{ticket.passenger}</td>
+                  <td className="user-td">{ticket.passportID}</td>
+                  <td className="user-td">{ticket.from.city}</td>
+                  <td className="user-td">{ticket.to.city}</td>
+                  <td className="user-td">{ticket.seat}</td>
+                  <td className="user-td">{ticket.class}</td>
+                  <td className="user-td">{ticket.departureDate}</td>
+                  <td className="user-td">{ticket.departureTime}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <h4 className="loading-text">Loading Details Please Wait....</h4>
+        )}
       </div>
       <div className="user-buttonWrapper">
         <button
