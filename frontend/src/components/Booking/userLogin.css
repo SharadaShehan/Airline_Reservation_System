@@ -1,0 +1,58 @@
+.mid-box{
+    width: 40%;
+    height: 70%;
+    top: 0;
+    position: relative;
+}
+.glass-background{
+    width: 100%;
+    height: 100%;
+    background-color: #20141a;
+    opacity: 0.7;
+    z-index: 1;
+    position: absolute;
+}
+.sub-content{
+    color: whitesmoke;
+    font-size: 1.2em;
+    padding-bottom: 2%;
+}
+.main-container{
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+}
+.front-content{
+    color: white;
+    z-index: 0;
+}
+.front-text{
+    z-index: 1;
+}
+.title{
+    font-size: 2em;
+    padding: 0.5em 0 0.5em 0;
+}
+.user-data{
+    width: 70%;
+    text-align: left;
+    padding: 2% 1% 5% 1%;
+    margin: 0 15% 0 15%;
+    color: #ffffff;
+}
+.transparent-button {
+    width: 100%;
+    height: 2.5em;
+    background-color: transparent;
+    border: 1px solid white;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Add a smooth transition effect */
+}
+.transparent-button:hover {
+    background-color: #005EF5; /* Change background color to blue on hover */
+    color: white;
+    opacity: 90%;
+    border: none;
+}

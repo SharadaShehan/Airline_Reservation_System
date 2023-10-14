@@ -11,7 +11,7 @@ import "./adminProfile.css";
 
 
 export default function AdminProfile({ userData }) {
-  const { userMenuItem, setUserMenuItem } = UserMenuGlobalState();
+  const { userMenuItem } = UserMenuGlobalState();
 
   // useEffect(() => {
   //   setUserMenuItem("profile-details");

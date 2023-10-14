@@ -1,0 +1,16 @@
+.count-select{
+    width: 300%;
+    display: flex;
+    flex-direction: row;
+    margin: 0 -100% 0 -100%;
+    align-items: center;
+    justify-content: center;
+    gap: 3%;
+    margin-top: 3%;
+}
+.sub-grp-count{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
