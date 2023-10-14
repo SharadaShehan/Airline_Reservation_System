@@ -15,7 +15,7 @@ from app.api.resources.cancel_booking_api import GuestCancelBooking, UserCancelB
 from app.api.resources.get_available_seats_api import GetAvailableSeats
 from app.api.resources.search_api import SearchFlights
 from app.api.resources.admin_view_reports import GetRevenueByModel
-from app.api.resources.admin_search_api import GetPassengersByNextFlight, GetPassengersByDateDestination, GetBookingCountByDatePassengerType, GetPastFlightsDetails
+from app.api.resources.admin_search_api import GetPassengersByNextFlight, GetPassengersByDateDestination, GetBookingCountByDatePassengerType, GetPastFlightsDetails, GetPassengersByRouteID
 from app.api.resources.search_api import SearchBookedTickets,SearchUserBookedTickets
 from app.api.resources.get_all_api import GetAllAirplanes, GetAllAirports, GetAllRoutes, GetAllModels
 from app.api.resources.deo_get_all_api import DEOGetAllModels, DEOGetAllRoutes, DEOGetAllAirplanes, DEOGetAllAirports
@@ -50,6 +50,7 @@ api.add_resource(DEOGetAllModels, '/deo/get/models')    # GET method to get all 
 api.add_resource(GetPastFlightsDetails, '/admin/past-flights')    # GET method to get past flights details
 api.add_resource(GetBookingCountByDatePassengerType, '/admin/bookings-by-ptype')    # GET method to get booking count by date and passenger type
 api.add_resource(GetPassengersByDateDestination, '/admin/passengers-to-destination')    # GET method to get passengers by date and destination
+api.add_resource(GetPassengersByRouteID, '/admin/next-flight-by-id/<route_id>/passengers')    # GET method to get passengers by route id
 api.add_resource(GetPassengersByNextFlight, '/admin/next-flight/passengers')    # GET method to get passengers by flight
 api.add_resource(GetRevenueByModel, '/admin/revenue-by-model')    # GET method to get revenue by model
 api.add_resource(UpdateAdmin, '/admin/update/account')    # PATCH method to update admin

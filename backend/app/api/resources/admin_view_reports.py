@@ -14,11 +14,11 @@ class GetRevenueByModel(Resource):
 
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 # check if user is admin
                 username = get_jwt_identity()
-                cursor.execute(f"SELECT * FROM staff WHERE Username = '{username}' AND Role = 'Admin'")
+                cursor.execute("SELECT * FROM staff WHERE Username = %s AND Role = 'Admin'", (username,))
                 query_result = cursor.fetchone()
                 
                 if query_result is None or query_result[0] is None:

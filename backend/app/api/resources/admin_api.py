@@ -19,7 +19,7 @@ class AdminGetAuthToken(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     args = parser.parse_args()
@@ -46,9 +46,9 @@ class AdminGetAuthToken(Resource):
                         JOIN user AS usr ON stf.Username = usr.Username
                     WHERE stf.Username = %s AND stf.Role = 'Admin'
                 """
-
+                values = [username]
                 # Execute query with username
-                cursor.execute(query,(username,))    # parameter values must be in a tuple
+                cursor.execute(query, values)  
                 items = cursor.fetchone()
                 connection.close()
 
@@ -86,7 +86,7 @@ class GetAdminDetails(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 username = get_jwt_identity()    # get username from jwt token
                 # SQL query to get user details
@@ -101,9 +101,9 @@ class GetAdminDetails(Resource):
                         JOIN user AS usr ON stf.Username = usr.Username
                     WHERE stf.Username = %s AND stf.Role = 'Admin'
                 """
-
+                values = [username]
                 # Execute query with username
-                cursor.execute(query,(username,))
+                cursor.execute(query, values) 
                 items = cursor.fetchone()
                 connection.close()
 

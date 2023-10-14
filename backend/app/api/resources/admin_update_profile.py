@@ -22,7 +22,7 @@ class UpdateAdmin(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     args = parser.parse_args()
@@ -54,7 +54,7 @@ class UpdateAdmin(Resource):
                         raise Exception("Invalid user data")
                     
                     # update user
-                    cursor.execute(f"UPDATE user SET FirstName = '{firstname}', LastName = '{lastname}' WHERE Username = '{current_user}'")
+                    cursor.execute("UPDATE user SET FirstName = %s, LastName = %s WHERE Username = %s", (firstname, lastname, current_user))
 
                 else:
                     # Validate user data
@@ -62,7 +62,7 @@ class UpdateAdmin(Resource):
                         raise Exception("Invalid user data")
                     
                     # Check if current password is correct
-                    cursor.execute(f"SELECT Password FROM user WHERE Username = '{current_user}'")
+                    cursor.execute("SELECT Password FROM user WHERE Username = %s", (current_user,))
                     passwordfetched = cursor.fetchone()
                     if passwordfetched is None:
                         raise Exception("Invalid username")
@@ -71,7 +71,7 @@ class UpdateAdmin(Resource):
                     
                     # update user
                     hashed_password = generate_password_hash(new_password.strip(), method='scrypt')
-                    cursor.execute(f"UPDATE user SET FirstName = '{firstname}', LastName = '{lastname}', Password = '{hashed_password}' WHERE Username = '{current_user}'")
+                    cursor.execute("UPDATE user SET FirstName = %s, LastName = %s, Password = %s WHERE Username = %s", (firstname, lastname, hashed_password, current_user))
                 
                 connection.commit()
                 connection.close()

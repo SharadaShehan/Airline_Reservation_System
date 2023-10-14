@@ -22,7 +22,7 @@ class RegisterAdmin(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     args = parser.parse_args()
@@ -32,7 +32,7 @@ class RegisterAdmin(Resource):
                 current_user = get_jwt_identity()
 
                 # Check if current user is admin
-                cursor.execute(f"SELECT * FROM staff WHERE Username = '{current_user}' AND Role = 'Admin'")
+                cursor.execute("SELECT * FROM staff WHERE Username = %s AND Role = 'Admin'", (current_user,))
                 userfetched = cursor.fetchone()
                 if userfetched is None:
                     raise Exception("403")
@@ -47,7 +47,7 @@ class RegisterAdmin(Resource):
                     raise Exception("Invalid user data")
                 
                 # Check if username already exists
-                cursor.execute(f"SELECT * FROM user WHERE Username = '{username}'")
+                cursor.execute("SELECT * FROM user WHERE Username = %s", (username,))
                 userfetched = cursor.fetchone()
                 if userfetched is not None:
                     raise Exception("Username already exists")
@@ -58,20 +58,10 @@ class RegisterAdmin(Resource):
                 
                 # Register admin
                 hashed_password = generate_password_hash(password.strip(), method='scrypt')
-                cursor.execute(f"""
-                    INSERT 
-                    INTO user 
-                        (Username, Password, FirstName, LastName)
-                    VALUES
-                        ('{username}', '{hashed_password}', '{firstname}', '{lastname}')           
-                """)
-                cursor.execute(f"""
-                    INSERT
-                    INTO staff
-                        (Username, Role)
-                    VALUES
-                        ('{username}', 'Admin')
-                """)
+                cursor.execute("""
+                    INSERT INTO user (Username, Password, FirstName, LastName) VALUES (%s, %s, %s, %s)""", (username, hashed_password, firstname, lastname))
+                cursor.execute("""
+                    INSERT INTO staff (Username, Role) VALUES (%s, 'Admin')""", (username,))
                 connection.commit()
                 connection.close()
 
