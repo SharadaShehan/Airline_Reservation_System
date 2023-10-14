@@ -14,7 +14,7 @@ class DEOGetAllModels(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 # Get current user
                 current_user = get_jwt_identity()
@@ -63,7 +63,7 @@ class DEOGetAllRoutes(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 # Get current user
                 current_user = get_jwt_identity()
@@ -133,7 +133,7 @@ class DEOGetAllAirports(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 # Get current user
                 current_user = get_jwt_identity()
@@ -189,7 +189,7 @@ class DEOGetAllAirplanes(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 # Get current user
                 current_user = get_jwt_identity()

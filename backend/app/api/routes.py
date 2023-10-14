@@ -16,7 +16,7 @@ from app.api.resources.get_available_seats_api import GetAvailableSeats
 from app.api.resources.search_api import SearchFlights
 from app.api.resources.admin_view_reports import GetRevenueByModel
 from app.api.resources.admin_search_api import GetPassengersByNextFlight, GetPassengersByDateDestination, GetBookingCountByDatePassengerType, GetPastFlightsDetails, GetPassengersByRouteID
-from app.api.resources.search_api import SearchBookedTickets,SearchUserBookedTickets
+from app.api.resources.search_api import SearchBookedTickets,SearchUserBookedTickets, SearchGuestBookedTickets
 from app.api.resources.get_all_api import GetAllAirplanes, GetAllAirports, GetAllRoutes, GetAllModels
 from app.api.resources.deo_get_all_api import DEOGetAllModels, DEOGetAllRoutes, DEOGetAllAirplanes, DEOGetAllAirports
 from app.api.resources.deo_schedule_flight_api import DEOScheduleFlight
@@ -68,7 +68,8 @@ api.add_resource(RegisterUser, '/user/register')    # POST method to register us
 api.add_resource(GetUserDetails, '/user/details/account')   # GET method to get user details
 api.add_resource(UserGetAuthToken, '/user/auth')    # POST method to get JWT token
 
-api.add_resource(SearchBookedTickets, '/tickets/guest/search')    # GET method to search bookings
+api.add_resource(SearchGuestBookedTickets,'/tickets/guest/search') # GET method to search booked tickets of guest
+api.add_resource(SearchBookedTickets, '/tickets/guest/search-by-ref-id')    # GET method to search bookings
 api.add_resource(CompleteBooking, '/booking/complete/<bkset_id>')    # POST method to complete booking
 api.add_resource(GuestCancelBooking, '/booking/cancel/guest/<bkset_id>/<guest_id>')    # DELETE method to cancel booking
 api.add_resource(GuestPendingPayments, '/guest/pending-payments/<guest_id>')    # GET method to get guest's pending payments

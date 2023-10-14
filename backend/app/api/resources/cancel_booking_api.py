@@ -14,20 +14,20 @@ class GuestCancelBooking(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
                 # Check if booking ID and guest ID are in correct format
                 if not validate_booking_set_id_format(bkset_id) or not validate_guest_id_format(guest_id):
                     raise Exception("Invalid booking ID or guest ID")
                 
-                cursor.execute(f"""
+                cursor.execute("""
                     SELECT 
                         bkset.User, bkset.Completed
                     FROM 
                         booking as bkset
                         INNER JOIN guest as gst ON bkset.Booking_Ref_ID = gst.Booking_Ref_ID
                     WHERE
-                        bkset.Booking_Ref_ID = '{bkset_id}' AND gst.Guest_ID = '{guest_id}'           
-                """)
+                        bkset.Booking_Ref_ID = %s AND gst.Guest_ID = %s           
+                """, (bkset_id, guest_id))
 
                 query_result = cursor.fetchone()
                 # Check if booking exists
@@ -41,7 +41,7 @@ class GuestCancelBooking(Resource):
                     raise Exception("Completed booking cannot be cancelled")
                 
                 # delete booking
-                cursor.execute(f"DELETE FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute("DELETE FROM booking WHERE Booking_Ref_ID = %s", (bkset_id,))
                 
                 connection.commit()
                 connection.close()
@@ -65,12 +65,12 @@ class UserCancelBooking(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
                 # Check if booking ID is in correct format
                 if not validate_booking_set_id_format(bkset_id):
                     raise Exception("Invalid booking ID")
 
-                cursor.execute(f"SELECT User, Completed FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute("SELECT User, Completed FROM booking WHERE Booking_Ref_ID = %s", (bkset_id,))
                 query_result = cursor.fetchone()
                 # Check if booking exists
                 if query_result is None:
@@ -83,7 +83,7 @@ class UserCancelBooking(Resource):
                     raise Exception("Completed booking cannot be cancelled")
                 
                 # Complete booking
-                cursor.execute(f"DELETE FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute("DELETE FROM booking WHERE Booking_Ref_ID = %s", (bkset_id,))
                 
                 connection.commit()
                 connection.close()

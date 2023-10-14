@@ -27,7 +27,7 @@ class CompleteBooking(Resource):
                 if not validate_payment(bkset_id, transactionID):
                     raise Exception("Invalid payment data")
                 
-                cursor.execute(f"SELECT Completed FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute("SELECT Completed FROM booking WHERE Booking_Ref_ID = %s", (bkset_id,))
                 query_result = cursor.fetchone()
                 # Check if booking exists
                 if query_result is None:

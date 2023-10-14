@@ -15,11 +15,11 @@ class UserPendingPayments(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
                 username = get_jwt_identity()
                 
                 # SQL query to get user's pending payments
-                get_pending_payments_query = f"""
+                get_pending_payments_query = """
                     SELECT 
                         bkset.Booking_Ref_ID AS bookingRefID,
                         bkset.Final_Price AS price,
@@ -36,11 +36,11 @@ class UserPendingPayments(Resource):
                         INNER JOIN base_price as bprc on bkset.BPrice_Per_Booking = bprc.Price_ID
                         INNER JOIN scheduled_flight as shf on bkset.Scheduled_Flight = shf.Scheduled_ID
                     WHERE
-                        bkset.User = '{username}'
+                        bkset.User = %s
                         AND bkset.Completed = 0
                     ORDER BY bkset.Created_At DESC;
                 """
-                cursor.execute(get_pending_payments_query)
+                cursor.execute(get_pending_payments_query, (username,))
                 result = cursor.fetchall()
                 
                 # convert result to list of dictionaries
@@ -87,14 +87,14 @@ class GuestPendingPayments(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 # validate guest id format
                 if not validate_guest_id_format(guest_id):
                     raise Exception("Invalid guest id format")
                 
                 # SQL query to get user's pending payments
-                get_pending_payments_query = f"""
+                get_pending_payments_query = """
                     SELECT 
                         bkset.Booking_Ref_ID AS bookingRefID,
                         bkset.Final_Price AS price,
@@ -112,10 +112,10 @@ class GuestPendingPayments(Resource):
                         INNER JOIN scheduled_flight as shf on bkset.Scheduled_Flight = shf.Scheduled_ID
                         INNER JOIN guest as gst on bkset.Booking_Ref_ID = gst.Booking_Ref_ID
                     WHERE
-                        gst.Guest_ID = '{guest_id}'
+                        gst.Guest_ID = %s
                         AND bkset.Completed = 0
                 """
-                cursor.execute(get_pending_payments_query)
+                cursor.execute(get_pending_payments_query, (guest_id,))
                 result = cursor.fetchall()
                 
                 # convert result to list of dictionaries

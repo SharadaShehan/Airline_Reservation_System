@@ -26,7 +26,7 @@ class RegisterUser(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     args = parser.parse_args()
@@ -49,7 +49,7 @@ class RegisterUser(Resource):
                     raise Exception("Invalid user data")
 
                 # Check if username already exists
-                cursor.execute(f"SELECT * FROM user WHERE Username = '{username}'")
+                cursor.execute("SELECT * FROM user WHERE Username = %s", (username,))
                 userfetched = cursor.fetchone()
                 if userfetched is not None:
                     raise Exception("Username already exists")
@@ -60,20 +60,11 @@ class RegisterUser(Resource):
                 
                 # Register user
                 hashed_password = generate_password_hash(password.strip(), method='scrypt')
-                cursor.execute(f"""
-                    INSERT 
-                    INTO user 
-                        (Username, Password, FirstName, LastName)
-                    VALUES
-                        ('{username}', '{hashed_password}', '{firstname}', '{lastname}')           
-                """)
-                cursor.execute(f"""
-                    INSERT
-                    INTO registered_user
-                        (Username, Passport_ID, Address, Birth_Date, Gender, Email, Contact_Number)
-                    VALUES
-                        ('{username}', '{passportID}', '{address}', '{birthDate}', '{gender}', '{email}', '{contactNumber}')
-                """)
+                cursor.execute("""
+                    INSERT INTO user (Username, Password, FirstName, LastName) VALUES (%s, %s, %s, %s)""", (username, hashed_password, firstname, lastname))
+                cursor.execute("""
+                    INSERT INTO registered_user (Username, Passport_ID, Address, Birth_Date, Gender, Email, Contact_Number)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)""", (username, passportID, address, birthDate, gender, email, contactNumber))
                 connection.commit()
                 connection.close()
 

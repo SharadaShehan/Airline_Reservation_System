@@ -13,14 +13,14 @@ class GetAvailableSeats(Resource):
 
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 # Validate flight ID
                 if not validate_flight_id(flight_id):
                     raise Exception("Invalid flight ID")
 
                 # Get all reserved seats for a flight
-                cursor.execute(f"SELECT * FROM seat_reservation WHERE ID = {int(flight_id)}")
+                cursor.execute("SELECT * FROM seat_reservation WHERE ID = %s", (int(flight_id),))
                 query_result = cursor.fetchall()
 
                 response = {}

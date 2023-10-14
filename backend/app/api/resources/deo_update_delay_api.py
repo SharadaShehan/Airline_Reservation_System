@@ -19,7 +19,7 @@ class DEOupdateDelay(Resource):
 
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     request_data = parser.parse_args()

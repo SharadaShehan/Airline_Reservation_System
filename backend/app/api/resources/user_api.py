@@ -19,7 +19,7 @@ class UserGetAuthToken(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     args = parser.parse_args()
@@ -101,7 +101,7 @@ class GetUserDetails(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 username = get_jwt_identity()    # get username from jwt token
                 # SQL query to get user details

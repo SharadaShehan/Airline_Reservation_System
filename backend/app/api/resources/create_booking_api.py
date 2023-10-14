@@ -75,7 +75,7 @@ class GuestCreateBooking(Resource):
                 bookingRefID = result_args[-3]
 
                 if procedureStatus == 1:
-                    cursor.execute(f"SELECT Guest_ID FROM guest WHERE Booking_Ref_ID = '{bookingRefID}'")
+                    cursor.execute("SELECT Guest_ID FROM guest WHERE Booking_Ref_ID = %s", (bookingRefID,))
                     guestID = cursor.fetchone()[0]
                     connection.commit()
                     connection.close()

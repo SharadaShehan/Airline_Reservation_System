@@ -14,7 +14,7 @@ class GetAllModels(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
                 
                 query = """
                     SELECT Model_ID, Name FROM model 
@@ -47,7 +47,7 @@ class GetAllRoutes(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
                 
                 query = """
                     SELECT 
@@ -101,7 +101,7 @@ class GetAllAirports(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
                 
                 query = """
                     SELECT 
@@ -141,7 +141,7 @@ class GetAllAirplanes(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
                 
                 query = """
                     SELECT 

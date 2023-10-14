@@ -14,7 +14,7 @@ class SearchFlights(Resource):
 
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
                 from_airport = request.args.get('fromAirport')
                 to_airport = request.args.get('toAirport')
                 date = request.args.get('date')
@@ -24,9 +24,9 @@ class SearchFlights(Resource):
                     raise Exception("Invalid search parameters")
                 
                 # Get all flights for given parameters
-                cursor.execute(f"""SELECT 
+                cursor.execute("""SELECT 
                                ID, originIATA, originAddress, departureDateAndTime, destinationIATA, destinationAddress, arrivalDateAndTime, durationMinutes, airplaneModel
-                               FROM flight WHERE originICAO = '{from_airport}' AND destinationICAO = '{to_airport}' AND DATE(departureDateAndTime) = '{date}'""")
+                               FROM flight WHERE originICAO = %s AND destinationICAO = %s AND DATE(departureDateAndTime) = %s;""", (from_airport, to_airport, date))
                 query_result = cursor.fetchall()
 
                 # Check if no flights found
@@ -72,7 +72,7 @@ class SearchBookedTickets(Resource):
 
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 bookingRefID = request.args.get('bookingRefID')
 
@@ -81,7 +81,7 @@ class SearchBookedTickets(Resource):
                     raise Exception("Invalid search parameters")
                 
                 # Get all tickets with given bookingRefID
-                cursor.execute(f"""
+                cursor.execute("""
                     SELECT 
                         ticketNumber,
                         passenger,
@@ -97,8 +97,8 @@ class SearchBookedTickets(Resource):
                         passportID,
                         status
                     from ticket
-                    WHERE bookingRefID = '{bookingRefID}';
-                """)
+                    WHERE bookingRefID = %s;
+                """, (bookingRefID,))
                 query_result = cursor.fetchall()
 
                 # Check if no tickets found
@@ -150,12 +150,12 @@ class SearchUserBookedTickets(Resource):
 
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 Username= get_jwt_identity()
                 
                 # Get all tickets with given username
-                cursor.execute(f"""
+                cursor.execute("""
                     SELECT 
                         ticketNumber, 
                         passenger,
@@ -171,8 +171,8 @@ class SearchUserBookedTickets(Resource):
                         passportID,
                         status
                     from ticket
-                    WHERE bookedUser = '{Username}';
-                """)
+                    WHERE bookedUser = %s;
+                """, (Username,))
                 query_result = cursor.fetchall()
 
                 # Check if no tickets found
@@ -208,6 +208,79 @@ class SearchUserBookedTickets(Resource):
             except Exception as ex:
                 if str(ex) == "404":
                     return abort(404, message=f"User does not have any valid tickets")
+                return abort(400, message=f"Failed to get Booked Tickets. Error: {ex}.")
+        else:
+            return abort(403, message="Unauthorized Access")
+
+
+class SearchGuestBookedTickets(Resource):
+    def get(self):
+        try:
+            connection = get_db_connection_guest_user()
+        except Exception as ex:
+            return abort(500, message=f"Failed to connect to database. Error: {ex}")
+
+        if connection:
+            try:
+                cursor = connection.cursor(prepared=True)
+
+                guestID = request.args.get('guestID')
+                
+                # Get all tickets with given bookingRefID
+                cursor.execute("""
+                    SELECT 
+                        ticketNumber, 
+                        passenger,
+                        flight,
+                        seat,
+                        fromIATA,
+                        fromCity,
+                        toIATA,
+                        toCity,
+                        departureDate,
+                        departureTime,
+                        class,
+                        passportID,
+                        status
+                    FROM ticket
+                    INNER JOIN guest ON ticket.bookingRefID = guest.Booking_Ref_ID
+                    WHERE guest.Guest_ID = %s;
+                """, (guestID,))
+                query_result = cursor.fetchall()
+
+                # Check if no tickets found
+                if query_result == []:
+                    raise Exception("404")
+                
+                response = []
+
+                for item in query_result:
+                    response.append({
+                        "ticketNumber": item[0],
+                        "passenger": item[1],
+                        "flight": item[2],
+                        "seat": item[3],
+                        "from": {
+                            "city": item[5],
+                            "IATA": item[4]
+                        },
+                        "to": {
+                            "city": item[7],
+                            "IATA": item[6]
+                        },
+                        "departureDate": item[8],
+                        "departureTime": item[9],
+                        "class": item[10],
+                        "passportID": item[11],
+                        "status": item[12]
+                    })
+
+                connection.close()
+                return make_response(response, 200)
+            
+            except Exception as ex:
+                if str(ex) == "404":
+                    return abort(404, message=f"Invalid Guest ID")
                 return abort(400, message=f"Failed to get Booked Tickets. Error: {ex}.")
         else:
             return abort(403, message="Unauthorized Access")

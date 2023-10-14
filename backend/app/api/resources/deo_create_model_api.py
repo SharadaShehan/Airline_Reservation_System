@@ -22,7 +22,7 @@ class CreateModel(Resource):
         if connection:
             try:
                 connection.autocommit = False
-                cursor = connection.cursor(prepared=True)
+                cursor = connection.cursor()
 
                 try:
                     request_data = parser.parse_args()

@@ -344,13 +344,12 @@ def create_procedures():
                 OUT status_var BOOLEAN)
             
             BEGIN
-
                 DECLARE model_id INTEGER;
                 DECLARE class_name VARCHAR(10);
                 DECLARE seats_count SMALLINT;
                 DECLARE keyIndex INTEGER DEFAULT 0;
                 DECLARE totalKeys INTEGER;
-
+                
                 SET status_var = FALSE;
                 SET totalKeys = JSON_LENGTH(JSON_KEYS(seats_count_json));
 
@@ -399,7 +398,7 @@ def create_procedures():
                 DECLARE price DECIMAL(8,2);
                 DECLARE keyIndex INTEGER DEFAULT 0;
                 DECLARE totalKeys INTEGER;
-
+                
                 SET status_var = FALSE;
 
                 SET totalKeys = JSON_LENGTH(JSON_KEYS(base_price_json));
