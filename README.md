@@ -51,6 +51,14 @@ Please develop the backend in a virtual environment.
     MYSQL_PORT=3306
     MYSQL_USER=root
     MYSQL_PASSWORD=12345678
+    MYSQL_ADMIN_ACCOUNT=adminAccount
+    MYSQL_ADMIN_PASSWORD=P7tZ99pJ2s9
+    MYSQL_STAFF_ACCOUNT=staffAccount
+    MYSQL_STAFF_PASSWORD=MK6dLpY9sPz
+    MYSQL_REGISTERED_USER_ACCOUNT=registeredUserAccount
+    MYSQL_REGISTERED_USER_PASSWORD=0qR3vKnX8w5
+    MYSQL_GUEST_USER_ACCOUNT=guestAccount
+    MYSQL_GUEST_USER_PASSWORD=L2mSgV7hg5e
     MYSQL_DB=project_database
 
     INIT_ENABLED=1
