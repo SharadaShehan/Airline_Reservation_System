@@ -1,30 +1,30 @@
 import React from 'react';
-import './deoAddAirport.css';
+import './deoAddFlight.css';
 
-export default function DEOAddAirport () {
+export default function DEOAddFlight () {
 
     return (
       <div className='pd-back'>
         <div className='gls-back'></div>
         <div className='fnt-cont'>
           <div className='form-title'>
-            Add an Airport
+            Add a Flight
           </div>
           <div className='mid-content-group'>
             <div className='form-txt'>
-              Enter ICAO Code
+              Select Air Plane Model
             </div>
-            <input type="number" className='form-input' placeholder='ICAO Code'/>
+            <input type="text" className='form-input' placeholder='Select Air Plane Model'/>
             <div className='form-txt'>
-              IATA Code
+              Tail Number
             </div>
-            <input type="number" className='form-input' placeholder='IATA Code'/>
+            <input type="number" className='form-input' placeholder='Tail Number'/>
             <div className='form-txt'>
-              Select location
+              Model ID
             </div>
-            <input type="text" className='form-input' placeholder='Select location'/>
+            <input type="number" className='form-input' placeholder='Model Number'/>
             <button type="button" class="update-button btn">Cancel</button>
-            <button type="button" class="update-button btn">Add&nbsp;Airport</button>    
+            <button type="button" class="update-button btn">Add&nbsp;Flight</button>    
           </div>
         </div>
       </div>
