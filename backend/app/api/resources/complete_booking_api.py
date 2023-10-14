@@ -1,8 +1,7 @@
 from flask import jsonify, make_response
 from app.utils.db import get_db_connection
 from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_booking_data, validate_payment
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.utils.validators import validate_payment
 
 parser = reqparse.RequestParser()
 parser.add_argument('transactionID', type=str, required=True)
@@ -28,7 +27,7 @@ class CompleteBookingSet(Resource):
                 if not validate_payment(bkset_id, transactionID):
                     raise Exception("Invalid payment data")
                 
-                cursor.execute(f"SELECT Completed FROM Booking_Set WHERE Booking_Ref_ID = '{bkset_id}'")
+                cursor.execute(f"SELECT Completed FROM booking_set WHERE Booking_Ref_ID = '{bkset_id}'")
                 query_result = cursor.fetchone()
                 # Check if booking set exists
                 if query_result is None:
@@ -43,6 +42,7 @@ class CompleteBookingSet(Resource):
                 connection.commit()
                 connection.close()
                 return make_response({'message': 'Booking completed successfully'}, 200)
+            
             except Exception as ex:
                 print(ex)
                 return abort(400, message=f"Failed to complete booking. Error: {ex}.")

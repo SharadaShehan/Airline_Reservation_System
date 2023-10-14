@@ -1,0 +1,4 @@
+'Category_Name', 'Min_Bookings', 'Discount'
+'General', 0, 0
+'Frequent', 10, 0.05
+'Gold', 30, 0.09

@@ -1,5 +1,4 @@
 from app.scripts.db import get_db_connection
-from flask import current_app
 
 
 def drop_all_events():
@@ -37,12 +36,12 @@ def create_events():
         #------- Create check booking validity event -------
         create_check_booking_validity_event_query = """
             CREATE EVENT CheckBookingValidity
-            ON SCHEDULE EVERY 5 MINUTE STARTS CURRENT_TIMESTAMP
+            ON SCHEDULE EVERY 20 MINUTE STARTS CURRENT_TIMESTAMP
             DO
             BEGIN
             DELETE FROM booking_set 
             WHERE 
-                Created_At < NOW() - INTERVAL 10 MINUTE
+                Created_At < NOW() - INTERVAL 120 MINUTE
                 AND User IS NULL
                 AND Completed = 0;
             END;

@@ -1,5 +1,4 @@
 from app.scripts.db import get_db_connection
-from flask import current_app
 
 
 def drop_all_procedures():
@@ -10,7 +9,8 @@ def drop_all_procedures():
         drop_procedure_queries = []
         procedures_list = [
             "CompleteBookingSet",
-            "CreateBookingSet"
+            "CreateBookingSet",
+            "ScheduleFlight"
         ]
         
         # Generate drop queries for all procedures and append to drop_queries list
@@ -33,6 +33,7 @@ def create_procedures():
         cursor = connection.cursor()
 
         #------- Create complete booking set procedure -------
+        
         create_complete_booking_set_query = """
             CREATE PROCEDURE CompleteBookingSet(IN Ref_ID CHAR(12))
             BEGIN
@@ -44,7 +45,7 @@ def create_procedures():
                 DECLARE idFrequent SMALLINT;
                 DECLARE minBookCountGold VARCHAR(10);
                 DECLARE idGold SMALLINT;
-                
+
                 DECLARE EXIT HANDLER FOR SQLEXCEPTION
                     BEGIN
                         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SQLError occured. Triggered ROLLBACK';
@@ -57,48 +58,52 @@ def create_procedures():
                     UPDATE booking_set 
                     SET Completed = 1
                     WHERE Booking_Ref_ID = Ref_ID;
-                    
+
                     -- Select current user
                     SELECT usr.Username INTO currentUser
                     FROM booking_set as bkset
-                    INNER JOIN user as usr on bkset.User = usr.Username
+                    INNER JOIN registered_user as usr on bkset.User = usr.Username
                     WHERE bkset.Booking_Ref_ID = Ref_ID;
-                    
+  
                     -- Get booking count of user
                     SELECT COUNT(distinct bk.Ticket_Number) INTO totalBookingsCount 
                     FROM booking_set as bkset
                     INNER JOIN booking as bk on bkset.Booking_Ref_ID = bk.Booking_Set
-                    INNER JOIN user as usr on bkset.User = usr.Username
+                    INNER JOIN registered_user as usr on bkset.User = usr.Username
                     WHERE usr.Username = currentUser;
-                    
+  
                     -- Get details related to each category
                     SELECT ctg.Category_ID, ctg.Min_Bookings INTO idGeneral, minBookCountGeneral
-                    FROM category as ctg 
+                    FROM user_category as ctg 
                     WHERE ctg.Category_Name = 'General';
                     
                     SELECT ctg.Category_ID, ctg.Min_Bookings INTO idFrequent, minBookCountFrequent
-                    FROM category as ctg 
+                    FROM user_category as ctg 
                     WHERE ctg.Category_Name = 'Frequent';
                     
                     SELECT ctg.Category_ID, ctg.Min_Bookings INTO idGold, minBookCountGold
-                    FROM category as ctg 
+                    FROM user_category as ctg 
                     WHERE ctg.Category_Name = 'Gold';
                     
                     -- Update user category
                     IF totalBookingsCount >= minBookCountGold THEN
-                        UPDATE user
+                        UPDATE registered_user
                         SET Category = idGold
                         WHERE Username = currentUser;
                     ELSEIF totalBookingsCount >= minBookCountFrequent THEN
-                        UPDATE user
+                        UPDATE registered_user
                         SET Category = idFrequent
                         WHERE Username = currentUser;
                     ELSE
-                        UPDATE user
+                        UPDATE registered_user
                         SET Category = idGeneral
                         WHERE Username = currentUser;
                     END IF;
-                
+
+                    UPDATE registered_user
+                    SET Bookings_Count = totalBookingsCount
+                    WHERE Username = currentUser;
+
                 COMMIT;
             END;
         """
@@ -123,10 +128,12 @@ def create_procedures():
                 DECLARE first_name VARCHAR(30);
                 DECLARE last_name VARCHAR(30);
                 DECLARE is_adult BOOLEAN;
+                DECLARE passportid VARCHAR(15);
                 DECLARE seat_reserved BOOLEAN;
+                DECLARE max_seat_number SMALLINT;
                 
                 DECLARE done BOOLEAN DEFAULT FALSE;
-                DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult FROM booking_data;
+                DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult, Passport_ID FROM booking_data;
                 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
                 
                 DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -155,7 +162,7 @@ def create_procedures():
                     
                     OPEN recordsCursor;
                     readLoop: LOOP
-                        FETCH recordsCursor INTO seat_number, first_name, last_name, is_adult;
+                        FETCH recordsCursor INTO seat_number, first_name, last_name, is_adult, passportid;
                         IF done THEN
                             LEAVE readLoop;
                         END IF;
@@ -175,9 +182,24 @@ def create_procedures():
                         IF seat_reserved THEN
                             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Already Booked';
                         END IF;
+
+                        SELECT cpt.Seats_Count INTO max_seat_number
+                        FROM 
+                            scheduled_flight AS shf
+                            INNER JOIN airplane AS apl ON shf.Airplane = apl.Tail_Number
+                            INNER JOIN model AS mdl ON apl.Model = mdl.Model_ID
+                            INNER JOIN capacity AS cpt ON mdl.Model_ID = cpt.Model
+                            INNER JOIN class AS cls ON cpt.Class = cls.Class_Name
+                        WHERE 
+                            shf.Scheduled_ID = scheduled_flight_id
+                            AND cls.Class_Name = travel_class;
                         
-                        INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult) 
-                        VALUES (refID, seat_number, first_name, last_name, is_adult);
+                        IF seat_number > max_seat_number THEN
+                            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Number Exceeds Maximum Seat Count';
+                        END IF;
+                        
+                        INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) 
+                        VALUES (refID, seat_number, first_name, last_name, is_adult, passportid);
                         
                     END LOOP;
                     CLOSE recordsCursor;
@@ -187,6 +209,57 @@ def create_procedures():
             END;
         """
         cursor.execute(create_create_booking_set_query)
+        #----------------------------------
+
+        #------- Create schedule flight procedure -------
+        create_schedule_flight_query = """
+            CREATE PROCEDURE ScheduleFlight(
+                IN route_int SMALLINT, 
+                IN airplane_code VARCHAR(10), 
+                IN departure_date CHAR(10), 
+                IN departure_time CHAR(8), 
+                OUT status_var BOOLEAN)
+
+            BEGIN
+                DECLARE departure_datetime DATETIME;
+                DECLARE lower_bound DATETIME;
+                DECLARE upper_bound DATETIME;
+                DECLARE duration SMALLINT;
+                DECLARE scheduled_count SMALLINT;
+                
+                SET status_var = FALSE;
+                
+                START TRANSACTION;
+                        
+                        SELECT rut.Duration_Minutes INTO duration
+                        FROM route as rut
+                        WHERE rut.Route_ID = route_int;
+                        
+                        SET departure_datetime = STR_TO_DATE(CONCAT(departure_date, ' ', departure_time), '%Y-%m-%d %H:%i:%s');
+                        SET lower_bound = DATE_SUB(departure_datetime, INTERVAL 1 HOUR);
+                        SET upper_bound = DATE_ADD(departure_datetime, INTERVAL duration + 60 MINUTE);
+                        
+                        SELECT COUNT(*) INTO scheduled_count
+                        FROM flight as flt
+                        WHERE
+                            flt.tailNumber = airplane_code
+                            AND ( flt.departureDateAndTime > lower_bound AND flt.arrivalDateAndTime < upper_bound )
+                            OR ( flt.departureDateAndTime < lower_bound AND flt.arrivalDateAndTime > upper_bound )
+                            OR ( flt.departureDateAndTime < lower_bound AND flt.arrivalDateAndTime > lower_bound )
+                            OR ( flt.departureDateAndTime < upper_bound AND flt.arrivalDateAndTime > upper_bound );
+
+                        IF scheduled_count > 0 THEN
+                            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Airplane has scheduled flights at this time';
+                        END IF;
+                        
+                        INSERT INTO scheduled_flight (Route, Airplane, Departure_Time) 
+                        VALUES (route_int, airplane_code, departure_datetime);
+                        
+                COMMIT;
+                SET status_var = TRUE;
+            END;
+        """
+        cursor.execute(create_schedule_flight_query)
         #----------------------------------
         
         connection.commit()

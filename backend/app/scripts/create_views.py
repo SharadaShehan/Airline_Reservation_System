@@ -1,5 +1,4 @@
 from app.scripts.db import get_db_connection
-from flask import current_app
 
 
 def drop_all_views():
@@ -9,9 +8,10 @@ def drop_all_views():
         cursor = connection.cursor()
         drop_view_queries = []
         views_list = [
-            "Flight",
-            "Seat_Reservation",
-            "Ticket"
+            "flight",
+            "seat_reservation",
+            "ticket",
+            "passenger"
         ]
         
         # Generate drop queries for all views and append to drop_queries list
@@ -35,7 +35,7 @@ def create_views():
 
         #------- Create flight view -------
         create_flight_view_query = """
-            CREATE OR REPLACE VIEW Flight AS
+            CREATE OR REPLACE VIEW flight AS
             SELECT 
                 shf.Scheduled_ID AS ID,
                 org.ICAO_Code AS originICAO,
@@ -67,7 +67,7 @@ def create_views():
 
         #------- Create seat reservation view -------
         create_seat_reservation_view_query = """
-            CREATE OR REPLACE VIEW Seat_Reservation AS
+            CREATE OR REPLACE VIEW seat_reservation AS
             SELECT 
                 subquery2.id AS ID,
                 subquery2.clas AS class,
@@ -110,24 +110,29 @@ def create_views():
 
         #------- Create ticket view -------
         create_ticket_view_query = """
-            CREATE OR REPLACE VIEW Ticket AS
+            CREATE OR REPLACE VIEW ticket AS
             SELECT 
                 bk.Ticket_Number AS ticketNumber,
                 CONCAT(bk.FirstName, ' ', bk.LastName) AS passenger,
                 CONCAT('BA', LPAD(CAST(rut.Route_ID AS CHAR (4)), 4, '0')) AS flight,
-                CONCAT(bk.Seat_Number, cls.Class_Code) AS seat, org.IATA_Code AS 'from',
+                CONCAT(bk.Seat_Number, cls.Class_Code) AS seat, org.IATA_Code AS fromIATA,
                 SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT orgloc.Name ORDER BY orgloc.Level ASC), ',', 1) AS fromCity,
-                des.IATA_Code AS 'to',
+                des.IATA_Code AS toIATA,
                 SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT desloc.Name ORDER BY desloc.Level ASC), ',', 1) AS toCity,
                 DATE(shf.Departure_Time) AS departureDate,
                 DATE_FORMAT(shf.Departure_Time, '%H:%i') AS departureTime,
                 cls.Class_Name AS class,
                 bkset.Booking_Ref_ID AS bookingRefID,
-                usr.Username AS bookedUser
+                usr.Username AS bookedUser,
+                bk.Passport_ID AS passportID,
+                CASE
+                    WHEN bkset.Completed = 1 THEN 'Active'
+                    ELSE 'Payment Pending'
+                END AS status
             FROM
                 booking AS bk
                 INNER JOIN booking_set bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
-                LEFT JOIN user AS usr ON bkset.User = usr.Username
+                LEFT JOIN registered_user AS usr ON bkset.User = usr.Username
                 INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                 INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                 INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
@@ -137,10 +142,43 @@ def create_views():
                 INNER JOIN airport AS des ON rut.Destination = des.ICAO_Code
                 INNER JOIN location AS desloc ON desloc.Airport = des.ICAO_Code
             WHERE
-                bkset.Completed = 1 AND DATE(shf.Departure_Time) >= CURDATE()
+                DATE(shf.Departure_Time) >= CURDATE()
             GROUP BY bk.Ticket_Number , desloc.Airport , orgloc.Airport;
         """
         cursor.execute(create_ticket_view_query)
+        #----------------------------------
+
+        #------- Create passenger view -------
+        create_passenger_view_query = """
+            CREATE OR REPLACE VIEW passenger AS
+            SELECT 
+                bk.Ticket_Number AS ticketNumber,
+                CONCAT(bk.FirstName, ' ', bk.LastName) AS name,
+                CONCAT(bk.Seat_Number, cls.Class_Code) AS seat,
+                bk.IsAdult as isAdult,
+                org.ICAO_Code AS 'fromICAO',
+                des.ICAO_Code AS 'toICAO',
+                shf.Departure_Time AS departureDateTime,
+                shf.Scheduled_ID AS flightID,
+                cls.Class_Name AS class,
+                bk.Passport_ID AS passportID,
+                bkset.Completed AS isPaymentDone,
+                bkset.Booking_Ref_ID AS bookingRefID,
+                IFNULL(ctg.Category_Name, 'Guest') AS userType
+            FROM
+                booking AS bk
+                INNER JOIN booking_set bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                LEFT JOIN registered_user AS usr ON bkset.User = usr.Username
+                INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
+                INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
+                INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
+                INNER JOIN route AS rut ON shf.Route = rut.Route_ID
+                INNER JOIN airport AS org ON rut.Origin = org.ICAO_Code
+                INNER JOIN airport AS des ON rut.Destination = des.ICAO_Code
+                LEFT JOIN user_category AS ctg ON usr.Category = ctg.Category_ID
+			ORDER BY bk.Ticket_Number;
+        """
+        cursor.execute(create_passenger_view_query)
         #----------------------------------
         
         connection.commit()
