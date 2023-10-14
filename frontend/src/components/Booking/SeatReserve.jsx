@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
 import { UserGlobalState } from '../Layout/UserGlobalState';
 import "./seatReserve.css";
+import Cookies from 'js-cookie';
 
 export default function SeatReserve () {
     const { setBookingStep } = BookingStepGlobalState();
     const { currentUserData } = UserGlobalState();
+    const classType = Cookies.get("classType");
 
     let prevPage = "loginAsk"
     if (currentUserData.username != null) { prevPage="flightSearch" };
@@ -23,7 +25,7 @@ export default function SeatReserve () {
           <div className="glass-background"></div>
           <div className="main-container">
             <div className='front-content front-text title'>
-              Seat Reservations
+              Seat Reservations : {classType}
             </div>
             <div className='tbl-grp'>
               <div className='tbl-itm-1'>

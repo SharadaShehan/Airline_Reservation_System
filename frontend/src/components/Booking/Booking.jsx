@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import FlightSearch from './FlightSearch';
 import LoginAsk from './LoginAsk';
 import SeatReserve from './SeatReserve';
@@ -11,7 +11,6 @@ import './booking.css';
 
 export default function Booking () {
     const { bookingStep } = BookingStepGlobalState();
-
     const renderPage = () => {
         switch (bookingStep) {
             case null:

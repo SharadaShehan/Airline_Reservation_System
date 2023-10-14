@@ -14,15 +14,27 @@ export default function DEOAddAirport () {
             <div className='form-txt'>
               Enter ICAO Code
             </div>
-            <input type="number" className='form-input' placeholder='ICAO Code'/>
+            <input 
+              type="text" 
+              className='form-input' 
+              placeholder='ICAO Code'
+            />
             <div className='form-txt'>
               IATA Code
             </div>
-            <input type="number" className='form-input' placeholder='IATA Code'/>
+            <input 
+              type="text" 
+              className='form-input' 
+              placeholder='IATA Code'
+            />
             <div className='form-txt'>
               Select location
             </div>
-            <input type="text" className='form-input' placeholder='Select location'/>
+            <input 
+              type="text" 
+              className='form-input' 
+              placeholder='Select location'
+            />
             <button type="button" class="update-button btn">Cancel</button>
             <button type="button" class="update-button btn">Add&nbsp;Airport</button>    
           </div>

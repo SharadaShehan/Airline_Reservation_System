@@ -9,7 +9,7 @@ export default function LoginAsk () {
     const { currentUserData } = UserGlobalState();
     if (currentUserData.username != null )  { setBookingStep('seatReserve')};
 
-    function handleNext() {
+    function handleGuest() {
       setBookingStep('seatReserve');
     }
 
@@ -20,6 +20,7 @@ export default function LoginAsk () {
     function handleBack(){
       setBookingStep('flightSearch');
     }
+
 
     return (
       <>
@@ -33,7 +34,7 @@ export default function LoginAsk () {
               Continue as ...
             </div>
             <div className="search-btn">
-              <button class="transparent-button" onClick={handleNext}>Guest</button>
+              <button class="transparent-button" onClick={handleGuest}>Guest</button>
             </div>
             <div className="search-btn">
               <button class="transparent-button" onClick={handleLogin}>Log in</button>

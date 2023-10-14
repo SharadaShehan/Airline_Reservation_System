@@ -205,3 +205,18 @@ td {
     flex-direction: column;
     text-align: left;
 }
+.class-btn{
+    width: auto;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 25px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.class-btn:hover {
+    background-color: #070d6b; /* Change background color to blue on hover */
+    color: rgb(255, 255, 255);
+    opacity: 90%;
+    border: none;
+}
