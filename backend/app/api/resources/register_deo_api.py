@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_admin
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_staff_register_data
 from werkzeug.security import generate_password_hash
@@ -16,13 +16,13 @@ class RegisterDEO(Resource):
     @jwt_required()
     def post(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_admin()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     args = parser.parse_args()
@@ -32,7 +32,7 @@ class RegisterDEO(Resource):
                 current_user = get_jwt_identity()
 
                 # Check if current user is admin
-                cursor.execute(f"SELECT * FROM staff WHERE Username = '{current_user}' AND Role = 'Admin'")
+                cursor.execute("SELECT * FROM staff WHERE Username = %s AND Role = 'Admin'", (current_user,))
                 userfetched = cursor.fetchone()
                 if userfetched is None:
                     raise Exception("403")
@@ -47,7 +47,7 @@ class RegisterDEO(Resource):
                     raise Exception("Invalid user data")
                 
                 # Check if username already exists
-                cursor.execute(f"SELECT * FROM user WHERE Username = '{username}'")
+                cursor.execute("SELECT * FROM user WHERE Username = %s", (username,))
                 userfetched = cursor.fetchone()
                 if userfetched is not None:
                     raise Exception("Username already exists")
@@ -58,20 +58,10 @@ class RegisterDEO(Resource):
                 
                 # Register data entry operator
                 hashed_password = generate_password_hash(password.strip(), method='scrypt')
-                cursor.execute(f"""
-                    INSERT 
-                    INTO user 
-                        (Username, Password, FirstName, LastName)
-                    VALUES
-                        ('{username}', '{hashed_password}', '{firstname}', '{lastname}')           
-                """)
-                cursor.execute(f"""
-                    INSERT
-                    INTO staff
-                        (Username, Role)
-                    VALUES
-                        ('{username}', 'Data Entry Operator')
-                """)
+                cursor.execute("""
+                    INSERT INTO user (Username, Password, FirstName, LastName) VALUES (%s, %s, %s, %s)""", (username, hashed_password, firstname, lastname))
+                cursor.execute("""
+                    INSERT INTO staff (Username, Role) VALUES (%s, 'Data Entry Operator')""",(username,))
                 connection.commit()
                 connection.close()
 
@@ -82,4 +72,4 @@ class RegisterDEO(Resource):
                     return abort(403, message="Only admins can register data entry operators")
                 return abort(400, message=f"Failed to register user. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")

@@ -1,7 +1,7 @@
 from app.scripts.db import get_db_connection
 import csv
 
-booking_set_list = []
+booking_list = []
 
 def populate_model_table():
     connection = get_db_connection()
@@ -44,48 +44,38 @@ def populate_airplane_table():
         connection.close()
     else:
         raise Exception("Failed to populate airplane data")
-    
-def populate_airport_table():
-    connection = get_db_connection()
-    if connection:
-        cursor = connection.cursor()
-        insert_airport_query = """INSERT INTO airport (ICAO_Code, IATA_Code) VALUES"""
-        # Read data from csv file and insert into Airport table
-        with open('app/scripts/data/Airport.csv', 'r') as file:       # use specific path to csv file
-            csv_reader = csv.reader(file)
-            # Skip the header row
-            header_row = next(csv_reader)
-            for row in csv_reader:
-                # Get attributes for each record from comma separated row
-                icao_code, iata_code = row
-                insert_airport_query += f"({icao_code}, {iata_code}),"
-            insert_airport_query = insert_airport_query[:-1] + ';'      # remove last comma and add semicolon
-        cursor.execute(insert_airport_query)
-        connection.commit()
-        connection.close()
-    else:
-        raise Exception("Failed to populate airport data")
 
-def populate_location_table():
+
+def populate_airport_and_location_tables():
+    # Read data from csv file and insert into Airport and Location tables
+    airports_list = []; locations_list = []
+    with open('app/scripts/data/Airport.csv', 'r') as file:
+        csv_reader = csv.reader(file)
+        header_row = next(csv_reader)
+        for row in csv_reader:
+            airports_list.append(row)
+    with open('app/scripts/data/Location.csv', 'r') as file:
+        csv_reader = csv.reader(file)
+        header_row = next(csv_reader)
+        for row in csv_reader:
+            locations_list.append(row)
+    
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_location_query = """INSERT INTO location (Airport, Level, Name) VALUES"""
-        # Read data from csv file and insert into Location table
-        with open('app/scripts/data/Location.csv', 'r') as file:       # use specific path to csv file
-            csv_reader = csv.reader(file)
-            # Skip the header row
-            header_row = next(csv_reader)
-            for row in csv_reader:
-                # Get attributes for each record from comma separated row
-                airport, level, name = row
-                insert_location_query += f"({airport}, {level}, {name}),"
-            insert_location_query = insert_location_query[:-1] + ';'      # remove last comma and add semicolon
-        cursor.execute(insert_location_query)
+        for airport in airports_list:
+            # Insert into Airport table
+            insert_airport_query = f"""INSERT INTO airport (ICAO_Code, IATA_Code) VALUES ({airport[0]}, {airport[1]});"""
+            cursor.execute(insert_airport_query)
+            # Identify locations for each airport and insert into Location table
+            insert_location_query = """INSERT INTO location (Airport, Level, Name) VALUES """
+            for location in locations_list:
+                if location[0] == airport[0]:
+                    insert_location_query += f"({location[0]}, {location[1]}, {location[2]}),"
+            insert_location_query = insert_location_query[:-1] + ';'
+            cursor.execute(insert_location_query)
         connection.commit()
         connection.close()
-    else:
-        raise Exception("Failed to populate location data")
 
 def populate_route_table():
     connection = get_db_connection()
@@ -262,36 +252,12 @@ def populate_staff_table():
         connection.commit()
         connection.close()
 
-def populate_booking_set_table():
-    global booking_set_list
-    connection = get_db_connection()
-    if connection:
-        cursor = connection.cursor()
-        insert_booking_set_query = """INSERT INTO booking_set (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) VALUES"""
-        # Read data from csv file and insert into Booking_Set table
-        with open('app/scripts/data/Booking_Set.csv', 'r') as file:       # use specific path to csv file
-            csv_reader = csv.reader(file)
-            # Skip the header row
-            header_row = next(csv_reader)
-            for row in csv_reader:
-                # Get attributes for each record from comma separated row
-                booking_ref_id, scheduled_flight, user, bprice_per_booking, final_price, completed = row
-                if int(completed) == 1:
-                    booking_set_list.append(booking_ref_id)
-                if user.strip() == '':
-                    user = 'NULL'
-                insert_booking_set_query += f"({booking_ref_id}, {scheduled_flight}, {user}, {bprice_per_booking}, {final_price}, {completed}),"
-            insert_booking_set_query = insert_booking_set_query[:-1] + ';'      # remove last comma and add semicolon
-        cursor.execute(insert_booking_set_query)
-        connection.commit()
-        connection.close()
-
 def populate_booking_table():
-    global booking_set_list
+    global booking_list
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_booking_query = """INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) VALUES"""
+        insert_booking_query = """INSERT INTO booking (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) VALUES"""
         # Read data from csv file and insert into Booking table
         with open('app/scripts/data/Booking.csv', 'r') as file:       # use specific path to csv file
             csv_reader = csv.reader(file)
@@ -299,12 +265,56 @@ def populate_booking_table():
             header_row = next(csv_reader)
             for row in csv_reader:
                 # Get attributes for each record from comma separated row
-                booking_set, seat_number, first_name, last_name, is_adult, Passport_id = row
-                insert_booking_query += f"({booking_set}, {seat_number}, {first_name}, {last_name}, {is_adult}, {Passport_id}),"
+                booking_ref_id, scheduled_flight, user, bprice_per_booking, final_price, completed = row
+                if int(completed) == 1:
+                    booking_list.append(booking_ref_id)
+                if user.strip() == '':
+                    user = 'NULL'
+                insert_booking_query += f"({booking_ref_id}, {scheduled_flight}, {user}, {bprice_per_booking}, {final_price}, {completed}),"
             insert_booking_query = insert_booking_query[:-1] + ';'      # remove last comma and add semicolon
         cursor.execute(insert_booking_query)
-        for booking_ref_id in booking_set_list:
-            cursor.execute(f"CALL CompleteBookingSet({booking_ref_id});")
+        connection.commit()
+        connection.close()
+
+def populate_booked_seat_table():
+    global booking_list
+    connection = get_db_connection()
+    if connection:
+        cursor = connection.cursor()
+        insert_booked_seat_query = """INSERT INTO booked_seat (Booking, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) VALUES"""
+        # Read data from csv file and insert into Booked_seat table
+        with open('app/scripts/data/Booked_Seat.csv', 'r') as file:       # use specific path to csv file
+            csv_reader = csv.reader(file)
+            # Skip the header row
+            header_row = next(csv_reader)
+            for row in csv_reader:
+                # Get attributes for each record from comma separated row
+                booking_ref_id, seat_number, first_name, last_name, is_adult, Passport_id = row
+                insert_booked_seat_query += f"({booking_ref_id}, {seat_number}, {first_name}, {last_name}, {is_adult}, {Passport_id}),"
+            insert_booked_seat_query = insert_booked_seat_query[:-1] + ';'      # remove last comma and add semicolon
+        cursor.execute(insert_booked_seat_query)
+        for booking_ref_id in booking_list:
+            cursor.execute(f"CALL CompleteBooking({booking_ref_id});")
+        connection.commit()
+        connection.close()
+
+def populate_guest_table():
+    connection = get_db_connection()
+    if connection:
+        cursor = connection.cursor()
+        insert_guest_query = """INSERT INTO guest (Guest_ID, Booking_Ref_ID) VALUES"""
+        # Read data from csv file and insert into Guest table
+        with open('app/scripts/data/Guest.csv', 'r') as file:       # use specific path to csv file
+            csv_reader = csv.reader(file)
+            # Skip the header row
+            header_row = next(csv_reader)
+
+            for row in csv_reader:
+                # Get attributes for each record from comma separated row
+                guest_id, booking_ref_id = row
+                insert_guest_query += f"({guest_id}, {booking_ref_id}),"
+            insert_guest_query = insert_guest_query[:-1] + ';'      # remove last comma and add semicolon
+        cursor.execute(insert_guest_query)
         connection.commit()
         connection.close()
 
@@ -312,8 +322,7 @@ def populate_booking_table():
 def populate_data():
     populate_model_table()
     populate_airplane_table()
-    populate_airport_table()
-    populate_location_table()
+    populate_airport_and_location_tables()
     populate_route_table()
     populate_scheduled_flight_table()
     populate_class_table()
@@ -323,6 +332,7 @@ def populate_data():
     populate_user_table()
     populate_registered_user_table()
     populate_staff_table()
-    populate_booking_set_table()
     populate_booking_table()
-
+    populate_guest_table()
+    populate_booked_seat_table()
+    

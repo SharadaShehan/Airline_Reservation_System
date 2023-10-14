@@ -1,20 +1,34 @@
 from flask import make_response
-from app.utils.db import get_db_connection_guest_user
+from app.utils.db import get_db_connection_staff
 from flask_restful import Resource, abort
-from app.api.cache import cache
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
-class GetAllModels(Resource):
-    @cache.cached(timeout=300)
+class DEOGetAllModels(Resource):
+    @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection_guest_user()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
                 cursor = connection.cursor(prepared=True)
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT Model_ID, Name FROM model 
@@ -32,22 +46,38 @@ class GetAllModels(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only data entry operators can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
         
 
-class GetAllRoutes(Resource):
-    @cache.cached(timeout=300)
+class DEOGetAllRoutes(Resource):
+    @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection_guest_user()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
                 cursor = connection.cursor(prepared=True)
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT 
@@ -86,22 +116,38 @@ class GetAllRoutes(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only data entry operators can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
 
 
-class GetAllAirports(Resource):
-    @cache.cached(timeout=300)
+class DEOGetAllAirports(Resource):
+    @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection_guest_user()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
                 cursor = connection.cursor(prepared=True)
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT 
@@ -126,22 +172,38 @@ class GetAllAirports(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only data entry operators can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
         
 
-class GetAllAirplanes(Resource):
-    @cache.cached(timeout=300)
+class DEOGetAllAirplanes(Resource):
+    @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection_guest_user()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
                 cursor = connection.cursor(prepared=True)
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT 
@@ -164,6 +226,8 @@ class GetAllAirplanes(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only data entry operators can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")

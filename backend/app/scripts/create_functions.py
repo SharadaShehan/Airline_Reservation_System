@@ -8,6 +8,7 @@ def drop_all_functions():
         cursor = connection.cursor()
         drop_function_queries = []
         functions_list = [
+            "GenerateRandomGuestID",
             "GenerateRandomString",
             "CalculateFinalPrice"
         ]
@@ -53,7 +54,7 @@ def create_functions():
                             ) AS randomString
                     );
 
-                UNTIL NOT EXISTS (SELECT 1 FROM booking_set WHERE Booking_Ref_ID = randomString)
+                UNTIL NOT EXISTS (SELECT 1 FROM booking WHERE Booking_Ref_ID = randomString)
                 END REPEAT;
 
                 RETURN randomString;
@@ -101,6 +102,37 @@ def create_functions():
             END;
         """
         cursor.execute(create_calculate_final_price_query)
+        #----------------------------------
+
+        #------- Create generate random guest id procedure -------
+        create_generate_random_guest_ID_query = """
+            CREATE FUNCTION GenerateRandomGuestID()
+            RETURNS CHAR(12)
+            DETERMINISTIC
+            NO SQL
+            BEGIN
+                DECLARE randomString CHAR(12);
+                
+                REPEAT
+                    SET randomString = (
+                        SELECT
+                            SUBSTRING(
+                                (SELECT
+                                    GROUP_CONCAT(SUBSTRING('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', FLOOR(1 + RAND() * 36), 1) ORDER BY RAND() SEPARATOR '')
+                                AS randomLongString
+                                FROM
+                                    information_schema.tables),
+                                1, 12
+                            ) AS randomString
+                    );
+
+                UNTIL NOT EXISTS (SELECT 1 FROM guest WHERE Guest_ID = randomString)
+                END REPEAT;
+
+                RETURN randomString;
+            END;
+        """
+        cursor.execute(create_generate_random_guest_ID_query)
         #----------------------------------
 
         connection.commit()

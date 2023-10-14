@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_guest_user
 from flask_restful import Resource, abort
 from app.utils.validators import validate_flight_id
 
@@ -7,20 +7,20 @@ from app.utils.validators import validate_flight_id
 class GetAvailableSeats(Resource):
     def get(self, flight_id):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_guest_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
 
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 # Validate flight ID
                 if not validate_flight_id(flight_id):
                     raise Exception("Invalid flight ID")
 
                 # Get all reserved seats for a flight
-                cursor.execute(f"SELECT * FROM seat_reservation WHERE ID = {int(flight_id)}")
+                cursor.execute("SELECT * FROM seat_reservation WHERE ID = %s", (int(flight_id),))
                 query_result = cursor.fetchall()
 
                 response = {}
@@ -47,4 +47,4 @@ class GetAvailableSeats(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to get available seats. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")
