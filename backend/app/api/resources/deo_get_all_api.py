@@ -15,6 +15,20 @@ class DEOGetAllModels(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT Model_ID, Name FROM model 
@@ -32,6 +46,8 @@ class DEOGetAllModels(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only data entry operators can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
@@ -48,6 +64,20 @@ class DEOGetAllRoutes(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT 
@@ -86,6 +116,8 @@ class DEOGetAllRoutes(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only data entry operators can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
@@ -102,6 +134,20 @@ class DEOGetAllAirports(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT 
@@ -126,6 +172,8 @@ class DEOGetAllAirports(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only data entry operators can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
@@ -142,6 +190,20 @@ class DEOGetAllAirplanes(Resource):
         if connection:
             try:
                 cursor = connection.cursor()
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT 
@@ -164,6 +226,8 @@ class DEOGetAllAirplanes(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only data entry operators can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")

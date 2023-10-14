@@ -18,6 +18,7 @@ from app.api.resources.admin_view_reports import GetRevenueByModel
 from app.api.resources.admin_search_api import GetPassengersByNextFlight, GetPassengersByDateDestination, GetBookingCountByDatePassengerType, GetPastFlightsDetails
 from app.api.resources.search_api import SearchBookedTickets,SearchUserBookedTickets
 from app.api.resources.get_all_api import GetAllAirplanes, GetAllAirports, GetAllRoutes, GetAllModels
+from app.api.resources.deo_get_all_api import DEOGetAllModels, DEOGetAllRoutes, DEOGetAllAirplanes, DEOGetAllAirports
 from app.api.resources.deo_schedule_flight_api import DEOScheduleFlight
 from app.api.resources.deo_create_model_api import CreateModel
 from app.api.resources.deo_create_airport_api import CreateAirport
@@ -41,6 +42,10 @@ api.add_resource(DEOupdateDelay,'/deo/update/delay')    # PATCH method to update
 api.add_resource(UpdateDEO, '/deo/update/account')    # PATCH method to update deo
 api.add_resource(GetDEODetails, '/deo/details/account')    # GET method to get deo details
 api.add_resource(DEOGetAuthToken, '/deo/auth')    # POST method to get JWT token
+api.add_resource(DEOGetAllAirports, '/deo/get/airports')    # GET method to get all airports
+api.add_resource(DEOGetAllAirplanes, '/deo/get/airplanes')    # GET method to get all airplanes
+api.add_resource(DEOGetAllRoutes, '/deo/get/routes')    # GET method to get all routes
+api.add_resource(DEOGetAllModels, '/deo/get/models')    # GET method to get all models
 
 api.add_resource(GetPastFlightsDetails, '/admin/past-flights')    # GET method to get past flights details
 api.add_resource(GetBookingCountByDatePassengerType, '/admin/bookings-by-ptype')    # GET method to get booking count by date and passenger type
@@ -74,7 +79,5 @@ api.add_resource(GetAllModels, '/get/models')    # GET method to get all models
 api.add_resource(GetAllRoutes, '/get/routes')    # GET method to get all routes
 api.add_resource(GetAllAirports, '/get/airports')    # GET method to get all airports
 api.add_resource(GetAllAirplanes, '/get/airplanes')    # GET method to get all airplanes
-
-
 
 
