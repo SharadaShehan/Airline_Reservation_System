@@ -37,6 +37,7 @@ td {
 th {
   color: #fff;
   font-weight: 500;
+  border-bottom: solid 2px #fff;
 }
 
 .view-revenue {
@@ -92,4 +93,10 @@ th {
   color: #fff;
   transform: scale(1.1);
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+.loading-text {
+  margin-top: 150px;
+  color: #fff;
+  font-family: "Lexend", Helvetica;
 }

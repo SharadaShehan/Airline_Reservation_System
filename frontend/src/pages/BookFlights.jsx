@@ -3,9 +3,11 @@ import { useEffect } from "react";
 import { BookingStepGlobalState } from "../components/Layout/BookingStepGlobalState";
 
 export default function BookFlights () {
-  const { setBookingStep } = BookingStepGlobalState();
+  const { bookingStep, setBookingStep } = BookingStepGlobalState();
   useEffect(() => {
-    setBookingStep("flightSearch");
+    if (bookingStep !== "makePayment") {
+      setBookingStep("flightSearch");
+    };
   }, [setBookingStep]);
   
   return <Booking />;

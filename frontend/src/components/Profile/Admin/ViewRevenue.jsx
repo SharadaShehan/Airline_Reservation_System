@@ -3,15 +3,15 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./viewRevenue.css";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
-
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 
 function ViewRevenue() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
 
   const { setUserMenuItem } = UserMenuGlobalState();
+  const { setCurrentUserData } = UserGlobalState();
   const [modelsList, setModelsList] = useState([]);
-  const [isView, setIsView] = useState(false);
 
   useEffect(
     function () {
@@ -29,26 +29,34 @@ function ViewRevenue() {
           setModelsList(response.data);
         } catch (error) {
           console.log(error);
+          if (error.response && error.response.status === 401) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getModelsList();
     },
-    [BaseURL, token]
+    [BaseURL, token, setCurrentUserData]
   );
 
   function handleBackClick() {
     setUserMenuItem("profile-details");
   }
 
-  function handleViewClick() {
-    setIsView(true);
-  }
   return (
     <div className="outer-box">
       <span className="view-revenue">View Revenue By Model</span>
       <div className="inner-box">
-        {isView ? (
-          <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+        <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+          {modelsList.length ? (
             <table>
               <thead>
                 <tr>
@@ -67,17 +75,14 @@ function ViewRevenue() {
                 ))}
               </tbody>
             </table>
-          </div>
-        ) : (
-          <div className="no-data">Click view to see the revenue by model</div>
-        )}
+          ) : (
+            <h4 className="loading-text">Loading Details Please Wait....</h4>
+          )}
+        </div>
       </div>
       <div className="buttons-div">
         <button onClick={handleBackClick} className="buttons">
           Back
-        </button>
-        <button onClick={handleViewClick} className="buttons">
-          View
         </button>
       </div>
     </div>

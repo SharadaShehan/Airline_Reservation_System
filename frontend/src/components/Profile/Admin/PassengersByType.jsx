@@ -3,12 +3,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./passengersByType.css";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 
 
 function PassengersByType() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
   const { setUserMenuItem } = UserMenuGlobalState();
+  const { setCurrentUserData } = UserGlobalState();
   const [to, setTo] = useState("");
   const [from, setFrom] = useState("");
 
@@ -37,7 +39,18 @@ function PassengersByType() {
       console.log(response.data);
       setResponse(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      if (error.response && error.response.status === 401) {
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
+      }
     }
   }
   return (
