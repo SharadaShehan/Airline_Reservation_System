@@ -23,7 +23,7 @@ class CreateAirport(Resource):
         if connection:
             try:
                 connection.autocommit = False
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     request_data = parser.parse_args()
@@ -52,7 +52,7 @@ class CreateAirport(Resource):
                 # Validate airport data
                 if not validate_airport_data(ICAO, IATA, location_list):
                     raise Exception("Invalid airport data")
-
+                
                 locations_json = json.dumps(location_list)
 
                 # Create airport

@@ -19,7 +19,7 @@ class DEOGetAuthToken(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     args = parser.parse_args()

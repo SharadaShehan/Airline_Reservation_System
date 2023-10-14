@@ -24,7 +24,7 @@ class CreateRoute(Resource):
         if connection:
             try:
                 connection.autocommit = False
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
                 
                 try:
                     request_data = parser.parse_args()
@@ -54,13 +54,6 @@ class CreateRoute(Resource):
                 # Validate route data
                 if not validate_route_data(origin, destination, duration_minutes, base_price):
                     raise Exception("Invalid route data")
-
-                # # Insert a new record into the 'route' table
-                # cursor.execute("INSERT INTO route (Origin, Destination, Duration_Minutes) VALUES (%s, %s, %s)",
-                #                (origin, destination, duration_minutes))
-                # connection.commit()
-
-                # connection.close()
 
                 base_price_json = json.dumps(base_price)
 
