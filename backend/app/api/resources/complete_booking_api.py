@@ -1,5 +1,5 @@
 from flask import jsonify, make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_registered_user
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_payment
 
@@ -10,7 +10,7 @@ parser.add_argument('transactionID', type=str, required=True)
 class CompleteBooking(Resource):
     def post(self, bkset_id):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_registered_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
@@ -47,4 +47,4 @@ class CompleteBooking(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to complete booking. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized access")

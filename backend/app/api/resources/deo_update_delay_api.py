@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_staff
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_update_delay_data
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -13,7 +13,7 @@ class DEOupdateDelay(Resource):
     @jwt_required()
     def patch(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to the database. Error: {ex}")
 
@@ -59,4 +59,4 @@ class DEOupdateDelay(Resource):
                     return abort(403, message="Account is not authorized to perform this action")
                 return abort(400, message=f"Failed to update delay. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to the database")
+            return abort(403, message="Unauthorized Access")

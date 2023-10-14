@@ -1,5 +1,5 @@
 from flask import make_response, request
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_admin
 from flask_restful import Resource, abort
 from app.utils.validators import validate_origin_destination_parameters, validate_date_range, validate_icao_code
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -9,7 +9,7 @@ class GetPassengersByNextFlight(Resource):
     @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_admin()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
 
@@ -82,14 +82,14 @@ class GetPassengersByNextFlight(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to get passengers by flight. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthozrzed access")
 
 
 class GetPassengersByDateDestination(Resource):
     @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_admin()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
 
@@ -135,14 +135,14 @@ class GetPassengersByDateDestination(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to get passengers by date and destination. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthozrzed access")
         
 
 class GetBookingCountByDatePassengerType(Resource):
     @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_admin()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
 
@@ -190,14 +190,14 @@ class GetBookingCountByDatePassengerType(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to get passengers by date and passenger type. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthozrzed access")
         
 
 class GetPastFlightsDetails(Resource):
     @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_admin()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
 
@@ -270,5 +270,5 @@ class GetPastFlightsDetails(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to get past flight details. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthozrzed access")
 

@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_registered_user, get_db_connection_guest_user
 from flask_restful import Resource, abort
 from app.utils.validators import validate_booking_set_id_format, validate_guest_id_format
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -8,7 +8,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 class GuestCancelBooking(Resource):
     def delete(self, bkset_id, guest_id):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_guest_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
@@ -40,7 +40,7 @@ class GuestCancelBooking(Resource):
                 if query_result[1] == 1:
                     raise Exception("Completed booking cannot be cancelled")
                 
-                # Complete booking
+                # delete booking
                 cursor.execute(f"DELETE FROM booking WHERE Booking_Ref_ID = '{bkset_id}'")
                 
                 connection.commit()
@@ -52,14 +52,14 @@ class GuestCancelBooking(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to cancel booking. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthozrzed access")
 
 
 class UserCancelBooking(Resource):
     @jwt_required()
     def delete(self, bkset_id):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_registered_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
@@ -94,4 +94,4 @@ class UserCancelBooking(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to cancel booking. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthozrzed access")

@@ -128,10 +128,16 @@ def validate_airplane_data(tail_number, model_id):
             return True
     return False
 
-def validate_route_data(origin, destination, duration_minutes):
+def validate_route_data(origin, destination, duration_minutes, base_price):
     if validate_icao_code(origin) and validate_icao_code(destination):
         if isinstance(duration_minutes, int) and duration_minutes > 0:
-            return True
+            if isinstance(base_price, dict) and len(base_price) > 0:
+                for travel_class, price in base_price.items():
+                    if travel_class not in classes:
+                        return False
+                    if not (isinstance(price, float) or isinstance(price, int)) or price < 0:
+                        return False
+                return True
 
 def validate_date(date):
     if isinstance(date, str) and len(date) == 10 and re.match(date_pattern, date):

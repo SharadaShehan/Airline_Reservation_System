@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_registered_user
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_user_update_data_with_password, validate_user_update_data_without_password
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -22,7 +22,7 @@ class UpdateUser(Resource):
     @jwt_required()
     def patch(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_registered_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
@@ -96,5 +96,5 @@ class UpdateUser(Resource):
                     return abort(403, message="Unauthorized access to Passenger User API")
                 return abort(400, message=f"Failed to update user. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")
         

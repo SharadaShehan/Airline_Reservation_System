@@ -1,8 +1,9 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_staff
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_airport_data
 from flask_jwt_extended import jwt_required, get_jwt_identity
+import json
 
 parser = reqparse.RequestParser()
 parser.add_argument('ICAO', type=str, required=True)
@@ -15,12 +16,13 @@ class CreateAirport(Resource):
     def post(self):
         
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to the database. Error: {ex}")
 
         if connection:
             try:
+                connection.autocommit = False
                 cursor = connection.cursor()
 
                 try:
@@ -51,29 +53,26 @@ class CreateAirport(Resource):
                 if not validate_airport_data(ICAO, IATA, location_list):
                     raise Exception("Invalid airport data")
 
-                # Insert a new record into the 'airport' table
-                cursor.execute("INSERT INTO airport (ICAO_Code, IATA_Code) VALUES (%s, %s)", (ICAO, IATA))
-                connection.commit()
+                locations_json = json.dumps(location_list)
 
-                try:
-                    # Insert records into the 'location' table for each location in 'location_list'
-                    for idx, location_text in enumerate(location_list):
-                        cursor.execute("INSERT INTO location (Airport, level, name) VALUES (%s, %s, %s)",
-                                    (ICAO, idx, location_text))
-                        connection.commit()
-                except Exception:
-                    # Delete the record from the 'airport' table if insertion into 'location' table fails
-                    cursor.execute(f"DELETE FROM airport WHERE ICAO_Code = '{ICAO}'")
+                # Create airport
+                procedureStatus = 0
+                result_args = cursor.callproc('CreateAirport', (ICAO, IATA, locations_json, 0))
+                procedureStatus = result_args[-1]
+
+                if procedureStatus == 1:
                     connection.commit()
-                    raise Exception("Failed to insert location records")
+                    connection.close()
+                else:
+                    raise Exception("Invalid airport data")
 
-                connection.close()
-                
                 return make_response({'message': 'Airport and location records created successfully'}, 201)
             except Exception as ex:
+                connection.rollback()
+                connection.close()
                 if str(ex) == "403":
                     return abort(403, message="Only data entry operators can create airport records")
                 return abort(400, message=f"Failed to create airport. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to the database")
+            return abort(403, message="Unauthorized Access")
 

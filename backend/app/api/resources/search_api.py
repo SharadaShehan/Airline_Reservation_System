@@ -1,5 +1,5 @@
 from flask import make_response, request
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_guest_user, get_db_connection_registered_user
 from flask_restful import Resource, abort
 from app.utils.validators import validate_search_parameters, validate_booking_set_id_format, validate_user_data
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -8,7 +8,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 class SearchFlights(Resource):
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_guest_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
 
@@ -60,13 +60,13 @@ class SearchFlights(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to get reserved seats. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")
         
 
 class SearchBookedTickets(Resource):
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_guest_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
 
@@ -136,7 +136,7 @@ class SearchBookedTickets(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to get Booked Tickets. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")  
+            return abort(403, message="Unauthorized Access") 
 
 
 
@@ -144,7 +144,7 @@ class SearchUserBookedTickets(Resource):
     @jwt_required()  
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_registered_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
 
@@ -210,4 +210,4 @@ class SearchUserBookedTickets(Resource):
                     return abort(404, message=f"User does not have any valid tickets")
                 return abort(400, message=f"Failed to get Booked Tickets. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database") 
+            return abort(403, message="Unauthorized Access")

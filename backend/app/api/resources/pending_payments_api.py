@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_guest_user, get_db_connection_registered_user
 from flask_restful import Resource, abort, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.utils.validators import validate_guest_id_format
@@ -9,7 +9,7 @@ class UserPendingPayments(Resource):
     @jwt_required()     # check if user is jwt authenticated
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_registered_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
@@ -75,13 +75,13 @@ class UserPendingPayments(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")
 
 
 class GuestPendingPayments(Resource):
     def get(self, guest_id):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_guest_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
@@ -150,4 +150,4 @@ class GuestPendingPayments(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")

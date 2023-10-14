@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_admin
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_staff_register_data
 from werkzeug.security import generate_password_hash
@@ -16,7 +16,7 @@ class RegisterAdmin(Resource):
     @jwt_required()
     def post(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_admin()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
@@ -82,4 +82,4 @@ class RegisterAdmin(Resource):
                     return abort(403, message="Only admins can register new admins")
                 return abort(400, message=f"Failed to register user. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")

@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_admin
 from flask_restful import Resource, abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -8,7 +8,7 @@ class GetRevenueByModel(Resource):
     @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_admin()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
 
@@ -53,4 +53,4 @@ class GetRevenueByModel(Resource):
                 print(ex)
                 return abort(400, message=f"Failed to get reserved seats. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthozrzed access")

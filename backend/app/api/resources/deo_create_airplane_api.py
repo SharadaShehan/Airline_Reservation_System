@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_staff
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_airplane_data
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -14,7 +14,7 @@ class CreateAirplane(Resource):
     def post(self):
         
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to the database. Error: {ex}")
 
@@ -62,4 +62,4 @@ class CreateAirplane(Resource):
                     return abort(403, message="Only data entry operators can create airplane records")
                 return abort(400, message=f"Failed to create airplane record. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to the database")
+            return abort(403, message="Unauthorized Access")
