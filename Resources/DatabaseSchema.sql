@@ -1,11 +1,8 @@
-DROP project_database IF EXISTS `airline`;
+DROP DATABASE IF EXISTS 'project_database';
 
-CREATE project_database `airline`;
+CREATE DATABASE 'project_database';
 
-USE `airline`;
-
-SET @@session.time_zone='+05:30';
-
+USE 'project_database';
 
 --drop_all_users_roles()
 
