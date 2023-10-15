@@ -480,9 +480,9 @@ INSERT into registered_user(Username, Passport_ID, Address, Birth_Date, Gender, 
 INSERT into registered_user(Username, Passport_ID, Address, Birth_Date, Gender, Email, Contact_Number) values('GraceM', 'LM0123SR', '2021; Cherry St; Jakarta; Indonesia', '1983-08-03', 'Female', 'gracem@example.com', '+6284567890123')
 
 
-INSERT into staff('Username', 'Role') values('SophiaW', 'Data Entry Operator')
-INSERT into staff('Username', 'Role') values('DanielH', 'Data Entry Operator')
-INSERT into staff('Username', 'Role') values('HenryW', 'Admin')
+INSERT into staff(Username, Role) values('SophiaW', 'Data Entry Operator')
+INSERT into staff(Username, Role) values('DanielH', 'Data Entry Operator')
+INSERT into staff(Username, Role) values('HenryW', 'Admin')
 
 
 INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price(), Completed) values('BUI7L6BNML60', 1,       , 19, 990, 1)
