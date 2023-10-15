@@ -4,7 +4,7 @@ CREATE DATABASE 'project_database';
 
 USE 'project_database';
 
---drop_all_users_roles()
+-- drop_all_users_roles()
 
 DROP USER IF EXISTS 'adminAccount'@'localhost';
 DROP USER IF EXISTS 'staffAccount'@'localhost';
@@ -16,7 +16,7 @@ DROP USER IF EXISTS 'staff';
 DROP USER IF EXISTS 'staff';
 DROP USER IF EXISTS 'guest';
 
---drop_all_tables()
+-- drop_all_tables()
 DROP TABLE IF EXISTS 'guest';
 DROP TABLE IF EXISTS 'booked_seat';
 DROP TABLE IF EXISTS 'booking';
@@ -34,15 +34,14 @@ DROP TABLE IF EXISTS 'airport';
 DROP TABLE IF EXISTS 'airplane';
 DROP TABLE IF EXISTS 'model';
 
---drop_all_views()
+-- drop_all_views()
 DROP VIEW IF EXISTS "flight";
 DROP VIEW IF EXISTS "seat_reservation";
 DROP VIEW IF EXISTS "ticket";
 DROP VIEW IF EXISTS "passenger";
 
---drop_all_procedures()
+-- drop_all_procedures()
 DROP PROCEDURE IF EXISTS 'CompleteBooking';
-DROP PROCEDURE IF EXISTS 'CreateBooking';
 DROP PROCEDURE IF EXISTS 'UserCreateBooking';
 DROP PROCEDURE IF EXISTS 'GuestCreateBooking';
 DROP PROCEDURE IF EXISTS 'ScheduleFlight';
@@ -50,22 +49,22 @@ DROP PROCEDURE IF EXISTS 'CreateAirport';
 DROP PROCEDURE IF EXISTS 'CreateModel';
 DROP PROCEDURE IF EXISTS 'CreateRoute';
 
---drop_all_functions()
+-- drop_all_functions()
 DROP FUNCTION IF EXISTS 'GenerateRandomGuestID';
 DROP FUNCTION IF EXISTS 'GenerateRandomString';
 DROP FUNCTION IF EXISTS 'CalculateFinalPrice';
 
---drop_all_events()
+-- drop_all_events()
 DROP EVENT IF EXISTS "CheckBookingValidity";
 
---drop_all_triggers()
+-- drop_all_triggers()
 DROP TRIGGER IF EXISTS 'check_routes_matching';
 DROP TRIGGER IF EXISTS 'check_booking_has_seats_and_guest';
 DROP TRIGGER IF EXISTS 'check_valid_route_creation';
 DROP TRIGGER IF EXISTS 'check_airport_has_locations';
 
 
---create_tables()
+-- create_tables()
 CREATE TABLE IF NOT EXISTS model (
             Model_ID SMALLINT PRIMARY KEY AUTO_INCREMENT,
             Name VARCHAR(40) NOT NULL UNIQUE);
@@ -73,7 +72,7 @@ CREATE TABLE IF NOT EXISTS model (
 CREATE TABLE IF NOT EXISTS airplane (
             Tail_Number VARCHAR(10) PRIMARY KEY,
             Model SMALLINT NOT NULL,
-            FOREIGN KEY (Model) REFERENCES model(Model_ID) )
+            FOREIGN KEY (Model) REFERENCES model(Model_ID) );
 
 CREATE TABLE IF NOT EXISTS airport (
             ICAO_Code CHAR(4) PRIMARY KEY,
@@ -187,15 +186,15 @@ CREATE TABLE IF NOT EXISTS guest (
             FOREIGN KEY (Booking_Ref_ID) REFERENCES booking(Booking_Ref_ID) ON DELETE CASCADE);
 
 
---create_indexes()
+-- create_indexes()
 CREATE INDEX idx_scheduled_flight ON scheduled_flight (Route, Airplane, Departure_Time, Delay_Minutes);
-            CREATE INDEX idx_registered_user ON registered_user (Category);
-            CREATE INDEX idx_booking ON booking (Scheduled_Flight, User, BPrice_Per_Booking, Final_Price, Completed);
-            CREATE INDEX idx_booked_seat ON booked_seat (Booking, Seat_Number, FirstName, LastName, IsAdult, Passport_ID);
-            CREATE INDEX idx_guest ON guest (Booking_Ref_ID);
+CREATE INDEX idx_registered_user ON registered_user (Category);
+CREATE INDEX idx_booking ON booking (Scheduled_Flight, User, BPrice_Per_Booking, Final_Price, Completed);
+CREATE INDEX idx_booked_seat ON booked_seat (Booking, Seat_Number, FirstName, LastName, IsAdult, Passport_ID);
+CREATE INDEX idx_guest ON guest (Booking_Ref_ID);
 
 
---create_views()
+-- create_views()
 CREATE OR REPLACE VIEW flight AS
             SELECT 
                 shf.Scheduled_ID AS ID,
@@ -325,7 +324,7 @@ CREATE OR REPLACE VIEW passenger AS
 			ORDER BY bk.Ticket_Number;
 
 
---create_procedures()
+-- create_procedures()
 CREATE PROCEDURE CompleteBooking(IN Ref_ID CHAR(12))
             BEGIN
                 DECLARE totalBookingsCount SMALLINT;
@@ -814,7 +813,7 @@ CREATE PROCEDURE CreateRoute(
             END;
 
 
---create_functions()
+-- create_functions()
 CREATE FUNCTION GenerateRandomString()
             RETURNS CHAR(12)
             DETERMINISTIC
@@ -905,7 +904,7 @@ CREATE FUNCTION GenerateRandomGuestID()
                 RETURN randomString;
             END;
 
---create_events()
+-- create_events()
 CREATE EVENT CheckBookingValidity
             ON SCHEDULE EVERY 60 MINUTE STARTS CURRENT_TIMESTAMP
             DO
@@ -918,7 +917,7 @@ CREATE EVENT CheckBookingValidity
             END;
 
 
---create_triggers()
+-- create_triggers()
 CREATE TRIGGER check_routes_matching
                 BEFORE INSERT ON booking
                 FOR EACH ROW
@@ -998,7 +997,7 @@ CREATE TRIGGER check_airport_has_locations
                     CLOSE airport_cursor;
                 END;
 
-
+-- create roles and users
 CREATE ROLE IF NOT EXISTS 'admin', 'staff', 'registeredUser', 'guest';
 CREATE USER IF NOT EXISTS 'adminAccount'@'localhost' IDENTIFIED BY 'P7tZ99pJ2s9';
 CREATE USER IF NOT EXISTS 'staffAccount'@'localhost' IDENTIFIED BY 'MK6dLpY9sPz';

@@ -13,14 +13,23 @@ INSERT into airplane(Tail_Number,Model) values('N98765', 3)
 
 
 INSERT into airport(ICAO_Code, IATA_Code) values('WIII', 'CGK')
+
 INSERT into airport(ICAO_Code, IATA_Code) values('WIII', 'CGK')
+
 INSERT into airport(ICAO_Code, IATA_Code) values('WADD', 'DPS')
+
 INSERT into airport(ICAO_Code, IATA_Code) values('VCBI', 'BIA')
+
 INSERT into airport(ICAO_Code, IATA_Code) values('VCRI', 'HRI')
+
 INSERT into airport(ICAO_Code, IATA_Code) values('VIDP', 'DEL')
+
 INSERT into airport(ICAO_Code, IATA_Code) values('VABB', 'BOM')
+
 INSERT into airport(ICAO_Code, IATA_Code) values('VTBS', 'BKK')
+
 INSERT into airport(ICAO_Code, IATA_Code) values('VTBD', 'DMK')
+
 INSERT into airport(ICAO_Code, IATA_Code) values('WSSS', 'SIN')
 
 
