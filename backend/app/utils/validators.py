@@ -207,3 +207,13 @@ def validate_update_delay_data(flight_id, new_delay):
         if isinstance(new_delay, int) and new_delay >= 0:
             return True
     return False
+
+def validate_contact_number(contact_number):
+    if isinstance(contact_number, str) and re.match(contact_number_pattern, contact_number):
+        return True
+    return False
+
+def validate_email(email):
+    if isinstance(email, str) and re.match(email_pattern, email):
+        return True
+    return False
