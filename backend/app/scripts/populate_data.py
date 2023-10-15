@@ -44,48 +44,38 @@ def populate_airplane_table():
         connection.close()
     else:
         raise Exception("Failed to populate airplane data")
-    
-def populate_airport_table():
-    connection = get_db_connection()
-    if connection:
-        cursor = connection.cursor()
-        insert_airport_query = """INSERT INTO airport (ICAO_Code, IATA_Code) VALUES"""
-        # Read data from csv file and insert into Airport table
-        with open('app/scripts/data/Airport.csv', 'r') as file:       # use specific path to csv file
-            csv_reader = csv.reader(file)
-            # Skip the header row
-            header_row = next(csv_reader)
-            for row in csv_reader:
-                # Get attributes for each record from comma separated row
-                icao_code, iata_code = row
-                insert_airport_query += f"({icao_code}, {iata_code}),"
-            insert_airport_query = insert_airport_query[:-1] + ';'      # remove last comma and add semicolon
-        cursor.execute(insert_airport_query)
-        connection.commit()
-        connection.close()
-    else:
-        raise Exception("Failed to populate airport data")
 
-def populate_location_table():
+
+def populate_airport_and_location_tables():
+    # Read data from csv file and insert into Airport and Location tables
+    airports_list = []; locations_list = []
+    with open('app/scripts/data/Airport.csv', 'r') as file:
+        csv_reader = csv.reader(file)
+        header_row = next(csv_reader)
+        for row in csv_reader:
+            airports_list.append(row)
+    with open('app/scripts/data/Location.csv', 'r') as file:
+        csv_reader = csv.reader(file)
+        header_row = next(csv_reader)
+        for row in csv_reader:
+            locations_list.append(row)
+    
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()
-        insert_location_query = """INSERT INTO location (Airport, Level, Name) VALUES"""
-        # Read data from csv file and insert into Location table
-        with open('app/scripts/data/Location.csv', 'r') as file:       # use specific path to csv file
-            csv_reader = csv.reader(file)
-            # Skip the header row
-            header_row = next(csv_reader)
-            for row in csv_reader:
-                # Get attributes for each record from comma separated row
-                airport, level, name = row
-                insert_location_query += f"({airport}, {level}, {name}),"
-            insert_location_query = insert_location_query[:-1] + ';'      # remove last comma and add semicolon
-        cursor.execute(insert_location_query)
+        for airport in airports_list:
+            # Insert into Airport table
+            insert_airport_query = f"""INSERT INTO airport (ICAO_Code, IATA_Code) VALUES ({airport[0]}, {airport[1]});"""
+            cursor.execute(insert_airport_query)
+            # Identify locations for each airport and insert into Location table
+            insert_location_query = """INSERT INTO location (Airport, Level, Name) VALUES """
+            for location in locations_list:
+                if location[0] == airport[0]:
+                    insert_location_query += f"({location[0]}, {location[1]}, {location[2]}),"
+            insert_location_query = insert_location_query[:-1] + ';'
+            cursor.execute(insert_location_query)
         connection.commit()
         connection.close()
-    else:
-        raise Exception("Failed to populate location data")
 
 def populate_route_table():
     connection = get_db_connection()
@@ -332,8 +322,7 @@ def populate_guest_table():
 def populate_data():
     populate_model_table()
     populate_airplane_table()
-    populate_airport_table()
-    populate_location_table()
+    populate_airport_and_location_tables()
     populate_route_table()
     populate_scheduled_flight_table()
     populate_class_table()
@@ -344,6 +333,6 @@ def populate_data():
     populate_registered_user_table()
     populate_staff_table()
     populate_booking_table()
-    populate_booked_seat_table()
     populate_guest_table()
-
+    populate_booked_seat_table()
+    

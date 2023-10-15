@@ -116,7 +116,7 @@ def create_tables():
         #------- Create class table -------
         create_class_table_query = """
             CREATE TABLE IF NOT EXISTS class (
-            Class_Name VARCHAR(10) PRIMARY KEY,
+            Class_Name ENUM('Economy', 'Business', 'Platinum') PRIMARY KEY,
             Class_Code CHAR(1) NOT NULL );
         """
         cursor.execute(create_class_table_query)
@@ -127,7 +127,7 @@ def create_tables():
             CREATE TABLE IF NOT EXISTS capacity (
             Capacity_ID SMALLINT PRIMARY KEY AUTO_INCREMENT,
             Model SMALLINT NOT NULL,
-            Class VARCHAR(10) NOT NULL,
+            Class ENUM('Economy', 'Business', 'Platinum') NOT NULL,
             Seats_Count SMALLINT NOT NULL,
             FOREIGN KEY (Model) REFERENCES model(Model_ID) ON DELETE CASCADE,
             FOREIGN KEY (Class) REFERENCES class(Class_Name) );
@@ -139,11 +139,12 @@ def create_tables():
         create_base_price_table_query = """
             CREATE TABLE IF NOT EXISTS base_price (
             Price_ID SMALLINT PRIMARY KEY AUTO_INCREMENT,
-            Class VARCHAR(10) NOT NULL,
+            Class ENUM('Economy', 'Business', 'Platinum') NOT NULL,
             Route SMALLINT NOT NULL,
             Price DECIMAL(8,2) NOT NULL,
             FOREIGN KEY (Class) REFERENCES class(Class_Name),
-            FOREIGN KEY (Route) REFERENCES route(Route_ID) );
+            FOREIGN KEY (Route) REFERENCES route(Route_ID),
+            CONSTRAINT Unique_Price_Pair UNIQUE (Class, Route) );
         """
         cursor.execute(create_base_price_table_query)
         #----------------------------------
@@ -152,7 +153,7 @@ def create_tables():
         create_user_category_table_query = """
             CREATE TABLE IF NOT EXISTS user_category (
             Category_ID SMALLINT PRIMARY KEY AUTO_INCREMENT,
-            Category_Name VARCHAR(10),
+            Category_Name ENUM('General', 'Frequent', 'Gold') NOT NULL,
             Min_Bookings SMALLINT NOT NULL, 
             Discount DECIMAL(5,4) NOT NULL );
         """
@@ -180,7 +181,7 @@ def create_tables():
             Birth_Date DATE NOT NULL,
             Gender VARCHAR(15) NOT NULL,
             Email VARCHAR(50) NOT NULL,
-            Contact_Number VARCHAR(16) NOT NULL,
+            Contact_Number VARCHAR(16) NOT NULL UNIQUE,
             Bookings_Count SMALLINT NOT NULL DEFAULT 0,
             FOREIGN KEY (Category) REFERENCES user_category(Category_ID),
             FOREIGN KEY (Username) REFERENCES user(Username) );
@@ -192,12 +193,11 @@ def create_tables():
         create_staff_table_query = """
             CREATE TABLE IF NOT EXISTS staff (
             Username VARCHAR(30) PRIMARY KEY,
-            Role VARCHAR(20) NOT NULL,
+            Role ENUM('Admin', 'Data Entry Operator') NOT NULL,
             FOREIGN KEY (Username) REFERENCES user(Username) );
         """
         cursor.execute(create_staff_table_query)
         #----------------------------------
-
 
         #------- Create booking table ----
         create_booking_table_query = """
@@ -226,7 +226,8 @@ def create_tables():
             LastName VARCHAR(30) NOT NULL,
             IsAdult BOOLEAN NOT NULL,
             Passport_ID VARCHAR(15) NOT NULL,
-            FOREIGN KEY (Booking) REFERENCES booking(Booking_Ref_ID) ON DELETE CASCADE);
+            FOREIGN KEY (Booking) REFERENCES booking(Booking_Ref_ID) ON DELETE CASCADE,
+            CONSTRAINT Unique_Seat_On_Booking UNIQUE (Booking, Seat_Number) );
         """
         cursor.execute(create_booked_seat_table_query)
         #----------------------------------
@@ -235,7 +236,7 @@ def create_tables():
         create_guest_table_query = """
             CREATE TABLE IF NOT EXISTS guest (
             Guest_ID CHAR(12) PRIMARY KEY,
-            Booking_Ref_ID CHAR(12) NOT NULL,
+            Booking_Ref_ID CHAR(12) NOT NULL UNIQUE,
             Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             Email VARCHAR(50),
             Contact_Number VARCHAR(16),

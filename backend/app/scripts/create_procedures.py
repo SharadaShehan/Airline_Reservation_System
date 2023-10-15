@@ -10,7 +10,10 @@ def drop_all_procedures():
         procedures_list = [
             "CompleteBooking",
             "CreateBooking",
-            "ScheduleFlight"
+            "ScheduleFlight",
+            "CreateAirport",
+            "CreateModel",
+            "CreateRoute"
         ]
         
         # Generate drop queries for all procedures and append to drop_queries list
@@ -45,12 +48,6 @@ def create_procedures():
                 DECLARE idFrequent SMALLINT;
                 DECLARE minBookCountGold VARCHAR(10);
                 DECLARE idGold SMALLINT;
-
-                DECLARE EXIT HANDLER FOR SQLEXCEPTION
-                    BEGIN
-                        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SQLError occured. Triggered ROLLBACK';
-                        ROLLBACK;
-                    END;
                 
                 START TRANSACTION;
                     
@@ -114,15 +111,18 @@ def create_procedures():
         
         create_create_booking_query = """
             CREATE PROCEDURE CreateBooking(
-                IN refID CHAR(12), 
                 IN scheduled_flight_id INTEGER, 
                 IN acc_username VARCHAR(30), 
                 IN travel_class VARCHAR(10), 
                 IN booking_count SMALLINT, 
-                IN finalPrice DECIMAL(8,2), 
-                OUT status_var BOOLEAN)
+                IN passengers_json JSON,
+                OUT refID CHAR(12),
+                OUT finalPrice DECIMAL(8,2),
+                OUT status_var BOOLEAN
+            )
 
             BEGIN
+                DECLARE i INTEGER DEFAULT 0;
                 DECLARE basePricePerBooking DECIMAL(8,2);
                 DECLARE seat_number SMALLINT;
                 DECLARE first_name VARCHAR(30);
@@ -137,13 +137,35 @@ def create_procedures():
                 DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult, Passport_ID FROM booking_data;
                 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
                 
-                DECLARE EXIT HANDLER FOR SQLEXCEPTION
-                BEGIN
-                    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SQLError occured. Triggered ROLLBACK';
-                    ROLLBACK;
-                END;
-                
                 SET status_var = FALSE;
+
+                SET refID = GenerateRandomString();
+                SET finalPrice = CalculateFinalPrice(scheduled_flight_id, acc_username, travel_class, booking_count);
+
+                DROP TEMPORARY TABLE IF EXISTS booking_data;
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS booking_data (
+                        SeatNumber SMALLINT,
+                        FirstName VARCHAR(30),
+                        LastName VARCHAR(30),
+                        IsAdult BOOLEAN,
+                        Passport_ID VARCHAR(15) 
+                );
+
+                WHILE i < JSON_LENGTH(passengers_json) DO
+                    SET seat_number = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].seatNumber')));
+                    SET first_name = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].firstName')));
+                    SET last_name = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].lastName')));
+                    SET is_adult = JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].isAdult'));
+                    SET passportid = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].passportID')));
+
+                    INSERT INTO 
+                        booking_data (SeatNumber, FirstName, LastName, IsAdult, Passport_ID) 
+                    VALUES 
+                        (seat_number, first_name, last_name, is_adult, passportid);
+
+                    SET i = i + 1;
+                END WHILE;
 
                 START TRANSACTION;
                 
@@ -267,6 +289,146 @@ def create_procedures():
             END;
         """
         cursor.execute(create_schedule_flight_query)
+        #----------------------------------
+
+        #------- Create create airport procedure -------
+
+        create_create_airport_query = """
+            CREATE PROCEDURE CreateAirport(
+                IN icao_code CHAR(4),
+                IN iata_code CHAR(3),
+                IN locations_json JSON,
+                OUT status_var BOOLEAN)
+            
+            BEGIN
+                DECLARE idx INTEGER DEFAULT 0;
+                DECLARE airport_code CHAR(4);
+                DECLARE name VARCHAR(20);
+                DECLARE array_length INTEGER;
+                
+                SET status_var = FALSE;
+                SET array_length = JSON_LENGTH(locations_json);
+                
+                START TRANSACTION;
+                
+                    INSERT INTO 
+                        airport (ICAO_Code, IATA_Code) 
+                    VALUES 
+                        (icao_code, iata_code);
+                    
+                    SET airport_code = icao_code;
+
+                    WHILE idx < array_length DO
+                        SET name = JSON_UNQUOTE(JSON_EXTRACT(locations_json, CONCAT('$[', idx, ']')));
+                        INSERT INTO 
+                            location (Airport, level, name)
+                        VALUES
+                            (airport_code, idx, name);
+                        
+                        SET idx = idx + 1;
+                    END WHILE;
+        
+                COMMIT;
+                SET status_var = TRUE;
+            END;
+        """
+        cursor.execute(create_create_airport_query)
+        #----------------------------------
+
+        #------- Create create model procedure -------
+
+        create_create_model_query = """
+            CREATE PROCEDURE CreateModel(
+                IN model_name VARCHAR(40),
+                IN seats_count_json JSON,
+                OUT status_var BOOLEAN)
+            
+            BEGIN
+                DECLARE model_id INTEGER;
+                DECLARE class_name VARCHAR(10);
+                DECLARE seats_count SMALLINT;
+                DECLARE keyIndex INTEGER DEFAULT 0;
+                DECLARE totalKeys INTEGER;
+                
+                SET status_var = FALSE;
+                SET totalKeys = JSON_LENGTH(JSON_KEYS(seats_count_json));
+
+                START TRANSACTION;
+
+                    INSERT INTO
+                        model (Name)
+                    VALUES
+                        (model_name);
+
+                    SET model_id = LAST_INSERT_ID();
+
+                    WHILE keyIndex < totalKeys DO
+                        SET class_name = JSON_UNQUOTE(JSON_EXTRACT(JSON_KEYS(seats_count_json), CONCAT('$[', keyIndex, ']')));
+                        SET seats_count = JSON_UNQUOTE(JSON_EXTRACT(seats_count_json, CONCAT('$.', class_name)));
+
+                        INSERT INTO
+                            capacity (Model, Class, Seats_Count)
+                        VALUES
+                            (model_id, class_name, seats_count);
+                        
+                        SET keyIndex = keyIndex + 1;
+                    END WHILE;
+
+                COMMIT;
+                SET status_var = TRUE;
+            END;
+        """
+        cursor.execute(create_create_model_query)
+        #----------------------------------
+
+        #------- Create create route procedure -------
+
+        create_create_route_query = """
+            CREATE PROCEDURE CreateRoute(
+                IN origin VARCHAR(4),
+                IN destination VARCHAR(4),
+                IN duration_minutes SMALLINT,
+                IN base_price_json JSON,
+                OUT status_var BOOLEAN)
+
+            BEGIN
+
+                DECLARE route_id INTEGER;
+                DECLARE class_name VARCHAR(10);
+                DECLARE price DECIMAL(8,2);
+                DECLARE keyIndex INTEGER DEFAULT 0;
+                DECLARE totalKeys INTEGER;
+                
+                SET status_var = FALSE;
+
+                SET totalKeys = JSON_LENGTH(JSON_KEYS(base_price_json));
+
+                START TRANSACTION;
+
+                    INSERT INTO
+                        route (Origin, Destination, Duration_Minutes)
+                    VALUES
+                        (origin, destination, duration_minutes);
+                    
+                    SET route_id = LAST_INSERT_ID();
+
+                    WHILE keyIndex < totalKeys DO
+                        SET class_name = JSON_UNQUOTE(JSON_EXTRACT(JSON_KEYS(base_price_json), CONCAT('$[', keyIndex, ']')));
+                        SET price = JSON_UNQUOTE(JSON_EXTRACT(base_price_json, CONCAT('$.', class_name)));
+
+                        INSERT INTO
+                            base_price (Route, Class, Price)
+                        VALUES
+                            (route_id, class_name, price);
+                        
+                        SET keyIndex = keyIndex + 1;
+                    END WHILE;
+                
+                COMMIT;
+                SET status_var = TRUE;
+            END;
+        """
+        cursor.execute(create_create_route_query)
         #----------------------------------
         
         connection.commit()

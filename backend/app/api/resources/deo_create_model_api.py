@@ -1,8 +1,9 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_staff
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_model_data
 from flask_jwt_extended import jwt_required, get_jwt_identity
+import json
 
 parser = reqparse.RequestParser()
 parser.add_argument('name', type=str, required=True)
@@ -14,12 +15,13 @@ class CreateModel(Resource):
     def post(self):
 
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
+                connection.autocommit = False
                 cursor = connection.cursor()
 
                 try:
@@ -48,30 +50,26 @@ class CreateModel(Resource):
                 if not validate_model_data(model_name, seats_count):
                     raise Exception("Invalid model data")
 
-                cursor.execute("INSERT INTO model (Name) VALUES (%s)", (model_name,))
-                connection.commit()
+                seats_count_json = json.dumps(seats_count)
 
-                try:
-                    model_id = cursor.lastrowid
+                # Create model
+                procedureStatus = 0
+                result_args = cursor.callproc('CreateModel', (model_name, seats_count_json, 0))
+                procedureStatus = result_args[-1]
 
-                    # Insert records into the 'capacity' table for each travel class in 'seats_count'
-                    for class_name, count in seats_count.items():
-                        cursor.execute("INSERT INTO capacity (Model, Class, Seats_Count) VALUES (%s, %s, %s)",
-                                    (model_id, class_name, count))
-                        connection.commit()
-                except Exception:
-                    # Delete the record from the 'model' table if insertion into 'capacity' table fails
-                    cursor.execute(f"DELETE FROM model WHERE ID = {model_id}")
+                if procedureStatus == 1:
                     connection.commit()
-                    raise Exception("Failed to insert capacity records")
-                
-                connection.close()
+                    connection.close()
+                else:
+                    raise Exception("Invalid model data")
 
                 return make_response({'message': 'Model and capacity records created successfully'}, 201)
             
             except Exception as ex:
+                connection.rollback()
+                connection.close()
                 if str(ex) == "403":
                     return abort(403, message="Only data entry operators can create models")
                 return abort(400, message=f"Failed to create model. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to the database")
+            return abort(403, message="Unauthorized Access")
