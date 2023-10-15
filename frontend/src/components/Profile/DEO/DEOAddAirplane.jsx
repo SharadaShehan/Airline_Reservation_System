@@ -7,7 +7,7 @@ export default function DEOAddFlight () {
   const [modelID, setModelID] = useState("Select Airplane Model");
   const [modelList, setModelList] = useState([]);
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
-  const [tailNumber, setTailNumber] = useState("");
+  const [tailNumber, setTailNumber] = useState();
 
   useEffect(
     function () {
@@ -55,6 +55,10 @@ export default function DEOAddFlight () {
       }
     } catch (err) {
       console.log(err);
+      if(err.response && err.response.status === 401){
+        setModelID(null);
+        setTailNumber(null);
+      }
     }
   }
 
