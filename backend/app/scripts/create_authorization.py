@@ -96,7 +96,7 @@ def create_and_grant_users_roles():
         cursor.execute(f"GRANT CREATE TEMPORARY TABLES ON {database}.* TO 'registeredUser';")
         cursor.execute(f"GRANT EXECUTE ON FUNCTION {database}.GenerateRandomString TO 'registeredUser';")
         cursor.execute(f"GRANT EXECUTE ON FUNCTION {database}.CalculateFinalPrice TO 'registeredUser';")
-        cursor.execute(f"GRANT EXECUTE ON PROCEDURE {database}.CreateBooking TO 'registeredUser';")
+        cursor.execute(f"GRANT EXECUTE ON PROCEDURE {database}.UserCreateBooking TO 'registeredUser';")
         cursor.execute(f"GRANT EXECUTE ON PROCEDURE {database}.CompleteBooking TO 'registeredUser';")
 
         # Grant privileges to guest role
@@ -119,7 +119,7 @@ def create_and_grant_users_roles():
         cursor.execute(f"GRANT EXECUTE ON FUNCTION {database}.GenerateRandomString TO 'guest';")
         cursor.execute(f"GRANT EXECUTE ON FUNCTION {database}.CalculateFinalPrice TO 'guest';")
         cursor.execute(f"GRANT EXECUTE ON FUNCTION {database}.GenerateRandomGuestID TO 'guest';")
-        cursor.execute(f"GRANT EXECUTE ON PROCEDURE {database}.CreateBooking TO 'guest';")
+        cursor.execute(f"GRANT EXECUTE ON PROCEDURE {database}.GuestCreateBooking TO 'guest';")
         cursor.execute(f"GRANT EXECUTE ON PROCEDURE {database}.CompleteBooking TO 'guest';")
         
         # Grant roles to users
