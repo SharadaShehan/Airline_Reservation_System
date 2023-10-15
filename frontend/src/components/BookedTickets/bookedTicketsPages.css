@@ -70,7 +70,7 @@
 
 .user-table {
     margin-top: 2em;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     width: 90%;
     /* max-width: 800px; */
     border-collapse: collapse;
