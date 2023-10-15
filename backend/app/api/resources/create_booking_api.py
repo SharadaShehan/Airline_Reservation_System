@@ -1,7 +1,7 @@
 from flask import make_response, request
 from app.utils.db import get_db_connection_registered_user, get_db_connection_guest_user
 from flask_restful import Resource, abort, reqparse
-from app.utils.validators import validate_booking_data
+from app.utils.validators import validate_booking_data, validate_email, validate_contact_number, validate_guest_id_format
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import time, json
 
@@ -9,6 +9,9 @@ parser = reqparse.RequestParser()
 parser.add_argument('flightID', type=int, required=True)
 parser.add_argument('travelClass', type=str, required=True)
 parser.add_argument('passengers', type=dict, required=True, action='append')
+parser.add_argument('email', type=str, required=False)
+parser.add_argument('contactNumber', type=str, required=False)
+parser.add_argument('guestID', type=str, required=False)
 
 # Throttling parameters
 GUEST_REQUESTS_LIMIT = 5  # Number of requests allowed for guest users
@@ -60,23 +63,40 @@ class GuestCreateBooking(Resource):
                 travelClass = args['travelClass']
                 passengers = args['passengers']
                 bookingCount = len(passengers)
+                email = args['email']
+                contactNumber = args['contactNumber']
+                guestID = args['guestID']
 
                 # Validate booking data
                 if not validate_booking_data(flightID, travelClass, passengers):
                     raise Exception("Invalid booking data")
+                
+                if guestID == None:
+                    guestID = '____________'
+                elif not validate_guest_id_format(guestID):
+                    raise Exception("Invalid guest ID format")
+                
+                if email == None:
+                    email = 'NULL'
+                elif not validate_email(email):
+                    raise Exception("Invalid email address")
+                
+                if contactNumber == None:
+                    contactNumber = 'NULL'
+                elif not validate_contact_number(contactNumber):
+                    raise Exception("Invalid contact number")
 
                 passengers_json = json.dumps(passengers)
 
                 # Create booking set
                 procedureStatus = 0
-                result_args = cursor.callproc('CreateBooking', (flightID, 'NULL', travelClass, bookingCount, passengers_json, 0, 0, 0))
+                result_args = cursor.callproc('GuestCreateBooking', (flightID, guestID, travelClass, bookingCount, passengers_json, email, contactNumber, 0, 0, 0, 0))
                 procedureStatus = result_args[-1]
-                finalPrice = result_args[-2]
-                bookingRefID = result_args[-3]
+                guestID = result_args[-2]
+                finalPrice = result_args[-3]
+                bookingRefID = result_args[-4]
 
                 if procedureStatus == 1:
-                    cursor.execute("SELECT Guest_ID FROM guest WHERE Booking_Ref_ID = %s", (bookingRefID,))
-                    guestID = cursor.fetchone()[0]
                     connection.commit()
                     connection.close()
                     return make_response({'message': 'Booking created successfully', 'bookingRefID': bookingRefID, 'price': finalPrice, 'guestID': guestID }, 201)
@@ -144,7 +164,7 @@ class UserCreateBooking(Resource):
 
                 # Create booking set
                 procedureStatus = 0
-                result_args = cursor.callproc('CreateBooking', (flightID, username, travelClass, bookingCount, passengers_json, 0, 0, 0))
+                result_args = cursor.callproc('UserCreateBooking', (flightID, username, travelClass, bookingCount, passengers_json, 0, 0, 0))
                 procedureStatus = result_args[-1]
                 finalPrice = result_args[-2]
                 bookingRefID = result_args[-3]

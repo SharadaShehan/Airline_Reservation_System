@@ -235,8 +235,8 @@ def create_tables():
         #------- Create guest table ----
         create_guest_table_query = """
             CREATE TABLE IF NOT EXISTS guest (
-            Guest_ID CHAR(12) PRIMARY KEY,
-            Booking_Ref_ID CHAR(12) NOT NULL UNIQUE,
+            Guest_ID CHAR(12) NOT NULL,
+            Booking_Ref_ID CHAR(12) PRIMARY KEY,
             Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             Email VARCHAR(50),
             Contact_Number VARCHAR(16),
