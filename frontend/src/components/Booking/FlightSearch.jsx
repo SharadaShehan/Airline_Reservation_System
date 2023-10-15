@@ -11,30 +11,36 @@ export default function FlightSearch () {
     const { setBookingStep } = BookingStepGlobalState();
     const { currentUserData } = UserGlobalState();
     let nextPage = 'loginAsk';
-
-    if (currentUserData.username != null )  { nextPage = 'seatReserve'};
-    
-    function handleNext() {
-      setBookingStep(nextPage);
-    }
-
-    function hnadleSelectEconomy() {
-      Cookies.set("classType", "Economy - Class");
-    }
-    
-    function hnadleSelectBusiness() {
-      Cookies.set("classType", "Business - Class");
-    }    
-    
-    function hnadleSelectPlatinum() {
-      Cookies.set("classType", "Platinum - Class");
-    }
+    const [classType, setClassType] = useState('none');
     const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
     const [destination, setDestination] = useState("destination");
     const [airportsList, setAirportsList] = useState([]);
     const [origin, setOrigin] = useState("origin");
     const [date, setDate] = useState("");
     const [flights, setFlights] = useState([]);
+
+    if (currentUserData.username != null )  { nextPage = 'seatReserve'};
+    
+    function handleNext() {
+      setBookingStep(nextPage);
+    }
+    
+    const handleSelectEconomy = (data) => {
+      setClassType('Ecconomy');
+      Cookies.set("FlightID", data);
+      Cookies.set("classType", "Economy");
+    };
+
+    const handleSelectBusiness = (data) => {
+      setClassType('Business');
+      Cookies.set("FlightID", data);
+      Cookies.set("classType", "Business");
+    };
+    const handleSelectPlatinum = (data) => {
+      setClassType('Platinum');
+      Cookies.set("FlightID", data);
+      Cookies.set("classType", "Premium");
+    };
 
     useEffect(
       function () {
@@ -75,6 +81,12 @@ export default function FlightSearch () {
         console.error(error);
       }
     }
+
+    const isVaild = () =>{
+      return (
+        classType === 'none'
+      )
+    };
 
     return (
       <>
@@ -137,8 +149,8 @@ export default function FlightSearch () {
                         Date
                       </div>
                       <input 
+                        className='date-input-flightSearch'
                         type="date"
-                        name="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
                       />
@@ -173,9 +185,9 @@ export default function FlightSearch () {
                         <td>{flight.flightID}</td>
                         <td>{flight.airplaneModel}</td>
                         <td>{flight.durationMinutes}</td>
-                        <td> <button type="button" class="class-btn btn" onClick={hnadleSelectEconomy}> Select</button></td>
-                        <td> <button type="button" class="class-btn btn" onClick={hnadleSelectBusiness}> Select</button></td>
-                        <td> <button type="button" class="class-btn btn" onClick={hnadleSelectPlatinum}> Select</button></td>
+                        <td> <button type="button" className="class-btn btn" onClick={() => handleSelectEconomy(flight.flightID)}> Select</button></td>
+                        <td> <button type="button" className="class-btn btn" onClick={() => handleSelectBusiness(flight.flightID)}> Select</button></td>
+                        <td> <button type="button" className="class-btn btn" onClick={() => handleSelectPlatinum(flight.flightID)}> Select</button></td>
                       </tr>
                     ))}
                   </tbody>
@@ -183,17 +195,22 @@ export default function FlightSearch () {
               </div>
             )}
             </div>
-            <div className="btn-set">
-            <button type="button" class="action-button btn">
-              <Link to="/home" style={{color:"white", textDecoration:"none"}}>
-                Cancel
-              </Link>
-            </button>
-            <button type="button" class="action-button btn" onClick={handleNext}>Next</button>
+            <div>
+              <div className='selected-class-txt'>
+                Class : {classType}
+              </div>
+              <div className="btn-set">
+                <button type="button" class="action-button btn">
+                  <Link to="/home" style={{color:"white", textDecoration:"none"}}>
+                    Cancel
+                  </Link>
+                </button>
+              <button type="button" class="action-button btn" onClick={handleNext} disabled={isVaild()}>Next</button>
+              </div>
             </div>
+            
           </div>
         </div>
       </>
     );
-
 }
