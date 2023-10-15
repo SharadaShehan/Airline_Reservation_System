@@ -132,7 +132,6 @@ export default function FlightSearch () {
                       .filter((airport) => airport.icaoCode !== origin)
                       .map((airport) => (
                         <option
-                          className="model-option"
                           value={airport.icaoCode}
                           key={airport.icaoCode}
                         >
