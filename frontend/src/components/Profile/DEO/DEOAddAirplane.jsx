@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
+import Cookies from "js-cookie";
 import './deoAddAirplane.css';
 
 export default function DEOAddFlight () {
@@ -30,13 +31,23 @@ export default function DEOAddFlight () {
   }
 
   async function handleAdd() {
+    const token = Cookies.get("access-token");
     const postData = {
       tailNumber : tailNumber,
       modelID : modelID
     }
 
     try {
-      const response = await axios.post(`${BaseURL}/deo/create/airplane`, postData);
+      const response = await axios.post(
+        `${BaseURL}/deo/create/airplane`,
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      
       console.log(response);
       if (response.status === 201) {
         alert("Airplane Added Successfully");
