@@ -1,20 +1,16 @@
 import React from "react";
-import { BookingStepGlobalState } from "../../Layout/BookingStepGlobalState";
-import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
-import { UserGlobalState } from "../../Layout/UserGlobalState";
-import { BookingProcessGlobalState } from "../../Layout/BookingProcessGlobalState";
+import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
+import { UserMenuGlobalState } from "../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../Layout/UserGlobalState";
+import { BookingProcessGlobalState } from "../Layout/BookingProcessGlobalState";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { v4 as uuvidv4 } from "uuid";
-import "./userProfile.css";
+import "../Profile/RegisteredUser/userProfile.css";
 
-/* <button className='navigateBtn' onClick={handlePayNow}>Pay For Selected Booking</button> */
-
-export default function PendingPayments({ fromBookedTickets }) {
+function GuestPendingPayments({ guestID }) {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
-  const token = Cookies.get("access-token");
   const navigate = useNavigate();
 
   const { setBookingStep } = BookingStepGlobalState();
@@ -29,11 +25,9 @@ export default function PendingPayments({ fromBookedTickets }) {
     function () {
       async function getPendingPayments() {
         try {
-          const response = await axios.get(`${BaseURL}/user/pending-payments`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await axios.get(
+            `${BaseURL}/guest/pending-payments/${guestID}`
+          );
           console.log(response.data);
           setPendingPayments(response.data);
         } catch (error) {
@@ -53,7 +47,7 @@ export default function PendingPayments({ fromBookedTickets }) {
       }
       getPendingPayments();
     },
-    [BaseURL, token, setCurrentUserData]
+    [BaseURL, guestID, setCurrentUserData]
   );
 
   const handlePayNow = () => {
@@ -119,22 +113,6 @@ export default function PendingPayments({ fromBookedTickets }) {
         )}
       </div>
       <div className="user-buttonWrapper">
-        {!fromBookedTickets && (
-          <>
-            <button
-              className="user-button"
-              onClick={() => setUserMenuItem("profile-details")}
-            >
-              Back to Profile
-            </button>
-            <button
-              className="user-button"
-              onClick={() => setUserMenuItem("booked-tickets")}
-            >
-              Go to Booked Tickets
-            </button>
-          </>
-        )}
         <button
           disabled={!selectedBooking}
           className="user-button"
@@ -146,3 +124,5 @@ export default function PendingPayments({ fromBookedTickets }) {
     </div>
   );
 }
+
+export default GuestPendingPayments;
