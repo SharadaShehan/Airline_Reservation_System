@@ -6,62 +6,62 @@ USE 'project_database';
 
 -- drop_all_users_roles()
 
-DROP USER IF EXISTS 'adminAccount'@'localhost';
-DROP USER IF EXISTS 'staffAccount'@'localhost';
-DROP USER IF EXISTS 'registeredUserAccount'@'localhost';
-DROP USER IF EXISTS 'guestAccount'@'localhost';
+DROP USER IF EXISTS adminAccount@localhost;
+DROP USER IF EXISTS staffAccount@localhost;
+DROP USER IF EXISTS registeredUserAccount@localhost;
+DROP USER IF EXISTS guestAccount@localhost;
 
-DROP USER IF EXISTS 'admin';
-DROP USER IF EXISTS 'staff';
-DROP USER IF EXISTS 'staff';
-DROP USER IF EXISTS 'guest';
+DROP USER IF EXISTS admin;
+DROP USER IF EXISTS staff;
+DROP USER IF EXISTS staff;
+DROP USER IF EXISTS guest;
 
 -- drop_all_tables()
-DROP TABLE IF EXISTS 'guest';
-DROP TABLE IF EXISTS 'booked_seat';
-DROP TABLE IF EXISTS 'booking';
-DROP TABLE IF EXISTS 'staff';
-DROP TABLE IF EXISTS 'registered_user';
-DROP TABLE IF EXISTS 'user';
-DROP TABLE IF EXISTS 'user_category';
-DROP TABLE IF EXISTS 'base_price';
-DROP TABLE IF EXISTS 'capacity';
-DROP TABLE IF EXISTS 'class';
-DROP TABLE IF EXISTS 'scheduled_flight';
-DROP TABLE IF EXISTS 'route';
-DROP TABLE IF EXISTS 'location';
-DROP TABLE IF EXISTS 'airport';
-DROP TABLE IF EXISTS 'airplane';
-DROP TABLE IF EXISTS 'model';
+DROP TABLE IF EXISTS guest;
+DROP TABLE IF EXISTS booked_seat;
+DROP TABLE IF EXISTS booking;
+DROP TABLE IF EXISTS staff;
+DROP TABLE IF EXISTS registered_user;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS user_category;
+DROP TABLE IF EXISTS base_price;
+DROP TABLE IF EXISTS capacity;
+DROP TABLE IF EXISTS class;
+DROP TABLE IF EXISTS scheduled_flight;
+DROP TABLE IF EXISTS route;
+DROP TABLE IF EXISTS location;
+DROP TABLE IF EXISTS airport;
+DROP TABLE IF EXISTS airplane;
+DROP TABLE IF EXISTS model;
 
 -- drop_all_views()
-DROP VIEW IF EXISTS "flight";
-DROP VIEW IF EXISTS "seat_reservation";
-DROP VIEW IF EXISTS "ticket";
-DROP VIEW IF EXISTS "passenger";
+DROP VIEW IF EXISTS flight;
+DROP VIEW IF EXISTS seat_reservation;
+DROP VIEW IF EXISTS ticket;
+DROP VIEW IF EXISTS passenger;
 
 -- drop_all_procedures()
-DROP PROCEDURE IF EXISTS 'CompleteBooking';
-DROP PROCEDURE IF EXISTS 'UserCreateBooking';
-DROP PROCEDURE IF EXISTS 'GuestCreateBooking';
-DROP PROCEDURE IF EXISTS 'ScheduleFlight';
-DROP PROCEDURE IF EXISTS 'CreateAirport';
-DROP PROCEDURE IF EXISTS 'CreateModel';
-DROP PROCEDURE IF EXISTS 'CreateRoute';
+DROP PROCEDURE IF EXISTS CompleteBooking;
+DROP PROCEDURE IF EXISTS UserCreateBooking;
+DROP PROCEDURE IF EXISTS GuestCreateBooking;
+DROP PROCEDURE IF EXISTS ScheduleFlight;
+DROP PROCEDURE IF EXISTS CreateAirport;
+DROP PROCEDURE IF EXISTS CreateModel;
+DROP PROCEDURE IF EXISTS CreateRoute;
 
 -- drop_all_functions()
-DROP FUNCTION IF EXISTS 'GenerateRandomGuestID';
-DROP FUNCTION IF EXISTS 'GenerateRandomString';
-DROP FUNCTION IF EXISTS 'CalculateFinalPrice';
+DROP FUNCTION IF EXISTS GenerateRandomGuestID;
+DROP FUNCTION IF EXISTS GenerateRandomString;
+DROP FUNCTION IF EXISTS CalculateFinalPrice;
 
 -- drop_all_events()
-DROP EVENT IF EXISTS "CheckBookingValidity";
+DROP EVENT IF EXISTS CheckBookingValidity;
 
 -- drop_all_triggers()
-DROP TRIGGER IF EXISTS 'check_routes_matching';
-DROP TRIGGER IF EXISTS 'check_booking_has_seats_and_guest';
-DROP TRIGGER IF EXISTS 'check_valid_route_creation';
-DROP TRIGGER IF EXISTS 'check_airport_has_locations';
+DROP TRIGGER IF EXISTS check_routes_matching;
+DROP TRIGGER IF EXISTS check_booking_has_seats_and_guest;
+DROP TRIGGER IF EXISTS check_valid_route_creation;
+DROP TRIGGER IF EXISTS check_airport_has_locations;
 
 
 -- create_tables()
@@ -998,11 +998,11 @@ CREATE TRIGGER check_airport_has_locations
                 END;
 
 -- create roles and users
-CREATE ROLE IF NOT EXISTS 'admin', 'staff', 'registeredUser', 'guest';
-CREATE USER IF NOT EXISTS 'adminAccount'@'localhost' IDENTIFIED BY 'P7tZ99pJ2s9';
-CREATE USER IF NOT EXISTS 'staffAccount'@'localhost' IDENTIFIED BY 'MK6dLpY9sPz';
-CREATE USER IF NOT EXISTS 'registeredUserAccount'@'localhost' IDENTIFIED BY '0qR3vKnX8w5';
-CREATE USER IF NOT EXISTS 'guestAccount'@'localhost' IDENTIFIED BY 'L2mSgV7hg5e';
+CREATE ROLE IF NOT EXISTS admin, staff, registeredUser, guest;
+CREATE USER IF NOT EXISTS adminAccount@localhost IDENTIFIED BY 'P7tZ99pJ2s9';
+CREATE USER IF NOT EXISTS staffAccount@localhost IDENTIFIED BY 'MK6dLpY9sPz';
+CREATE USER IF NOT EXISTS registeredUserAccount@localhost IDENTIFIED BY '0qR3vKnX8w5';
+CREATE USER IF NOT EXISTS guestAccount@localhost IDENTIFIED BY 'L2mSgV7hg5e';
 
 GRANT ALL PRIVILEGES ON project_database.* TO 'admin';
 
