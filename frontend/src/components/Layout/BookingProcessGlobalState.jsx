@@ -5,7 +5,14 @@ const GlobalStatesContext = createContext();
 
 export function BookingProcessGlobalStateProvider({ children }) {
     const [bookingProcessDetails, setBookingProcessDetails] = useState({
-        'username': null
+      'bookingRefID': null,
+      'flightID': null,
+      'price': null,
+      'travelClass': null,
+      'passengers': [],
+      'guestID': null,
+      'email': null,
+      'contactNumber': null
     });
 
     return (

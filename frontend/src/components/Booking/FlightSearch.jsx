@@ -5,10 +5,12 @@ import { v4 as uuidv4 } from "uuid";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
+import { BookingProcessGlobalState } from '../Layout/BookingProcessGlobalState';
 import { UserGlobalState } from '../Layout/UserGlobalState';
 
 export default function FlightSearch () {
     const { setBookingStep } = BookingStepGlobalState();
+    const { bookingProcessDetails, setBookingProcessDetails } = BookingProcessGlobalState();
     const { currentUserData } = UserGlobalState();
     let nextPage = 'loginAsk';
     const [classType, setClassType] = useState('none');
@@ -18,28 +20,32 @@ export default function FlightSearch () {
     const [origin, setOrigin] = useState("origin");
     const [date, setDate] = useState("");
     const [flights, setFlights] = useState([]);
+    const [selectedFlightID, setSelectedFlightID] = useState(0);
 
     if (currentUserData.username != null )  { nextPage = 'seatReserve'};
     
     function handleNext() {
+      setBookingProcessDetails({
+        ...bookingProcessDetails,
+        'flightID': selectedFlightID,
+        'travelClass': classType
+      });
       setBookingStep(nextPage);
     }
     
     const handleSelectEconomy = (data) => {
-      setClassType('Ecconomy');
-      Cookies.set("FlightID", data);
-      Cookies.set("classType", "Economy");
+      setClassType('Economy');
+      setSelectedFlightID(data);
+      console.log(data);
     };
 
     const handleSelectBusiness = (data) => {
       setClassType('Business');
-      Cookies.set("FlightID", data);
-      Cookies.set("classType", "Business");
+      setSelectedFlightID(data);
     };
     const handleSelectPlatinum = (data) => {
       setClassType('Platinum');
-      Cookies.set("FlightID", data);
-      Cookies.set("classType", "Premium");
+      setSelectedFlightID(data);
     };
 
     useEffect(
@@ -142,8 +148,8 @@ export default function FlightSearch () {
                 </div>
               </div>
                 <div className="date-btn drop-btn">
-                  <div class="dropdown">
-                    <button class="dropbtn">
+                  <div className="dropdown">
+                    <button className="dropbtn">
                       <div className='drop-text'>
                         Date
                       </div>
@@ -157,10 +163,10 @@ export default function FlightSearch () {
                   </div>
                 </div>
               <div className="search-btn">
-                <button class="transparent-button" onClick={handleSearch}>Search</button>
+                <button className="transparent-button" onClick={handleSearch}>Search</button>
               </div>
             </div>
-              <div class="table-container front-content">
+              <div className="table-container front-content">
                 {flights.length === 0 ? (
               <div className="no-passengers">
                 Select Origin and Destination airports
@@ -199,12 +205,12 @@ export default function FlightSearch () {
                 Class : {classType}
               </div>
               <div className="btn-set">
-                <button type="button" class="action-button btn">
+                <button type="button" className="action-button btn">
                   <Link to="/home" style={{color:"white", textDecoration:"none"}}>
                     Cancel
                   </Link>
                 </button>
-              <button type="button" class="action-button btn" onClick={handleNext} disabled={isVaild()}>Next</button>
+              <button type="button" className="action-button btn" onClick={handleNext} disabled={isVaild()}>Next</button>
               </div>
             </div>
             
