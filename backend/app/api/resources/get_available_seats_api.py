@@ -1,7 +1,7 @@
-from flask import make_response
+from flask import make_response, request
 from app.utils.db import get_db_connection_guest_user
 from flask_restful import Resource, abort
-from app.utils.validators import validate_flight_id
+from app.utils.validators import validate_seat_search_parameters
 
 
 class GetAvailableSeats(Resource):
@@ -14,30 +14,34 @@ class GetAvailableSeats(Resource):
         if connection:
             try:
                 cursor = connection.cursor(prepared=True)
+                className = request.args.get('className')
 
-                # Validate flight ID
-                if not validate_flight_id(flight_id):
-                    raise Exception("Invalid flight ID")
+                # Validate flight ID and class name
+                flight_id = int(flight_id)
+                if not validate_seat_search_parameters(flight_id, className):
+                    raise Exception("Invalid flight ID or class name")
 
                 # Get all reserved seats for a flight
-                cursor.execute("SELECT * FROM seat_reservation WHERE ID = %s", (int(flight_id),))
-                query_result = cursor.fetchall()
+                cursor.execute("SELECT * FROM seat_reservation WHERE ID = %s AND class = %s", (flight_id, className),)
+                query_result = cursor.fetchone()
 
                 response = {}
 
                 # Check if flight exists
-                if query_result == []:
+                if not query_result:
                     raise Exception("404")
-
-                # Get available seats for each class
-                for item in query_result:
-                    className, totalCount, reservedCount, bookedSeats = item[1], item[2], item[3], item[4]
-                    availableCount = totalCount - reservedCount
-                    if availableCount > 0:
-                        availableSeats = set(range(1, totalCount + 1)) - set(int(num) for num in bookedSeats.split(',') if num != '')
-                        response[className] = sorted(list(availableSeats))
-                    else:
-                        response[className] = []
+                
+                # send total number of seats and available seats for class and flight
+                className, totalCount, reservedCount, bookedSeats = query_result[1], query_result[2], query_result[3], query_result[4]
+                response['className'] = className
+                response['totalSeatsCount'] = totalCount
+                availableCount = totalCount - reservedCount
+                response['availableSeatsCount'] = availableCount
+                if availableCount > 0:
+                    availableSeats = set(range(1, totalCount + 1)) - set(int(num) for num in bookedSeats.split(',') if num != '')
+                    response['availableSeats'] = sorted(list(availableSeats))
+                else:
+                    response['availableSeats'] = []
 
                 connection.close()
                 return make_response(response, 200)

@@ -217,3 +217,9 @@ def validate_email(email):
     if isinstance(email, str) and re.match(email_pattern, email):
         return True
     return False
+
+def validate_seat_search_parameters(flight_id, travel_class):
+    if isinstance(flight_id, int) and flight_id > 0:
+        if isinstance(travel_class, str) and travel_class in classes:
+            return True
+    return False
