@@ -2,8 +2,11 @@ import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import Cookies from "js-cookie";
 import './deoAddAirplane.css';
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+
 
 export default function DEOAddFlight () {
+  const { setUserMenuItem } = UserMenuGlobalState();
   const [modelID, setModelID] = useState("Select Airplane Model");
   const [modelList, setModelList] = useState([]);
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -25,9 +28,10 @@ export default function DEOAddFlight () {
     [BaseURL]
   );
 
-  function handleCancel() {
+  function handleBack() {
     setTailNumber("Tail Number");
     setModelID("Select Airplane Model");
+    setUserMenuItem("profile-details");
   }
 
   async function handleAdd() {
@@ -51,7 +55,7 @@ export default function DEOAddFlight () {
       console.log(response);
       if (response.status === 201) {
         alert("Airplane Added Successfully");
-        handleCancel();
+        handleBack();
       }
     } catch (err) {
       console.log(err);
@@ -79,7 +83,7 @@ export default function DEOAddFlight () {
             </div>
             <div className='form-input'>
               <select
-                className="dropbtn"
+                className="input-area dropbtn"
                 value={modelID}
                 onChange={(e) => setModelID(e.target.value)}
               >
@@ -103,11 +107,11 @@ export default function DEOAddFlight () {
             <input
               type="text"
               value={tailNumber}
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='Tail Number'
               onChange={handleInputChange}
             />
-            <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
+            <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleAdd}>Add&nbsp;Flight</button>    
           </div>
         </div>

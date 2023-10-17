@@ -2,8 +2,10 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './deoAddRoute.css';
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
 export default function DEOAddRoute () {
+  const { setUserMenuItem } = UserMenuGlobalState();
   const [airportList, setAirportList] = useState([]);
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -90,7 +92,7 @@ export default function DEOAddRoute () {
       console.log(response);
       if (response.status === 201) {
         alert("Route Added Successfully");
-        handleCancel();
+        handleBack();
       }
     } catch (err) {
       console.log(err);
@@ -100,7 +102,8 @@ export default function DEOAddRoute () {
     }
   }
 
-  function handleCancel() {
+  function handleBack() {
+    setUserMenuItem("profile-details");
   }
 
     return (
@@ -116,7 +119,7 @@ export default function DEOAddRoute () {
             </div>
             <div className='form-input'>
               <select
-                className="dropbtn"
+                className="input-area dropbtn"
                 value={origin}
                 onChange={inputOrigin}
               >
@@ -138,7 +141,7 @@ export default function DEOAddRoute () {
             </div>
             <div className='form-input'>
               <select
-                className="dropbtn"
+                className="input-area dropbtn"
                 value={destination}
                 onChange={inputDestination}
               >
@@ -162,7 +165,7 @@ export default function DEOAddRoute () {
             <input 
               type="number"
               value={durationMinutes} 
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='Enter Destination in Minutes'
               onChange={handleDurationChange}
             />
@@ -174,7 +177,7 @@ export default function DEOAddRoute () {
                 <input 
                   type="number" 
                   value={Economy}
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Price Economy Class'
                   onChange={handleEconomyChange} 
                 />
@@ -186,7 +189,7 @@ export default function DEOAddRoute () {
                 <input 
                   type="number"
                   value={Business} 
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Price Business Class'
                   onChange={handleBusinessChange} 
                 />
@@ -198,13 +201,13 @@ export default function DEOAddRoute () {
                 <input 
                   type="number" 
                   value={Platinum}
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Price Platinum Class' 
                   onChange={handlePlatinumChange}
                 />
               </div>
             </div>
-            <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
+            <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleAdd}>Add&nbsp;Route</button>    
           </div>
         </div>

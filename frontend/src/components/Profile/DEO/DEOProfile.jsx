@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import DEOProfileDetails from "./DEOProfileDetails";
 import DEOAddAirport from "./DEOAddAirport";
 import DEOAddRoute from "./DEOAddRoute";
@@ -13,7 +14,8 @@ import "./deoProfile.css"
 
 export default function DEOProfile ({userData}) {
     const [deoMenuItem, setDEOMenuItem] = useState("profile-details");
-    
+    const { userMenuItem, setUserMenuItem } = UserMenuGlobalState();
+
     useEffect(() => {
         setDEOMenuItem("profile-details");
     }, [setDEOMenuItem]);
@@ -25,40 +27,40 @@ export default function DEOProfile ({userData}) {
                 alt="Rectangle" 
                 src={require("../../../images/DEOBackImage.jpg")} />
             <div className="deo-container">
-                <div className="horizontal-scroll-menu">
+                {/* <div className="horizontal-scroll-menu">
                     <ul className="menu-list">
-                        <li className={`menu-item${deoMenuItem==="profile-details" ? "-active" : ""}`} onClick={() => changeMenuItem("profile-details")}>Profile Details</li>
-                        <li className={`menu-item${deoMenuItem==="add-airport" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airport")}>Add Airport</li>
-                        <li className={`menu-item${deoMenuItem==="add-airplane" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airplane")}>Add Airplane</li>
-                        <li className={`menu-item${deoMenuItem==="add-model" ? "-active" : ""}`} onClick={() => changeMenuItem("add-model")}>Add Model</li>
-                        <li className={`menu-item${deoMenuItem==="add-route" ? "-active" : ""}`} onClick={() => changeMenuItem("add-route")}>Add Route</li>
-                        <li className={`menu-item${deoMenuItem==="schedule-flight" ? "-active" : ""}`} onClick={() => changeMenuItem("schedule-flight")}>Schedule Flight</li>
-                        <li className={`menu-item${deoMenuItem==="update-delay" ? "-active" : ""}`} onClick={() => changeMenuItem("update-delay")}>Update Delay</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="profile-details" ? "-active" : ""}`} onClick={() => changeMenuItem("profile-details")}>Profile Details</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="add-airport" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airport")}>Add Airport</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="add-airplane" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airplane")}>Add Airplane</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="add-model" ? "-active" : ""}`} onClick={() => changeMenuItem("add-model")}>Add Model</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="add-route" ? "-active" : ""}`} onClick={() => changeMenuItem("add-route")}>Add Route</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="schedule-flight" ? "-active" : ""}`} onClick={() => changeMenuItem("schedule-flight")}>Schedule Flight</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="update-delay" ? "-active" : ""}`} onClick={() => changeMenuItem("update-delay")}>Update Delay</li>
                     </ul>
-                </div>
+                </div> */}
                 {renderPage()}
             </div>
         </div>
     );
 
-    function changeMenuItem(item) {
-        setDEOMenuItem(item);
-    };
+    // function changeMenuItem(item) {
+    //     setDEOMenuItem(item);
+    // };
 
     function renderPage() {
-        if (deoMenuItem === "profile-details") {
+        if (userMenuItem === "profile-details") {
             return <DEOProfileDetails userData={userData} />
-        } else if (deoMenuItem === "schedule-flight") {
+        } else if (userMenuItem === "schedule-flight") {
             return <DEOScheduleFlight />
-        } else if (deoMenuItem === "add-route") {
+        } else if (userMenuItem === "add-route") {
             return <DEOAddRoute />
-        } else if (deoMenuItem === "add-airport") {
+        } else if (userMenuItem === "add-airport") {
             return <DEOAddAirport />
-        } else if (deoMenuItem === "add-airplane") {
+        } else if (userMenuItem === "add-airplane") {
             return <DEOAddAirplane />
-        } else if (deoMenuItem === "add-model") {
+        } else if (userMenuItem === "add-model") {
             return <DEOAddModel />
-        } else if (deoMenuItem === "update-delay") {
+        } else if (userMenuItem === "update-delay") {
             return <DEOUpdateDelay />
         }else {
             return <div>Page not found</div>

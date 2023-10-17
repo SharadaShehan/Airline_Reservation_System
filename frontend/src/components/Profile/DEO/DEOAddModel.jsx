@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import Cookies from "js-cookie";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import './deoAddModel.css';
 
 export default function DEOAddModel () {
+    const { setUserMenuItem } = UserMenuGlobalState();
     const [name, setName] = useState("");
     const [Economy, setEconomy] = useState();
     const [Business, setBusiness] = useState();
@@ -26,11 +28,12 @@ export default function DEOAddModel () {
       setPlatinum(event.target.value);
     }
 
-    const handleCancel = () => {
+    const handleBack = () => {
       setName("");
       setEconomy();
       setBusiness();
       setPlatinum();
+      setUserMenuItem("profile-details");
     }
 
     async function handleAdd() {
@@ -59,7 +62,7 @@ export default function DEOAddModel () {
         console.log(response);
         if (response.status === 201) {
           alert("Airplane Model Added Successfully");
-          handleCancel();
+          handleBack();
         }
       } catch (err) {
         console.log(err);
@@ -82,7 +85,7 @@ export default function DEOAddModel () {
             <input 
               type="text" 
               value={name}
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='Enter Air Plane Name'
               onChange={handleNameChange}
             />
@@ -94,7 +97,7 @@ export default function DEOAddModel () {
                 <input 
                   type="number" 
                   value={Economy}
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Economy Class Seats count'
                   onChange={handleEconomyChange} 
                 />
@@ -106,7 +109,7 @@ export default function DEOAddModel () {
                 <input 
                   type="number" 
                   value={Business}
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Business Class Seats count'
                   onChange={handleBusinessChange} 
                 />
@@ -118,14 +121,14 @@ export default function DEOAddModel () {
                 <input 
                   type="number" 
                   value={Platinum}
-                  className='form-input'
+                  className='input-area form-input'
                   placeholder='Platinum Class Seats count'
                   onChange={handlePlatinumChange} 
                 />
               </div>
             </div>
 
-            <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
+            <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleAdd}>Add&nbsp;Model</button>    
           </div>
         </div>

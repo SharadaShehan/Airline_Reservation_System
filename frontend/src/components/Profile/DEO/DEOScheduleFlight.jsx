@@ -2,8 +2,10 @@ import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import Cookies from 'js-cookie';
 import './deoScheduleFlight.css';
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
 export default function DEOScheduleFlight () {
+    const { setUserMenuItem } = UserMenuGlobalState();
     const [routeList, setRouteList] = useState([]);
     const [routeID, setRouteID] = useState("");
     const [airplanesList, setAirplanesList] = useState([]);
@@ -50,7 +52,7 @@ export default function DEOScheduleFlight () {
         console.log(response);
         if (response.status === 201) {
           alert("Flight Schedule Successfully");
-          handleCancel();
+          handleBack();
         }
       } catch (err) {
         console.log(err);
@@ -59,11 +61,12 @@ export default function DEOScheduleFlight () {
       }
     }
 
-    const handleCancel = () => {
+    const handleBack = () => {
       setRouteID("");
       setTailNumber("");
       setDate("");
       setTime("");
+      setUserMenuItem("profile-details");
     }
 
     useEffect(
@@ -110,7 +113,7 @@ export default function DEOScheduleFlight () {
               Select Route
             </div>
             <select
-              className="form-control" 
+              className="input-area form-control" 
               value={routeID}
               onChange={handleRouteID}
             >
@@ -131,7 +134,7 @@ export default function DEOScheduleFlight () {
             </div>
 
             <select
-              className="form-control" 
+              className="input-area form-control" 
               value={tailNumber}
               onChange={handleTailNumber}
             >
@@ -153,7 +156,7 @@ export default function DEOScheduleFlight () {
             <input 
               type="date" 
               value={date}
-              className='form-input'
+              className='input-area form-input'
               onChange={handleDateChange}
             />
             <div className='form-txt'>
@@ -162,10 +165,10 @@ export default function DEOScheduleFlight () {
             <input 
               type="time"
               value={time} 
-              className='form-input'
+              className='input-area form-input'
               onChange={handleTimeChange}
             />
-            <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
+            <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleSchedule}>Schedule</button>    
           </div>
         </div>

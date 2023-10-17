@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import Cookies from "js-cookie";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import './deoAddAirport.css';
 
 export default function DEOAddAirport () {
+    const { setUserMenuItem } = UserMenuGlobalState();
     const [ICAO, setICAOCode] = useState('');
     const [IATA, setIATACode] = useState('');
     const [location, setLocation] = useState([]);
@@ -25,11 +27,12 @@ export default function DEOAddAirport () {
       setLocation(cleanedData);
     }
 
-    function handleCancel() {
+    function handleBack() {
       setICAOCode('');
       setIATACode('');
       setLocation([]);
       setInputLocation('');
+      setUserMenuItem("profile-details");
     }
 
     async function handleAdd() {
@@ -57,7 +60,7 @@ export default function DEOAddAirport () {
         console.log(response);
         if (response.status === 201) {
           alert("Airport Added Successfully");
-          handleCancel();
+          handleBack();
         }
       } catch (err) {
         console.log(err);
@@ -80,7 +83,7 @@ export default function DEOAddAirport () {
             <input
               type="text"
               value={ICAO}
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='ICAO Code'
               onChange={handleInputICAOChange}
             />
@@ -90,7 +93,7 @@ export default function DEOAddAirport () {
             <input
               type="text"
               value={IATA}
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='IATA Code'
               onChange={handleInputIATAChange}
             />
@@ -100,11 +103,11 @@ export default function DEOAddAirport () {
             <input 
               type="text"
               value={inputLocation} 
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='Enter location separated by commas'
               onChange={handleInputLocationChange}
             />
-            <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
+            <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleAdd}>Add&nbsp;Airport</button>    
           </div>
         </div>
