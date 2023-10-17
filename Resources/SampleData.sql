@@ -13,12 +13,12 @@ INSERT into airplane(Tail_Number,Model) values('N98765', 3)
 
 
 INSERT into airport(ICAO_Code, IATA_Code) values('WIII', 'CGK')
-INSERT into airport(ICAO_Code, IATA_Code) values('WIII', 'CGK')
 INSERT into airport(ICAO_Code, IATA_Code) values('WADD', 'DPS')
 INSERT into airport(ICAO_Code, IATA_Code) values('VCBI', 'BIA')
 INSERT into airport(ICAO_Code, IATA_Code) values('VCRI', 'HRI')
 INSERT into airport(ICAO_Code, IATA_Code) values('VIDP', 'DEL')
 INSERT into airport(ICAO_Code, IATA_Code) values('VABB', 'BOM')
+INSERT into airport(ICAO_Code, IATA_Code) values('VOMM', 'MAA')
 INSERT into airport(ICAO_Code, IATA_Code) values('VTBS', 'BKK')
 INSERT into airport(ICAO_Code, IATA_Code) values('VTBD', 'DMK')
 INSERT into airport(ICAO_Code, IATA_Code) values('WSSS', 'SIN')
@@ -451,6 +451,7 @@ INSERT into User(Username, Password, FirstName, LastName) values('DanielH', 'scr
 INSERT into User(Username, Password, FirstName, LastName) values('HenryW', 'scrypt:32768:8:1$K1CeDWJpyuK2fFrX$c84166800242a0aa93ba3a87afb5f869cd0c3aa2e7f8588399770eeb27379fd4530041ee30607211fbb7fc449b26cb3cce3197ec35b6cc08d062a7340e602859', 'Henry', 'Walker')
 
 
+
 INSERT into registered_user(Username, Passport_ID, Address, Birth_Date, Gender, Email, Contact_Number) values('SamC', 'II789012', '123; Main St; Yishun; Singapore', '1995-03-15', 'Male', 'samc@example.com', '+6590123456')
 INSERT into registered_user(Username, Passport_ID, Address, Birth_Date, Gender, Email, Contact_Number) values('AliceD', 'NN789012', '456; Elm St; Bukit; Singapore', '1988-07-22', 'Female', 'aliced@example.com', '+6591234567')
 INSERT into registered_user(Username, Passport_ID, Address, Birth_Date, Gender, Email, Contact_Number) values('BobS', 'UU901234', '789; Oak St; Phra Nakhon; Bangkok; Thailand', '1979-11-05', 'Male', 'bobs@example.com', '+66811234567')
@@ -557,6 +558,7 @@ INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, 
 INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) values('659UO43PO782', 153,         , 115, 3010, 1)
 INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) values('UIO64PO78NHY', 153,         , 115, 3870, 1)
 INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) values('45UI4GTO7UJP', 153, 'DavidB', 115, 3010, 1)
+
 
 
 INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('BUI7L6BNML60', 41, 'Mei', 'Wang', 1, 'AB123456')
@@ -932,6 +934,7 @@ INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Pass
 INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('45UI4GTO7UJP', 136, 'Noah', 'Gupta', 1, 'XY6789DC')
 INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('45UI4GTO7UJP', 137, 'Mia', 'Chopra', 1, 'YZ0123CB')
 INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('45UI4GTO7UJP', 138, 'Ethan', 'Verma', 1, 'ZA4567BA')
+
 
 
 
