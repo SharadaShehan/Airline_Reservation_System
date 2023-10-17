@@ -60,17 +60,16 @@
     background-color: white;
     border-radius: 15%;
     color: black;
-    cursor: pointer;
     transition: background-color 0.3s;
     z-index: 2;
     margin: 0.25% 0.25% 0.25% 0.25%;
 }
-.seat-btn:hover {
-    background-color: #005EF5; /* Change background color to blue on hover */
+.seat-btn:hover:not([disabled]) {
+    background-color: #005ef5;
     color: white;
     opacity: 90%;
     border: none;
-}
+  }
 .tbl-container {
     max-height: 100%;
     width: 90%;
