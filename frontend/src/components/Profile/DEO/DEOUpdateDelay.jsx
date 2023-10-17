@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import './deoUpdateDelay.css';
 
 export default function DEOUpdateDelay () {
+  const { setUserMenuItem } = UserMenuGlobalState();
   const [delayMinutes, setDelayMinutes] = useState();
   const [scheduledFlightID, setFlightID] = useState();
   const [airportsList, setAirportsList] = useState([]);
@@ -109,7 +111,7 @@ export default function DEOUpdateDelay () {
       console.log(response);
       if (response.status === 201) {
         alert("Delay Updated Successfully");
-        handleCancel();
+        handleBack();
       }
     } catch (err) {
       console.log(err);
@@ -119,7 +121,7 @@ export default function DEOUpdateDelay () {
     }
   }
 
-  const handleCancel = () => {
+  const handleBack = () => {
     setOrigin("origin");
     setDestination("destination");
     setDate(null);
@@ -134,6 +136,7 @@ export default function DEOUpdateDelay () {
     setAddress_1(null);
     setAddress_2(null);
     setDelayMinutes(null);
+    setUserMenuItem("profile-details");
   }
 
   return (
@@ -272,7 +275,7 @@ export default function DEOUpdateDelay () {
                         <button type="button" class="update-button btn" onClick={handleUpdate}>Update</button>
                       </td>
                       <td className='data-cell'>
-                        <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
+                        <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
                       </td>
                     </tr>
                   </table>

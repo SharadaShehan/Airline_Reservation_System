@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import Cookies from "js-cookie";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import './deoAddModel.css';
 
 export default function DEOAddModel () {
+    const { setUserMenuItem } = UserMenuGlobalState();
     const [name, setName] = useState("");
     const [Economy, setEconomy] = useState();
     const [Business, setBusiness] = useState();
@@ -26,11 +28,12 @@ export default function DEOAddModel () {
       setPlatinum(event.target.value);
     }
 
-    const handleCancel = () => {
+    const handleBack = () => {
       setName("");
       setEconomy();
       setBusiness();
       setPlatinum();
+      setUserMenuItem("profile-details");
     }
 
     async function handleAdd() {
@@ -59,7 +62,7 @@ export default function DEOAddModel () {
         console.log(response);
         if (response.status === 201) {
           alert("Airplane Model Added Successfully");
-          handleCancel();
+          handleBack();
         }
       } catch (err) {
         console.log(err);
@@ -125,7 +128,7 @@ export default function DEOAddModel () {
               </div>
             </div>
 
-            <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
+            <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleAdd}>Add&nbsp;Model</button>    
           </div>
         </div>

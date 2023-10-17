@@ -2,8 +2,10 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './deoAddRoute.css';
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
 export default function DEOAddRoute () {
+  const { setUserMenuItem } = UserMenuGlobalState();
   const [airportList, setAirportList] = useState([]);
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -90,7 +92,7 @@ export default function DEOAddRoute () {
       console.log(response);
       if (response.status === 201) {
         alert("Route Added Successfully");
-        handleCancel();
+        handleBack();
       }
     } catch (err) {
       console.log(err);
@@ -100,7 +102,8 @@ export default function DEOAddRoute () {
     }
   }
 
-  function handleCancel() {
+  function handleBack() {
+    setUserMenuItem("profile-details");
   }
 
     return (
@@ -204,7 +207,7 @@ export default function DEOAddRoute () {
                 />
               </div>
             </div>
-            <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
+            <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleAdd}>Add&nbsp;Route</button>    
           </div>
         </div>

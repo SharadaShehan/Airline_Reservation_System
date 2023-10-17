@@ -2,8 +2,10 @@ import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import Cookies from 'js-cookie';
 import './deoScheduleFlight.css';
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
 export default function DEOScheduleFlight () {
+    const { setUserMenuItem } = UserMenuGlobalState();
     const [routeList, setRouteList] = useState([]);
     const [routeID, setRouteID] = useState("");
     const [airplanesList, setAirplanesList] = useState([]);
@@ -50,7 +52,7 @@ export default function DEOScheduleFlight () {
         console.log(response);
         if (response.status === 201) {
           alert("Flight Schedule Successfully");
-          handleCancel();
+          handleBack();
         }
       } catch (err) {
         console.log(err);
@@ -59,11 +61,12 @@ export default function DEOScheduleFlight () {
       }
     }
 
-    const handleCancel = () => {
+    const handleBack = () => {
       setRouteID("");
       setTailNumber("");
       setDate("");
       setTime("");
+      setUserMenuItem("profile-details");
     }
 
     useEffect(
@@ -165,7 +168,7 @@ export default function DEOScheduleFlight () {
               className='input-area form-input'
               onChange={handleTimeChange}
             />
-            <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
+            <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleSchedule}>Schedule</button>    
           </div>
         </div>
