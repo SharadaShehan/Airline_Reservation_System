@@ -1,8 +1,10 @@
-DROP DATABASE IF EXISTS 'project_database';
+DELIMITER //
 
-CREATE DATABASE 'project_database';
+DROP DATABASE IF EXISTS project_database;
 
-USE 'project_database';
+CREATE DATABASE project_database;
+
+USE project_database;
 
 -- drop_all_users_roles()
 
@@ -1078,3 +1080,8 @@ GRANT 'registeredUser' TO 'registeredUserAccount'@'localhost';
 SET DEFAULT ROLE 'registeredUser' TO 'registeredUserAccount'@'localhost';
 GRANT 'guest' TO 'guestAccount'@'localhost';
 SET DEFAULT ROLE 'guest' TO 'guestAccount'@'localhost';
+
+
+//
+
+DELIMITER ;
