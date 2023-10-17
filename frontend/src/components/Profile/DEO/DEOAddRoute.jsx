@@ -116,7 +116,7 @@ export default function DEOAddRoute () {
             </div>
             <div className='form-input'>
               <select
-                className="dropbtn"
+                className="input-area dropbtn"
                 value={origin}
                 onChange={inputOrigin}
               >
@@ -138,7 +138,7 @@ export default function DEOAddRoute () {
             </div>
             <div className='form-input'>
               <select
-                className="dropbtn"
+                className="input-area dropbtn"
                 value={destination}
                 onChange={inputDestination}
               >
@@ -162,7 +162,7 @@ export default function DEOAddRoute () {
             <input 
               type="number"
               value={durationMinutes} 
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='Enter Destination in Minutes'
               onChange={handleDurationChange}
             />
@@ -174,7 +174,7 @@ export default function DEOAddRoute () {
                 <input 
                   type="number" 
                   value={Economy}
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Price Economy Class'
                   onChange={handleEconomyChange} 
                 />
@@ -186,7 +186,7 @@ export default function DEOAddRoute () {
                 <input 
                   type="number"
                   value={Business} 
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Price Business Class'
                   onChange={handleBusinessChange} 
                 />
@@ -198,7 +198,7 @@ export default function DEOAddRoute () {
                 <input 
                   type="number" 
                   value={Platinum}
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Price Platinum Class' 
                   onChange={handlePlatinumChange}
                 />

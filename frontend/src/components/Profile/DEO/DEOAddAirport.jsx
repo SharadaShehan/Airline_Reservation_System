@@ -80,7 +80,7 @@ export default function DEOAddAirport () {
             <input
               type="text"
               value={ICAO}
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='ICAO Code'
               onChange={handleInputICAOChange}
             />
@@ -90,7 +90,7 @@ export default function DEOAddAirport () {
             <input
               type="text"
               value={IATA}
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='IATA Code'
               onChange={handleInputIATAChange}
             />
@@ -100,7 +100,7 @@ export default function DEOAddAirport () {
             <input 
               type="text"
               value={inputLocation} 
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='Enter location separated by commas'
               onChange={handleInputLocationChange}
             />

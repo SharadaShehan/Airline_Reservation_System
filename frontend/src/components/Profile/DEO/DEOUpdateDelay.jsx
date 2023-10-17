@@ -171,7 +171,7 @@ export default function DEOUpdateDelay () {
                     <tr>
                       <td className='data-cell'>
                         <select
-                          className="form-control"  
+                          className="input-area form-control"  
                           value={origin}
                           onChange={onClickOrigin}
                         >
@@ -190,7 +190,7 @@ export default function DEOUpdateDelay () {
                       </td>
                       <td className='data-cell'>
                         <select
-                          className="form-control"
+                          className="input-area form-control"
                           value={destination}
                           onChange={onClickDestination}
                         >
@@ -210,7 +210,7 @@ export default function DEOUpdateDelay () {
                       <td className='data-cell'>
                         <input
                           value={date}
-                          className="form-control"
+                          className="input-area form-control"
                           type="date"
                           min="2023-10-01"
                           max="2023-12-31"
@@ -263,7 +263,7 @@ export default function DEOUpdateDelay () {
                         <input 
                           type="number" 
                           value={delayMinutes}
-                          class="form-control"  
+                          class="input-area form-control"  
                           placeholder="Delay"
                           onChange={handleDelayChange}
                         />

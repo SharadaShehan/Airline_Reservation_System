@@ -27,13 +27,13 @@ export default function DEOProfile ({userData}) {
             <div className="deo-container">
                 <div className="horizontal-scroll-menu">
                     <ul className="menu-list">
-                        <li className={`menu-item${deoMenuItem==="profile-details" ? "-active" : ""}`} onClick={() => changeMenuItem("profile-details")}>Profile Details</li>
-                        <li className={`menu-item${deoMenuItem==="add-airport" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airport")}>Add Airport</li>
-                        <li className={`menu-item${deoMenuItem==="add-airplane" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airplane")}>Add Airplane</li>
-                        <li className={`menu-item${deoMenuItem==="add-model" ? "-active" : ""}`} onClick={() => changeMenuItem("add-model")}>Add Model</li>
-                        <li className={`menu-item${deoMenuItem==="add-route" ? "-active" : ""}`} onClick={() => changeMenuItem("add-route")}>Add Route</li>
-                        <li className={`menu-item${deoMenuItem==="schedule-flight" ? "-active" : ""}`} onClick={() => changeMenuItem("schedule-flight")}>Schedule Flight</li>
-                        <li className={`menu-item${deoMenuItem==="update-delay" ? "-active" : ""}`} onClick={() => changeMenuItem("update-delay")}>Update Delay</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="profile-details" ? "-active" : ""}`} onClick={() => changeMenuItem("profile-details")}>Profile Details</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="add-airport" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airport")}>Add Airport</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="add-airplane" ? "-active" : ""}`} onClick={() => changeMenuItem("add-airplane")}>Add Airplane</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="add-model" ? "-active" : ""}`} onClick={() => changeMenuItem("add-model")}>Add Model</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="add-route" ? "-active" : ""}`} onClick={() => changeMenuItem("add-route")}>Add Route</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="schedule-flight" ? "-active" : ""}`} onClick={() => changeMenuItem("schedule-flight")}>Schedule Flight</li>
+                        <li className={`choose-btn menu-item${deoMenuItem==="update-delay" ? "-active" : ""}`} onClick={() => changeMenuItem("update-delay")}>Update Delay</li>
                     </ul>
                 </div>
                 {renderPage()}

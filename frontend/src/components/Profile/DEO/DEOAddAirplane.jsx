@@ -79,7 +79,7 @@ export default function DEOAddFlight () {
             </div>
             <div className='form-input'>
               <select
-                className="dropbtn"
+                className="input-area dropbtn"
                 value={modelID}
                 onChange={(e) => setModelID(e.target.value)}
               >
@@ -103,7 +103,7 @@ export default function DEOAddFlight () {
             <input
               type="text"
               value={tailNumber}
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='Tail Number'
               onChange={handleInputChange}
             />

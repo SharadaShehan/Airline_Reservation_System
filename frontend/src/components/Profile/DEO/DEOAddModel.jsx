@@ -82,7 +82,7 @@ export default function DEOAddModel () {
             <input 
               type="text" 
               value={name}
-              className='form-input' 
+              className='input-area form-input' 
               placeholder='Enter Air Plane Name'
               onChange={handleNameChange}
             />
@@ -94,7 +94,7 @@ export default function DEOAddModel () {
                 <input 
                   type="number" 
                   value={Economy}
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Economy Class Seats count'
                   onChange={handleEconomyChange} 
                 />
@@ -106,7 +106,7 @@ export default function DEOAddModel () {
                 <input 
                   type="number" 
                   value={Business}
-                  className='form-input' 
+                  className='input-area form-input' 
                   placeholder='Business Class Seats count'
                   onChange={handleBusinessChange} 
                 />
@@ -118,7 +118,7 @@ export default function DEOAddModel () {
                 <input 
                   type="number" 
                   value={Platinum}
-                  className='form-input'
+                  className='input-area form-input'
                   placeholder='Platinum Class Seats count'
                   onChange={handlePlatinumChange} 
                 />

@@ -110,7 +110,7 @@ export default function DEOScheduleFlight () {
               Select Route
             </div>
             <select
-              className="form-control" 
+              className="input-area form-control" 
               value={routeID}
               onChange={handleRouteID}
             >
@@ -131,7 +131,7 @@ export default function DEOScheduleFlight () {
             </div>
 
             <select
-              className="form-control" 
+              className="input-area form-control" 
               value={tailNumber}
               onChange={handleTailNumber}
             >
@@ -153,7 +153,7 @@ export default function DEOScheduleFlight () {
             <input 
               type="date" 
               value={date}
-              className='form-input'
+              className='input-area form-input'
               onChange={handleDateChange}
             />
             <div className='form-txt'>
@@ -162,7 +162,7 @@ export default function DEOScheduleFlight () {
             <input 
               type="time"
               value={time} 
-              className='form-input'
+              className='input-area form-input'
               onChange={handleTimeChange}
             />
             <button type="button" class="update-button btn" onClick={handleCancel}>Cancel</button>
