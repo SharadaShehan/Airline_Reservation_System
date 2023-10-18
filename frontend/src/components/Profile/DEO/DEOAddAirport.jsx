@@ -87,7 +87,6 @@ export default function DEOAddAirport () {
 
     return (
       <div className='pd-back'>
-        <div className='gls-back'></div>
         <div className='fnt-cont'>
           <div className='form-title'>
             Add an Airport
