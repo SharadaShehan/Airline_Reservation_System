@@ -331,7 +331,7 @@ INSERT into base_price(Class, Route, Price) values('Platinum', 19, 100);
 INSERT into base_price(Class, Route, Price) values('Economy', 20, 340);
 INSERT into base_price(Class, Route, Price) values('Business', 20, 430);
 INSERT into base_price(Class, Route, Price) values('Platinum', 20, 520);
-INSERT into base_price(Class, Route, Price) values('Economy', 21, 350);;
+INSERT into base_price(Class, Route, Price) values('Economy', 21, 350);
 INSERT into base_price(Class, Route, Price) values('Business', 21, 440);
 INSERT into base_price(Class, Route, Price) values('Platinum', 21, 510);
 INSERT into base_price(Class, Route, Price) values('Economy', 22, 170);
@@ -413,7 +413,7 @@ INSERT into base_price(Class, Route, Price) values('Economy', 47, 340);
 INSERT into base_price(Class, Route, Price) values('Business', 47, 430);
 INSERT into base_price(Class, Route, Price) values('Platinum', 47, 520);
 INSERT into base_price(Class, Route, Price) values('Economy', 48, 430);
-INSERT into base_price(Class, Route, Price) values('Business', 48, 520)
+INSERT into base_price(Class, Route, Price) values('Business', 48, 520);
 INSERT into base_price(Class, Route, Price) values('Platinum', 48, 620);
 INSERT into base_price(Class, Route, Price) values('Economy', 49, 270);
 INSERT into base_price(Class, Route, Price) values('Business', 49, 360);
@@ -930,7 +930,7 @@ INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Pass
 INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('45UI4GTO7UJP', 134, 'Liam', 'Singh', 1, 'TU8901FE');
 INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('45UI4GTO7UJP', 135, 'Ava', 'Shah', 1, 'VW2345ED');
 INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('45UI4GTO7UJP', 136, 'Noah', 'Gupta', 1, 'XY6789DC');
-INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('45UI4GTO7UJP', 137, 'Mia', 'Chopra', 1, 'YZ0123CB')
+INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('45UI4GTO7UJP', 137, 'Mia', 'Chopra', 1, 'YZ0123CB');
 INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Passport_ID) values('45UI4GTO7UJP', 138, 'Ethan', 'Verma', 1, 'ZA4567BA');
 
 
@@ -980,15 +980,5 @@ INSERT into guest(Guest_ID, Booking_Ref_ID) values('LKI7VKL654WE', '8310I96NH0OP
 INSERT into guest(Guest_ID, Booking_Ref_ID) values('T9X0U3L14794', 'UKL4NT340943');
 INSERT into guest(Guest_ID, Booking_Ref_ID) values('267KIYTBJJT1', '659UO43PO782');
 INSERT into guest(Guest_ID, Booking_Ref_ID) values('UIPOL4786GH1', 'UIO64PO78NHY');
-
-
-
-
-
-
-
-
-
-
 
 
