@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from "axios";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import './deoUpdateDelay.css';
+import Snackbar from "../../common/Snackbar"
 
 export default function DEOUpdateDelay () {
   const { setUserMenuItem } = UserMenuGlobalState();
@@ -23,7 +24,92 @@ export default function DEOUpdateDelay () {
   const [address_2, setAddress_2] = useState();
   const [endtime, setEndtime] = useState();
 
+  const snackbarRef_fail = useRef(null);
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Check the data and try again!"
+  };
+  const Snackbardata_success={
+    type: "success",
+    message: "Updated Delay Successfully!"
+  };
+
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+
+  useEffect(
+    function () {
+      async function getAirportsList() {
+        const token = Cookies.get("access-token");
+        try {
+          const response = await axios.get(`${BaseURL}/get/airports`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+          console.log(response.data);
+          setAirportsList(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getAirportsList();
+    },
+    [BaseURL]
+  );
+
+  async function handleSearch() {
+    const token = Cookies.get("access-token");
+
+    console.log(origin, destination);
+    try {
+      const response = await axios.get(
+        `${BaseURL}/flight/search?fromAirport=${origin}&toAirport=${destination}&date=${date}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setFlights(response.data);
+    } catch (error) {
+      console.error(error);
+      snackbarRef_fail.current.show();
+    }
+  }
+
+  async function handleUpdate() {
+    const token = Cookies.get("access-token");
+    console.log(scheduledFlightID, delayMinutes);
+    const postData = {
+      scheduledFlightID : scheduledFlightID,
+      delayMinutes : delayMinutes
+    }
+    try {
+      const response = await axios.patch(
+        `${BaseURL}/deo/update/delay`,
+            postData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+      );
+      console.log(response);
+      if (response.status === 200) {
+        snackbarRef_success.current.show();
+        handleClear();
+      }
+    } catch (err) {
+      console.log(err);
+      if(err.response && err.response.status === 401){
+        snackbarRef_fail.current.show();
+      }
+    }
+  }
 
   const handleDelayChange = (event) => {
     setDelayMinutes(event.target.value);
@@ -49,79 +135,12 @@ export default function DEOUpdateDelay () {
     setAddress_2(flight.destination.address);
   }
 
-  useEffect(
-    function () {
-      async function getAirportsList() {
-        try {
-          const response = await axios.get(`${BaseURL}/get/airports`);
-          console.log(response.data);
-          setAirportsList(response.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      getAirportsList();
-    },
-    [BaseURL]
-  );
-
-  async function handleSearch() {
-    const token = Cookies.get("access-token");
-
-    console.log(origin, destination);
-    console.log(
-      `${BaseURL}/flight/search?fromAirport=${origin}&toAirport=${destination}&date=${date}`
-    );
-
-    try {
-      const response = await axios.get(
-        `${BaseURL}/flight/search?fromAirport=${origin}&toAirport=${destination}&date=${date}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response.data);
-      setFlights(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  function handleBack(){
+    handleClear();
+    setUserMenuItem("profile-details");
   }
 
-  async function handleUpdate() {
-    const token = Cookies.get("access-token");
-    console.log(scheduledFlightID, delayMinutes);
-    const postData = {
-      scheduledFlightID : scheduledFlightID,
-      delayMinutes : delayMinutes
-    }
-
-    try {
-      const response = await axios.patch(
-        `${BaseURL}/deo/update/delay`,
-        postData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      
-      console.log(response);
-      if (response.status === 201) {
-        alert("Delay Updated Successfully");
-        handleBack();
-      }
-    } catch (err) {
-      console.log(err);
-      if(err.response && err.response.status === 401){
-        setDelayMinutes(null);
-      }
-    }
-  }
-
-  const handleBack = () => {
+  function handleClear(){
     setOrigin("origin");
     setDestination("destination");
     setDate(null);
@@ -136,9 +155,7 @@ export default function DEOUpdateDelay () {
     setAddress_1(null);
     setAddress_2(null);
     setDelayMinutes(null);
-    setUserMenuItem("profile-details");
   }
-
   return (
     <div className='pd-back'>
       <div className='gls-back'></div>
@@ -272,6 +289,16 @@ export default function DEOUpdateDelay () {
                         />
                       </td>
                       <td className='data-cell'>
+                      <Snackbar
+                        ref={snackbarRef_fail}
+                        message={Snackbardata_fail.message}
+                        type={Snackbardata_fail.type}
+                      />
+                      <Snackbar
+                        ref={snackbarRef_success}
+                        message={Snackbardata_success.message}
+                        type={Snackbardata_success.type}
+                      />
                         <button type="button" class="update-button btn" onClick={handleUpdate}>Update</button>
                       </td>
                       <td className='data-cell'>

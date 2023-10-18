@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './deoAddRoute.css';
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import Snackbar from "../../common/Snackbar"
 
 export default function DEOAddRoute () {
   const { setUserMenuItem } = UserMenuGlobalState();
@@ -14,6 +15,17 @@ export default function DEOAddRoute () {
   const [Business, setBusiness] = useState();
   const [Platinum, setPlatinum] = useState();
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+
+  const snackbarRef_fail = useRef(null);
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Check the data and try again!"
+  };
+  const Snackbardata_success={
+    type: "success",
+    message: "Added Route Successfully!"
+  };
 
   useEffect(
     function () {
@@ -30,6 +42,54 @@ export default function DEOAddRoute () {
     },
     [BaseURL]
   );
+
+  async function handleAdd() {
+    const token = Cookies.get("access-token");
+    const basePrice = {
+      Economy : parseFloat(Economy),
+      Business : parseFloat(Business),
+      Platinum : parseFloat(Platinum)
+    }
+    const postData = {
+      origin : origin,
+      destination : destination,
+      durationMinutes : parseInt(durationMinutes),
+      basePrice : basePrice
+    }
+    // Request data : {
+    //   "origin" : "VCRI",
+    //   "destination" : "VOMM",
+    //   "durationMinutes" : 140,
+    //   "basePrice" : {
+    //   "Economy" : 200,
+    //   "Business" : 400,
+    //   "Platinum" : 600.50
+    //   }
+    // }
+    try {
+      console.log(postData);
+      const response = await axios.post(
+        `${BaseURL}/deo/create/route`,
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      
+      console.log(response);
+      if (response.status === 201) {
+        snackbarRef_success.current.show();
+        handleClear();
+      }
+    } catch (err) {
+      console.log(err);
+      if(err.response && err.response.status === 401){
+        snackbarRef_fail.current.show();
+      }
+    }
+  }
 
   const inputDestination = (event) => {
     setDestination(event.target.value);
@@ -54,56 +114,19 @@ export default function DEOAddRoute () {
   const handlePlatinumChange = (event) => {
     setPlatinum(event.target.value);
   }
-
-  async function handleAdd() {
-    const token = Cookies.get("access-token");
-    const basePrice = {
-      Economy : Economy,
-      Business : Business,
-      Platinum : Platinum
-    }
-    const postData = {
-      origin : origin,
-      destination : destination,
-      durationMinutes : durationMinutes,
-      basePrice : basePrice
-    }
-    // Request data : {
-    //   "origin" : "VCRI",
-    //   "destination" : "VOMM",
-    //   "durationMinutes" : 140,
-    //   "basePrice" : {
-    //   "Economy" : 200,
-    //   "Business" : 400,
-    //   "Platinum" : 600.50
-    //   }
-    // }
-    try {
-      const response = await axios.post(
-        `${BaseURL}/deo/create/route`,
-        postData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      
-      console.log(response);
-      if (response.status === 201) {
-        alert("Route Added Successfully");
-        handleBack();
-      }
-    } catch (err) {
-      console.log(err);
-      if(err.response && err.response.status === 401){
-
-      }
-    }
+  
+  function handleBack() {
+    handleClear();
+    setUserMenuItem("profile-details");
   }
 
-  function handleBack() {
-    setUserMenuItem("profile-details");
+  function handleClear(){
+    setOrigin("");
+    setDestination("");
+    setDurationMinutes();
+    setEconomy();
+    setBusiness();
+    setPlatinum();
   }
 
     return (
@@ -207,6 +230,16 @@ export default function DEOAddRoute () {
                 />
               </div>
             </div>
+            <Snackbar
+              ref={snackbarRef_fail}
+              message={Snackbardata_fail.message}
+              type={Snackbardata_fail.type}
+            />
+            <Snackbar
+              ref={snackbarRef_success}
+              message={Snackbardata_success.message}
+              type={Snackbardata_success.type}
+            />
             <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleAdd}>Add&nbsp;Route</button>    
           </div>

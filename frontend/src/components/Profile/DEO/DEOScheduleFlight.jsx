@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from "axios";
 import Cookies from 'js-cookie';
 import './deoScheduleFlight.css';
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import Snackbar from "../../common/Snackbar"
 
 export default function DEOScheduleFlight () {
     const { setUserMenuItem } = UserMenuGlobalState();
@@ -14,30 +15,29 @@ export default function DEOScheduleFlight () {
     const [time, setTime] = useState("");
     const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
-    const handleRouteID = (event) => {
-      setRouteID(event.target.value);
-    }
-    const handleTailNumber = (event) => {
-      setTailNumber(event.target.value);
-    }
-    const handleDateChange = (event) => {
-      setDate(event.target.value);
-    }
-    const handleTimeChange = (event) => {
-      setTime(event.target.value);
-    }
+    const snackbarRef_fail = useRef(null);
+    const snackbarRef_success = useRef(null);
+    const Snackbardata_fail = {
+      type: "fail",
+      message: "Check the data and try again!"
+    };
+    const Snackbardata_success={
+      type: "success",
+      message: "Scheduled Flight Successfully!!"
+    };
 
     async function handleSchedule(){
       const token = Cookies.get("access-token");
 
       console.log(routeID, tailNumber, date, time);
       const postData = {
-        route : routeID,
+        route : parseInt(routeID),
         airplane : tailNumber,
         departureDate : date,
         departureTime : time
       }
-  
+      
+      console.log(postData);
       try {
         const response = await axios.post(
           `${BaseURL}/deo/schedule-flight`,
@@ -48,25 +48,17 @@ export default function DEOScheduleFlight () {
             },
           }
         )
-        
         console.log(response);
         if (response.status === 201) {
-          alert("Flight Schedule Successfully");
-          handleBack();
+          snackbarRef_success.current.show();
+          handleClear();
         }
       } catch (err) {
         console.log(err);
         if(err.response && err.response.status === 401){
+          snackbarRef_fail.current.show();
         }
       }
-    }
-
-    const handleBack = () => {
-      setRouteID("");
-      setTailNumber("");
-      setDate("");
-      setTime("");
-      setUserMenuItem("profile-details");
     }
 
     useEffect(
@@ -100,6 +92,31 @@ export default function DEOScheduleFlight () {
       },
       [BaseURL]
     );
+
+    function handleClear(){
+      setRouteID("");
+      setTailNumber("");
+      setDate("");
+      setTime("");
+    }
+    const handleBack = () => {
+      handleClear();
+      setUserMenuItem("profile-details");
+    }
+
+    const handleRouteID = (event) => {
+      setRouteID(event.target.value);
+      console.log(routeID);
+    }
+    const handleTailNumber = (event) => {
+      setTailNumber(event.target.value);
+    }
+    const handleDateChange = (event) => {
+      setDate(event.target.value);
+    }
+    const handleTimeChange = (event) => {
+      setTime(event.target.value);
+    }
 
     return (
       <div className='pd-back'>
@@ -167,6 +184,16 @@ export default function DEOScheduleFlight () {
               value={time} 
               className='input-area form-input'
               onChange={handleTimeChange}
+            />
+            <Snackbar
+              ref={snackbarRef_fail}
+              message={Snackbardata_fail.message}
+              type={Snackbardata_fail.type}
+            />
+            <Snackbar
+              ref={snackbarRef_success}
+              message={Snackbardata_success.message}
+              type={Snackbardata_success.type}
             />
             <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleSchedule}>Schedule</button>    
