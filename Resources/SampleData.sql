@@ -935,7 +935,6 @@ INSERT into booked_seat(Booking, Seat_Number, FirstName, LastName, isAdult, Pass
 
 
 
-
 INSERT into guest(Guest_ID, Booking_Ref_ID) values('QYR6L8P07S2I', 'BUI7L6BNML60');
 INSERT into guest(Guest_ID, Booking_Ref_ID) values('YJ5P0G9M8NWD', 'DER7L6BNM0PK');
 INSERT into guest(Guest_ID, Booking_Ref_ID) values('2TX9M3L1ZVOW', 'IOPYJ6BNM7UK');
