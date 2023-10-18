@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
 import './bookingSuccess.css';
+import Cookies from 'js-cookie';
+
 export default function BookingSuccess () {
     const { setBookingStep } = BookingStepGlobalState();
+    const bookingID = Cookies.get("bookingRef"); 
 
     function handleBookMore(){
       setBookingStep('flightSearch');
@@ -18,7 +21,7 @@ export default function BookingSuccess () {
             Payment&nbsp;Successful&nbsp;!
           </label>
           <label className='id-txt'>
-            Your booking ID is : 123456789
+            Your booking ID is : {bookingID}
           </label>
         </div>
 

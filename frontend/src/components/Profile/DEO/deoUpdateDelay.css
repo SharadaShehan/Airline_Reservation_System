@@ -22,6 +22,7 @@
     height: 10%;
     font-size: 2em;
     color: rgb(255, 255, 255);
+    font-family: "Bruno Ace", sans-serif;
 }
 .form-sub-title{
     width: 100%;
@@ -42,9 +43,9 @@
     align-items: center;
 }
 .form-sub-sub-l{
-    width: 60%;
+    width: 85%;
     height: 100%;
-    margin: 0 15% 0 25%;
+    margin: 0 5% 0 10%;
 }
 .form-sub-sub-r{
     width: 60%;
@@ -58,20 +59,23 @@
     color: rgb(117, 117, 117);
 }
 .update-button {
+    border-radius: 42.5px;
     width: 8em;
-    background-color: transparent;
-    border: 1px solid white;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: black;
     cursor: pointer;
     transition: background-color 0.3s;
     z-index: 2;
     margin: 5% 2% 1% 1% ;
+    
+  transition: all 0.3s ease-in-out;
 }
 .update-button:hover {
     background-color: #005EF5; /* Change background color to blue on hover */
     color: white;
-    opacity: 90%;
     border: none;
+    transform: scale(1.1);
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
 }
 .form-1{
     margin-top: 10%s;
@@ -87,4 +91,41 @@
     font-size: 1em;
     text-align: left;
     margin: 0.2em 0 0 0;
+}
+.data-cell{
+    width: 25%;
+    vertical-align: middle;
+}
+.data-view-tbl{
+    width: 60%;
+    max-height: 25vh;
+    margin: 0 20% 0 20%;
+    color: rgb(255, 255, 255);
+    border: 1px solid white;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.data-select-btn{
+    width: 5em;
+    background-color: transparent;
+    border: 1px solid white;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 2;
+    margin: 5% 2% 1% 1% ;
+}
+.data-select-btn:hover {
+    background-color: #ffffff; /* Change background color to blue on hover */
+    color: rgb(0, 0, 0);
+    border: none;
+}
+.input-area{
+    background-color: #ffffff;
+    border-radius: 42.5px;
+    color: gray;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }

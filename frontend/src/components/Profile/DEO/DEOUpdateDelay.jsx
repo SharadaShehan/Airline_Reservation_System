@@ -1,7 +1,143 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from "axios";
+import Cookies from "js-cookie";
+import { v4 as uuidv4 } from "uuid";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import './deoUpdateDelay.css';
 
 export default function DEOUpdateDelay () {
+  const { setUserMenuItem } = UserMenuGlobalState();
+  const [delayMinutes, setDelayMinutes] = useState();
+  const [scheduledFlightID, setFlightID] = useState();
+  const [airportsList, setAirportsList] = useState([]);
+  const [origin, setOrigin] = useState("origin");
+  const [destination, setDestination] = useState("destination");
+  const [date, setDate] = useState();
+  const [flights, setFlights] = useState([]);
+  const [flightModel, setFlightModel] = useState();
+  const [duration, setDuration] = useState();
+  const [IATA_1, setIATA_1] = useState();
+  const [address_1, setAddress_1] = useState();
+  const [begintime, setBegintime] = useState();
+  const [IATA_2, setIATA_2] = useState();
+  const [address_2, setAddress_2] = useState();
+  const [endtime, setEndtime] = useState();
+
+  const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+
+  const handleDelayChange = (event) => {
+    setDelayMinutes(event.target.value);
+  }
+  const handleDateChange = (event) => {
+    setDate(event.target.value);
+  }
+  const onClickOrigin = (event) => {
+    setOrigin(event.target.value);
+  }
+  const onClickDestination = (event) => {
+    setDestination(event.target.value);
+  }
+  const handleFlightSelect = (flight) => (event) => {
+    setFlightID(flight.flightID);
+    setFlightModel(flight.airplaneModel);
+    setDuration(flight.durationMinutes);
+    setIATA_1(flight.origin.IATA);
+    setIATA_2(flight.destination.IATA);
+    setBegintime(flight.origin.dateAndTime);
+    setEndtime(flight.destination.dateAndTime);
+    setAddress_1(flight.origin.address);
+    setAddress_2(flight.destination.address);
+  }
+
+  useEffect(
+    function () {
+      async function getAirportsList() {
+        try {
+          const response = await axios.get(`${BaseURL}/get/airports`);
+          console.log(response.data);
+          setAirportsList(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getAirportsList();
+    },
+    [BaseURL]
+  );
+
+  async function handleSearch() {
+    const token = Cookies.get("access-token");
+
+    console.log(origin, destination);
+    console.log(
+      `${BaseURL}/flight/search?fromAirport=${origin}&toAirport=${destination}&date=${date}`
+    );
+
+    try {
+      const response = await axios.get(
+        `${BaseURL}/flight/search?fromAirport=${origin}&toAirport=${destination}&date=${date}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setFlights(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleUpdate() {
+    const token = Cookies.get("access-token");
+    console.log(scheduledFlightID, delayMinutes);
+    const postData = {
+      scheduledFlightID : scheduledFlightID,
+      delayMinutes : delayMinutes
+    }
+
+    try {
+      const response = await axios.patch(
+        `${BaseURL}/deo/update/delay`,
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      
+      console.log(response);
+      if (response.status === 201) {
+        alert("Delay Updated Successfully");
+        handleBack();
+      }
+    } catch (err) {
+      console.log(err);
+      if(err.response && err.response.status === 401){
+        setDelayMinutes(null);
+      }
+    }
+  }
+
+  const handleBack = () => {
+    setOrigin("origin");
+    setDestination("destination");
+    setDate(null);
+    setFlights([]);
+    setFlightID(null);
+    setFlightModel(null);
+    setDuration(null);
+    setIATA_1(null);
+    setIATA_2(null);
+    setBegintime(null);
+    setEndtime(null);
+    setAddress_1(null);
+    setAddress_2(null);
+    setDelayMinutes(null);
+    setUserMenuItem("profile-details");
+  }
 
   return (
     <div className='pd-back'>
@@ -17,23 +153,133 @@ export default function DEOUpdateDelay () {
                 Update Delay
               </div>
                 <form className='form-1'>
-                  <div className='form-txt'>
-                    Flight
-                  </div>
-                  <div class="dropdown">
-                    <button class="btn search-flight-btn" type="button">
-                      Search Flight
-                    </button>
-                  </div>
-                  <div className='form-txt'>
-                    Delay in Minutes
-                  </div>
-                  <input type="number" class="form-control"  placeholder="Delay in Minutes"/>
+                  <table>
+                    <tr>
+                      <td className='data-cell'>
+                        <div className='form-txt'>
+                          Origin
+                        </div>
+                      </td>
+                      <td className='data-cell'>
+                        <div className='form-txt'>
+                          Destination
+                        </div>
+                      </td>
+                      <td className='data-cell'>
+                        <div className='form-txt'>
+                          Date
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className='data-cell'>
+                        <select
+                          className="input-area form-control"  
+                          value={origin}
+                          onChange={onClickOrigin}
+                        >
+                          <option disabled value="origin">
+                            Origin
+                          </option>
+                          {airportsList.map((airport) => (
+                            <option
+                              value={airport.icaoCode}
+                              key={airport.icaoCode}
+                            >
+                              {airport.city}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className='data-cell'>
+                        <select
+                          className="input-area form-control"
+                          value={destination}
+                          onChange={onClickDestination}
+                        >
+                          <option disabled value="destination">
+                            Destination
+                          </option>
+                          {airportsList.map((airport) => (
+                            <option
+                              value={airport.icaoCode}
+                              key={airport.icaoCode}
+                            >
+                              {airport.city}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className='data-cell'>
+                        <input
+                          value={date}
+                          className="input-area form-control"
+                          type="date"
+                          min="2023-10-01"
+                          max="2023-12-31"
+                          onChange={handleDateChange}
+                        />
+                      </td>
+                      <td className='data-cell'>
+                        <button type="button" class="update-button btn" onClick={handleSearch}>Search</button>
+                      </td>
+                    </tr>
+                  </table>
+                  <div className='data-view-tbl'>
+                      {flights.length === 0 ? (
+                        <div className="no-passengers">
+                          Select Origin and Destination airports
+                        </div>
+                      ) : (
+                        <div>
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Model</th>
+                                <th>Duration</th>
+                                <th>Select</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {flights.map((flight) => (
+                                <tr key={uuidv4()}>
+                                  <td>{flight.flightID}</td>
+                                  <td>{flight.airplaneModel}</td>
+                                  <td>{flight.durationMinutes}</td>
+                                  <td> <button type="button" className="data-select-btn btn" onClick={handleFlightSelect(flight)}> Select</button></td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  <table>
+                    <tr>
+                      <td className='data-cell'>
+                        <div className='form-txt'>
+                          Delay in Minutes
+                        </div>
+                      </td>
+                      <td className='data-cell'>
+                        <input 
+                          type="number" 
+                          value={delayMinutes}
+                          class="input-area form-control"  
+                          placeholder="Delay"
+                          onChange={handleDelayChange}
+                        />
+                      </td>
+                      <td className='data-cell'>
+                        <button type="button" class="update-button btn" onClick={handleUpdate}>Update</button>
+                      </td>
+                      <td className='data-cell'>
+                        <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
+                      </td>
+                    </tr>
+                  </table>
                 </form>
-                  
-              <button type="button" class="update-button btn">Cancel</button>
-              <button type="button" class="update-button btn">Search</button>
-              <button type="button" class="update-button btn">Update</button>
             </div>
           </div>
           <div className='form-sub-grp'>
@@ -42,43 +288,37 @@ export default function DEOUpdateDelay () {
                 Flight Details
               </div>
               <div className='data-txt'>
-                Flight ID : 
+                Flight ID : {scheduledFlightID}
               </div>
               <div className='data-txt'>
-                Air Plane Model :
+                Air Plane Model : {flightModel}
               </div>
               <div className='data-txt'>
-                Duration :
+                Duration : {duration}
               </div>
               <div className='data-txt'>
-                Origin :
+                Origin : {origin}
               </div>
               <div className='data-txt'>
-                IATA :
+                Origin Airport : {address_1}
               </div>
               <div className='data-txt'>
-                Origin Airport :
+                IATA : {IATA_1}
               </div>
               <div className='data-txt'>
-                Date :
+                Date & Time : {begintime}
               </div>
               <div className='data-txt'>
-                Time :
+                Destination : {destination}
               </div>
               <div className='data-txt'>
-                Destination :
+                IATA : {IATA_2}
               </div>
               <div className='data-txt'>
-                IATA :
+                Destination Airport : {address_2}
               </div>
               <div className='data-txt'>
-                Destination Airport :
-              </div>
-              <div className='data-txt'>
-                Date :
-              </div>
-              <div className='data-txt'>
-                Time :
+                Date & Time : {endtime}
               </div>
             </div>
           </div>

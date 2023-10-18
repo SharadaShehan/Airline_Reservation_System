@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from "react-router-dom";
 import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
 import "./makePayment.css";
+import Cookies from 'js-cookie';
 
 export default function MakePayment () {
     const { setBookingStep } = BookingStepGlobalState();
+    const [bookingRef, setBookingRef] = useState("");
 
     function handlePayNow() {
       setBookingStep('bookingSuccess');
+      Cookies.set("bookingRef", bookingRef);
     }
 
     function handleBack(){

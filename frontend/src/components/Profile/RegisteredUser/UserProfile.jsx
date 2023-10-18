@@ -31,9 +31,11 @@ export default function UserProfile({ userData }) {
     if (userMenuItem === "profile-details") {
       return <UserProfileDetails userData={userData} />;
     } else if (userMenuItem === "booked-tickets") {
-      return <UserBookedTickets userData={userData} />;
+      return (
+        <UserBookedTickets userData={userData} fromBookedTickets={false} />
+      );
     } else if (userMenuItem === "pending-payments") {
-      return <PendingPayments />;
+      return <PendingPayments fromBookedTickets={false} />;
     }
   }
 }

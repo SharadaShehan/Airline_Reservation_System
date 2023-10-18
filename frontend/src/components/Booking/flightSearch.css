@@ -47,6 +47,9 @@
 .date-btn{
     margin: 1% 5% 1% 5%;
 }
+.date-input-flightSearch{
+    border: none;
+}
 .search-btn{
     margin: 1% 5% 1% 5%;
     width: 90%;
@@ -180,6 +183,13 @@ td {
     gap: 2%;
     margin: 2% 5% 2% 0;
 } 
+.selected-class-txt{
+    margin-left: 3em;
+    width: 10em;
+    text-align: left;
+    font-size: 1em;
+    color: #ffffff;
+}
 .action-button {
     width: 15%;
     background-color: transparent;
@@ -218,5 +228,10 @@ td {
     background-color: #070d6b; /* Change background color to blue on hover */
     color: rgb(255, 255, 255);
     opacity: 90%;
+    border: none;
+}
+.class-btn:active {
+    background-color: #ffffff; 
+    color: #000000;
     border: none;
 }

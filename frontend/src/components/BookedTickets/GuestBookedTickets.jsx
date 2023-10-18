@@ -1,15 +1,12 @@
 import React from "react";
-import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
-import { UserGlobalState } from "../../Layout/UserGlobalState";
+import { UserGlobalState } from "../Layout/UserGlobalState";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
+import "../Profile/RegisteredUser/userProfile.css";
 
-export default function UserBookedTickets({ userData, fromBookedTickets }) {
+function GuestBookedTickets({ guestID }) {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
-  const token = Cookies.get("access-token");
 
-  const { setUserMenuItem } = UserMenuGlobalState();
   const { setCurrentUserData } = UserGlobalState();
   const [bookedTickets, setBookedTickets] = useState([]);
 
@@ -17,11 +14,9 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
     function () {
       async function getBookedTickets() {
         try {
-          const response = await axios.get(`${BaseURL}/tickets/user/search`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await axios.get(
+            `${BaseURL}/tickets/guest/search?guestID=${guestID}`
+          );
           console.log(response.data);
           setBookedTickets(response.data);
         } catch (error) {
@@ -41,7 +36,7 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
       }
       getBookedTickets();
     },
-    [BaseURL, token, setCurrentUserData]
+    [BaseURL, guestID, setCurrentUserData]
   );
 
   return (
@@ -83,22 +78,8 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
           <h4 className="loading-text">Loading Details Please Wait....</h4>
         )}
       </div>
-      {!fromBookedTickets && (
-        <div className="user-buttonWrapper">
-          <button
-            className="user-button"
-            onClick={() => setUserMenuItem("profile-details")}
-          >
-            Back to Profile
-          </button>
-          <button
-            className="user-button"
-            onClick={() => setUserMenuItem("pending-payments")}
-          >
-            Go to Pending Payments
-          </button>
-        </div>
-      )}
     </div>
   );
 }
+
+export default GuestBookedTickets;
