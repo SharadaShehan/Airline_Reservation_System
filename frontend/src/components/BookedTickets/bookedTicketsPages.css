@@ -1,0 +1,77 @@
+.heading-buttons {
+  margin-bottom: 20px;
+}
+
+.heading-buttons button {
+  font-family: "Lexend";
+  margin-right: 50px;
+  color: #fff; /* Change the text color of the buttons */
+  background-color: transparent; /* Make the buttons transparent */
+  border: 2px solid #fff; /* Add a border to the buttons */
+  border-radius: 5px; /* Add border radius to the buttons */
+  padding: 10px; /* Add padding to the buttons */
+  cursor: pointer; /* Add a cursor pointer to the buttons */
+  transition: all 0.3s ease; /* Add a transition effect to the buttons */
+}
+
+.heading-buttons button:hover {
+  background-color: #fff; /* Change the background color of the buttons on hover */
+  color: #007bff; /* Change the text color of the buttons on hover */
+}
+
+.content {
+  margin-left: 100px;
+  height: 700px;
+  width: 1416px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: auto auto 40px auto;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Make the search bar transparent */
+  border: 1.5px solid rgba(255, 255, 255); /* Add a white border with lower opacity */
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.search-bar input[type="search"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 5px;
+  background-color: transparent; /* Make the input field transparent */
+  color: #fff; /* Change the text color to white */
+}
+
+.search-bar input[type="search"]::placeholder {
+  color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Add a placeholder text color with lower opacity */
+}
+
+.booking-details {
+  margin-bottom: 10px;
+  color: #fff;
+  font-family: "Bruno Ace", sans-serif;
+  margin-top: 20px;
+}
+
+.user-table {
+    margin-top: 2em;
+    /* margin-left: 20px; */
+    width: 90%;
+    /* max-width: 800px; */
+    border-collapse: collapse;
+  }

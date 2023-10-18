@@ -7,7 +7,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./authForms.css";
 
-
 export default function UserRegisterForm() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const { setCurrentUserData } = UserGlobalState();
@@ -348,6 +347,7 @@ export default function UserRegisterForm() {
           </div>
           {passwordError && <div className="errorText">{passwordError}</div>}
         </div>
+        {randomError && <div className="errorText">{randomError}</div>}
         <div className="button-container">
           <button className="submitBtn" type="submit" disabled={!isFormValid()}>
             Register
