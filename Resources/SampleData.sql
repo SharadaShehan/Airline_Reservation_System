@@ -13,40 +13,38 @@ INSERT into airplane(Tail_Number,Model) values('N98765', 3);
 
 
 INSERT into airport(ICAO_Code, IATA_Code) values('WIII', 'CGK');
-INSERT into airport(ICAO_Code, IATA_Code) values('WADD', 'DPS');
-INSERT into airport(ICAO_Code, IATA_Code) values('VCBI', 'BIA');
-INSERT into airport(ICAO_Code, IATA_Code) values('VCRI', 'HRI');
-INSERT into airport(ICAO_Code, IATA_Code) values('VIDP', 'DEL');
-INSERT into airport(ICAO_Code, IATA_Code) values('VABB', 'BOM');
-INSERT into airport(ICAO_Code, IATA_Code) values('VOMM', 'MAA');
-INSERT into airport(ICAO_Code, IATA_Code) values('VTBS', 'BKK');
-INSERT into airport(ICAO_Code, IATA_Code) values('VTBD', 'DMK');
-INSERT into airport(ICAO_Code, IATA_Code) values('WSSS', 'SIN');
-
-
 INSERT into location(Airport,Level,Name) values('WIII', 0, 'Tangerang');
 INSERT into location(Airport,Level,Name) values('WIII', 1, 'Banten');
 INSERT into location(Airport,Level,Name) values('WIII', 2, 'Indonesia');
+INSERT into airport(ICAO_Code, IATA_Code) values('WADD', 'DPS');
 INSERT into location(Airport,Level,Name) values('WADD', 0, 'Tuban');
 INSERT into location(Airport,Level,Name) values('WADD', 1, 'Bali');
 INSERT into location(Airport,Level,Name) values('WADD', 2, 'Indonesia');
+INSERT into airport(ICAO_Code, IATA_Code) values('VCBI', 'BIA');
 INSERT into location(Airport,Level,Name) values('VCBI', 0, 'Katunayake');
 INSERT into location(Airport,Level,Name) values('VCBI', 1, 'Sri Lanka');
+INSERT into airport(ICAO_Code, IATA_Code) values('VCRI', 'HRI');
 INSERT into location(Airport,Level,Name) values('VCRI', 0, 'Hambantota');
 INSERT into location(Airport,Level,Name) values('VCRI', 1, 'Sri Lanka');
+INSERT into airport(ICAO_Code, IATA_Code) values('VIDP', 'DEL');
 INSERT into location(Airport,Level,Name) values('VIDP', 0, 'New Delhi');
 INSERT into location(Airport,Level,Name) values('VIDP', 1, 'Delhi');
 INSERT into location(Airport,Level,Name) values('VIDP', 2, 'India');
+INSERT into airport(ICAO_Code, IATA_Code) values('VABB', 'BOM');
 INSERT into location(Airport,Level,Name) values('VABB', 0, 'Mumbai');
 INSERT into location(Airport,Level,Name) values('VABB', 1, 'Maharashtra');
 INSERT into location(Airport,Level,Name) values('VABB', 2, 'India');
+INSERT into airport(ICAO_Code, IATA_Code) values('VOMM', 'MAA');
 INSERT into location(Airport,Level,Name) values('VOMM', 0, 'Chennai');
 INSERT into location(Airport,Level,Name) values('VOMM', 1, 'Tamil Nadu');
 INSERT into location(Airport,Level,Name) values('VOMM', 2, 'India');
+INSERT into airport(ICAO_Code, IATA_Code) values('VTBS', 'BKK');
 INSERT into location(Airport,Level,Name) values('VTBS', 0, 'Bangkok');
 INSERT into location(Airport,Level,Name) values('VTBS', 1, 'Thailand');
+INSERT into airport(ICAO_Code, IATA_Code) values('VTBD', 'DMK');
 INSERT into location(Airport,Level,Name) values('VTBD', 0, 'Bangkok');
 INSERT into location(Airport,Level,Name) values('VTBD', 1, 'Thailand');
+INSERT into airport(ICAO_Code, IATA_Code) values('WSSS', 'SIN');
 INSERT into location(Airport,Level,Name) values('WSSS', 0, 'Changi');
 INSERT into location(Airport,Level,Name) values('WSSS', 1, 'Singapore');
 
@@ -479,7 +477,7 @@ INSERT into staff(Username, Role) values('DanielH', 'Data Entry Operator');
 INSERT into staff(Username, Role) values('HenryW', 'Admin');
 
 
-INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) values('BUI7L6BNML60', 1,       , 19, 990, 1);
+INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) values('BUI7L6BNML60', 1, NULL, 19, 990, 1);
 INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) values('DER7L6BNM0PK', 1,       , 19, 330, 1);
 INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) values('IOPYJ6BNM7UK', 1,       , 19, 220, 1);
 INSERT into booking(Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price, Completed) values('JKILL6IU50PK', 1,       , 19, 110, 1);
