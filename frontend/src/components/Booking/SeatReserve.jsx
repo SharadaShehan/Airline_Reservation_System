@@ -19,7 +19,11 @@ export default function SeatReserve() {
     totalSeatsCount: 0,
   });
 
-  const [selectedOption, setSelectedOption] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [passportID, setPassportID] = useState("");
+  const [selectedOption, setSelectedOption] = useState("adult");
+  const [selectedSeat, setSelectedSeat] = useState(null);
   console.log(bookingProcessDetails);
 
   let prevPage = "loginAsk";
@@ -46,10 +50,40 @@ export default function SeatReserve() {
     bookingProcessDetails.travelClass,
   ]);
 
-  // setAvailableSeats(seatsObj.availableSeats);
+  function handleReserve() {
+    // Add Seat Reserve Successful Message
+    const passengerDetails = {
+      firstName: firstName,
+      isAdult: selectedOption === "adult" ? 1 : 0,
+      lastName: lastName,
+      passportID: passportID,
+      seatNumber: selectedSeat,
+    };
+
+    setBookingProcessDetails({
+      ...bookingProcessDetails,
+      passengers: [...bookingProcessDetails.passengers, passengerDetails],
+    });
+
+    const newAvailableSeats = seatsObj.availableSeats.filter(
+      (seat) => seat !== selectedSeat
+    );
+
+    setSelectedSeat(null);
+    setFirstName("");
+    setLastName("");
+    setPassportID("");
+
+    setSeatsObj({
+      ...seatsObj,
+      availableSeats: newAvailableSeats,
+    });
+  }
 
   function handleSeatClick(seatNumber) {
-    console.log(seatNumber);
+    seatNumber !== selectedSeat
+      ? setSelectedSeat(seatNumber)
+      : setSelectedSeat(null);
   }
 
   function handlePayNow() {
@@ -80,11 +114,13 @@ export default function SeatReserve() {
                           }
                           const isSeatAvailable =
                             seatsObj.availableSeats.includes(seatNumber);
+                          const isSeatSelected = selectedSeat === seatNumber;
 
                           const isDisabled = !isSeatAvailable;
                           const className = `seat-btn btn ${
                             isDisabled ? "disabled" : ""
-                          }`;
+                          }
+                          ${isSeatSelected ? "selected" : ""}`;
                           return (
                             <button
                               type="button"
@@ -108,21 +144,25 @@ export default function SeatReserve() {
             <div className="tbl-itm-2">
               <form className="seat-data">
                 <div className="form-group">
-                  <label htmlFor="formGroupExampleInput">First Name</label>
+                  <label htmlFor="formGroupExampleInput">First Name :</label>
                   <input
                     type="text"
                     className="form-control"
                     id="formGroupExampleInput"
                     placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="formGroupExampleInput2">Last Name</label>
+                  <label htmlFor="formGroupExampleInput2">Last Name :</label>
                   <input
                     type="text"
                     className="form-control"
                     id="formGroupExampleInput2"
                     placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
                 <label>
@@ -137,19 +177,28 @@ export default function SeatReserve() {
                   </select>
                 </label>
                 <div className="form-group">
-                  <label htmlFor="formGroupExampleInput2">Passport ID</label>
+                  <label htmlFor="formGroupExampleInput2">Passport ID :</label>
                   <input
                     type="text"
                     className="form-control"
                     id="formGroupExampleInput2"
                     placeholder="Passport ID"
+                    value={passportID}
+                    onChange={(e) => setPassportID(e.target.value)}
                   />
                 </div>
                 <div className="reserve-btn-set">
                   <button type="button" className="reserve-btn btn">
                     Cancel
                   </button>
-                  <button type="button" className="reserve-btn btn">
+                  <button
+                    onClick={handleReserve}
+                    disabled={
+                      !(firstName && lastName && passportID && selectedSeat)
+                    }
+                    type="button"
+                    className="reserve-btn btn"
+                  >
                     Reserve
                   </button>
                 </div>
@@ -172,13 +221,11 @@ export default function SeatReserve() {
             >
               Back
             </button>
-            <button
-              type="button"
-              className="action-button btn"
-              onClick={handlePayNow}
-            >
-              Pay&nbsp;Now
-            </button>
+            {bookingProcessDetails.passengers.length && (
+              <button type="button" className="pay-now" onClick={handlePayNow}>
+                Pay&nbsp;Now
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -70,6 +70,13 @@
   opacity: 90%;
   border: none;
 }
+
+.seat-btn.selected {
+  background-color: #005ef5;
+  color: white;
+  opacity: 90%;
+  border: none;
+}
 .tbl-container {
   max-height: 100%;
   width: 90%;
@@ -95,11 +102,10 @@
   background-color: transparent;
   border: 1px solid white;
   color: #ffffff;
-  cursor: pointer;
   transition: background-color 0.3s;
   z-index: 2;
 }
-.reserve-btn:hover {
+.reserve-btn:hover:not([disabled]) {
   background-color: #005ef5; /* Change background color to blue on hover */
   color: white;
   opacity: 90%;
@@ -113,4 +119,24 @@
   color: white;
   font-size: 1.5em;
   padding-top: 1em;
+}
+
+.reserve-btn:hover {
+  color: white;
+}
+
+.pay-now:not([disabled]) {
+  width: 15%;
+  background-color: transparent;
+  border: 1px solid white;
+  color: #ffffff;
+  transition: background-color 0.3s;
+  z-index: 2;
+}
+
+.pay-now:hover:not([disabled]) {
+  background-color: #005ef5; /* Change background color to blue on hover */
+  color: white;
+  opacity: 90%;
+  border: none;
 }
