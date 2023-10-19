@@ -32,9 +32,8 @@ export default function DEOProfileDetails ({userData}) {
   return (
       <div className='profile-cont'>
         <div className='data-field-l'>
-          <div className='gls-back-data'></div>
-          <div className='form-title'>
-            Data Entry Operator Details
+          <div className='section-title'>
+            Data Entry Operator Profile
           </div>
           <div className="fnt-txt">
             User name : {userData.username}
@@ -43,14 +42,11 @@ export default function DEOProfileDetails ({userData}) {
             <br />
             Last name : {userData.lastName}
             <br />
-            Admin : {userData.isAdmin ? 'Yes' : 'No'}
-            <br />
-            Data Entry Operator : {userData.isDataEntryOperator ? 'No' : 'Yes'}
+            Role : Data Entry Operator
           </div>
         </div>
         <div className='data-field-r'>
-          <div className='gls-back-data'></div>
-          <div className='form-title'>
+          <div className='section-title-r'>
               Operations
             </div>
             <div className="deo-ops">

@@ -1,66 +1,85 @@
+
+.section-title{
+    z-index: 0;
+    color: azure;
+    font-size: 2.3vw;
+    /* margin-bottom: 0.3vw; */
+    font-family: "Bruno Ace", sans-serif; 
+}
+
 .fnt-txt{
     z-index: 0;
     color: azure;
-    font-size: 1.5em;
-    margin-top: 2em;
+    font-size: 1.5vw;
+    margin-top: 1.5vw;
     font-family: "Bruno Ace", sans-serif;
 }
+
 .profile-cont{
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
+    margin: 1vw;
 }
+
 .data-field-l{
-    width: 30%;
-    margin: 0 10% 0 10%;
-    height: auto;
     position: relative;
     align-items: center;
     justify-content: center;
+    width: 55vw;
+    height: 20vw;
+    margin: 8vw 5vw;
+    padding: 2vw 0;
+    background-color: rgba(0, 0, 0, 0.5);
 }
+
+.section-title-r{
+    z-index: 0;
+    color: azure;
+    font-size: 2.1vw;
+    /* margin-bottom: 0.3vw; */
+    font-family: "Bruno Ace", sans-serif; 
+}
+
 .data-field-r{
-    width: 20%;
-    margin: 0 15% 0 15%;
-    height: 100%;
+    width: 35vw;
+    margin: 2vw 7vw 0 1vw;
+    padding: 2vw 0;
+    /* margin: 0 15% 0 15%; */
     position: relative;
+    background-color: rgba(0, 0, 0, 0.5);
 }
-.gls-back-data{
-    width: 100%;
-    height: 100%;
-    border-radius: 5%;
-    position: absolute;
-    opacity: 0.6;
-    background-color: black;
-    z-index: -1;
-}
+
 .deo-ops{
-    width: 100%;
+    width: 35vw;
     height: 100%;
-    position: absolute;
+    /* padding: 0 3vw; */
+    position: relative;
     display: flex;
     flex-direction: column;
-    z-index: 1;
     color: white;
     vertical-align: middle;
     align-items: center;
     opacity: 1;
 }
+
 .op-button {
-    border-radius: 42.5px;
-    width: 70%;
-    height: 8%;
-    font-size: 1.2em;
+    border-radius: 3vw;
+    width: 25vw;
+    /* height: 8%; */
+    font-size: 1.4vw;
     align-items: center;
     background-color: #ffffff;
     color: black;
     cursor: pointer;
     transition: background-color 0.3s;
-    z-index: 2;
-    margin: 5% 2% 1% 1% ;
+    /* z-index: 0; */
+    margin: 1vw 0 0.2vw 0;
     
   transition: all 0.3s ease-in-out;
 }
+
 .op-button:hover {
     background-color: #005EF5; /* Change background color to blue on hover */
     color: white;

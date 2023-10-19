@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import axios from "axios";
 import Cookies from "js-cookie";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import './deoAddModel.css';
+import Snackbar from "../../common/Snackbar"
 
 export default function DEOAddModel () {
     const { setUserMenuItem } = UserMenuGlobalState();
@@ -11,6 +12,63 @@ export default function DEOAddModel () {
     const [Business, setBusiness] = useState();
     const [Platinum, setPlatinum] = useState();
     const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+
+    const snackbarRef_fail = useRef(null);
+    const snackbarRef_success = useRef(null);
+    const Snackbardata_fail = {
+      type: "fail",
+      message: "Check the data and try again!"
+    };
+    const Snackbardata_success={
+      type: "success",
+      message: "Added Model Successfully!"
+    };
+
+    async function handleAdd() {
+      const token = Cookies.get("access-token");
+      const seatsCount = {
+        
+        Economy : parseInt(Economy),
+        Platinum : parseInt(Platinum),
+        Business : parseInt(Business)
+      }
+      const postData = {
+        name : name,
+        seatsCount : seatsCount
+      }
+      console.log(postData);
+      // Request data : {
+      //   "name" : "Airbus A860",
+      //   "seatsCount" : {
+      //   "Economy" : 150,
+      //   "Business" : 10,
+      //   "Platinum" : 0
+      //   }
+      //   }
+      try {
+        const response = await axios.post(
+          `${BaseURL}/deo/create/model`,
+          postData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        
+        console.log(response);
+        if (response.status === 201) {
+          snackbarRef_success.current.show();
+          handleClear();
+        }
+      } catch (err) {
+        console.log(err);
+        if(err.response && err.response.status === 401){
+          snackbarRef_fail.current.show();
+        }
+      }
+      
+    }
 
     const handleNameChange = (event) => {
       setName(event.target.value);
@@ -28,49 +86,18 @@ export default function DEOAddModel () {
       setPlatinum(event.target.value);
     }
 
-    const handleBack = () => {
+    function handleBack(){
+      handleClear();
+      setUserMenuItem("profile-details");
+    }
+
+    function handleClear(){
       setName("");
       setEconomy();
       setBusiness();
       setPlatinum();
-      setUserMenuItem("profile-details");
     }
-
-    async function handleAdd() {
-      const token = Cookies.get("access-token");
-      const seatsCount = {
-        Economy : Economy,
-        Business : Business,
-        Platinum : Platinum
-      }
-      const postData = {
-        name : name,
-        seatsCount : seatsCount
-      }
-
-      try {
-        const response = await axios.post(
-          `${BaseURL}/deo/create/model`,
-          postData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        
-        console.log(response);
-        if (response.status === 201) {
-          alert("Airplane Model Added Successfully");
-          handleBack();
-        }
-      } catch (err) {
-        console.log(err);
-        if(err.response && err.response.status === 401){
-        }
-      }
-    }
-
+    
     return (
       <div className='pd-back'>
         <div className='gls-back'></div>
@@ -127,7 +154,16 @@ export default function DEOAddModel () {
                 />
               </div>
             </div>
-
+            <Snackbar
+              ref={snackbarRef_fail}
+              message={Snackbardata_fail.message}
+              type={Snackbardata_fail.type}
+            />
+            <Snackbar
+              ref={snackbarRef_success}
+              message={Snackbardata_success.message}
+              type={Snackbardata_success.type}
+            />
             <button type="button" class="update-button btn" onClick={handleBack}>Back</button>
             <button type="button" class="update-button btn" onClick={handleAdd}>Add&nbsp;Model</button>    
           </div>
