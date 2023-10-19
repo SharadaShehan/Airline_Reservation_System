@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserGlobalState } from "../Layout/UserGlobalState";
 import { BookingProcessGlobalState } from "../Layout/BookingProcessGlobalState";
 import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
 import axios from "axios";
-import "./makePayment.css";
+import "./BookingDetails.css";
 import Cookies from "js-cookie";
 
-export default function MakePayment() {
+export default function BookingDetails() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
-  const { bookingProcessDetails } = BookingProcessGlobalState();
+  const accessToken = Cookies.get("access-token");
+  const guestID = Cookies.get("guest-id");
+  const { currentUserData } = UserGlobalState();
+  const { bookingProcessDetails, setBookingProcessDetails } =
+    BookingProcessGlobalState();
   const { setBookingStep } = BookingStepGlobalState();
   const [flightDetails, setFlightDetails] = useState({});
 
@@ -27,23 +32,71 @@ export default function MakePayment() {
     getFlightDetails();
   }, [BaseURL, bookingProcessDetails.flightID]);
 
-  async function handlePayNow() {
-    try {
-      const bookingRef = bookingProcessDetails.bookingRefID;
-      console.log(bookingRef);
-      const transactionID = Math.floor(Math.random() * 1000000000).toString();
-      const response = await axios.post(
-        `${BaseURL}/booking/complete/${bookingRef}`,
-        {
-          transactionID: transactionID,
+  function handleReserveNow() {
+    async function createBookingUser() {
+      try {
+        const response = await axios.post(
+          `${BaseURL}/booking/create/user`,
+          {
+            flightID: bookingProcessDetails.flightID,
+            travelClass: bookingProcessDetails.travelClass,
+            passengers: bookingProcessDetails.passengers,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        console.log(response.data);
+        if (response.status === 201) {
+          Cookies.set("bookingRef", response.data.bookingRefID);
+          setBookingStep("makePayment");
         }
-      );
-      if (response.status === 200) {
-        setBookingStep("bookingSuccess");
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
+
+    async function createBookingGuest() {
+      let response = {};
+      try {
+        if (guestID) {
+          response = await axios.post(`${BaseURL}/booking/create/guest`, {
+            flightID: bookingProcessDetails.flightID,
+            travelClass: bookingProcessDetails.travelClass,
+            passengers: bookingProcessDetails.passengers,
+            guestID: guestID,
+            email: bookingProcessDetails.email,
+            contactNumber: bookingProcessDetails.contactNumber,
+          });
+        } else {
+          response = await axios.post(`${BaseURL}/booking/create/guest`, {
+            flightID: bookingProcessDetails.flightID,
+            travelClass: bookingProcessDetails.travelClass,
+            passengers: bookingProcessDetails.passengers,
+          });
+        }
+        Cookies.set("guest-id", response.data.guestID);
+        console.log(response.data);
+        if (response.status === 201) {
+          Cookies.set("bookingRef", response.data.bookingRefID);
+          setBookingStep("makePayment");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (currentUserData.username) {
+      createBookingUser();
+    } else {
+      createBookingGuest();
+    }
+  }
+
+  function handleBack() {
+    // setBookingProcessDetails((prevState) => ({ ...prevState, passengers: [] }));
+    setBookingStep("seatReserve");
   }
 
   return (
@@ -133,9 +186,16 @@ export default function MakePayment() {
             <button
               type="button"
               className="action-button btn"
-              onClick={handlePayNow}
+              onClick={handleBack}
             >
-              Pay Now
+              Back
+            </button>
+            <button
+              type="button"
+              className="action-button btn"
+              onClick={handleReserveNow}
+            >
+              Reserve Now
             </button>
           </div>
         </div>

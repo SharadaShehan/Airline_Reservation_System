@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { v4 as uuvidv4 } from "uuid";
 import "../Profile/RegisteredUser/userProfile.css";
+import Cookies from "js-cookie";
 
-function GuestPendingPayments({ guestID }) {
+function GuestPendingPayments() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const navigate = useNavigate();
+  const guestID = Cookies.get("guest-id");
 
   const { setBookingStep } = BookingStepGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();

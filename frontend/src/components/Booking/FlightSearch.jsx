@@ -30,8 +30,11 @@ export default function FlightSearch() {
   function handleNext() {
     setBookingProcessDetails({
       ...bookingProcessDetails,
+      bookingRefID: null,
       flightID: selectedFlightID,
       travelClass: classType,
+      price: null,
+      passengers: []
     });
     setBookingStep(nextPage);
   }

@@ -29,8 +29,8 @@ function GuestLandingPage({ guestID }) {
         </button>
       </div>
       <div className="content">
-        {viewBookedTickets && <GuestBookedTickets guestID={guestID} />}
-        {viewPendingPayments && <GuestPendingPayments guestID={guestID} />}
+        {viewBookedTickets && <GuestBookedTickets />}
+        {viewPendingPayments && <GuestPendingPayments />}
       </div>
     </div>
   );

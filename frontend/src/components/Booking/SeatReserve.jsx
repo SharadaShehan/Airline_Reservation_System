@@ -86,11 +86,12 @@ export default function SeatReserve() {
       : setSelectedSeat(null);
   }
 
-  function handlePayNow() {
-    setBookingStep("makePayment");
+  function handleBookingDetails() {
+    setBookingStep("bookingDetails");
   }
   function handleBack() {
     setBookingStep(prevPage);
+    setBookingProcessDetails((prevState) => ({ ...prevState, passengers: [] }));
   }
   return (
     <>
@@ -222,8 +223,8 @@ export default function SeatReserve() {
               Back
             </button>
             {bookingProcessDetails.passengers.length && (
-              <button type="button" className="pay-now" onClick={handlePayNow}>
-                Pay&nbsp;Now
+              <button type="button" className="pay-now" onClick={handleBookingDetails}>
+                Proceed
               </button>
             )}
           </div>
