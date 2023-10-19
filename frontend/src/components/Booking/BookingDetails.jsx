@@ -7,7 +7,6 @@ import axios from "axios";
 import "./BookingDetails.css";
 import Cookies from "js-cookie";
 
-
 export default function BookingDetails() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const accessToken = Cookies.get("access-token");
@@ -17,7 +16,6 @@ export default function BookingDetails() {
     BookingProcessGlobalState();
   const { setBookingStep } = BookingStepGlobalState();
   const [flightDetails, setFlightDetails] = useState({});
-  const [bookingRef, setBookingRef] = useState("");
 
   useEffect(() => {
     async function getFlightDetails() {
@@ -34,7 +32,7 @@ export default function BookingDetails() {
     getFlightDetails();
   }, [BaseURL, bookingProcessDetails.flightID]);
 
-  useEffect(() => {
+  function handleReserveNow() {
     async function createBookingUser() {
       try {
         const response = await axios.post(
@@ -51,7 +49,10 @@ export default function BookingDetails() {
           }
         );
         console.log(response.data);
-        setBookingRef(response.data.bookingRefID);
+        if (response.status === 201) {
+          Cookies.set("bookingRef", response.data.bookingRefID);
+          setBookingStep("makePayment");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -78,32 +79,19 @@ export default function BookingDetails() {
         }
         Cookies.set("guest-id", response.data.guestID);
         console.log(response.data);
-        setBookingRef(response.data.bookingRefID);
+        if (response.status === 201) {
+          Cookies.set("bookingRef", response.data.bookingRefID);
+          setBookingStep("makePayment");
+        }
       } catch (error) {
         console.log(error);
       }
     }
-
     if (currentUserData.username) {
       createBookingUser();
     } else {
       createBookingGuest();
     }
-  }, [
-    BaseURL,
-    accessToken,
-    bookingProcessDetails.contactNumber,
-    bookingProcessDetails.email,
-    bookingProcessDetails.flightID,
-    bookingProcessDetails.passengers,
-    bookingProcessDetails.travelClass,
-    currentUserData.username,
-    guestID,
-  ]);
-
-  function handlePayNow() {
-    setBookingStep("makePayment");
-    Cookies.set("bookingRef", bookingRef);
   }
 
   function handleBack() {
@@ -205,7 +193,7 @@ export default function BookingDetails() {
             <button
               type="button"
               className="action-button btn"
-              onClick={handlePayNow}
+              onClick={handleReserveNow}
             >
               Reserve Now
             </button>
