@@ -24,7 +24,8 @@ from app.api.resources.deo_create_model_api import CreateModel
 from app.api.resources.deo_create_airport_api import CreateAirport
 from app.api.resources.deo_create_airplane_api import CreateAirplane
 from app.api.resources.deo_create_route_api import CreateRoute
-from app.api.resources.deo_update_delay_api import DEOupdateDelay 
+from app.api.resources.deo_update_delay_api import DEOupdateDelay
+from app.api.resources.get_flight_details_api import GetFlightByID
 from flask_restful import Api
 
 api_bp = Blueprint('api', __name__)
@@ -76,6 +77,7 @@ api.add_resource(GuestPendingPayments, '/guest/pending-payments/<guest_id>')    
 api.add_resource(GuestCreateBooking, '/booking/create/guest')    # POST method to create booking
 api.add_resource(GetAvailableSeats, '/flight/<int:flight_id>/seats')    # GET method to get available seats
 api.add_resource(SearchFlights, '/flight/search')    # GET method to search flights
+api.add_resource(GetFlightByID, '/flight/<int:flight_id>')    # GET method to get flight details
 
 api.add_resource(GetAllModels, '/get/models')    # GET method to get all models
 api.add_resource(GetAllRoutes, '/get/routes')    # GET method to get all routes

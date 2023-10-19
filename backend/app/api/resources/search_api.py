@@ -58,7 +58,7 @@ class SearchFlights(Resource):
                 if str(ex) == "404":
                     return abort(404, message=f"No Flight found for given parameters")
                 print(ex)
-                return abort(400, message=f"Failed to get reserved seats. Error: {ex}.")
+                return abort(400, message=f"Failed to get flights. Error: {ex}.")
         else:
             return abort(403, message="Unauthorized Access")
         
