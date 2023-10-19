@@ -53,85 +53,47 @@ export default function MakePayment() {
       <div className="cen-box">
         <div className="glass-background"></div>
         <div className="main-container">
-          <div className="front-content front-text title">Booking Details</div>
+          <div className="front-content front-text title">Pending Payment Details</div>
           <div className="main-details">
-            <div className="data-col">
+            <div className="data-col-2">
               <div>
                 <label>Booking Ref ID: &nbsp;</label>
-                <span>{Cookies.get("bookingRef")}</span>
+                <span>{bookingProcessDetails.bookingRefID}</span>
               </div>
               <div>
-                <label>Date & Time of Departure: &nbsp;</label>
-                <span>{flightDetails.departureDateAndTime}</span>
+                <label>Price: &nbsp;</label>
+                <span>$ {bookingProcessDetails.price}</span>
+              </div>
+              <div>
+                <label>Travel Class : &nbsp;</label>
+                <span>{bookingProcessDetails.travelClass}</span>
+              </div>
+              <div>
+                <label>Number Of Seats : &nbsp;</label>
+                <span>{bookingProcessDetails.passengers.length}</span>
+              </div>
+              <div>
+                <label></label>
               </div>
               <div>
                 <label>Origin : &nbsp;</label>
                 <span>{flightDetails.originAddress}</span>
               </div>
               <div>
-                <label>IATA : &nbsp;</label>
-                <span>{flightDetails.originIATA}</span>
-              </div>
-              <div>
-                <label>Plane Model : &nbsp;</label>
-                <span>{flightDetails.airplaneModel}</span>
-              </div>
-            </div>
-            <div className="data-col">
-              <div>
-                <label>Price: &nbsp;</label>
-                <span>{Cookies.get("price")}</span>
-              </div>
-              <div>
-                <label>Date & Time of Arrival: &nbsp;</label>
-                <span>{flightDetails.arrivalDateAndTime}</span>
+                <label>Departure: &nbsp;</label>
+                <span>{flightDetails.departureDateAndTime}</span>
               </div>
               <div>
                 <label>Destination : &nbsp;</label>
                 <span>{flightDetails.destinationAddress}</span>
               </div>
               <div>
-                <label>IATA : &nbsp;</label>
-                <span>{flightDetails.destinationIATA}</span>
-              </div>
-              <div>
-                <label>Travel Class : &nbsp;</label>
-                <span>{bookingProcessDetails.travelClass}</span>
+                <label>Arrival: &nbsp;</label>
+                <span>{flightDetails.arrivalDateAndTime}</span>
               </div>
             </div>
           </div>
-          <div className="tck-details">
-            {bookingProcessDetails.passengers.map((passenger) => {
-              return (
-                <div key={passenger.seatNumber} className="ticket-box">
-                  <div className="ticket-box-back"></div>
-                  <div className="tck-data">
-                    <div className="ticket-data">
-                      <label>First name : &nbsp; </label>
-                      <span>{passenger.firstName}</span>
-                    </div>
-                    <div className="ticket-data">
-                      <label>Last Name : &nbsp;</label>
-                      <span>{passenger.lastName}</span>
-                    </div>
-                    <div className="ticket-data">
-                      <label>Adult / Child : &nbsp;</label>
-                      <span>{passenger.isAdult ? "Adult" : "Child"}</span>
-                    </div>
-                    <div className="ticket-data">
-                      <label>Passport ID : &nbsp;</label>
-                      <span>{passenger.passportID}</span>
-                    </div>
-                    <div className="ticket-data">
-                      <label>Seat Number : &nbsp; </label>
-                      <span>{passenger.seatNumber}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="btn-set">
+          <div className="btn-set-2">
             <button type="button" className="action-button btn">
               <Link
                 to="/home"

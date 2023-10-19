@@ -51,7 +51,11 @@ export default function BookingDetails() {
         console.log(response.data);
         if (response.status === 201) {
           Cookies.set("bookingRef", response.data.bookingRefID);
-          Cookies.set("price", response.data.price);
+          setBookingProcessDetails((prevState) => ({
+            ...prevState,
+            price : response.data.price,
+            bookingRefID: response.data.bookingRefID
+          }));
           setBookingStep("makePayment");
         }
       } catch (error) {
@@ -82,6 +86,11 @@ export default function BookingDetails() {
         console.log(response.data);
         if (response.status === 201) {
           Cookies.set("bookingRef", response.data.bookingRefID);
+          setBookingProcessDetails((prevState) => ({
+            ...prevState,
+            price : response.data.price,
+            bookingRefID: response.data.bookingRefID
+          }));
           setBookingStep("makePayment");
         }
       } catch (error) {
@@ -187,7 +196,7 @@ export default function BookingDetails() {
                         }
                         className="rmv-bk"
                       >
-                        Remove Booking
+                        Remove Booked Seat
                       </button>
                     </div>
                   </div>
