@@ -22,6 +22,7 @@ function GuestPendingPayments() {
 
   const [pendingPayments, setPendingPayments] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(
     function () {
@@ -31,6 +32,7 @@ function GuestPendingPayments() {
             `${BaseURL}/guest/pending-payments/${guestID}`
           );
           console.log(response.data);
+          setIsLoading(false);
           setPendingPayments(response.data);
         } catch (error) {
           console.log(error);
@@ -65,7 +67,10 @@ function GuestPendingPayments() {
     <div className="profileDetailsWrapper">
       <h1 className="user-header">Pending Payments</h1>
       <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
-        {pendingPayments.length ? (
+        {isLoading && (
+          <h4 className="loading-text">Loading Details Please Wait....</h4>
+        )}
+        {pendingPayments.length !== 0 && (
           <table className="user-table">
             <thead className="user-thead">
               <tr className="user-tr">
@@ -110,8 +115,11 @@ function GuestPendingPayments() {
               ))}
             </tbody>
           </table>
-        ) : (
-          <h4 className="loading-text">Loading Details Please Wait....</h4>
+        )}
+        {pendingPayments.length === 0 && !isLoading && (
+          <h4 className="loading-text">
+            You don't have any pending payments remaining...
+          </h4>
         )}
       </div>
       <div className="user-buttonWrapper">

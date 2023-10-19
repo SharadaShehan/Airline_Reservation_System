@@ -60,7 +60,6 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
                 <th className="user-th">Seat</th>
                 <th className="user-th">Class</th>
                 <th className="user-th">Depature Date</th>
-                <th className="user-th">Depature Time</th>
               </tr>
             </thead>
             <tbody className="user-tbody">
@@ -73,8 +72,9 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
                   <td className="user-td">{ticket.to.city}</td>
                   <td className="user-td">{ticket.seat}</td>
                   <td className="user-td">{ticket.class}</td>
-                  <td className="user-td">{ticket.departureDate}</td>
-                  <td className="user-td">{ticket.departureTime}</td>
+                  <td className="user-td">
+                    {ticket.departureDate.slice(0, -12)}
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 export default function MakePayment() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const { bookingProcessDetails } = BookingProcessGlobalState();
+
   const { setBookingStep } = BookingStepGlobalState();
   const [flightDetails, setFlightDetails] = useState({});
 
@@ -29,11 +30,11 @@ export default function MakePayment() {
 
   async function handlePayNow() {
     try {
-      const bookingRef = bookingProcessDetails.bookingRefID;
-      console.log(bookingRef);
+      const bookingRefID = Cookies.get("bookingRef");
+      console.log(bookingRefID);
       const transactionID = Math.floor(Math.random() * 1000000000).toString();
       const response = await axios.post(
-        `${BaseURL}/booking/complete/${bookingRef}`,
+        `${BaseURL}/booking/complete/${bookingRefID}`,
         {
           transactionID: transactionID,
         }
@@ -46,6 +47,7 @@ export default function MakePayment() {
     }
   }
 
+  console.log(bookingProcessDetails);
   return (
     <>
       <div className="cen-box">
@@ -54,6 +56,10 @@ export default function MakePayment() {
           <div className="front-content front-text title">Booking Details</div>
           <div className="main-details">
             <div className="data-col">
+              <div>
+                <label>Booking Ref ID: &nbsp;</label>
+                <span>{Cookies.get("bookingRef")}</span>
+              </div>
               <div>
                 <label>Date & Time of Departure: &nbsp;</label>
                 <span>{flightDetails.departureDateAndTime}</span>
@@ -72,6 +78,10 @@ export default function MakePayment() {
               </div>
             </div>
             <div className="data-col">
+              <div>
+                <label>Price: &nbsp;</label>
+                <span>{Cookies.get("price")}</span>
+              </div>
               <div>
                 <label>Date & Time of Arrival: &nbsp;</label>
                 <span>{flightDetails.arrivalDateAndTime}</span>

@@ -51,6 +51,7 @@ export default function BookingDetails() {
         console.log(response.data);
         if (response.status === 201) {
           Cookies.set("bookingRef", response.data.bookingRefID);
+          Cookies.set("price", response.data.price);
           setBookingStep("makePayment");
         }
       } catch (error) {
@@ -92,6 +93,15 @@ export default function BookingDetails() {
     } else {
       createBookingGuest();
     }
+  }
+
+  function handleRemoveBooking(seatNumber) {
+    setBookingProcessDetails((prevState) => ({
+      ...prevState,
+      passengers: prevState.passengers.filter(
+        (passenger) => passenger.seatNumber !== seatNumber
+      ),
+    }));
   }
 
   function handleBack() {
@@ -144,6 +154,7 @@ export default function BookingDetails() {
             </div>
           </div>
           <div className="tck-details">
+            {console.log(bookingProcessDetails)}
             {bookingProcessDetails.passengers.map((passenger) => {
               return (
                 <div key={passenger.seatNumber} className="ticket-box">
@@ -168,6 +179,16 @@ export default function BookingDetails() {
                     <div className="ticket-data">
                       <label>Seat Number : &nbsp; </label>
                       <span>{passenger.seatNumber}</span>
+                    </div>
+                    <div className="ticket-data">
+                      <button
+                        onClick={() =>
+                          handleRemoveBooking(passenger.seatNumber)
+                        }
+                        className="rmv-bk"
+                      >
+                        Remove Booking
+                      </button>
                     </div>
                   </div>
                 </div>
