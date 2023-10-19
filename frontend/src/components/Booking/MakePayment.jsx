@@ -15,7 +15,23 @@ export default function MakePayment() {
   const { bookingProcessDetails, setBookingProcessDetails } =
     BookingProcessGlobalState();
   const { setBookingStep } = BookingStepGlobalState();
+  const [flightDetails, setFlightDetails] = useState({});
   const [bookingRef, setBookingRef] = useState("");
+
+  useEffect(() => {
+    async function getFlightDetails() {
+      try {
+        const response = await axios.get(
+          `${BaseURL}/flight/${bookingProcessDetails.flightID}`
+        );
+        console.log(response.data);
+        setFlightDetails(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getFlightDetails();
+  }, [BaseURL, bookingProcessDetails.flightID]);
 
   useEffect(() => {
     async function createBookingUser() {
@@ -103,27 +119,38 @@ export default function MakePayment() {
           <div className="main-details">
             <div className="data-col">
               <div>
-                <label>Date : </label>
+                <label>Date & Time of Departure: &nbsp;</label>
+                <span>{flightDetails.departureDateAndTime}</span>
               </div>
               <div>
-                <label>Origin :</label>
+                <label>Origin : &nbsp;</label>
+                <span>{flightDetails.originAddress}</span>
               </div>
               <div>
-                <label>Plane Model : </label>
+                <label>IATA : &nbsp;</label>
+                <span>{flightDetails.originIATA}</span>
               </div>
               <div>
-                <label>IATA : </label>
+                <label>Plane Model : &nbsp;</label>
+                <span>{flightDetails.airplaneModel}</span>
               </div>
             </div>
             <div className="data-col">
               <div>
-                <label>Time : </label>
+                <label>Date & Time of Arrival: &nbsp;</label>
+                <span>{flightDetails.arrivalDateAndTime}</span>
               </div>
               <div>
-                <label>Destination : </label>
+                <label>Destination : &nbsp;</label>
+                <span>{flightDetails.destinationAddress}</span>
               </div>
               <div>
-                <label>Travel Class : </label>
+                <label>IATA : &nbsp;</label>
+                <span>{flightDetails.destinationIATA}</span>
+              </div>
+              <div>
+                <label>Travel Class : &nbsp;</label>
+                <span>{bookingProcessDetails.travelClass}</span>
               </div>
             </div>
           </div>
