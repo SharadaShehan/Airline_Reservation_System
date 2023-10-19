@@ -59,6 +59,7 @@ export default function MakePayment() {
             contactNumber: bookingProcessDetails.contactNumber,
           });
         }
+        Cookies.set("guest-id", response.data.guestID);
         console.log(response.data);
         setBookingRef(response.data.bookingRefID);
       } catch (error) {
@@ -89,6 +90,7 @@ export default function MakePayment() {
   }
 
   function handleBack() {
+    setBookingProcessDetails((prevState) => ({ ...prevState, passengers: [] }));
     setBookingStep("seatReserve");
   }
 
@@ -126,149 +128,38 @@ export default function MakePayment() {
             </div>
           </div>
           <div className="tck-details">
-            <div className="ticket-box">
-              <div className="ticket-box-back"></div>
-              <div className="tck-data">
-                <div className="ticket-data">
-                  <label>First name : </label>
+            {bookingProcessDetails.passengers.map((passenger) => {
+              return (
+                <div key={passenger.seatNumber} className="ticket-box">
+                  <div className="ticket-box-back"></div>
+                  <div className="tck-data">
+                    <div className="ticket-data">
+                      <label>First name : &nbsp; </label>
+                      <span>{passenger.firstName}</span>
+                    </div>
+                    <div className="ticket-data">
+                      <label>Last Name : &nbsp;</label>
+                      <span>{passenger.lastName}</span>
+                    </div>
+                    <div className="ticket-data">
+                      <label>Adult / Child : &nbsp;</label>
+                      <span>{passenger.isAdult ? "Adult" : "Child"}</span>
+                    </div>
+                    <div className="ticket-data">
+                      <label>Passport ID : &nbsp;</label>
+                      <span>{passenger.passportID}</span>
+                    </div>
+                    <div className="ticket-data">
+                      <label>Seat Number : &nbsp; </label>
+                      <span>{passenger.seatNumber}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="ticket-data">
-                  <label>Last Name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Adult / Child : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Passport ID : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Seat Number : </label>
-                </div>
-              </div>
-            </div>
-            <div className="ticket-box">
-              <div className="ticket-box-back"></div>
-              <div className="tck-data">
-                <div className="ticket-data">
-                  <label>First name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Last Name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Adult / Child : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Passport ID : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Seat Number : </label>
-                </div>
-              </div>
-            </div>
-            <div className="ticket-box">
-              <div className="ticket-box-back"></div>
-              <div className="tck-data">
-                <div className="ticket-data">
-                  <label>First name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Last Name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Adult / Child : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Passport ID : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Seat Number : </label>
-                </div>
-              </div>
-            </div>
-            <div className="ticket-box">
-              <div className="ticket-box-back"></div>
-              <div className="tck-data">
-                <div className="ticket-data">
-                  <label>First name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Last Name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Adult / Child : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Passport ID : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Seat Number : </label>
-                </div>
-              </div>
-            </div>
-            <div className="ticket-box">
-              <div className="ticket-box-back"></div>
-              <div className="tck-data">
-                <div className="ticket-data">
-                  <label>First name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Last Name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Adult / Child : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Passport ID : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Seat Number : </label>
-                </div>
-              </div>
-            </div>
-            <div className="ticket-box">
-              <div className="ticket-box-back"></div>
-              <div className="tck-data">
-                <div className="ticket-data">
-                  <label>First name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Last Name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Adult / Child : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Passport ID : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Seat Number : </label>
-                </div>
-              </div>
-            </div>
-            <div className="ticket-box">
-              <div className="ticket-box-back"></div>
-              <div className="tck-data">
-                <div className="ticket-data">
-                  <label>First name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Last Name : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Adult / Child : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Passport ID : </label>
-                </div>
-                <div className="ticket-data">
-                  <label>Seat Number : </label>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
           <div className="btn-set">
-            <button type="button" class="action-button btn">
+            <button type="button" className="action-button btn">
               <Link
                 to="/home"
                 style={{ color: "white", textDecoration: "none" }}
@@ -278,17 +169,17 @@ export default function MakePayment() {
             </button>
             <button
               type="button"
-              class="action-button btn"
+              className="action-button btn"
               onClick={handleBack}
             >
               Back
             </button>
             <button
               type="button"
-              class="action-button btn"
+              className="action-button btn"
               onClick={handlePayNow}
             >
-              Pay
+              Pay Now
             </button>
           </div>
         </div>

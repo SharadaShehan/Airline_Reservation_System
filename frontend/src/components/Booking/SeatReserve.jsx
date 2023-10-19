@@ -223,7 +223,7 @@ export default function SeatReserve() {
             </button>
             {bookingProcessDetails.passengers.length && (
               <button type="button" className="pay-now" onClick={handlePayNow}>
-                Pay&nbsp;Now
+                Proceed
               </button>
             )}
           </div>

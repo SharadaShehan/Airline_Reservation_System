@@ -11,8 +11,7 @@ export default function BookedTickets() {
   const { currentUserData } = UserGlobalState();
   const { setBookingStep } = BookingStepGlobalState();
 
-  const guestID = "HS53TGK72DFR";
-  // const guestID = Cookies.get("guest-id");
+  const guestID = Cookies.get("guest-id");
 
   useEffect(() => {
     setBookingStep("flightSearch");
