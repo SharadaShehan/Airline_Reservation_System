@@ -61,12 +61,12 @@ export default function BookingSuccess () {
           </div>
         </div>
         <div className="btn-finish">
-            <button type="button" class="finish-button btn">
+            <button type="button" className="finish-button btn">
                 <Link to="/home" style={{color:"white", textDecoration:"none"}}>
                   Home
                 </Link>
             </button>
-            <button type="button" class="finish-button btn" onClick={handleBookMore}>Book&nbsp;Another&nbsp;Flight </button>
+            <button type="button" className="finish-button btn" onClick={handleBookMore}>Book&nbsp;Another&nbsp;Flight </button>
           </div>
       </div>
           
