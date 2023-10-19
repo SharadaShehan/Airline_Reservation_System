@@ -1,0 +1,237 @@
+.center-box{
+    width: 60%;
+    height: 100%;
+    top: 0;
+    position: relative;
+}
+.glass-background{
+    width: 100%;
+    height: 100%;
+    background-color: #20141a;
+    opacity: 0.7;
+    z-index: 1;
+    position: absolute;
+}
+.main-container{
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+}
+.front-content{
+    color: white;
+    z-index: 0;
+}
+.front-text{
+    z-index: 1;
+}
+.title{
+    font-size: 2em;
+    padding: 0.5em 0 0.5em 0;
+}
+.drop-btn-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Create 3 equal-width columns */
+    gap: 1%; /* Add some spacing between columns */
+}
+.drop-btn{
+    justify-content: left;
+    text-align: left;
+}
+.column-left{
+    margin: 1% 1% 1% 10%;
+}
+.column-right{
+    margin: 1% 10% 1% 1%;
+}
+.date-btn{
+    margin: 1% 5% 1% 5%;
+}
+.date-input-flightSearch{
+    border: none;
+}
+.search-btn{
+    margin: 1% 5% 1% 5%;
+    width: 90%;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+    opacity: 1;
+    height: 100%;
+    width: 100%;
+}
+.dropbtn {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 13% 77% 10%;
+    align-items: center;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    text-align: left;
+    width: 100%;
+}
+.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: #000000;
+    text-align: left;
+    height: 100%;
+    width: 100%;
+    vertical-align: middle;
+}
+.dropdown-content a:hover {
+    background-color: #ffffff;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.left-icon{
+    display: flex;
+    justify-content: left;
+    height: 80%;
+    width: 80%;
+}
+.left-icon-img{
+    padding-right: 1em;
+}
+.drop-text{
+    display: flex;
+    text-align: left;
+}
+.scroll-div{
+    display: flex;
+    justify-content: right;
+}
+.transparent-button {
+    width: 100%;
+    height: 2.5em;
+    background-color: transparent;
+    border: 1px solid white;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Add a smooth transition effect */
+}
+.transparent-button:hover {
+    background-color: #005EF5; /* Change background color to blue on hover */
+    color: white;
+    opacity: 90%;
+    border: none;
+}
+.table-container {
+    max-height: 30vh;
+    width: 90%;
+    margin: 2% 5% 2% 5%;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    background-color: transparent;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+thead th {
+    background-color: transparent;
+    text-align: left;
+    padding: 1%;
+}
+tbody tr:hover {
+    background-color: #005EF5;
+    color: white;
+    opacity: 90%;
+    border: none;
+    cursor: pointer;
+}
+tbody tr.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+td {
+    padding: 8px;
+}
+.table-container::-webkit-scrollbar {
+    width: 12px;
+}
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #007bff; 
+    border-radius: 6px; 
+}
+.table-container::-webkit-scrollbar-track:hover {
+    background-color: transparent
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #0056b3; 
+}
+.btn-set{
+    display: flex;
+    justify-content: right;
+    gap: 2%;
+    margin: 2% 5% 2% 0;
+} 
+.selected-class-txt{
+    margin-left: 3em;
+    width: 10em;
+    text-align: left;
+    font-size: 1em;
+    color: #ffffff;
+}
+.action-button {
+    width: 15%;
+    background-color: transparent;
+    border: 1px solid white;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 2;
+}
+.action-button:hover {
+    background-color: #005EF5; /* Change background color to blue on hover */
+    color: white;
+    opacity: 90%;
+    border: none;
+}
+.ticket-data{
+    color: #ffffff;
+}
+.tck-data{
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.class-btn{
+    width: auto;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 25px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.class-btn:hover {
+    background-color: #070d6b; /* Change background color to blue on hover */
+    color: rgb(255, 255, 255);
+    opacity: 90%;
+    border: none;
+}
+.class-btn:active {
+    background-color: #ffffff; 
+    color: #000000;
+    border: none;
+}

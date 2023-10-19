@@ -1,0 +1,69 @@
+.horizontal-scroll-menu {
+    width: 100%;
+    white-space: nowrap;
+    padding: 10px 0;
+}
+
+.horizontal-scroll-menu::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-list {
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.menu-item {
+    display: inline-block;
+    margin-right: 1em;
+    padding: 0.4em;
+    padding-left: 2em;
+    padding-right: 2em;
+    background-color: #B6D0E2;
+    color: #fff;
+    border-radius: 5em;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.menu-item-active {
+    display: inline-block;
+    margin-right: 1em;
+    padding: 0.4em;
+    padding-left: 2em;
+    padding-right: 2em;
+    background-color: #0096FF;
+    color: #fff;
+    border-radius: 5em;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.menu-item:first-child {
+    margin-left: 1em;
+}
+
+.menu-item-active:first-child {
+    margin-left: 1em;
+}
+
+@media only screen and (max-width: 1024px) {
+    .menu-item {
+        font-size: 1em;
+        padding: 0.3em;
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+    }
+    .menu-item-active {
+        font-size: 1em;
+        padding: 0.3em;
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+    }
+}
+
+

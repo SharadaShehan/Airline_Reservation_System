@@ -1,0 +1,116 @@
+.cen-box {
+  width: 80%;
+  height: 100%;
+  top: 0;
+  position: relative;
+}
+.glass-background {
+  width: 100%;
+  height: 100%;
+  background-color: #20141a;
+  opacity: 0.7;
+  z-index: 1;
+  position: absolute;
+}
+.main-container {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: absolute;
+}
+.front-content {
+  color: white;
+  z-index: 0;
+}
+.front-text {
+  z-index: 1;
+}
+.title {
+  font-size: 2em;
+  padding: 0.5em 0 0.5em 0;
+}
+.tbl-grp {
+  width: 90%;
+  height: 70%;
+  margin: 1% 5% 1% 5%;
+  display: flex;
+}
+.tbl-itm-1 {
+  width: 64.5%;
+  height: 100%;
+  margin-right: 0.5%;
+}
+.tbl-itm-2 {
+  width: 34.5%;
+  height: 100%;
+  margin-left: 0.5%;
+}
+.seat-data {
+  text-align: left;
+  color: #ffffff;
+}
+.reserve-btn-set {
+  width: 100%;
+  height: 2.5em;
+  text-align: right;
+}
+.seat-btn {
+  width: 7.5%;
+  text-align: center;
+  background-color: white;
+  border-radius: 15%;
+  color: black;
+  transition: background-color 0.3s;
+  z-index: 2;
+  margin: 0.25% 0.25% 0.25% 0.25%;
+}
+.seat-btn:hover:not([disabled]) {
+  background-color: #005ef5;
+  color: white;
+  opacity: 90%;
+  border: none;
+}
+.tbl-container {
+  max-height: 100%;
+  width: 90%;
+  margin: 0 5% 0 5%;
+  overflow-y: scroll;
+  background-color: transparent;
+}
+.tbl-container::-webkit-scrollbar {
+  width: 12px;
+}
+.tbl-container::-webkit-scrollbar-thumb {
+  background-color: #007bff;
+  border-radius: 6px;
+}
+.tbl-container::-webkit-scrollbar-track:hover {
+  background-color: transparent;
+}
+.tbl-container::-webkit-scrollbar-thumb:hover {
+  background-color: #0056b3;
+}
+.reserve-btn {
+  margin: 0 1% 0 1%;
+  background-color: transparent;
+  border: 1px solid white;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 2;
+}
+.reserve-btn:hover {
+  background-color: #005ef5; /* Change background color to blue on hover */
+  color: white;
+  opacity: 90%;
+  border: none;
+}
+
+.no-seat {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: white;
+  font-size: 1.5em;
+  padding-top: 1em;
+}

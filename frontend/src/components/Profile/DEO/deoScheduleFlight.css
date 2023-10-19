@@ -1,0 +1,15 @@
+.mid-content-group{
+    height: 90%;
+    width: 30%;
+    margin: 0 35% 0 35%;
+}
+.form-txt-sch{
+    color: rgb(255, 255, 255);
+    font-size: 1em;
+    text-align: left;
+    margin: 1% 0 1% 0;
+}
+.form-input{
+    width: 100%;
+    height: 2.5em;
+}
