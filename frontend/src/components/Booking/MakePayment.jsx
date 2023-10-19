@@ -207,13 +207,13 @@ export default function MakePayment() {
                 Cancel
               </Link>
             </button>
-            <button
+            {/* <button
               type="button"
               className="action-button btn"
               onClick={handleBack}
             >
               Back
-            </button>
+            </button> */}
             <button
               type="button"
               className="action-button btn"

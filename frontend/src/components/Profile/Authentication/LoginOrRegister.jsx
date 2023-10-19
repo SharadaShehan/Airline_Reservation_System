@@ -15,12 +15,26 @@ export default function LoginOrRegister() {
   return (
     <div className="formWrapper">
       <div className="wrapper">
-        <img
-          className="background-image"
-          alt="Rectangle"
-          src={require("../../../images/UserLogin.jpg")}
-        />
-        <div className="user-login-or-register-container">{renderPage()}</div>
+        {(authForm === "user-register" || authForm === "user-login") ? (
+          <img
+            className="background-image"
+            alt="Rectangle"
+            src={require("../../../images/UserLogin.jpg")}
+          />
+        ): (
+          <img
+            className="background-image"
+            alt="Rectangle"
+            src={require("../../../images/StaffLogin.png")}
+          />
+        )}
+        <div className="user-login-or-register-container"
+          style={{
+            height: (authForm === "user-register" || authForm === "user-login") ? "45vw" : "34vw"
+          }}
+          >
+          {renderPage()}
+        </div>
       </div>
     </div>
   );
