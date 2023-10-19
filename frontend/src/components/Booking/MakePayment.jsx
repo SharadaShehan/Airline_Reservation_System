@@ -11,7 +11,6 @@ export default function MakePayment() {
   const { bookingProcessDetails } = BookingProcessGlobalState();
   const { setBookingStep } = BookingStepGlobalState();
   const [flightDetails, setFlightDetails] = useState({});
-  const bookingRef = Cookies.get("bookingRef");
 
   useEffect(() => {
     async function getFlightDetails() {
@@ -30,6 +29,8 @@ export default function MakePayment() {
 
   async function handlePayNow() {
     try {
+      const bookingRef = bookingProcessDetails.bookingRefID;
+      console.log(bookingRef);
       const transactionID = Math.floor(Math.random() * 1000000000).toString();
       const response = await axios.post(
         `${BaseURL}/booking/complete/${bookingRef}`,

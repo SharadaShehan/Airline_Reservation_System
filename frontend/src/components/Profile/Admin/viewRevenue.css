@@ -100,3 +100,51 @@ th {
   color: #fff;
   font-family: "Lexend", Helvetica;
 }
+
+.chart-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.pie-chart {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3%;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  margin: 0 30%;
+  background-color: rgba(0, 0, 0, 0.25);
+  /* border: 1px solid #ccc; */
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.legend > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.color {
+  width: 20px;
+  height: 20px;
+  border-radius: 70%;
+  margin-right: 10px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}

@@ -66,15 +66,15 @@ export default function BookingDetails() {
             flightID: bookingProcessDetails.flightID,
             travelClass: bookingProcessDetails.travelClass,
             passengers: bookingProcessDetails.passengers,
+            guestID: guestID,
+            email: bookingProcessDetails.email,
+            contactNumber: bookingProcessDetails.contactNumber,
           });
         } else {
           response = await axios.post(`${BaseURL}/booking/create/guest`, {
             flightID: bookingProcessDetails.flightID,
             travelClass: bookingProcessDetails.travelClass,
             passengers: bookingProcessDetails.passengers,
-            guestID: guestID,
-            email: bookingProcessDetails.email,
-            contactNumber: bookingProcessDetails.contactNumber,
           });
         }
         Cookies.set("guest-id", response.data.guestID);
@@ -95,7 +95,7 @@ export default function BookingDetails() {
   }
 
   function handleBack() {
-    setBookingProcessDetails((prevState) => ({ ...prevState, passengers: [] }));
+    // setBookingProcessDetails((prevState) => ({ ...prevState, passengers: [] }));
     setBookingStep("seatReserve");
   }
 

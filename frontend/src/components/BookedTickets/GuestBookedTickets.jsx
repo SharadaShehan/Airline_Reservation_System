@@ -3,9 +3,11 @@ import { UserGlobalState } from "../Layout/UserGlobalState";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../Profile/RegisteredUser/userProfile.css";
+import Cookies from "js-cookie";
 
-function GuestBookedTickets({ guestID }) {
+function GuestBookedTickets() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+  const guestID = Cookies.get("guest-id");
 
   const { setCurrentUserData } = UserGlobalState();
   const [bookedTickets, setBookedTickets] = useState([]);

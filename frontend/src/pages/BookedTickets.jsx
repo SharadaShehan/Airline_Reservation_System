@@ -35,7 +35,7 @@ function renderPage(userData, guestID) {
   if (userData.username !== null && userData.role === undefined) {
     return <UserBookedTickets userData={userData} />;
   } else if (guestID) {
-    return <GuestLandingPage userData={userData} guestID={guestID} />;
+    return <GuestLandingPage userData={userData}/>;
   } else {
     return <Default />;
   }

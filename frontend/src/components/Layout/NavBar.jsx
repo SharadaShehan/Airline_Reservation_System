@@ -2,9 +2,11 @@ import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import "./navBar.css";
 import { Link } from "react-router-dom";
+import { UserGlobalState } from "./UserGlobalState";
 
 export default function NavBar() {
   const navRef = useRef();
+  const { currentUserData } = UserGlobalState();
 
   const showNavbar = () => {
     navRef.current.classList.toggle("responsive_nav");
@@ -13,6 +15,7 @@ export default function NavBar() {
   return (
     <header>
       <nav ref={navRef}>
+      { (currentUserData.role != "Admin" && currentUserData.role != "DataEntryOperator") && (
         <div className="linksContainer" onClick={showNavbar}>
           <Link to="/home" style={{ textDecoration: "none" }}>
             Home
@@ -20,6 +23,7 @@ export default function NavBar() {
           <Link to="/book-flights" style={{ textDecoration: "none" }}>
             Book Flights
           </Link>
+           
           <Link to="/booked-tickets" style={{ textDecoration: "none" }}>
             Booked Tickets
           </Link>
@@ -27,6 +31,7 @@ export default function NavBar() {
             About Us
           </Link>
         </div>
+        )}
         <button className="nav-button close-button" onClick={showNavbar}>
           <FaTimes />
         </button>

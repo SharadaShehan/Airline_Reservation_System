@@ -91,6 +91,7 @@ export default function SeatReserve() {
   }
   function handleBack() {
     setBookingStep(prevPage);
+    setBookingProcessDetails((prevState) => ({ ...prevState, passengers: [] }));
   }
   return (
     <>
