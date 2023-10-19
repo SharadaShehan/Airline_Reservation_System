@@ -100,9 +100,22 @@ export default function MakePayment() {
     guestID,
   ]);
 
-  function handlePayNow() {
-    setBookingStep("bookingSuccess");
-    Cookies.set("bookingRef", bookingRef);
+  async function handlePayNow() {
+    try {
+      const transactionID = Math.floor(Math.random() * 1000000000).toString();
+      const response = await axios.post(
+        `${BaseURL}/booking/complete/${bookingRef}`,
+        {
+          transactionID: transactionID,
+        }
+      );
+      if (response.status === 200) {
+        setBookingStep("bookingSuccess");
+        Cookies.set("bookingRef", bookingRef);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function handleBack() {
