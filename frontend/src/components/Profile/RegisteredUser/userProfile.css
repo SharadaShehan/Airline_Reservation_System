@@ -124,8 +124,8 @@
 
 .radio {
   margin-top: 10px;
-  width: 18px; /* Increase the width to enlarge the radio button */
-  height: 18px; /* Increase the height to enlarge the radio button */
+  width: 20px; /* Increase the width to enlarge the radio button */
+  height: 20px; /* Increase the height to enlarge the radio button */
 }
 
 .loading-text {
