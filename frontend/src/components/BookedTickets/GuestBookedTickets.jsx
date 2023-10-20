@@ -11,6 +11,7 @@ function GuestBookedTickets() {
 
   const { setCurrentUserData } = UserGlobalState();
   const [bookedTickets, setBookedTickets] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(
     function () {
@@ -20,6 +21,7 @@ function GuestBookedTickets() {
             `${BaseURL}/tickets/guest/search?guestID=${guestID}`
           );
           console.log(response.data);
+          setIsLoading(false);
           setBookedTickets(response.data);
         } catch (error) {
           console.log(error);
@@ -45,7 +47,10 @@ function GuestBookedTickets() {
     <div className="profileDetailsWrapper">
       <h1 className="user-header">Booked Tickets</h1>
       <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
-        {bookedTickets.length ? (
+        {isLoading && (
+          <h4 className="loading-text">Loading Details Please Wait....</h4>
+        )}
+        {bookedTickets.length !== 0 && (
           <table className="user-table">
             <thead className="user-thead">
               <tr className="user-tr">
@@ -57,7 +62,6 @@ function GuestBookedTickets() {
                 <th className="user-th">Seat</th>
                 <th className="user-th">Class</th>
                 <th className="user-th">Depature Date</th>
-                <th className="user-th">Depature Time</th>
               </tr>
             </thead>
             <tbody className="user-tbody">
@@ -70,14 +74,18 @@ function GuestBookedTickets() {
                   <td className="user-td">{ticket.to.city}</td>
                   <td className="user-td">{ticket.seat}</td>
                   <td className="user-td">{ticket.class}</td>
-                  <td className="user-td">{ticket.departureDate}</td>
-                  <td className="user-td">{ticket.departureTime}</td>
+                  <td className="user-td">
+                    {ticket.departureDate.slice(0, -12)}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        ) : (
-          <h4 className="loading-text">Loading Details Please Wait....</h4>
+        )}
+        {bookedTickets.length === 0 && !isLoading && (
+          <h4 className="loading-text">
+            You haven't booked any tickets yet...
+          </h4>
         )}
       </div>
     </div>

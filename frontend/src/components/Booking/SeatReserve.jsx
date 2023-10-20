@@ -38,7 +38,20 @@ export default function SeatReserve() {
           `${BaseURL}/flight/${bookingProcessDetails.flightID}/seats?className=${bookingProcessDetails.travelClass}`
         );
         console.log(response.data);
-        setSeatsObj(response.data);
+        if (bookingProcessDetails.passengers.length) {
+          const bookedSeats = bookingProcessDetails.passengers.map(
+            (passenger) => passenger.seatNumber
+          );
+          const newAvailableSeats = response.data.availableSeats.filter(
+            (seat) => !bookedSeats.includes(seat)
+          );
+          setSeatsObj({
+            ...response.data,
+            availableSeats: newAvailableSeats,
+          });
+        } else {
+          setSeatsObj(response.data);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -48,6 +61,7 @@ export default function SeatReserve() {
     bookingProcessDetails.flightID,
     BaseURL,
     bookingProcessDetails.travelClass,
+    bookingProcessDetails.passengers,
   ]);
 
   function handleReserve() {
@@ -223,7 +237,11 @@ export default function SeatReserve() {
               Back
             </button>
             {bookingProcessDetails.passengers.length && (
-              <button type="button" className="pay-now" onClick={handleBookingDetails}>
+              <button
+                type="button"
+                className="pay-now"
+                onClick={handleBookingDetails}
+              >
                 Proceed
               </button>
             )}

@@ -22,6 +22,22 @@
     overflow-x: auto;
     display: flex;
 }
+.data-col-2{
+    width: 80%;
+    height: 100%;
+    padding-top: 3%;
+    padding-left: 30%;
+    text-align: left;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+.btn-set-2{
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+    margin: 20% 5% 2% 0;
+} 
 .ticket-box{
     min-width: 20%;
     height: 100%;
