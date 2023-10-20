@@ -62,10 +62,10 @@ export default function DEOAddAirport () {
     }
 
     const validateICAO = () => {
-      const ICAORegex = /^[A-Za-z0-9]{4,40}$/;
+      const ICAORegex = /^[A-Za-z0-9]{4}$/;
       if (ICAORegex.test(ICAO) === false) {
         setICAOError(`
-            ICAO cannot be empty and can only contain letters
+            ICAO cannot be empty and can only contain 4 letters
         `);
       } else {
         setICAOError(null);
@@ -73,10 +73,10 @@ export default function DEOAddAirport () {
     };
 
     const validateIATA = () => {
-      const IATARegex = /^[A-Za-z0-9]{4,40}$/;
+      const IATARegex = /^[A-Za-z0-9]{3}$/;
       if (IATARegex.test(IATA) === false) {
         setIATAError(`
-            IATA cannot be empty and can only contain letters
+            IATA cannot be empty and can only contain 3 letters
         `);
       } else {
         setIATAError(null);

@@ -153,7 +153,7 @@ export default function DEOAddRoute () {
                     value={airport.icaoCode}
                     key={airport.city}
                   >
-                    {airport.city}  :  ({airport.icaoCode}) : ({airport.iataCode})
+                    {airport.city}  :  ({airport.iataCode})
                   </option>
                 ))}
               </select>

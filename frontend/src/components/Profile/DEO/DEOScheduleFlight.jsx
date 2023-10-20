@@ -141,7 +141,7 @@ export default function DEOScheduleFlight () {
                   <option
                     value={route.routeID}
                   >
-                    {route.routeID} : ({route.fromCity}) : ({route.toCity})
+                    {route.fromCity}({route.fromIATA}) to {route.toCity}({route.toIATA})
                   </option>
                 ))}
             </select>
@@ -162,7 +162,7 @@ export default function DEOScheduleFlight () {
                   <option
                     value={airplane.tailNumber}
                   >
-                    {airplane.tailNumber} : ({airplane.tailNumber})
+                    {airplane.tailNumber}
                   </option>
                 ))}
             </select>

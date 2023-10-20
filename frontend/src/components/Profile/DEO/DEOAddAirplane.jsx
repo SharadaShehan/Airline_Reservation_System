@@ -121,7 +121,7 @@ export default function DEOAddFlight () {
                     value={airplaneModel.modelID}
                     key={airplaneModel.name}
                   >
-                    {airplaneModel.modelID}  :  ({airplaneModel.name})
+                    {airplaneModel.name}
                   </option>
                 ))}
               </select>

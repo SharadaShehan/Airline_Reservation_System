@@ -72,10 +72,10 @@ export default function DEOAddModel () {
     }
 
     const validateName = () => {
-      const nameRegex = /^[A-Za-z0-9]{4,40}$/;
+      const nameRegex = /^[A-Za-z0-9 -]{4,40}$/;
       if (nameRegex.test(name) === false) {
         setnameError(`
-            Name cannot be empty and can only contain letters and numbers
+            Name cannot be empty and can only contain letters, numbers and space
         `);
       } else {
         setnameError(null);
