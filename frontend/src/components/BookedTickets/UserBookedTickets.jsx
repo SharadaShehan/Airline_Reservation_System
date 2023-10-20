@@ -9,7 +9,7 @@ function UserBookedTicketsPage() {
   const [viewPendingPayments, setViewPendingPayments] = useState(false);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <div className="heading-buttons">
         <button
           onClick={() => {

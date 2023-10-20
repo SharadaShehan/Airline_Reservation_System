@@ -23,7 +23,7 @@
 .content {
   padding: 0;
   width: 100%;
-  /* display: flex; */
+  display: flex;
   /* flex-direction: row; */
   justify-content: center;
   align-items: center;
@@ -35,12 +35,7 @@
   width: 100%;
   max-width: 600px;
   margin: 400px auto 40px auto;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); /* Make the search bar transparent */
+  background-color: rgba(0, 0, 0, 0.4); /* Make the search bar transparent */
   border: 1.5px solid rgba(255, 255, 255); /* Add a white border with lower opacity */
   border-radius: 10px;
   padding: 10px;
@@ -73,12 +68,12 @@
 }
 
 .user-table {
-    margin-top: 2em;
-    /* margin-left: 20px; */
-    width: 97%;
-    margin-left: 10px;
-    margin-right: 10px;
-    /* padding-left: 10px;
+  margin-top: 2em;
+  /* margin-left: 20px; */
+  width: 97%;
+  margin-left: 10px;
+  margin-right: 10px;
+  /* padding-left: 10px;
     padding-left: 10px; */
-    border-collapse: collapse;
-  }
+  border-collapse: collapse;
+}
