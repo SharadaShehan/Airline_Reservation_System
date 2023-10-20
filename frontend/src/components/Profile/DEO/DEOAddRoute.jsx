@@ -131,8 +131,7 @@ export default function DEOAddRoute () {
 
     return (
       <div className='pd-back'>
-        <div className='gls-back'></div>
-        <div className='fnt-cont'>
+        <div className='fnt-container'>
           <div className='form-title'>
             Add a Route
           </div>
@@ -191,6 +190,7 @@ export default function DEOAddRoute () {
               className='input-area form-input' 
               placeholder='Enter Destination in Minutes'
               onChange={handleDurationChange}
+              min={"0"} required
             />
              <div className='count-select'>
               <div className='sub-grp-count'>
@@ -203,6 +203,7 @@ export default function DEOAddRoute () {
                   className='input-area form-input' 
                   placeholder='Price Economy Class'
                   onChange={handleEconomyChange} 
+                  min={"0"} required
                 />
               </div>
               <div className='sub-grp-count'>
@@ -215,6 +216,7 @@ export default function DEOAddRoute () {
                   className='input-area form-input' 
                   placeholder='Price Business Class'
                   onChange={handleBusinessChange} 
+                  min={"0"} required
                 />
               </div>
               <div className='sub-grp-count'>
@@ -227,6 +229,7 @@ export default function DEOAddRoute () {
                   className='input-area form-input' 
                   placeholder='Price Platinum Class' 
                   onChange={handlePlatinumChange}
+                  min={"0"} required
                 />
               </div>
             </div>

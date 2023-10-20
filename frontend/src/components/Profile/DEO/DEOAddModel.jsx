@@ -12,6 +12,7 @@ export default function DEOAddModel () {
     const [Business, setBusiness] = useState();
     const [Platinum, setPlatinum] = useState();
     const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+    const [nameError, setnameError] = useState(null);
 
     const snackbarRef_fail = useRef(null);
     const snackbarRef_success = useRef(null);
@@ -70,6 +71,17 @@ export default function DEOAddModel () {
       
     }
 
+    const validateName = () => {
+      const nameRegex = /^[A-Za-z0-9]{4,40}$/;
+      if (nameRegex.test(name) === false) {
+        setnameError(`
+            Name cannot be empty and can only contain letters and numbers
+        `);
+      } else {
+        setnameError(null);
+      }
+    };
+
     const handleNameChange = (event) => {
       setName(event.target.value);
     }
@@ -100,8 +112,7 @@ export default function DEOAddModel () {
     
     return (
       <div className='pd-back'>
-        <div className='gls-back'></div>
-        <div className='fnt-cont'>
+        <div className='fnt-container'>
           <div className='form-title'>
             Add a Air Plane Model
           </div>
@@ -115,7 +126,9 @@ export default function DEOAddModel () {
               className='input-area form-input' 
               placeholder='Enter Air Plane Name'
               onChange={handleNameChange}
+              onBlur={validateName}
             />
+            {nameError && <div className="error-txt">{nameError}</div>}
             <div className='count-select'>
               <div className='sub-grp-count'>
                 <div className='form-txt'>
@@ -127,6 +140,7 @@ export default function DEOAddModel () {
                   className='input-area form-input' 
                   placeholder='Economy Class Seats count'
                   onChange={handleEconomyChange} 
+                  min="0" required
                 />
               </div>
               <div className='sub-grp-count'>
@@ -139,6 +153,7 @@ export default function DEOAddModel () {
                   className='input-area form-input' 
                   placeholder='Business Class Seats count'
                   onChange={handleBusinessChange} 
+                  min="0" required
                 />
               </div>
               <div className='sub-grp-count'>
@@ -151,6 +166,7 @@ export default function DEOAddModel () {
                   className='input-area form-input'
                   placeholder='Platinum Class Seats count'
                   onChange={handlePlatinumChange} 
+                  min="0" required
                 />
               </div>
             </div>

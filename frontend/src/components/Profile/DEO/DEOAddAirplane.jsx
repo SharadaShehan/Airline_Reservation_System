@@ -11,6 +11,7 @@ export default function DEOAddFlight () {
   const [modelList, setModelList] = useState([]);
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const [tailNumber, setTailNumber] = useState();
+  const [tailNumberError, setTailNumberError] = useState(null);
 
   const snackbarRef_fail = useRef(null);
   const snackbarRef_success = useRef(null);
@@ -71,6 +72,17 @@ export default function DEOAddFlight () {
     }
   }
   
+  const validateTailNumber = () => {
+    const TailNumberRegex = /^[A-Za-z0-9]+-?[A-Za-z0-9]+$/;
+    if (TailNumberRegex.test(tailNumber) === false) {
+      setTailNumberError(`
+          Tail Number cannot be empty and should contain letters and numbers like "HL7611"
+      `);
+    } else {
+      setTailNumberError(null);
+    }
+  };
+
   const handleInputChange = (event) => {
     setTailNumber(event.target.value);
   }
@@ -87,7 +99,6 @@ export default function DEOAddFlight () {
 
     return (
       <div className='pd-back'>
-        {/* <div className='gls-back'></div> */}
         <div className='fnt-container'>
           <div className='form-title'>
             Add an Airplane
@@ -125,7 +136,9 @@ export default function DEOAddFlight () {
               className='input-area form-input' 
               placeholder='Tail Number'
               onChange={handleInputChange}
+              onBlur={validateTailNumber}
             />
+            {tailNumberError && <div className="error-txt">{tailNumberError}</div>}
             <Snackbar
               ref={snackbarRef_fail}
               message={Snackbardata_fail.message}

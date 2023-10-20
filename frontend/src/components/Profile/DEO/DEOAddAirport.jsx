@@ -12,6 +12,9 @@ export default function DEOAddAirport () {
     const [location, setLocation] = useState([]);
     const [inputLocation, setInputLocation] = useState('');
     const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+    const [ICAOError, setICAOError] = useState(null);
+    const [IATAError, setIATAError] = useState(null);
+    const [locationError, setlocationError] = useState(null);
 
     const snackbarRef_fail = useRef(null);
     const snackbarRef_success = useRef(null);
@@ -58,6 +61,39 @@ export default function DEOAddAirport () {
       }
     }
 
+    const validateICAO = () => {
+      const ICAORegex = /^[A-Za-z0-9]{4,40}$/;
+      if (ICAORegex.test(ICAO) === false) {
+        setICAOError(`
+            ICAO cannot be empty and can only contain letters
+        `);
+      } else {
+        setICAOError(null);
+      }
+    };
+
+    const validateIATA = () => {
+      const IATARegex = /^[A-Za-z0-9]{4,40}$/;
+      if (IATARegex.test(IATA) === false) {
+        setIATAError(`
+            IATA cannot be empty and can only contain letters
+        `);
+      } else {
+        setIATAError(null);
+      }
+    };
+
+    const validateLocation = () => {
+      const locationRegex = /^[A-Za-z0-9 ]{1,20}$/;
+      if (locationRegex.test(location) === false) {
+        setlocationError(`
+            Location cannot be empty and can only contain letters
+        `);
+      } else {
+        setlocationError(null);
+      }
+    };
+
     const handleInputIATAChange = (event) => {
       setIATACode(event.target.value);
     }
@@ -87,7 +123,7 @@ export default function DEOAddAirport () {
 
     return (
       <div className='pd-back'>
-        <div className='fnt-cont'>
+        <div className='fnt-container'>
           <div className='form-title'>
             Add an Airport
           </div>
@@ -101,7 +137,9 @@ export default function DEOAddAirport () {
               className='input-area form-input' 
               placeholder='ICAO Code'
               onChange={handleInputICAOChange}
+              onBlur={validateICAO}
             />
+            {ICAOError && <div className="error-txt">{ICAOError}</div>}
             <div className='form-txt'>
               IATA Code
             </div>
@@ -111,7 +149,9 @@ export default function DEOAddAirport () {
               className='input-area form-input' 
               placeholder='IATA Code'
               onChange={handleInputIATAChange}
+              onBlur={validateIATA}
             />
+            {IATAError && <div className="error-txt">{IATAError}</div>}
             <div className='form-txt'>
               Enter location
             </div>
@@ -121,7 +161,9 @@ export default function DEOAddAirport () {
               className='input-area form-input' 
               placeholder='Enter location separated by commas'
               onChange={handleInputLocationChange}
+              onBlur={validateLocation}
             />
+            {locationError && <div className="error-txt">{locationError}</div>}
             <Snackbar
               ref={snackbarRef_fail}
               message={Snackbardata_fail.message}
