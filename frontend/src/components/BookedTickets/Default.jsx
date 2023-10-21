@@ -38,18 +38,13 @@ function Default() {
               value={searchTerm}
               onChange={handleSearch}
             />
-          </div>
+            </div>
         </div>
-      <div
-        style={{
-          height: "100%",
-          overflow: "auto",
-          width: "100%"
-        }}
-      >
+        <div className="booking-details-wrapper">
         {bookedTickets.length ? (
-          <>
+          <div className="booking-details-container">
             <h1 className="booking-details">Booking Details</h1>
+            <div className="scrollable-body">
             <table className="user-table">
               <thead className="user-thead">
                 <tr className="user-tr">
@@ -80,10 +75,10 @@ function Default() {
                 ))}
               </tbody>
             </table>
-          </>
+            </div>
+          </div>
         ) : (
         <>
-        
         <h4 className="loading-text">Enter a Valid Booking Ref ID</h4>
       </>
         )}
