@@ -23,10 +23,20 @@
 .content {
   padding: 0;
   width: 100%;
+  height: 100%;
   display: flex;
-  /* flex-direction: row; */
+  flex-direction: column;
   justify-content: center;
+  align-items: start;
+}
+.search-bar-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin-top: 0.5em;
+  margin-bottom: 2em;
 }
 
 .search-bar {
@@ -34,7 +44,7 @@
   align-items: center;
   width: 100%;
   max-width: 600px;
-  margin: 400px auto 40px auto;
+  /* margin: 400px auto 40px auto; */
   background-color: rgba(0, 0, 0, 0.4); /* Make the search bar transparent */
   border: 1.5px solid rgba(255, 255, 255); /* Add a white border with lower opacity */
   border-radius: 10px;
@@ -52,12 +62,23 @@
 }
 
 .search-bar input[type="search"]::placeholder {
+  font-family: "Lexend";
   color: rgba(
     255,
     255,
     255,
     0.5
   ); /* Add a placeholder text color with lower opacity */
+}
+
+.loading-text {
+  color: #fff;
+  font-family: "Lexend";
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 2em;
 }
 
 .booking-details {

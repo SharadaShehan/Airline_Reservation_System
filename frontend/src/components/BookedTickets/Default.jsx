@@ -29,20 +29,22 @@ function Default() {
 
   return (
     <div className="content">
-      <div className="search-bar">
-        <input
-          className="search"
-          type="search"
-          placeholder={"Search Booking Ref ID"}
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-      </div>
+        <div className="search-bar-container">
+            <div className="search-bar">
+            <input
+              className="search"
+              type="search"
+              placeholder={"Search By Booking Ref ID"}
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+        </div>
       <div
         style={{
-          height: "900px",
+          height: "100%",
           overflow: "auto",
-          width: "100%",
+          width: "100%"
         }}
       >
         {bookedTickets.length ? (
@@ -80,7 +82,10 @@ function Default() {
             </table>
           </>
         ) : (
-          <h4 className="loading-text">Enter a Valid Booking Ref ID</h4>
+        <>
+        
+        <h4 className="loading-text">Enter a Valid Booking Ref ID</h4>
+      </>
         )}
       </div>
     </div>

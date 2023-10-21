@@ -66,7 +66,7 @@ function GuestPendingPayments() {
   return (
     <div className="profileDetailsWrapper">
       <h1 className="user-header">Pending Payments</h1>
-      <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+      <div className="scrollable-body">
         {isLoading && (
           <h4 className="loading-text">Loading Details Please Wait....</h4>
         )}

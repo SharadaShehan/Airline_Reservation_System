@@ -68,7 +68,7 @@ export default function PendingPayments({ fromBookedTickets }) {
   return (
     <div className="profileDetailsWrapper">
       <h1 className="user-header">Pending Payments</h1>
-      <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+      <div className="scrollable-body">
         {pendingPayments.length ? (
           <table className="user-table">
             <thead className="user-thead">

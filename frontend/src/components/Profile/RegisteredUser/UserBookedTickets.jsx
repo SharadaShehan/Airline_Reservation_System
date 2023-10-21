@@ -47,7 +47,7 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
   return (
     <div className="profileDetailsWrapper">
       <h1 className="user-header">Booked Tickets</h1>
-      <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+      <div className="scrollable-body">
         {bookedTickets.length ? (
           <table className="user-table">
             <thead className="user-thead">
