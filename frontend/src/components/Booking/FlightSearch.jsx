@@ -100,10 +100,6 @@ export default function FlightSearch() {
     }
   }
 
-  const isVaild = () => {
-    return classType === "none";
-  };
-
   return (
     <>
       <div className="container justify-content-md-center center-box">
@@ -115,7 +111,7 @@ export default function FlightSearch() {
               <div className="column-left drop-btn">
                 <div className="dropdown">
                   <select
-                    className="dropbtn"
+                    className="selection-area dropbtn"
                     value={origin}
                     onChange={(e) => setOrigin(e.target.value)}
                   >
@@ -132,7 +128,7 @@ export default function FlightSearch() {
               </div>
               <div className="column-right drop-btn">
                 <select
-                  className="dropbtn"
+                  className="selection-area dropbtn"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                 >
@@ -151,10 +147,10 @@ export default function FlightSearch() {
             </div>
             <div className="date-btn drop-btn">
               <div className="dropdown">
-                <button className="dropbtn">
+                <button className="selection-area dropbtn">
                   <div className="drop-text">Date</div>
                   <input
-                    className="date-input-flightSearch"
+                    className="selection-area date-input-flightSearch"
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
@@ -238,7 +234,7 @@ export default function FlightSearch() {
               <button type="button" className="action-button btn">
                 <Link
                   to="/home"
-                  style={{ color: "white", textDecoration: "none" }}
+                  style={{ color: "Black", textDecoration: "none" }}
                 >
                   Cancel
                 </Link>
@@ -247,7 +243,9 @@ export default function FlightSearch() {
                 type="button"
                 className="action-button btn"
                 onClick={handleNext}
-                disabled={isVaild()}
+                disabled={
+                  !(classType && selectedFlightID)
+                }
               >
                 Next
               </button>

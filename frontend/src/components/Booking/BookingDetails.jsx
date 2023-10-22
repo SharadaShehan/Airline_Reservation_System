@@ -208,7 +208,7 @@ export default function BookingDetails() {
             <button type="button" className="action-button btn">
               <Link
                 to="/home"
-                style={{ color: "white", textDecoration: "none" }}
+                style={{ color: "black", textDecoration: "none" }}
               >
                 Cancel
               </Link>

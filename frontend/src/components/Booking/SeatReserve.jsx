@@ -162,7 +162,7 @@ export default function SeatReserve() {
                   <label htmlFor="formGroupExampleInput">First Name :</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control selection-area"
                     id="formGroupExampleInput"
                     placeholder="First Name"
                     value={firstName}
@@ -173,7 +173,7 @@ export default function SeatReserve() {
                   <label htmlFor="formGroupExampleInput2">Last Name :</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control selection-area"
                     id="formGroupExampleInput2"
                     placeholder="Last Name"
                     value={lastName}
@@ -186,6 +186,7 @@ export default function SeatReserve() {
                     value={selectedOption}
                     onChange={(e) => setSelectedOption(e.target.value)}
                     style={{ width: "100%", height: "30px" }}
+                    className="selection-area"
                   >
                     <option value="adult">Adult</option>
                     <option value="child">Child</option>
@@ -195,7 +196,7 @@ export default function SeatReserve() {
                   <label htmlFor="formGroupExampleInput2">Passport ID :</label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control selection-area"
                     id="formGroupExampleInput2"
                     placeholder="Passport ID"
                     value={passportID}
@@ -224,7 +225,7 @@ export default function SeatReserve() {
             <button type="button" className="action-button btn">
               <Link
                 to="/home"
-                style={{ color: "white", textDecoration: "none" }}
+                style={{ color: "black", textDecoration: "none" }}
               >
                 Cancel
               </Link>
@@ -239,7 +240,7 @@ export default function SeatReserve() {
             {bookingProcessDetails.passengers.length && (
               <button
                 type="button"
-                className="pay-now"
+                className="action-button"
                 onClick={handleBookingDetails}
               >
                 Proceed

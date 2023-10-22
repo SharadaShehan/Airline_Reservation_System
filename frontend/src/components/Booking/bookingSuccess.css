@@ -101,7 +101,9 @@
 }
 .finish-button {
     width: 15%;
-    background-color: gray;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 1em;
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -112,4 +114,5 @@
     color: white;
     opacity: 90%;
     border: none;
+    transform: scale(1.1);
 } 

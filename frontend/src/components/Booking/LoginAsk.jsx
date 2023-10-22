@@ -44,7 +44,7 @@ export default function LoginAsk() {
             <button type="button" className="action-button btn">
               <Link
                 to="/home"
-                style={{ color: "white", textDecoration: "none" }}
+                style={{ color: "Black", textDecoration: "none" }}
               >
                 Cancel
               </Link>
