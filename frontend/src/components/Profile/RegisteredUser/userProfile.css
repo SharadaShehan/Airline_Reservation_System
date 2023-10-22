@@ -7,6 +7,10 @@
   z-index: -1;
 }
 
+.user-top-container {
+  width: 100%;
+}
+
 .registered-user-container {
   display: flex;
   flex-direction: column;
@@ -21,6 +25,7 @@
   background: rgb(0, 0, 0, 0.5);
   color: #fff;
   width: 90%;
+  margin: 5%;
   border-radius: 0.5em;
   display: flex;
   flex-direction: column;
@@ -31,6 +36,16 @@
 .user-header {
   font-family: "Bruno Ace", sans-serif;
   margin-top: 20px;
+}
+
+.scrollable-body {
+  height: 375px;
+  overflow: auto;
+  width: 100%;
+}
+
+.scrollable-body::-webkit-scrollbar {
+  width: 0;
 }
 
 .profileDetailsBox {

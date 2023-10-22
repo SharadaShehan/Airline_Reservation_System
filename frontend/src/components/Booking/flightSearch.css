@@ -1,5 +1,5 @@
 .center-box{
-    width: 60%;
+    width: 75%;
     height: 100%;
     top: 0;
     position: relative;
@@ -123,15 +123,19 @@
     border-radius: 0.5em;
     border: 1px solid #ccc;
     background-color: transparent;
+    align-items: left;
 }
+
 table {
-    width: 100%;
+    width: 90%;
+    padding: 0;
+    margin: auto;
     border-collapse: collapse;
-    text-align: left;
+    text-align: center;
 }
 thead th {
     background-color: transparent;
-    text-align: left;
+    text-align: center;
     padding: 1%;
 }
 tbody tr:hover {
@@ -146,10 +150,11 @@ tbody tr.selected {
     color: #fff;
 }
 td {
-    padding: 8px;
+    padding: 10px 0;
 }
 .table-container::-webkit-scrollbar {
-    width: 12px;
+    width: 0;
+    height: 0;
 }
 .table-container::-webkit-scrollbar-thumb {
     background-color: #007bff; 
@@ -184,6 +189,13 @@ td {
     flex-direction: column;
     text-align: left;
 }
+.radio-btn {
+    width: 1.3vw;
+    height: 1.3vw;
+    justify-self:center;
+    align-self: center;
+    margin-top: 3%;
+}
 .class-btn{
     width: auto;
     background-color: transparent;
@@ -204,3 +216,4 @@ td {
     color: #000000;
     border: none;
 }
+

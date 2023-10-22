@@ -116,7 +116,7 @@ export default function FlightSearch() {
                     onChange={(e) => setOrigin(e.target.value)}
                   >
                     <option disabled value="origin">
-                      Form
+                      From
                     </option>
                     {airportsList.map((airport) => (
                       <option value={airport.icaoCode} key={airport.icaoCode}>
@@ -170,7 +170,7 @@ export default function FlightSearch() {
                 Select Origin and Destination airports
               </div>
             ) : (
-              <div>
+              <div className="table-wrapper">
                 <table>
                   <thead>
                     <tr>
@@ -190,6 +190,7 @@ export default function FlightSearch() {
                         <td>{flight.durationMinutes}</td>
                         <td>
                           <input
+                            className="radio-btn"
                             type="radio"
                             name="class"
                             value="Economy"
@@ -201,6 +202,7 @@ export default function FlightSearch() {
                         </td>
                         <td>
                           <input
+                            className="radio-btn"
                             type="radio"
                             name="class"
                             value="Business"
@@ -212,6 +214,7 @@ export default function FlightSearch() {
                         </td>
                         <td>
                           <input
+                            className="radio-btn"
                             type="radio"
                             name="class"
                             value="Platinum"
