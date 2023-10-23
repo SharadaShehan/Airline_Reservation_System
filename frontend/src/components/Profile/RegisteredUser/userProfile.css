@@ -148,3 +148,23 @@
   color: #fff;
   font-family: "Lexend", sans-serif;
 }
+
+.cancel-btn {
+  background: rgb(255, 255, 255, 0.2);
+  color: #db2222;
+  font-family: "Lexend", sans-serif;
+  font-size: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-radius: 0.5em;
+  border: none;
+  width: 100px;
+  height: 50px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.cancel-btn:hover {
+  background-color: #db2222;
+  color: white;
+}
