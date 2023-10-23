@@ -22,6 +22,9 @@
     color: white;
     z-index: 0;
 }
+/* .no-passengers-div{
+    border: none;
+} */
 .front-text{
     z-index: 1;
 }
@@ -124,6 +127,22 @@
     border: 1px solid #ccc;
     background-color: transparent;
     align-items: left;
+}
+
+.table-container-no-content {
+    max-height: 30vh;
+    padding: 4vw 0;
+    width: 90%;
+    margin: 2% 5% 2% 5%;
+    border: none;
+    color:rgb(255, 255, 255);
+    font-size: 0.8em;
+    background-color: transparent;
+    align-items: left;
+}
+.table-container-no-content::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 table {

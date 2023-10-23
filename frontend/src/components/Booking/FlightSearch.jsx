@@ -164,10 +164,10 @@ export default function FlightSearch() {
               </button>
             </div>
           </div>
-          <div className="table-container front-content">
+          <div className={flights.length === 0 ? "table-container-no-content" : "table-container front-content"}>
             {flights.length === 0 ? (
-              <div className="no-passengers">
-                Select Origin and Destination airports
+              <div className="no-passengers-div">
+                Select Origin, Destination airports and Departure Date
               </div>
             ) : (
               <div className="table-wrapper">
