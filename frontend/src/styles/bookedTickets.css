@@ -12,8 +12,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      /* margin-top: 3%; */
+      justify-content:start;
+      margin-top: 0;
       margin-bottom: 0;
-      height: 72.5vw;
+      padding-top: 8vw;
+      height: 50vw;
+      /* width: 80vw; */
 }

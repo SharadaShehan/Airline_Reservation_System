@@ -158,8 +158,7 @@ export default function DEOUpdateDelay () {
   }
   return (
     <div className='pd-back'>
-      <div className='gls-back'></div>
-      <div className='fnt-cont'>
+      <div className='fnt-container'>
         <div className='form-title'>
           Update Delay in a Flight
         </div>
@@ -286,6 +285,7 @@ export default function DEOUpdateDelay () {
                           class="input-area form-control"  
                           placeholder="Delay"
                           onChange={handleDelayChange}
+                          min="0" required
                         />
                       </td>
                       <td className='data-cell'>

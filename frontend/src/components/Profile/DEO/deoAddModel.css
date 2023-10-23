@@ -14,3 +14,6 @@
     flex-direction: column;
     text-align: left;
 }
+.error-txt{
+    color: red;
+}

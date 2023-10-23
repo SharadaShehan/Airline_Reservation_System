@@ -100,10 +100,6 @@ export default function FlightSearch() {
     }
   }
 
-  const isVaild = () => {
-    return classType === "none";
-  };
-
   return (
     <>
       <div className="container justify-content-md-center center-box">
@@ -115,12 +111,12 @@ export default function FlightSearch() {
               <div className="column-left drop-btn">
                 <div className="dropdown">
                   <select
-                    className="dropbtn"
+                    className="selection-area dropbtn"
                     value={origin}
                     onChange={(e) => setOrigin(e.target.value)}
                   >
                     <option disabled value="origin">
-                      Form
+                      From
                     </option>
                     {airportsList.map((airport) => (
                       <option value={airport.icaoCode} key={airport.icaoCode}>
@@ -132,7 +128,7 @@ export default function FlightSearch() {
               </div>
               <div className="column-right drop-btn">
                 <select
-                  className="dropbtn"
+                  className="selection-area dropbtn"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                 >
@@ -151,10 +147,10 @@ export default function FlightSearch() {
             </div>
             <div className="date-btn drop-btn">
               <div className="dropdown">
-                <button className="dropbtn">
+                <button className="selection-area dropbtn">
                   <div className="drop-text">Date</div>
                   <input
-                    className="date-input-flightSearch"
+                    className="selection-area date-input-flightSearch"
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
@@ -168,13 +164,13 @@ export default function FlightSearch() {
               </button>
             </div>
           </div>
-          <div className="table-container front-content">
+          <div className={flights.length === 0 ? "table-container-no-content" : "table-container front-content"}>
             {flights.length === 0 ? (
-              <div className="no-passengers">
-                Select Origin and Destination airports
+              <div className="no-passengers-div">
+                Select Origin, Destination airports and Departure Date
               </div>
             ) : (
-              <div>
+              <div className="table-wrapper">
                 <table>
                   <thead>
                     <tr>
@@ -194,6 +190,7 @@ export default function FlightSearch() {
                         <td>{flight.durationMinutes}</td>
                         <td>
                           <input
+                            className="radio-btn"
                             type="radio"
                             name="class"
                             value="Economy"
@@ -205,6 +202,7 @@ export default function FlightSearch() {
                         </td>
                         <td>
                           <input
+                            className="radio-btn"
                             type="radio"
                             name="class"
                             value="Business"
@@ -216,6 +214,7 @@ export default function FlightSearch() {
                         </td>
                         <td>
                           <input
+                            className="radio-btn"
                             type="radio"
                             name="class"
                             value="Platinum"
@@ -238,7 +237,7 @@ export default function FlightSearch() {
               <button type="button" className="action-button btn">
                 <Link
                   to="/home"
-                  style={{ color: "white", textDecoration: "none" }}
+                  style={{ color: "Black", textDecoration: "none" }}
                 >
                   Cancel
                 </Link>
@@ -247,7 +246,9 @@ export default function FlightSearch() {
                 type="button"
                 className="action-button btn"
                 onClick={handleNext}
-                disabled={isVaild()}
+                disabled={
+                  !(classType && selectedFlightID)
+                }
               >
                 Next
               </button>

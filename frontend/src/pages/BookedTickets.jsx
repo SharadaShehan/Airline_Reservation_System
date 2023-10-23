@@ -22,7 +22,7 @@ export default function BookedTickets() {
       <img
         className="background-image"
         alt="Rectangle"
-        src={require("../images/BookedTicketsPageBackImage.jpg")}
+        src={require("../images/booked-Tickets-2.jpg")}
       />
       <div className="bookedTicketsPage-container">
         {renderPage(currentUserData, guestID)}

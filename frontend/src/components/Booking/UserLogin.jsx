@@ -108,7 +108,7 @@ export default function LoginAsk () {
                                 <label>User Name</label>
                                 <input 
                                     type="text" 
-                                    class="form-control" 
+                                    class="form-control selection-area" 
                                     placeholder="User Name"
                                     value={username}
                                     onChange={handleUsernameChange}
@@ -120,7 +120,7 @@ export default function LoginAsk () {
                                 <label>Password</label>
                                 <input 
                                     type="password" 
-                                    class="form-control" 
+                                    class="form-control selection-area" 
                                     placeholder="Password"
                                     value={password}
                                     onChange={handlePasswordChange}
@@ -133,7 +133,7 @@ export default function LoginAsk () {
                     </div>
                     <div className="btn-set">
                         <button type="button" class="action-button btn">
-                            <Link to="/home" style={{color:"white", textDecoration:"none"}}>
+                            <Link to="/home" style={{color:"black", textDecoration:"none"}}>
                                 Cancel
                             </Link>
                         </button>

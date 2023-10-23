@@ -46,7 +46,7 @@ function GuestBookedTickets() {
   return (
     <div className="profileDetailsWrapper">
       <h1 className="user-header">Booked Tickets</h1>
-      <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+      <div className="scrollable-body">
         {isLoading && (
           <h4 className="loading-text">Loading Details Please Wait....</h4>
         )}

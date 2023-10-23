@@ -18,3 +18,45 @@
       margin-bottom: 0;
       height: 37.5vw;
 }
+.action-button {
+  width: 15%;
+  height: 2.5em;
+  border-radius: 0.5em;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 5;
+}
+.action-button:hover {
+  background-color: #005EF5;
+  color: white;
+  border: none;
+  transform: scale(1.1);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+}
+.selection-area{
+  background-color: #ffffff;
+  border-radius: 1em;
+  color: gray;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+.transparent-button {
+  width: 100%;
+  height: 2.5em;
+  border-radius: 1em;
+  background-color: transparent;
+  border: 1px solid white;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Add a smooth transition effect */
+}
+.transparent-button:hover {
+  background-color: #005EF5; /* Change background color to blue on hover */
+  color: white;
+  opacity: 90%;
+  border: none;
+}

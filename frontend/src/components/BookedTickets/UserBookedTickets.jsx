@@ -2,14 +2,14 @@ import React from "react";
 import { useState } from "react";
 import UserBookedTickets from "../../components/Profile/RegisteredUser/UserBookedTickets";
 import UserPendingPayments from "../../components/Profile/RegisteredUser/UserPendingPayments";
-import "./bookedTicketsPages.css";
+import "../Profile/RegisteredUser/userProfile.css";
 
 function UserBookedTicketsPage() {
   const [viewBookedTickets, setViewBookedTickets] = useState(true);
   const [viewPendingPayments, setViewPendingPayments] = useState(false);
 
   return (
-    <div>
+    <div className="user-top-container">
       <div className="heading-buttons">
         <button
           onClick={() => {

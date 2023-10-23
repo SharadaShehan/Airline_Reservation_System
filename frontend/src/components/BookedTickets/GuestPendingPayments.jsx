@@ -61,12 +61,30 @@ function GuestPendingPayments() {
     navigate("/book-flights");
   };
 
+  async function handleCancelBooking(bookingRefID) {
+    try {
+      const response = await axios.delete(
+        `${BaseURL}/booking/cancel/guest/${bookingRefID}/${guestID}`
+      );
+      console.log(response.data);
+      if (response.status === 204) {
+        const newPendingPayments = pendingPayments.filter(
+          (payment) => payment.bookingRefID !== bookingRefID
+        );
+        setPendingPayments(newPendingPayments);
+        // alert("Booking Cancelled Successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   console.log(selectedBooking);
 
   return (
     <div className="profileDetailsWrapper">
       <h1 className="user-header">Pending Payments</h1>
-      <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
+      <div className="scrollable-body">
         {isLoading && (
           <h4 className="loading-text">Loading Details Please Wait....</h4>
         )}
@@ -74,12 +92,13 @@ function GuestPendingPayments() {
           <table className="user-table">
             <thead className="user-thead">
               <tr className="user-tr">
-                <th className="user-th">Select / Deselect</th>
+                <th className="user-th"></th>
                 <th className="user-th">Booking Ref ID</th>
                 <th className="user-th">Flight ID</th>
                 <th className="user-th">Passengers</th>
                 <th className="user-th">Price</th>
                 <th className="user-th">Travel Class</th>
+                <th className="user-th"></th>
               </tr>
             </thead>
             <tbody className="user-tbody">
@@ -111,6 +130,14 @@ function GuestPendingPayments() {
                   </td>
                   <td className="user-td">{payment.price}</td>
                   <td className="user-td">{payment.travelClass}</td>
+                  <td className="user-td">
+                    <button
+                      className="cancel-btn"
+                      onClick={() => handleCancelBooking(payment.bookingRefID)}
+                    >
+                      Cancel
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
