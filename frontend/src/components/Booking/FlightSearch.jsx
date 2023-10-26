@@ -64,7 +64,7 @@ export default function FlightSearch() {
     function () {
       async function getAirportsList() {
         try {
-          const response = await axios.get(`${BaseURL}/get/airports`, { referrerPolicy: 'unsafe-url',});
+          const response = await axios.get(`${BaseURL}/get/airports`);
           console.log(response.data);
           setAirportsList(response.data);
         } catch (error) {
