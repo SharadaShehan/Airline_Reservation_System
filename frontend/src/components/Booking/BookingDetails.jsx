@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { Link } from "react-router-dom";
 import { UserGlobalState } from "../Layout/UserGlobalState";
 import { BookingProcessGlobalState } from "../Layout/BookingProcessGlobalState";
@@ -6,6 +6,7 @@ import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
 import axios from "axios";
 import "./BookingDetails.css";
 import Cookies from "js-cookie";
+import ConfirmationPopup from '../common/ConfirmationPopup';
 
 export default function BookingDetails() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -16,6 +17,7 @@ export default function BookingDetails() {
     BookingProcessGlobalState();
   const { setBookingStep } = BookingStepGlobalState();
   const [flightDetails, setFlightDetails] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     async function getFlightDetails() {
@@ -32,7 +34,7 @@ export default function BookingDetails() {
     getFlightDetails();
   }, [BaseURL, bookingProcessDetails.flightID]);
 
-  function handleReserveNow() {
+  function handlePopUpConfirmation() {
     async function createBookingUser() {
       try {
         const response = await axios.post(
@@ -56,6 +58,7 @@ export default function BookingDetails() {
             price : response.data.price,
             bookingRefID: response.data.bookingRefID
           }));
+          console.log("confirmed !");
           setBookingStep("makePayment");
         }
       } catch (error) {
@@ -117,6 +120,15 @@ export default function BookingDetails() {
     // setBookingProcessDetails((prevState) => ({ ...prevState, passengers: [] }));
     setBookingStep("seatReserve");
   }
+
+  function handleReserveNow(){
+    setShowPopup(true)
+    console.log("reserve now")
+  }
+
+  function handlePopUpCancel(){
+    setShowPopup(false);
+  };
 
   return (
     <>
@@ -227,6 +239,12 @@ export default function BookingDetails() {
             >
               Reserve Now
             </button>
+            <ConfirmationPopup
+              show={showPopup}
+              message="Are you sure you want to Reserve Now?"
+              onConfirm={handlePopUpConfirmation}
+              onCancel={handlePopUpCancel}
+            />
           </div>
         </div>
       </div>

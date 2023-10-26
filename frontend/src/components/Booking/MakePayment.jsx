@@ -5,6 +5,7 @@ import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
 import axios from "axios";
 import "./makePayment.css";
 import Cookies from "js-cookie";
+import ConfirmationPopup from '../common/ConfirmationPopup';
 
 export default function MakePayment() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -12,6 +13,7 @@ export default function MakePayment() {
 
   const { setBookingStep } = BookingStepGlobalState();
   const [flightDetails, setFlightDetails] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     async function getFlightDetails() {
@@ -28,7 +30,7 @@ export default function MakePayment() {
     getFlightDetails();
   }, [BaseURL, bookingProcessDetails.flightID]);
 
-  async function handlePayNow() {
+  async function handlePopUpConfirmation() {
     try {
       const bookingRefID = Cookies.get("bookingRef");
       console.log(bookingRefID);
@@ -45,6 +47,18 @@ export default function MakePayment() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function handleBack() {
+    setBookingStep("bookingDetails");
+  }
+
+  function handlePayNow(){
+    setShowPopup(true)
+  }
+
+  function handlePopUpCancel(){
+    setShowPopup(false);
   }
 
   console.log(bookingProcessDetails);
@@ -94,13 +108,8 @@ export default function MakePayment() {
             </div>
           </div>
           <div className="btn-set-2">
-            <button type="button" className="action-button btn">
-              <Link
-                to="/home"
-                style={{ color: "black", textDecoration: "none" }}
-              >
-                Cancel
-              </Link>
+            <button type="button" className="action-button btn" onClick={handleBack}>
+                Back
             </button>
             <button
               type="button"
@@ -109,6 +118,12 @@ export default function MakePayment() {
             >
               Pay Now
             </button>
+            <ConfirmationPopup
+              show={showPopup}
+              message="Are you sure you want to Pay?"
+              onConfirm={handlePopUpConfirmation}
+              onCancel={handlePopUpCancel}
+            />
           </div>
         </div>
       </div>
