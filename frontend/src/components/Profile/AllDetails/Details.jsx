@@ -1,17 +1,27 @@
 import React from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import "./details.css";
 
 function Details() {
+  const { currentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   return (
     <div className="wrapper">
-      <img
-        className="background-image"
-        alt="Rectangle"
-        src={require("../../../images/DEOBackImage.jpg")}
-      />
+      {currentUserData.role === "DataEntryOperator" ? (
+        <img
+          className="background-image"
+          alt="Rectangle"
+          src={require("../../../images/DEOBackImage.jpg")}
+        />
+      ) : (
+        <img
+          className="background-image"
+          alt="Rectangle"
+          src={require("../../../images/AdminBackImage.jpg")}
+        />
+      )}
       <div className="deo-container">
         <div className="data-field-r">
           <div className="section-title-r">Operations</div>

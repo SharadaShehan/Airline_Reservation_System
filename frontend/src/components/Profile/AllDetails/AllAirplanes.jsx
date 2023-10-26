@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./details.css";
@@ -7,6 +8,8 @@ import "./details.css";
 function AllAirplanes() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
+
+  const { currentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [airplanesList, setAirplanesList] = useState([]);
@@ -35,6 +38,30 @@ function AllAirplanes() {
     setUserMenuItem("view-details");
   }
 
+  async function handleDelete(tailNumber) {
+    try {
+      const response = await axios.delete(
+        `${BaseURL}/admin/delete/airplane/${tailNumber}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.status === 204) {
+        const newAirplanesList = airplanesList.filter(
+          (airplane) => airplane.tailNumber !== tailNumber
+        );
+        setAirplanesList(newAirplanesList);
+        // alert("Messaage: Model Deleted Successfully");
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.message);
+    }
+  }
+
   return (
     <div className="outer-box">
       <span className="view-revenue">All Airplanes</span>
@@ -54,7 +81,7 @@ function AllAirplanes() {
                 <tr>
                   <th>Tail Number</th>
                   <th>Model Name</th>
-                  <th></th>
+                  {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
@@ -62,9 +89,16 @@ function AllAirplanes() {
                   <tr key={plane.tailNumber}>
                     <td>{plane.tailNumber}</td>
                     <td>{plane.modelName}</td>
-                    <td>
-                      <button className="cancel-btn">Delete</button>
-                    </td>
+                    {currentUserData.role !== "DataEntryOperator" && (
+                      <td>
+                        <button
+                          className="cancel-btn"
+                          onClick={() => handleDelete(plane.tailNumber)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

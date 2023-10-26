@@ -2,7 +2,6 @@ import React from "react";
 import "./adminProfileDetails.css";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 
-
 export default function AdminProfileDetails({ userData }) {
   const { setUserMenuItem } = UserMenuGlobalState();
 
@@ -24,6 +23,10 @@ export default function AdminProfileDetails({ userData }) {
 
   function handleClickPastDetails() {
     setUserMenuItem("view-past-flight-details");
+  }
+
+  function handleViewDetails() {
+    setUserMenuItem("view-details");
   }
 
   return (
@@ -65,6 +68,10 @@ export default function AdminProfileDetails({ userData }) {
 
         <button onClick={handleClickPastDetails} className="rectangle-parent5">
           Past Flight Details
+        </button>
+
+        <button onClick={handleViewDetails} className="rectangle-parent6">
+          View Details
         </button>
       </div>
     </div>

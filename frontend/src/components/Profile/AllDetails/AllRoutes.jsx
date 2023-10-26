@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import "./details.css";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -7,6 +8,8 @@ import Cookies from "js-cookie";
 function AllRoutes() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
+
+  const { currentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [routesList, setRoutesList] = useState([]);
@@ -35,6 +38,30 @@ function AllRoutes() {
     setUserMenuItem("view-details");
   }
 
+  async function handleDelete(routeID) {
+    try {
+      const response = await axios.delete(
+        `${BaseURL}/admin/delete/route/${routeID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.status === 204) {
+        const newRoutesList = routesList.filter(
+          (route) => route.routeID !== routeID
+        );
+        setRoutesList(newRoutesList);
+        // alert("Messaage: Model Deleted Successfully");
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.message);
+    }
+  }
+
   return (
     <div className="outer-box">
       <span className="view-revenue">All Routes</span>
@@ -58,7 +85,7 @@ function AllRoutes() {
                   <th>To City</th>
                   <th>IATA / ICAO</th>
                   <th>Duration (Mins)</th>
-                  <th></th>
+                  {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
@@ -70,9 +97,16 @@ function AllRoutes() {
                     <td>{route.toCity}</td>
                     <td>{route.toIATA + " / " + route.toICAO}</td>
                     <td>{route.durationMinutes}</td>
-                    <td>
-                      <button className="cancel-btn">Delete</button>
-                    </td>
+                    {currentUserData.role !== "DataEntryOperator" && (
+                      <td>
+                        <button
+                          className="cancel-btn"
+                          onClick={() => handleDelete(route.routeID)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

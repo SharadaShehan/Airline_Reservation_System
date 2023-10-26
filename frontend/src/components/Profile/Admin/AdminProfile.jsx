@@ -7,8 +7,13 @@ import PassengersByFlight from "./PassengersByFlight";
 import PastFlightDetails from "./PastFlightDetails";
 import PassengersByDestination from "./PassengersByDestination";
 import PassengersByType from "./PassengersByType";
+import Details from "../AllDetails/Details";
+import AllModels from "../AllDetails/AllModels";
+import AllAirplanes from "../AllDetails/AllAirplanes";
+import AllAirports from "../AllDetails/AllAirports";
+import AllRoutes from "../AllDetails/AllRoutes";
+import SearchFlights from "../AllDetails/SearchFlights";
 import "./adminProfile.css";
-
 
 export default function AdminProfile({ userData }) {
   const { userMenuItem } = UserMenuGlobalState();
@@ -48,23 +53,31 @@ export default function AdminProfile({ userData }) {
 
   function renderPage() {
     if (userMenuItem === "profile-details") {
-      return (
-        <AdminProfileDetails userData={userData} />
-      );
+      return <AdminProfileDetails userData={userData} />;
     } else if (userMenuItem === "view-revenue-by-model") {
-      return <ViewRevenue/>;
+      return <ViewRevenue />;
     } else if (userMenuItem === "view-passengers-by-flight") {
-      return <PassengersByFlight/>;
+      return <PassengersByFlight />;
     } else if (userMenuItem === "view-passengers-by-date-and-destination") {
-      return <PassengersByDestination/>;
+      return <PassengersByDestination />;
     } else if (userMenuItem === "view-passengers-by-date-and-type") {
-      return <PassengersByType/>;
+      return <PassengersByType />;
     } else if (userMenuItem === "view-past-flight-details") {
-      return <PastFlightDetails/>;
+      return <PastFlightDetails />;
+    } else if (userMenuItem === "view-details") {
+      return <Details />;
+    } else if (userMenuItem === "all-models") {
+      return <AllModels />;
+    } else if (userMenuItem === "all-airplanes") {
+      return <AllAirplanes />;
+    } else if (userMenuItem === "all-airports") {
+      return <AllAirports />;
+    } else if (userMenuItem === "all-routes") {
+      return <AllRoutes />;
+    } else if (userMenuItem === "search-flights") {
+      return <SearchFlights />;
     } else {
-      return (
-        <AdminProfileDetails userData={userData} />
-      );
+      return <AdminProfileDetails userData={userData} />;
     }
   }
 }

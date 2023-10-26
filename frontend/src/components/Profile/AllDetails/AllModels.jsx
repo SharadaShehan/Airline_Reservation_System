@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./details.css";
@@ -8,6 +9,8 @@ import "./details.css";
 function AllModels() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
+
+  const { currentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [modelsList, setModelsList] = useState([]);
@@ -36,6 +39,30 @@ function AllModels() {
     setUserMenuItem("view-details");
   }
 
+  async function handleDelete(modelID) {
+    try {
+      const response = await axios.delete(
+        `${BaseURL}/admin/delete/model/${modelID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.status === 204) {
+        const newModelsList = modelsList.filter(
+          (model) => model.modelID !== modelID
+        );
+        setModelsList(newModelsList);
+        // alert("Messaage: Model Deleted Successfully");
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.message);
+    }
+  }
+
   return (
     <div className="outer-box">
       <span className="view-revenue">All Models</span>
@@ -55,7 +82,7 @@ function AllModels() {
                 <tr>
                   <th>Model ID</th>
                   <th>Name</th>
-                  <th></th>
+                  {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
@@ -63,9 +90,16 @@ function AllModels() {
                   <tr key={model.modelID}>
                     <td>{model.modelID}</td>
                     <td>{model.name}</td>
-                    <td>
-                      <button className="cancel-btn">Delete</button>
-                    </td>
+                    {currentUserData.role !== "DataEntryOperator" && (
+                      <td>
+                        <button
+                          className="cancel-btn"
+                          onClick={() => handleDelete(model.modelID)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

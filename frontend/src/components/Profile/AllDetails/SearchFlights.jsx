@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./details.css";
 
 function SearchFlights() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
+  const token = Cookies.get("access-token");
+
+  const { currentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [flightDetails, setFlightDetails] = useState([]);
@@ -52,6 +56,30 @@ function SearchFlights() {
 
   function handleBackClick() {
     setUserMenuItem("view-details");
+  }
+
+  async function handleDelete(flightID) {
+    try {
+      const response = await axios.delete(
+        `${BaseURL}/admin/delete/scheduled-flight/${flightID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.status === 204) {
+        const newFlightDetailsList = flightDetails.filter(
+          (flight) => flight.flightID !== flightID
+        );
+        setFlightDetails(newFlightDetailsList);
+        // alert("Messaage: Model Deleted Successfully");
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.message);
+    }
   }
 
   return (
@@ -124,7 +152,7 @@ function SearchFlights() {
                   <th>Origin Details</th>
                   <th>Destination Details</th>
                   <th>Duration (Mins)</th>
-                  <th></th>
+                  {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
@@ -147,9 +175,16 @@ function SearchFlights() {
                       </ul>
                     </td>
                     <td>{flight.durationMinutes}</td>
-                    <td>
-                      <button className="cancel-btn">Delete</button>
-                    </td>
+                    {currentUserData.role !== "DataEntryOperator" && (
+                      <td>
+                        <button
+                          className="cancel-btn"
+                          onClick={() => handleDelete(flight.flightID)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

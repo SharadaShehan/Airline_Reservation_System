@@ -1,4 +1,4 @@
-.container{
+.container {
   width: 100%;
   height: 100%;
   display: flex;
@@ -53,7 +53,7 @@
   left: 0;
   background-color: #1a354e;
   width: 387px;
-  height: 545px;
+  height: 600px;
   opacity: 0.5;
 }
 .search-records {
@@ -92,8 +92,14 @@
 }
 
 .rectangle-parent5 {
-  top: 433.63px;
+  top: 426.63px;
 
+  font-size: 20px;
+}
+
+.rectangle-parent6 {
+  top: 511.63px;
+  z-index: 1;
   font-size: 20px;
 }
 
@@ -101,7 +107,8 @@
 .rectangle-parent2,
 .rectangle-parent3,
 .rectangle-parent4,
-.rectangle-parent5 {
+.rectangle-parent5,
+.rectangle-parent6 {
   position: absolute;
   left: 75px;
   width: 237px;
@@ -118,7 +125,8 @@
 .rectangle-parent2:hover,
 .rectangle-parent3:hover,
 .rectangle-parent4:hover,
-.rectangle-parent5:hover {
+.rectangle-parent5:hover,
+.rectangle-parent6:hover {
   background-color: #0047ff;
   color: #fff;
   transform: scale(1.1);
