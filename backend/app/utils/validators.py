@@ -128,6 +128,21 @@ def validate_airplane_data(tail_number, model_id):
             return True
     return False
 
+def validate_tail_number(tail_number):
+    if isinstance(tail_number, str) and len(tail_number) >= 4 and re.match(tail_number_pattern, tail_number):
+        return True
+    return False
+
+def validate_model_id(model_id):
+    if isinstance(model_id, int) and model_id > 0:
+        return True
+    return False
+
+def validate_route_id(route_id):
+    if isinstance(route_id, int) and route_id > 0:
+        return True
+    return False
+
 def validate_route_data(origin, destination, duration_minutes, base_price):
     if validate_icao_code(origin) and validate_icao_code(destination):
         if isinstance(duration_minutes, int) and duration_minutes > 0:
