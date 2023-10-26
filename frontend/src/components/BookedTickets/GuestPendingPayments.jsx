@@ -1,14 +1,14 @@
-import React from "react";
+import React,  { useState, useEffect } from "react";
 import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
 import { UserMenuGlobalState } from "../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../Layout/UserGlobalState";
 import { BookingProcessGlobalState } from "../Layout/BookingProcessGlobalState";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { v4 as uuvidv4 } from "uuid";
 import "../Profile/RegisteredUser/userProfile.css";
 import Cookies from "js-cookie";
+import ConfirmationPopup from '../common/ConfirmationPopup';
 
 function GuestPendingPayments() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -23,6 +23,7 @@ function GuestPendingPayments() {
   const [pendingPayments, setPendingPayments] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(
     function () {
@@ -60,8 +61,9 @@ function GuestPendingPayments() {
     setUserMenuItem("profile-details");
     navigate("/book-flights");
   };
-
-  async function handleCancelBooking(bookingRefID) {
+  
+  async function handlePopUpConfirmation(bookingRefID) {
+    console.log("working");
     try {
       const response = await axios.delete(
         `${BaseURL}/booking/cancel/guest/${bookingRefID}/${guestID}`
@@ -77,6 +79,14 @@ function GuestPendingPayments() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function handleCancelBooking(){
+    setShowPopup(true)
+  }
+
+  function handlePopUpCancel(){
+    setShowPopup(false);
   }
 
   console.log(selectedBooking);
@@ -137,6 +147,12 @@ function GuestPendingPayments() {
                     >
                       Cancel
                     </button>
+                    <ConfirmationPopup
+                      show={showPopup}
+                      message="Are you sure you want to Pay?"
+                      onConfirm={handlePopUpConfirmation}
+                      onCancel={handlePopUpCancel}
+                    />
                   </td>
                 </tr>
               ))}

@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
 import { BookingProcessGlobalState } from "../Layout/BookingProcessGlobalState";
 import { UserGlobalState } from "../Layout/UserGlobalState";
 import axios from "axios";
 import "./seatReserve.css";
+import Snackbar from "../common/Snackbar"
 
 export default function SeatReserve() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -25,6 +26,12 @@ export default function SeatReserve() {
   const [selectedOption, setSelectedOption] = useState("adult");
   const [selectedSeat, setSelectedSeat] = useState(null);
   console.log(bookingProcessDetails);
+
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_success={
+    type: "success",
+    message: "Seat Reserved!"
+  };
 
   let prevPage = "loginAsk";
   if (currentUserData.username != null) {
@@ -92,6 +99,7 @@ export default function SeatReserve() {
       ...seatsObj,
       availableSeats: newAvailableSeats,
     });
+    snackbarRef_success.current.show();
   }
 
   function handleSeatClick(seatNumber) {
@@ -217,6 +225,11 @@ export default function SeatReserve() {
                   >
                     Reserve
                   </button>
+                  <Snackbar
+                    ref={snackbarRef_success}
+                    message={Snackbardata_success.message}
+                    type={Snackbardata_success.type}
+                  />
                 </div>
               </form>
             </div>

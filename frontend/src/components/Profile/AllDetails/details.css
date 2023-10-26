@@ -1,0 +1,132 @@
+.section-title-r {
+  z-index: 0;
+  color: azure;
+  font-size: 2.1vw;
+  /* margin-bottom: 0.3vw; */
+  font-family: "Bruno Ace", sans-serif;
+}
+
+.data-field-r {
+  width: 35vw;
+  margin: 2vw 7vw 0 1vw;
+  padding: 2vw 0;
+  /* margin: 0 15% 0 15%; */
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.deo-ops {
+  width: 35vw;
+  height: 100%;
+  /* padding: 0 3vw; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  vertical-align: middle;
+  align-items: center;
+  opacity: 1;
+}
+
+.op-button {
+  border-radius: 3vw;
+  width: 25vw;
+  /* height: 8%; */
+  font-size: 1.4vw;
+  align-items: center;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  /* z-index: 0; */
+  margin: 1vw 0 0.2vw 0;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.op-button:hover {
+  background-color: #005ef5; /* Change background color to blue on hover */
+  color: white;
+  border: none;
+  transform: scale(1.1);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+table {
+  width: 90%;
+  /* max-width: 800px; */
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+  font-family: "Montserrat";
+  font-size: 18px;
+  /* border: 1px solid #ddd; */
+}
+
+th {
+  color: #fff;
+  font-weight: 500;
+  border-bottom: solid 2px #fff;
+}
+
+.outer-box {
+  margin-top: 30px;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgb(26, 53, 78, 0.5);
+}
+
+.inner-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  background: rgb(217, 217, 217, 0.5);
+  margin-bottom: 10px;
+}
+.view-revenue {
+  color: #fff;
+  opacity: 1;
+  font-family: "Bruno Ace", Helvetica;
+  font-size: 30px;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-bottom: 20px;
+}
+
+.loading-text {
+  margin-top: 150px;
+  color: #fff;
+  font-family: "Lexend", sans-serif;
+}
+
+.cancel-btn {
+  background: rgb(255, 255, 255, 0.2);
+  color: #db2222;
+  font-family: "Lexend", sans-serif;
+  font-size: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-radius: 0.5em;
+  border: none;
+  width: 100px;
+  height: 50px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.cancel-btn:hover {
+  background-color: #db2222;
+  color: white;
+}

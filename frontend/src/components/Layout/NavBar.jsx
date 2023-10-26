@@ -15,7 +15,7 @@ export default function NavBar() {
   return (
     <header>
       <nav ref={navRef}>
-      { (currentUserData.role != "Admin" && currentUserData.role != "DataEntryOperator") && (
+      { (currentUserData.role !== "Admin" && currentUserData.role !== "DataEntryOperator") && (
         <div className="linksContainer" onClick={showNavbar}>
           <Link to="/home" style={{ textDecoration: "none" }}>
             Home
