@@ -12,6 +12,11 @@ def drop_all_triggers():
             "check_booking_has_seats_and_guest",
             "check_valid_route_creation",
             "check_airport_has_locations",
+            "check_flight_has_paid_bookings",
+            "check_airport_has_paid_bookings",
+            "check_airplane_has_paid_bookings",
+            "check_model_has_paid_bookings",
+            "check_route_has_paid_bookings"
         ]
         
         # Generate drop queries for all triggers and append to drop_queries list
@@ -135,6 +140,122 @@ def create_triggers():
                 END;
         """
         cursor.execute(create_check_airport_has_locations_trigger_query)
+        #--------------------------------------------------
+
+        #------- Create check flight has paid bookings trigger -------
+
+        create_check_flight_has_paid_bookings_trigger_query = """
+            CREATE TRIGGER check_flight_has_paid_bookings
+                BEFORE DELETE ON scheduled_flight
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking
+                    WHERE Scheduled_Flight = OLD.Scheduled_ID AND Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Flight has paid bookings';
+                    END IF;
+                END;
+        """
+        cursor.execute(create_check_flight_has_paid_bookings_trigger_query)
+        #--------------------------------------------------
+
+        #------- Create check airport has paid bookings trigger -------
+
+        create_check_airport_has_paid_bookings_trigger_query = """
+            CREATE TRIGGER check_airport_has_paid_bookings
+                BEFORE DELETE ON airport
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking as bk
+                    INNER JOIN scheduled_flight as sf ON bk.Scheduled_Flight = sf.Scheduled_ID
+                    INNER JOIN route as rt ON sf.Route = rt.Route_ID
+                    WHERE rt.Origin = OLD.ICAO_Code OR rt.Destination = OLD.ICAO_Code AND bk.Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Airport has paid bookings, cannot delete';
+                    END IF;
+                END;
+        """
+        cursor.execute(create_check_airport_has_paid_bookings_trigger_query)
+        #--------------------------------------------------
+
+        #------- Create check airplane has paid bookings trigger -------
+
+        create_check_airplane_has_paid_bookings_trigger_query = """
+            CREATE TRIGGER check_airplane_has_paid_bookings
+                BEFORE DELETE ON airplane
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking as bk
+                    INNER JOIN scheduled_flight as sf ON bk.Scheduled_Flight = sf.Scheduled_ID
+                    WHERE sf.Airplane = OLD.Tail_Number AND bk.Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Airplane has paid bookings, cannot delete';
+                    END IF;
+                END;
+        """
+        cursor.execute(create_check_airplane_has_paid_bookings_trigger_query)
+        #--------------------------------------------------
+
+        #------- Create check model has paid bookings trigger -------
+
+        create_check_model_has_paid_bookings_trigger_query = """
+            CREATE TRIGGER check_model_has_paid_bookings
+                BEFORE DELETE ON model
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking as bk
+                    INNER JOIN scheduled_flight as sf ON bk.Scheduled_Flight = sf.Scheduled_ID
+                    INNER JOIN airplane as ap ON sf.Airplane = ap.Tail_Number
+                    WHERE ap.Model = OLD.Model_ID AND bk.Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Model has paid bookings, cannot delete';
+                    END IF;
+                END;
+        """
+        cursor.execute(create_check_model_has_paid_bookings_trigger_query)
+        #--------------------------------------------------
+
+        #------- Create check route has paid bookings trigger -------
+
+        create_check_route_has_paid_bookings_trigger_query = """
+            CREATE TRIGGER check_route_has_paid_bookings
+                BEFORE DELETE ON route
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking as bk
+                    INNER JOIN scheduled_flight as sf ON bk.Scheduled_Flight = sf.Scheduled_ID
+                    WHERE sf.Route = OLD.Route_ID AND bk.Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Route has paid bookings, cannot delete';
+                    END IF;
+                END;
+        """
+        cursor.execute(create_check_route_has_paid_bookings_trigger_query)
         #--------------------------------------------------
 
         connection.commit()
