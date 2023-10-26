@@ -14,13 +14,13 @@ class DEOGetAllModels(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor(prepared=True)
+                cursor = connection.cursor(buffered=True)
 
                 # Get current user
                 current_user = get_jwt_identity()
 
                 query = """
-                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                    SELECT * FROM staff WHERE Username = %s
                 """
 
                 # Execute query with username
@@ -33,7 +33,7 @@ class DEOGetAllModels(Resource):
                 query = """
                     SELECT Model_ID, Name FROM model 
                 """
-                # Execute query with username
+                # execute query to get all models
                 cursor.execute(query)
                 items = cursor.fetchall()
                 response=[]
@@ -47,7 +47,7 @@ class DEOGetAllModels(Resource):
                 return make_response(response, 200)
             except Exception as ex:
                 if str(ex) == "403":
-                    return abort(403, message="Only data entry operators can access API")
+                    return abort(403, message="Only staff can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
@@ -63,13 +63,13 @@ class DEOGetAllRoutes(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor(prepared=True)
+                cursor = connection.cursor(buffered=True)
 
                 # Get current user
                 current_user = get_jwt_identity()
 
                 query = """
-                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                    SELECT * FROM staff WHERE Username = %s
                 """
 
                 # Execute query with username
@@ -97,6 +97,7 @@ class DEOGetAllRoutes(Resource):
                         INNER JOIN location AS desloc ON desloc.Airport = des.ICAO_Code
                     GROUP BY desloc.Airport , orgloc.Airport;
                 """
+                # Execute query to get all routes
                 cursor.execute(query)
                 items = cursor.fetchall()
                 
@@ -117,7 +118,7 @@ class DEOGetAllRoutes(Resource):
                 return make_response(response, 200)
             except Exception as ex:
                 if str(ex) == "403":
-                    return abort(403, message="Only data entry operators can access API")
+                    return abort(403, message="Only staff can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
@@ -133,13 +134,13 @@ class DEOGetAllAirports(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor(prepared=True)
+                cursor = connection.cursor(buffered=True)
 
                 # Get current user
                 current_user = get_jwt_identity()
 
                 query = """
-                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                    SELECT * FROM staff WHERE Username = %s
                 """
 
                 # Execute query with username
@@ -158,7 +159,7 @@ class DEOGetAllAirports(Resource):
                         airport
                         LEFT JOIN location ON airport.ICAO_Code = location.Airport AND location.level = 0
                 """
-                # Execute query with username
+                # Execute query to get all airports
                 cursor.execute(query)
                 items = cursor.fetchall()
                 response=[]
@@ -173,7 +174,7 @@ class DEOGetAllAirports(Resource):
                 return make_response(response, 200)
             except Exception as ex:
                 if str(ex) == "403":
-                    return abort(403, message="Only data entry operators can access API")
+                    return abort(403, message="Only staff can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
@@ -189,13 +190,13 @@ class DEOGetAllAirplanes(Resource):
         
         if connection:
             try:
-                cursor = connection.cursor(prepared=True)
+                cursor = connection.cursor(buffered=True)
 
                 # Get current user
                 current_user = get_jwt_identity()
 
                 query = """
-                    SELECT * FROM staff WHERE Username = %s AND Role = 'Data Entry Operator'
+                    SELECT * FROM staff WHERE Username = %s
                 """
 
                 # Execute query with username
@@ -213,9 +214,10 @@ class DEOGetAllAirplanes(Resource):
                         airplane 
                         LEFT JOIN model ON airplane.Model = model.Model_ID
                 """
-                # Execute query with username
+                # Execute query to get all airplanes
                 cursor.execute(query)
                 items = cursor.fetchall()
+                print(items)
                 response=[]
                 for item in items:
                     response.append({
@@ -227,7 +229,7 @@ class DEOGetAllAirplanes(Resource):
                 return make_response(response, 200)
             except Exception as ex:
                 if str(ex) == "403":
-                    return abort(403, message="Only data entry operators can access API")
+                    return abort(403, message="Only staff can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
