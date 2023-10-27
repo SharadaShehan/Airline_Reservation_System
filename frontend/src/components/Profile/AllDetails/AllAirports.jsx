@@ -9,7 +9,7 @@ function AllAirports() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
 
-  const { currentUserData } = UserGlobalState();
+  const { currentUserData, setCurrentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [airportsList, setAirportsList] = useState([]);
@@ -27,11 +27,25 @@ function AllAirports() {
           setAirportsList(response.data);
         } catch (error) {
           console.log(error);
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getAllModels();
     },
-    [BaseURL, token]
+    [BaseURL, token, setCurrentUserData]
   );
 
   function handleBackClick() {
@@ -59,6 +73,20 @@ function AllAirports() {
     } catch (error) {
       console.log(error);
       alert(error.response.data.message);
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
+      }
     }
   }
 
@@ -79,18 +107,18 @@ function AllAirports() {
             <table>
               <thead>
                 <tr>
-                  <th>City</th>
-                  <th>IATA Code</th>
-                  <th>ICAO Code</th>
+                  <th className="details-th">City</th>
+                  <th className="details-th">IATA Code</th>
+                  <th className="details-th">ICAO Code</th>
                   {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
                 {airportsList.map((airport) => (
                   <tr key={airport.icaoCode}>
-                    <td>{airport.city}</td>
-                    <td>{airport.iataCode}</td>
-                    <td>{airport.icaoCode}</td>
+                    <td className="details-td">{airport.city}</td>
+                    <td className="details-td">{airport.iataCode}</td>
+                    <td className="details-td">{airport.icaoCode}</td>
                     {currentUserData.role !== "DataEntryOperator" && (
                       <td>
                         <button
@@ -111,10 +139,18 @@ function AllAirports() {
         )}
       </div>
 
-      <div className="buttons-div">
+      <div className="buttons-div-details">
         <button onClick={handleBackClick} className="buttons">
           Back
         </button>
+        {currentUserData.role === "DataEntryOperator" && (
+          <button
+            onClick={() => setUserMenuItem("add-airport")}
+            className="buttons"
+          >
+            Add New Airport
+          </button>
+        )}
       </div>
     </div>
   );

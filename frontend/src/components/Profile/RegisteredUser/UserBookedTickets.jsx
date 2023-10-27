@@ -26,7 +26,10 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
           setBookedTickets(response.data);
         } catch (error) {
           console.log(error);
-          if (error.response && error.response.status === 401) {
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
             setCurrentUserData({
               username: null,
               firstName: null,

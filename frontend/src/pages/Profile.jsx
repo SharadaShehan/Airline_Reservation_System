@@ -4,9 +4,12 @@ import UserProfile from "../components/Profile/RegisteredUser/UserProfile";
 import AdminProfile from "../components/Profile/Admin/AdminProfile";
 import DEOProfile from "../components/Profile/DEO/DEOProfile";
 import { UserGlobalState } from "../components/Layout/UserGlobalState";
+import { BookingStepGlobalState } from "../components/Layout/BookingStepGlobalState";
 
 export default function Profile() {
   const { currentUserData } = UserGlobalState();
+  const { setBookingStep } = BookingStepGlobalState();
+  setBookingStep("seatReserve");
 
   // useEffect(() => {
   //     setCurrentUserData({

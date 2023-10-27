@@ -1,19 +1,39 @@
-.fnt-cont{
-    background-color: rgba(0, 0, 0, 0.5);
+.fnt-cont {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.mid-content-group{
-    height: 90%;
-    width: 30%;
-    margin: 0 35% 0 35%;
+.mid-content-group {
+  height: 90%;
+  width: 30%;
+  margin: 0 35% 0 35%;
 }
-.form-txt-sch{
-    color: rgb(255, 255, 255);
-    font-size: 1em;
-    text-align: left;
-    margin: 1% 0 1% 0;
+.form-txt-sch {
+  color: rgb(255, 255, 255);
+  font-size: 1em;
+  text-align: left;
+  margin: 1% 0 1% 0;
 }
-.form-input{
-    width: 100%;
-    height: 2.5em;
+.form-input {
+  width: 100%;
+  height: 2.5em;
+}
+
+.view-button {
+  border-radius: 42.5px;
+  width: auto;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 5;
+  margin: 5% 2% 1% 1%;
+
+  transition: all 0.3s ease-in-out;
+}
+.view-button:hover {
+  background-color: #005ef5; /* Change background color to blue on hover */
+  color: white;
+  border: none;
+  transform: scale(1.1);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
 }
