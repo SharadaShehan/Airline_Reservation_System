@@ -244,6 +244,7 @@ export default function BookingDetails() {
               type="button"
               className="action-button btn"
               onClick={handleReserveNow}
+              disabled={!(bookingProcessDetails.passengers.length)}
             >
               Reserve Now
             </button>
