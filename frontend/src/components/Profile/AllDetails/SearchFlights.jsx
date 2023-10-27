@@ -248,22 +248,6 @@ function SearchFlights() {
                         >
                           Delete
                         </button>
-                        <ConfirmationPopup
-                          show={showPopup}
-                          message="Are you sure you want to Delete?"
-                          onConfirm={handlePopUpConfirmation}
-                          onCancel={handlePopUpCancel}
-                        />
-                        <Snackbar
-                          ref={snackbarRef_fail}
-                          message={Snackbardata_fail.message}
-                          type={Snackbardata_fail.type}
-                        />
-                        <Snackbar
-                          ref={snackbarRef_success}
-                          message={Snackbardata_success.message}
-                          type={Snackbardata_success.type}
-                        />
                       </td>
                     )}
                   </tr>
@@ -289,6 +273,22 @@ function SearchFlights() {
           Search
         </button>
       </div>
+      <ConfirmationPopup
+        show={showPopup}
+        message="Are you sure you want to Delete?"
+        onConfirm={handlePopUpConfirmation}
+        onCancel={handlePopUpCancel}
+      />
+      <Snackbar
+        ref={snackbarRef_fail}
+        message={Snackbardata_fail.message}
+        type={Snackbardata_fail.type}
+      />
+      <Snackbar
+        ref={snackbarRef_success}
+        message={Snackbardata_success.message}
+        type={Snackbardata_success.type}
+      />
     </div>
   );
 }
