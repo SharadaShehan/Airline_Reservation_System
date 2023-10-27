@@ -25,7 +25,10 @@ function PastFlightDetails() {
           setAirportsList(response.data);
         } catch (error) {
           console.log(error);
-          if (error.response && error.response.status === 401) {
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
             setCurrentUserData({
               username: null,
               firstName: null,
@@ -67,7 +70,10 @@ function PastFlightDetails() {
       setResponse(response.data);
     } catch (error) {
       console.log(error);
-      if (error.response && error.response.status === 401) {
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
         setCurrentUserData({
           username: null,
           firstName: null,

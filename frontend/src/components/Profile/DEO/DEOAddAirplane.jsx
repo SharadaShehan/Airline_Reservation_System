@@ -3,10 +3,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./deoAddAirplane.css";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import Snackbar from "../../common/Snackbar";
 
 export default function DEOAddFlight() {
   const { setUserMenuItem } = UserMenuGlobalState();
+  const { setCurrentUserData } = UserGlobalState();
   const [modelID, setModelID] = useState("Select Airplane Model");
   const [modelList, setModelList] = useState([]);
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -33,11 +35,25 @@ export default function DEOAddFlight() {
           setModelList(response.data);
         } catch (error) {
           console.log(error);
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getModelsList();
     },
-    [BaseURL]
+    [BaseURL, setCurrentUserData]
   );
 
   async function handleAdd() {
@@ -66,8 +82,20 @@ export default function DEOAddFlight() {
       }
     } catch (err) {
       console.log(err);
-      if (err.response && err.response.status === 401) {
+      if (
+        err.response &&
+        (err.response.status === 401 || err.response.status === 403)
+      ) {
         snackbarRef_fail.current.show();
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
       }
     }
   }

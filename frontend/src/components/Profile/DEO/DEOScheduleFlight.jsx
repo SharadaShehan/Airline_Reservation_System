@@ -3,10 +3,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./deoScheduleFlight.css";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import Snackbar from "../../common/Snackbar";
 
 export default function DEOScheduleFlight() {
   const { setUserMenuItem } = UserMenuGlobalState();
+  const { setCurrentUserData } = UserGlobalState();
   const [routeList, setRouteList] = useState([]);
   const [routeID, setRouteID] = useState("");
   const [airplanesList, setAirplanesList] = useState([]);
@@ -55,8 +57,20 @@ export default function DEOScheduleFlight() {
       }
     } catch (err) {
       console.log(err);
-      if (err.response && err.response.status === 401) {
+      if (
+        err.response &&
+        (err.response.status === 401 || err.response.status === 403)
+      ) {
         snackbarRef_fail.current.show();
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
       }
     }
   }
@@ -70,11 +84,25 @@ export default function DEOScheduleFlight() {
           setRouteList(response.data);
         } catch (error) {
           console.log(error);
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getRoutesList();
     },
-    [BaseURL]
+    [BaseURL, setCurrentUserData]
   );
 
   useEffect(
@@ -86,11 +114,25 @@ export default function DEOScheduleFlight() {
           setAirplanesList(response.data);
         } catch (error) {
           console.log(error);
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getAirplanesList();
     },
-    [BaseURL]
+    [BaseURL, setCurrentUserData]
   );
 
   function handleClear() {

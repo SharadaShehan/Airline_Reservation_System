@@ -13,7 +13,7 @@ export default function UserLoginForm() {
 
   const { setAuthForm } = AuthFormGlobalState();
   const { setCurrentUserData } = UserGlobalState();
-  const { setBookingStep } = BookingStepGlobalState();
+  const { bookingStep, setBookingStep } = BookingStepGlobalState();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
   const [password, setPassword] = useState("");
@@ -129,12 +129,17 @@ export default function UserLoginForm() {
           </button>
         </div>
       </form>
-      <div className="swap">
-        One of Ours?&nbsp;
-        <button className="swapBtn" onClick={() => setAuthForm("admin-portal")}>
-          Staff Login
-        </button>
-      </div>
+      {bookingStep !== "userLogin" && (
+        <div className="swap">
+          One of Ours?&nbsp;
+          <button
+            className="swapBtn"
+            onClick={() => setAuthForm("admin-portal")}
+          >
+            Staff Login
+          </button>
+        </div>
+      )}
     </div>
   );
 }

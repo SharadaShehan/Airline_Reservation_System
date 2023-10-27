@@ -3,10 +3,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./deoAddRoute.css";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import Snackbar from "../../common/Snackbar";
 
 export default function DEOAddRoute() {
   const { setUserMenuItem } = UserMenuGlobalState();
+  const { setCurrentUserData } = UserGlobalState();
   const [airportList, setAirportList] = useState([]);
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -36,11 +38,25 @@ export default function DEOAddRoute() {
           setAirportList(response.data);
         } catch (error) {
           console.log(error);
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getAirportsList();
     },
-    [BaseURL]
+    [BaseURL, setCurrentUserData]
   );
 
   async function handleAdd() {
@@ -85,8 +101,20 @@ export default function DEOAddRoute() {
       }
     } catch (err) {
       console.log(err);
-      if (err.response && err.response.status === 401) {
+      if (
+        err.response &&
+        (err.response.status === 401 || err.response.status === 403)
+      ) {
         snackbarRef_fail.current.show();
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
       }
     }
   }

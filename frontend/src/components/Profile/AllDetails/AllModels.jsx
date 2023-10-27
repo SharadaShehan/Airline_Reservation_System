@@ -10,7 +10,7 @@ function AllModels() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
 
-  const { currentUserData } = UserGlobalState();
+  const { currentUserData, setCurrentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [modelsList, setModelsList] = useState([]);
@@ -28,11 +28,25 @@ function AllModels() {
           setModelsList(response.data);
         } catch (error) {
           console.log(error);
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getAllModels();
     },
-    [BaseURL, token]
+    [BaseURL, token, setCurrentUserData]
   );
 
   function handleBackClick() {
@@ -60,6 +74,20 @@ function AllModels() {
     } catch (error) {
       console.log(error);
       alert(error.response.data.message);
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
+      }
     }
   }
 

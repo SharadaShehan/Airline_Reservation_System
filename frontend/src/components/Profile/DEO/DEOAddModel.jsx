@@ -2,11 +2,13 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
+import { UserGlobalState } from "../../Layout/UserGlobalState";
 import "./deoAddModel.css";
 import Snackbar from "../../common/Snackbar";
 
 export default function DEOAddModel() {
   const { setUserMenuItem } = UserMenuGlobalState();
+  const { setCurrentUserData } = UserGlobalState();
   const [name, setName] = useState("");
   const [Economy, setEconomy] = useState();
   const [Business, setBusiness] = useState();
@@ -63,8 +65,20 @@ export default function DEOAddModel() {
       }
     } catch (err) {
       console.log(err);
-      if (err.response && err.response.status === 401) {
+      if (
+        err.response &&
+        (err.response.status === 401 || err.response.status === 403)
+      ) {
         snackbarRef_fail.current.show();
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
       }
     }
   }

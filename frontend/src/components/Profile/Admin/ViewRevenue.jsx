@@ -5,7 +5,7 @@ import "./viewRevenue.css";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import { Doughnut } from "react-chartjs-2";
-import { Chart, ArcElement } from 'chart.js';
+import { Chart, ArcElement } from "chart.js";
 
 Chart.register(ArcElement);
 
@@ -15,7 +15,7 @@ function ViewRevenue() {
 
   const { setUserMenuItem } = UserMenuGlobalState();
   const { setCurrentUserData } = UserGlobalState();
-  const [ modelsList, setModelsList ] = useState([]);
+  const [modelsList, setModelsList] = useState([]);
 
   const [chartData, setChartData] = useState({
     labels: [],
@@ -36,8 +36,6 @@ function ViewRevenue() {
     return color;
   };
 
-
-
   useEffect(
     function () {
       async function getModelsList() {
@@ -52,10 +50,12 @@ function ViewRevenue() {
           );
           console.log(response.data);
           setModelsList(response.data);
-
         } catch (error) {
           console.log(error);
-          if (error.response && error.response.status === 401) {
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
             setCurrentUserData({
               username: null,
               firstName: null,
@@ -69,7 +69,6 @@ function ViewRevenue() {
         }
       }
       getModelsList();
-
     },
     [BaseURL, token, setCurrentUserData]
   );
@@ -94,8 +93,16 @@ function ViewRevenue() {
     <div className="outer-box">
       <span className="view-revenue">View Revenue By Model</span>
       <div className="inner-box">
-          {modelsList.length ? (
-          <div style={{ height: "375px", overflow: "auto", width: "100%", display: "flex", flexDirection: "row" }}>
+        {modelsList.length ? (
+          <div
+            style={{
+              height: "375px",
+              overflow: "auto",
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
             <table>
               <thead>
                 <tr>
@@ -114,7 +121,7 @@ function ViewRevenue() {
                 ))}
               </tbody>
             </table>
-            
+
             <div className="chart-container">
               <div className="pie-chart">
                 <Doughnut
@@ -124,25 +131,30 @@ function ViewRevenue() {
                     responsive: true,
                     animation: {
                       animateScale: true,
-                      animateRotate: true
-                    }
+                      animateRotate: true,
+                    },
                   }}
                 />
               </div>
               <div className="legend">
                 {modelsList.map((model, index) => (
                   <div key={model.model}>
-                    <div className="color" style={{ backgroundColor: chartData.datasets[0].backgroundColor[index] }}></div>
+                    <div
+                      className="color"
+                      style={{
+                        backgroundColor:
+                          chartData.datasets[0].backgroundColor[index],
+                      }}
+                    ></div>
                     <div className="label">{model.model}</div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-          ) : (
-            <h4 className="loading-text">Loading Details Please Wait....</h4>
-          )}
-        
+        ) : (
+          <h4 className="loading-text">Loading Details Please Wait....</h4>
+        )}
       </div>
 
       <div className="buttons-div">
@@ -150,7 +162,6 @@ function ViewRevenue() {
           Back
         </button>
       </div>
-      
     </div>
   );
 }

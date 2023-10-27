@@ -9,7 +9,7 @@ function SearchFlights() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
 
-  const { currentUserData } = UserGlobalState();
+  const { currentUserData, setCurrentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [flightDetails, setFlightDetails] = useState([]);
@@ -27,11 +27,25 @@ function SearchFlights() {
           setAirportsList(response.data);
         } catch (error) {
           console.log(error);
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getAirportsList();
     },
-    [BaseURL]
+    [BaseURL, setCurrentUserData]
   );
 
   async function handleSearch() {
@@ -50,7 +64,21 @@ function SearchFlights() {
       console.log(response.data);
       setFlightDetails(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
+      }
     }
   }
 
@@ -79,6 +107,20 @@ function SearchFlights() {
     } catch (error) {
       console.log(error);
       alert(error.response.data.message);
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
+      }
     }
   }
 
