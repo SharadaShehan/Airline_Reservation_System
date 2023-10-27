@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forwardRef, useImperativeHandle } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { UserGlobalState } from "../Layout/UserGlobalState";
 import { BookingProcessGlobalState } from "../Layout/BookingProcessGlobalState";
@@ -7,6 +7,7 @@ import axios from "axios";
 import "./BookingDetails.css";
 import Cookies from "js-cookie";
 import ConfirmationPopup from '../common/ConfirmationPopup';
+import Snackbar from "../common/Snackbar"
 
 export default function BookingDetails() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -18,6 +19,12 @@ export default function BookingDetails() {
   const { setBookingStep } = BookingStepGlobalState();
   const [flightDetails, setFlightDetails] = useState({});
   const [showPopup, setShowPopup] = useState(false);
+
+  const snackbarRef_fail = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Fail to create Booking !"
+  };
 
   useEffect(() => {
     async function getFlightDetails() {
@@ -128,6 +135,7 @@ export default function BookingDetails() {
 
   function handlePopUpCancel(){
     setShowPopup(false);
+    snackbarRef_fail.current.show();
   };
 
   return (
@@ -244,6 +252,11 @@ export default function BookingDetails() {
               message="Are you sure you want to Reserve Now?"
               onConfirm={handlePopUpConfirmation}
               onCancel={handlePopUpCancel}
+            />
+            <Snackbar
+              ref={snackbarRef_fail}
+              message={Snackbardata_fail.message}
+              type={Snackbardata_fail.type}
             />
           </div>
         </div>
