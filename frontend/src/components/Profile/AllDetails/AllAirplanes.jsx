@@ -79,16 +79,16 @@ function AllAirplanes() {
             <table>
               <thead>
                 <tr>
-                  <th>Tail Number</th>
-                  <th>Model Name</th>
+                  <th className="details-th">Tail Number</th>
+                  <th className="details-th">Model Name</th>
                   {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
                 {airplanesList.map((plane) => (
                   <tr key={plane.tailNumber}>
-                    <td>{plane.tailNumber}</td>
-                    <td>{plane.modelName}</td>
+                    <td className="details-td">{plane.tailNumber}</td>
+                    <td className="details-td">{plane.modelName}</td>
                     {currentUserData.role !== "DataEntryOperator" && (
                       <td>
                         <button
@@ -109,10 +109,18 @@ function AllAirplanes() {
         )}
       </div>
 
-      <div className="buttons-div">
+      <div className="buttons-div-details">
         <button onClick={handleBackClick} className="buttons">
           Back
         </button>
+        {currentUserData.role === "DataEntryOperator" && (
+          <button
+            onClick={() => setUserMenuItem("add-airplane")}
+            className="buttons"
+          >
+            Add New Airplane
+          </button>
+        )}
       </div>
     </div>
   );

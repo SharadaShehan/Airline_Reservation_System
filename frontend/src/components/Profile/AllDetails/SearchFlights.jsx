@@ -147,34 +147,34 @@ function SearchFlights() {
             <table>
               <thead>
                 <tr>
-                  <th>Flight ID</th>
-                  <th>Airplane Model</th>
-                  <th>Origin Details</th>
-                  <th>Destination Details</th>
-                  <th>Duration (Mins)</th>
+                  <th className="details-th">Flight ID</th>
+                  <th className="details-th">Airplane Model</th>
+                  <th className="details-th">Origin Details</th>
+                  <th className="details-th">Destination Details</th>
+                  <th className="details-th">Duration (Mins)</th>
                   {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
                 {flightDetails.map((flight) => (
                   <tr key={flight.flightID}>
-                    <td>{flight.flightID}</td>
-                    <td>{flight.airplaneModel}</td>
-                    <td>
+                    <td className="details-td">{flight.flightID}</td>
+                    <td className="details-td">{flight.airplaneModel}</td>
+                    <td className="details-td">
                       <ul>
                         <li>{flight.origin.address}</li>
                         <li>{flight.origin.IATA}</li>
                         <li>{flight.origin.dateAndTime}</li>
                       </ul>
                     </td>
-                    <td>
+                    <td className="details-td">
                       <ul>
                         <li>{flight.destination.address}</li>
                         <li>{flight.destination.IATA}</li>
                         <li>{flight.destination.dateAndTime}</li>
                       </ul>
                     </td>
-                    <td>{flight.durationMinutes}</td>
+                    <td className="details-td">{flight.durationMinutes}</td>
                     {currentUserData.role !== "DataEntryOperator" && (
                       <td>
                         <button
@@ -192,11 +192,19 @@ function SearchFlights() {
           </div>
         )}
       </div>
-      <div className="buttons-div">
-        <button onClick={handleBackClick} className="buttons">
+      <div className="buttons-div-search">
+        <button onClick={handleBackClick} className="buttons-search">
           Back
         </button>
-        <button className="buttons" onClick={handleSearch}>
+        {currentUserData.role === "DataEntryOperator" && (
+          <button
+            onClick={() => setUserMenuItem("schedule-flight")}
+            className="buttons-search"
+          >
+            Schedule New Flight
+          </button>
+        )}
+        <button className="buttons-search" onClick={handleSearch}>
           Search
         </button>
       </div>

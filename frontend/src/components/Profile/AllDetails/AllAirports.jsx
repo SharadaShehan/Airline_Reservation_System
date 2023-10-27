@@ -79,18 +79,18 @@ function AllAirports() {
             <table>
               <thead>
                 <tr>
-                  <th>City</th>
-                  <th>IATA Code</th>
-                  <th>ICAO Code</th>
+                  <th className="details-th">City</th>
+                  <th className="details-th">IATA Code</th>
+                  <th className="details-th">ICAO Code</th>
                   {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
                 {airportsList.map((airport) => (
                   <tr key={airport.icaoCode}>
-                    <td>{airport.city}</td>
-                    <td>{airport.iataCode}</td>
-                    <td>{airport.icaoCode}</td>
+                    <td className="details-td">{airport.city}</td>
+                    <td className="details-td">{airport.iataCode}</td>
+                    <td className="details-td">{airport.icaoCode}</td>
                     {currentUserData.role !== "DataEntryOperator" && (
                       <td>
                         <button
@@ -111,10 +111,18 @@ function AllAirports() {
         )}
       </div>
 
-      <div className="buttons-div">
+      <div className="buttons-div-details">
         <button onClick={handleBackClick} className="buttons">
           Back
         </button>
+        {currentUserData.role === "DataEntryOperator" && (
+          <button
+            onClick={() => setUserMenuItem("add-airport")}
+            className="buttons"
+          >
+            Add New Airport
+          </button>
+        )}
       </div>
     </div>
   );

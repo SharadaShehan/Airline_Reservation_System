@@ -79,24 +79,28 @@ function AllRoutes() {
             <table>
               <thead>
                 <tr>
-                  <th>Route ID</th>
-                  <th>From City</th>
-                  <th>IATA / ICAO</th>
-                  <th>To City</th>
-                  <th>IATA / ICAO</th>
-                  <th>Duration (Mins)</th>
+                  <th className="details-th">Route ID</th>
+                  <th className="details-th">From City</th>
+                  <th className="details-th">IATA / ICAO</th>
+                  <th className="details-th">To City</th>
+                  <th className="details-th">IATA / ICAO</th>
+                  <th className="details-th">Duration (Mins)</th>
                   {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
                 {routesList.map((route) => (
                   <tr key={route.routeID}>
-                    <td>{route.routeID}</td>
-                    <td>{route.fromCity}</td>
-                    <td>{route.fromIATA + " / " + route.fromICAO}</td>
-                    <td>{route.toCity}</td>
-                    <td>{route.toIATA + " / " + route.toICAO}</td>
-                    <td>{route.durationMinutes}</td>
+                    <td className="details-td">{route.routeID}</td>
+                    <td className="details-td">{route.fromCity}</td>
+                    <td className="details-td">
+                      {route.fromIATA + " / " + route.fromICAO}
+                    </td>
+                    <td className="details-td">{route.toCity}</td>
+                    <td className="details-td">
+                      {route.toIATA + " / " + route.toICAO}
+                    </td>
+                    <td className="details-td">{route.durationMinutes}</td>
                     {currentUserData.role !== "DataEntryOperator" && (
                       <td>
                         <button
@@ -117,10 +121,18 @@ function AllRoutes() {
         )}
       </div>
 
-      <div className="buttons-div">
+      <div className="buttons-div-details">
         <button onClick={handleBackClick} className="buttons">
           Back
         </button>
+        {currentUserData.role === "DataEntryOperator" && (
+          <button
+            onClick={() => setUserMenuItem("add-route")}
+            className="buttons"
+          >
+            Add New Route
+          </button>
+        )}
       </div>
     </div>
   );

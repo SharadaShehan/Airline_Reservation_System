@@ -80,16 +80,16 @@ function AllModels() {
             <table>
               <thead>
                 <tr>
-                  <th>Model ID</th>
-                  <th>Name</th>
+                  <th className="details-th">Model ID</th>
+                  <th className="details-th">Name</th>
                   {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
                 {modelsList.map((model) => (
                   <tr key={model.modelID}>
-                    <td>{model.modelID}</td>
-                    <td>{model.name}</td>
+                    <td className="details-td">{model.modelID}</td>
+                    <td className="details-td">{model.name}</td>
                     {currentUserData.role !== "DataEntryOperator" && (
                       <td>
                         <button
@@ -110,10 +110,18 @@ function AllModels() {
         )}
       </div>
 
-      <div className="buttons-div">
+      <div className="buttons-div-details">
         <button onClick={handleBackClick} className="buttons">
           Back
         </button>
+        {currentUserData.role === "DataEntryOperator" && (
+          <button
+            onClick={() => setUserMenuItem("add-model")}
+            className="buttons"
+          >
+            Add New Model
+          </button>
+        )}
       </div>
     </div>
   );
