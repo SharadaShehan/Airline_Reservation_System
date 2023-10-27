@@ -27,7 +27,7 @@ export default function AdminProfile({ userData }) {
       <img
         className="background-image"
         alt="Rectangle"
-        src={require("../../../images/AdminBackImage.jpg")}
+        src={require("../../../images/admin2.jpg")}
       />
       <div className="admin-container">
         {/* <div className="horizontal-scroll-menu">

@@ -18,7 +18,7 @@
   left: 43px;
   top: 103px;
   position: absolute;
-  opacity: 0.5;
+  opacity: 0.8;
   background: #1a354e;
 }
 
@@ -54,7 +54,7 @@
   background-color: #1a354e;
   width: 387px;
   height: 600px;
-  opacity: 0.5;
+  opacity: 0.8;
 }
 .search-records {
   position: absolute;
@@ -116,7 +116,7 @@
   text-align: center;
   border-radius: 42.5px;
   background-color: #fff;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
   border: none;
   transition: all 0.3s ease-in-out;
 }
@@ -130,7 +130,7 @@
   background-color: #0047ff;
   color: #fff;
   transform: scale(1.1);
-  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.5);
 }
 
 .group-div {
