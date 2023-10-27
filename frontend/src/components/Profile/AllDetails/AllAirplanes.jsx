@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./details.css";
+import ConfirmationPopup from '../../common/ConfirmationPopup';
+import Snackbar from "../../common/Snackbar"
 
 function AllAirplanes() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -13,6 +15,18 @@ function AllAirplanes() {
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [airplanesList, setAirplanesList] = useState([]);
+
+  const [showPopup, setShowPopup] = useState(false);
+  const snackbarRef_fail = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Failed to Delete Airplane!"
+  };
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_success = {
+    type: "success",
+    message: "Deleted the Airplane Successfully !"
+  };
 
   useEffect(
     function () {
@@ -52,7 +66,7 @@ function AllAirplanes() {
     setUserMenuItem("view-details");
   }
 
-  async function handleDelete(tailNumber) {
+  async function handlePopUpConfirmation(tailNumber) {
     try {
       const response = await axios.delete(
         `${BaseURL}/admin/delete/airplane/${tailNumber}`,
@@ -68,11 +82,13 @@ function AllAirplanes() {
           (airplane) => airplane.tailNumber !== tailNumber
         );
         setAirplanesList(newAirplanesList);
+        snackbarRef_success.current.show();
         // alert("Messaage: Model Deleted Successfully");
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      snackbarRef_fail.current.show();
+
       if (
         error.response &&
         (error.response.status === 401 || error.response.status === 403)
@@ -88,6 +104,14 @@ function AllAirplanes() {
         });
       }
     }
+  }
+
+  function handleDelete(){
+    setShowPopup(true)
+  }
+
+  function handlePopUpCancel(){
+    setShowPopup(false);
   }
 
   return (
@@ -125,6 +149,22 @@ function AllAirplanes() {
                         >
                           Delete
                         </button>
+                        <ConfirmationPopup
+                          show={showPopup}
+                          message="Are you sure you want to Delete?"
+                          onConfirm={handlePopUpConfirmation}
+                          onCancel={handlePopUpCancel}
+                        />
+                        <Snackbar
+                          ref={snackbarRef_fail}
+                          message={Snackbardata_fail.message}
+                          type={Snackbardata_fail.type}
+                        />
+                        <Snackbar
+                          ref={snackbarRef_success}
+                          message={Snackbardata_success.message}
+                          type={Snackbardata_success.type}
+                        />
                       </td>
                     )}
                   </tr>

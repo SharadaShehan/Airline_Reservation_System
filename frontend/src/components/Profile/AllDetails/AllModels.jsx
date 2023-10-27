@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./details.css";
+import ConfirmationPopup from '../../common/ConfirmationPopup';
+import Snackbar from "../../common/Snackbar"
 
 function AllModels() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -14,6 +16,18 @@ function AllModels() {
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [modelsList, setModelsList] = useState([]);
+
+  const [showPopup, setShowPopup] = useState(false);
+  const snackbarRef_fail = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Failed to Delete Model !"
+  };
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_success = {
+    type: "success",
+    message: "Deleted the Model Successfully !"
+  };
 
   useEffect(
     function () {
@@ -26,6 +40,7 @@ function AllModels() {
           });
           console.log(response.data);
           setModelsList(response.data);
+          
         } catch (error) {
           console.log(error);
           if (
@@ -53,7 +68,7 @@ function AllModels() {
     setUserMenuItem("view-details");
   }
 
-  async function handleDelete(modelID) {
+  async function handlePopUpConfirmation(modelID) {
     try {
       const response = await axios.delete(
         `${BaseURL}/admin/delete/model/${modelID}`,
@@ -69,11 +84,13 @@ function AllModels() {
           (model) => model.modelID !== modelID
         );
         setModelsList(newModelsList);
+        snackbarRef_success.current.show();
         // alert("Messaage: Model Deleted Successfully");
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      snackbarRef_fail.current.show();
+
       if (
         error.response &&
         (error.response.status === 401 || error.response.status === 403)
@@ -89,6 +106,14 @@ function AllModels() {
         });
       }
     }
+  }
+
+  function handleDelete(){
+    setShowPopup(true)
+  }
+
+  function handlePopUpCancel(){
+    setShowPopup(false);
   }
 
   return (
@@ -126,6 +151,22 @@ function AllModels() {
                         >
                           Delete
                         </button>
+                        <ConfirmationPopup
+                          show={showPopup}
+                          message="Are you sure you want to Delete?"
+                          onConfirm={handlePopUpConfirmation}
+                          onCancel={handlePopUpCancel}
+                        />
+                        <Snackbar
+                          ref={snackbarRef_fail}
+                          message={Snackbardata_fail.message}
+                          type={Snackbardata_fail.type}
+                        />
+                        <Snackbar
+                          ref={snackbarRef_success}
+                          message={Snackbardata_success.message}
+                          type={Snackbardata_success.type}
+                        />
                       </td>
                     )}
                   </tr>
