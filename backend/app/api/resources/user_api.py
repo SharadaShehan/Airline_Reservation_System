@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_registered_user
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_user_data
 from werkzeug.security import check_password_hash
@@ -13,13 +13,13 @@ parser.add_argument('password', type=str, required=True)
 class UserGetAuthToken(Resource):
     def post(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_registered_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     args = parser.parse_args()
@@ -88,20 +88,20 @@ class UserGetAuthToken(Resource):
             except Exception as ex:
                 return abort(400, message=f"Failed to get user. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")
 
 
 class GetUserDetails(Resource):
     @jwt_required()     # check if user is jwt authenticated
     def get(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_registered_user()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 username = get_jwt_identity()    # get username from jwt token
                 # SQL query to get user details
@@ -151,5 +151,5 @@ class GetUserDetails(Resource):
             except Exception as ex:
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")
 

@@ -8,9 +8,14 @@ def drop_all_procedures():
         cursor = connection.cursor()
         drop_procedure_queries = []
         procedures_list = [
-            "CompleteBookingSet",
-            "CreateBookingSet",
-            "ScheduleFlight"
+            "CompleteBooking",
+            "CreateBooking",
+            "UserCreateBooking",
+            "GuestCreateBooking",
+            "ScheduleFlight",
+            "CreateAirport",
+            "CreateModel",
+            "CreateRoute"
         ]
         
         # Generate drop queries for all procedures and append to drop_queries list
@@ -32,10 +37,10 @@ def create_procedures():
     if connection:
         cursor = connection.cursor()
 
-        #------- Create complete booking set procedure -------
+        #------- Create complete booking procedure -------
         
-        create_complete_booking_set_query = """
-            CREATE PROCEDURE CompleteBookingSet(IN Ref_ID CHAR(12))
+        create_complete_booking_query = """
+            CREATE PROCEDURE CompleteBooking(IN Ref_ID CHAR(12))
             BEGIN
                 DECLARE totalBookingsCount SMALLINT;
                 DECLARE currentUser VARCHAR(30);
@@ -45,30 +50,24 @@ def create_procedures():
                 DECLARE idFrequent SMALLINT;
                 DECLARE minBookCountGold VARCHAR(10);
                 DECLARE idGold SMALLINT;
-
-                DECLARE EXIT HANDLER FOR SQLEXCEPTION
-                    BEGIN
-                        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SQLError occured. Triggered ROLLBACK';
-                        ROLLBACK;
-                    END;
                 
                 START TRANSACTION;
-
-                    -- Set booking set as completed
-                    UPDATE booking_set 
+                    
+                    -- Set booking as completed
+                    UPDATE booking
                     SET Completed = 1
                     WHERE Booking_Ref_ID = Ref_ID;
 
                     -- Select current user
                     SELECT usr.Username INTO currentUser
-                    FROM booking_set as bkset
+                    FROM booking as bkset
                     INNER JOIN registered_user as usr on bkset.User = usr.Username
                     WHERE bkset.Booking_Ref_ID = Ref_ID;
   
                     -- Get booking count of user
                     SELECT COUNT(distinct bk.Ticket_Number) INTO totalBookingsCount 
-                    FROM booking_set as bkset
-                    INNER JOIN booking as bk on bkset.Booking_Ref_ID = bk.Booking_Set
+                    FROM booking as bkset
+                    INNER JOIN booked_seat as bk on bkset.Booking_Ref_ID = bk.Booking
                     INNER JOIN registered_user as usr on bkset.User = usr.Username
                     WHERE usr.Username = currentUser;
   
@@ -107,22 +106,25 @@ def create_procedures():
                 COMMIT;
             END;
         """
-        cursor.execute(create_complete_booking_set_query)
+        cursor.execute(create_complete_booking_query)
         #----------------------------------
 
-        #------- Create create booking set procedure -------
+        #------- Create user create booking procedure -------
         
-        create_create_booking_set_query = """
-            CREATE PROCEDURE CreateBookingSet(
-                IN refID CHAR(12), 
+        create_user_create_booking_query = """
+            CREATE PROCEDURE UserCreateBooking(
                 IN scheduled_flight_id INTEGER, 
                 IN acc_username VARCHAR(30), 
                 IN travel_class VARCHAR(10), 
                 IN booking_count SMALLINT, 
-                IN finalPrice DECIMAL(8,2), 
-                OUT status_var BOOLEAN)
+                IN passengers_json JSON,
+                OUT refID CHAR(12),
+                OUT finalPrice DECIMAL(8,2),
+                OUT status_var BOOLEAN
+            )
 
             BEGIN
+                DECLARE i INTEGER DEFAULT 0;
                 DECLARE basePricePerBooking DECIMAL(8,2);
                 DECLARE seat_number SMALLINT;
                 DECLARE first_name VARCHAR(30);
@@ -136,19 +138,37 @@ def create_procedures():
                 DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult, Passport_ID FROM booking_data;
                 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
                 
-                DECLARE EXIT HANDLER FOR SQLEXCEPTION
-                BEGIN
-                    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'SQLError occured. Triggered ROLLBACK';
-                    ROLLBACK;
-                END;
-                
                 SET status_var = FALSE;
 
+                SET refID = GenerateRandomString();
+                SET finalPrice = CalculateFinalPrice(scheduled_flight_id, acc_username, travel_class, booking_count);
+
+                DROP TEMPORARY TABLE IF EXISTS booking_data;
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS booking_data (
+                        SeatNumber SMALLINT,
+                        FirstName VARCHAR(30),
+                        LastName VARCHAR(30),
+                        IsAdult BOOLEAN,
+                        Passport_ID VARCHAR(15) 
+                );
+
+                WHILE i < JSON_LENGTH(passengers_json) DO
+                    SET seat_number = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].seatNumber')));
+                    SET first_name = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].firstName')));
+                    SET last_name = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].lastName')));
+                    SET is_adult = JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].isAdult'));
+                    SET passportid = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].passportID')));
+
+                    INSERT INTO 
+                        booking_data (SeatNumber, FirstName, LastName, IsAdult, Passport_ID) 
+                    VALUES 
+                        (seat_number, first_name, last_name, is_adult, passportid);
+
+                    SET i = i + 1;
+                END WHILE;
+
                 START TRANSACTION;
-                
-                    IF acc_username = 'NULL' THEN
-                        SET acc_username = NULL;
-                    END IF;
                     
                     SELECT bprc.Price_ID INTO basePricePerBooking
                     FROM scheduled_flight AS shf
@@ -157,7 +177,7 @@ def create_procedures():
                     INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                     WHERE shf.Scheduled_ID = scheduled_flight_id AND cls.Class_Name = travel_class;
                     
-                    INSERT INTO booking_set (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price) 
+                    INSERT INTO booking (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price) 
                     VALUES (refID, scheduled_flight_id, acc_username, basePricePerBooking, finalPrice);
                     
                     OPEN recordsCursor;
@@ -172,8 +192,8 @@ def create_procedures():
                     	SELECT 
                             ( COUNT(*) > 0 ) INTO seat_reserved
                         FROM
-                            booking AS bk
-                            INNER JOIN booking_set AS bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                            booked_seat AS bk
+                            INNER JOIN booking AS bkset ON bk.Booking = bkset.Booking_Ref_ID
                             INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                             INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                             INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
@@ -198,26 +218,171 @@ def create_procedures():
                             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Number Exceeds Maximum Seat Count';
                         END IF;
                         
-                        INSERT INTO booking (Booking_Set, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) 
+                        INSERT INTO booked_seat (Booking, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) 
                         VALUES (refID, seat_number, first_name, last_name, is_adult, passportid);
                         
                     END LOOP;
                     CLOSE recordsCursor;
-                
+
                 COMMIT;
                 SET status_var = TRUE;
             END;
         """
-        cursor.execute(create_create_booking_set_query)
+        cursor.execute(create_user_create_booking_query)
         #----------------------------------
 
+        #------- Create guest create booking procedure -------
+        
+        create_guest_create_booking_query = """
+            CREATE PROCEDURE GuestCreateBooking(
+                IN scheduled_flight_id INTEGER, 
+                IN in_guest_id CHAR(12), 
+                IN travel_class VARCHAR(10), 
+                IN booking_count SMALLINT, 
+                IN passengers_json JSON,
+                IN email VARCHAR(50),
+                IN contact_number VARCHAR(16),
+                OUT refID CHAR(12),
+                OUT finalPrice DECIMAL(8,2),
+                OUT out_guest_id CHAR(12),
+                OUT status_var BOOLEAN
+            )
+
+            BEGIN
+                DECLARE i INTEGER DEFAULT 0;
+                DECLARE basePricePerBooking DECIMAL(8,2);
+                DECLARE seat_number SMALLINT;
+                DECLARE first_name VARCHAR(30);
+                DECLARE last_name VARCHAR(30);
+                DECLARE is_adult BOOLEAN;
+                DECLARE passportid VARCHAR(15);
+                DECLARE seat_reserved BOOLEAN;
+                DECLARE max_seat_number SMALLINT;
+                DECLARE guest_id CHAR(12);
+                
+                DECLARE done BOOLEAN DEFAULT FALSE;
+                DECLARE recordsCursor CURSOR FOR SELECT SeatNumber, FirstName, LastName, IsAdult, Passport_ID FROM booking_data;
+                DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+                
+                SET status_var = FALSE;
+
+                SET refID = GenerateRandomString();
+                SET finalPrice = CalculateFinalPrice(scheduled_flight_id, 'NULL', travel_class, booking_count);
+
+                DROP TEMPORARY TABLE IF EXISTS booking_data;
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS booking_data (
+                        SeatNumber SMALLINT,
+                        FirstName VARCHAR(30),
+                        LastName VARCHAR(30),
+                        IsAdult BOOLEAN,
+                        Passport_ID VARCHAR(15) 
+                );
+
+                WHILE i < JSON_LENGTH(passengers_json) DO
+                    SET seat_number = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].seatNumber')));
+                    SET first_name = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].firstName')));
+                    SET last_name = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].lastName')));
+                    SET is_adult = JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].isAdult'));
+                    SET passportid = JSON_UNQUOTE(JSON_EXTRACT(passengers_json, CONCAT('$[', i, '].passportID')));
+
+                    INSERT INTO 
+                        booking_data (SeatNumber, FirstName, LastName, IsAdult, Passport_ID) 
+                    VALUES 
+                        (seat_number, first_name, last_name, is_adult, passportid);
+
+                    SET i = i + 1;
+                END WHILE;
+
+                START TRANSACTION;
+                    
+                    SELECT bprc.Price_ID INTO basePricePerBooking
+                    FROM scheduled_flight AS shf
+                    INNER JOIN route AS rut ON shf.Route = rut.Route_ID
+                    INNER JOIN base_price AS bprc ON rut.Route_ID = bprc.Route
+                    INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
+                    WHERE shf.Scheduled_ID = scheduled_flight_id AND cls.Class_Name = travel_class;
+                    
+                    INSERT INTO booking (Booking_Ref_ID, Scheduled_Flight, User, BPrice_Per_Booking, Final_price) 
+                    VALUES (refID, scheduled_flight_id, NULL, basePricePerBooking, finalPrice);
+                    
+                    OPEN recordsCursor;
+                    readLoop: LOOP
+                        FETCH recordsCursor INTO seat_number, first_name, last_name, is_adult, passportid;
+                        IF done THEN
+                            LEAVE readLoop;
+                        END IF;
+
+                        SET seat_reserved = 0;
+                        
+                    	SELECT 
+                            ( COUNT(*) > 0 ) INTO seat_reserved
+                        FROM
+                            booked_seat AS bk
+                            INNER JOIN booking AS bkset ON bk.Booking = bkset.Booking_Ref_ID
+                            INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
+                            INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
+                            INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
+                        WHERE shf.Scheduled_ID = scheduled_flight_id and  cls.Class_Name = travel_class and bk.Seat_Number = seat_number;
+
+                        IF seat_reserved THEN
+                            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Already Booked';
+                        END IF;
+
+                        SELECT cpt.Seats_Count INTO max_seat_number
+                        FROM 
+                            scheduled_flight AS shf
+                            INNER JOIN airplane AS apl ON shf.Airplane = apl.Tail_Number
+                            INNER JOIN model AS mdl ON apl.Model = mdl.Model_ID
+                            INNER JOIN capacity AS cpt ON mdl.Model_ID = cpt.Model
+                            INNER JOIN class AS cls ON cpt.Class = cls.Class_Name
+                        WHERE 
+                            shf.Scheduled_ID = scheduled_flight_id
+                            AND cls.Class_Name = travel_class;
+                        
+                        IF seat_number > max_seat_number THEN
+                            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Seat Number Exceeds Maximum Seat Count';
+                        END IF;
+                        
+                        INSERT INTO booked_seat (Booking, Seat_Number, FirstName, LastName, IsAdult, Passport_ID) 
+                        VALUES (refID, seat_number, first_name, last_name, is_adult, passportid);
+                        
+                    END LOOP;
+                    CLOSE recordsCursor;
+
+                    IF email = 'NULL' THEN
+                        SET email = NULL;
+                    END IF;
+
+                    IF contact_number = 'NULL' THEN
+                        SET contact_number = NULL;
+                    END IF;
+
+                    IF in_guest_id = '____________' THEN
+                        SET out_guest_id = GenerateRandomGuestID();
+                    ELSE
+                        SET out_guest_id = in_guest_id;
+                    END IF;
+
+                    INSERT INTO guest (Guest_ID, Booking_Ref_ID, Email, Contact_Number)
+                    VALUES (out_guest_id, refID, email, contact_number);
+
+                COMMIT;
+                SET status_var = TRUE;
+            END;
+        """
+        cursor.execute(create_guest_create_booking_query)
+        #----------------------------------
+
+
         #------- Create schedule flight procedure -------
+
         create_schedule_flight_query = """
             CREATE PROCEDURE ScheduleFlight(
                 IN route_int SMALLINT, 
                 IN airplane_code VARCHAR(10), 
                 IN departure_date CHAR(10), 
-                IN departure_time CHAR(8), 
+                IN departure_time CHAR(8),
                 OUT status_var BOOLEAN)
 
             BEGIN
@@ -260,6 +425,146 @@ def create_procedures():
             END;
         """
         cursor.execute(create_schedule_flight_query)
+        #----------------------------------
+
+        #------- Create create airport procedure -------
+
+        create_create_airport_query = """
+            CREATE PROCEDURE CreateAirport(
+                IN icao_code CHAR(4),
+                IN iata_code CHAR(3),
+                IN locations_json JSON,
+                OUT status_var BOOLEAN)
+            
+            BEGIN
+                DECLARE idx INTEGER DEFAULT 0;
+                DECLARE airport_code CHAR(4);
+                DECLARE name VARCHAR(20);
+                DECLARE array_length INTEGER;
+                
+                SET status_var = FALSE;
+                SET array_length = JSON_LENGTH(locations_json);
+                
+                START TRANSACTION;
+                
+                    INSERT INTO 
+                        airport (ICAO_Code, IATA_Code) 
+                    VALUES 
+                        (icao_code, iata_code);
+                    
+                    SET airport_code = icao_code;
+
+                    WHILE idx < array_length DO
+                        SET name = JSON_UNQUOTE(JSON_EXTRACT(locations_json, CONCAT('$[', idx, ']')));
+                        INSERT INTO 
+                            location (Airport, level, name)
+                        VALUES
+                            (airport_code, idx, name);
+                        
+                        SET idx = idx + 1;
+                    END WHILE;
+        
+                COMMIT;
+                SET status_var = TRUE;
+            END;
+        """
+        cursor.execute(create_create_airport_query)
+        #----------------------------------
+
+        #------- Create create model procedure -------
+
+        create_create_model_query = """
+            CREATE PROCEDURE CreateModel(
+                IN model_name VARCHAR(40),
+                IN seats_count_json JSON,
+                OUT status_var BOOLEAN)
+            
+            BEGIN
+                DECLARE model_id INTEGER;
+                DECLARE class_name VARCHAR(10);
+                DECLARE seats_count SMALLINT;
+                DECLARE keyIndex INTEGER DEFAULT 0;
+                DECLARE totalKeys INTEGER;
+                
+                SET status_var = FALSE;
+                SET totalKeys = JSON_LENGTH(JSON_KEYS(seats_count_json));
+
+                START TRANSACTION;
+
+                    INSERT INTO
+                        model (Name)
+                    VALUES
+                        (model_name);
+
+                    SET model_id = LAST_INSERT_ID();
+
+                    WHILE keyIndex < totalKeys DO
+                        SET class_name = JSON_UNQUOTE(JSON_EXTRACT(JSON_KEYS(seats_count_json), CONCAT('$[', keyIndex, ']')));
+                        SET seats_count = JSON_UNQUOTE(JSON_EXTRACT(seats_count_json, CONCAT('$.', class_name)));
+
+                        INSERT INTO
+                            capacity (Model, Class, Seats_Count)
+                        VALUES
+                            (model_id, class_name, seats_count);
+                        
+                        SET keyIndex = keyIndex + 1;
+                    END WHILE;
+
+                COMMIT;
+                SET status_var = TRUE;
+            END;
+        """
+        cursor.execute(create_create_model_query)
+        #----------------------------------
+
+        #------- Create create route procedure -------
+
+        create_create_route_query = """
+            CREATE PROCEDURE CreateRoute(
+                IN origin VARCHAR(4),
+                IN destination VARCHAR(4),
+                IN duration_minutes SMALLINT,
+                IN base_price_json JSON,
+                OUT status_var BOOLEAN)
+
+            BEGIN
+
+                DECLARE route_id INTEGER;
+                DECLARE class_name VARCHAR(10);
+                DECLARE price DECIMAL(8,2);
+                DECLARE keyIndex INTEGER DEFAULT 0;
+                DECLARE totalKeys INTEGER;
+                
+                SET status_var = FALSE;
+
+                SET totalKeys = JSON_LENGTH(JSON_KEYS(base_price_json));
+
+                START TRANSACTION;
+
+                    INSERT INTO
+                        route (Origin, Destination, Duration_Minutes)
+                    VALUES
+                        (origin, destination, duration_minutes);
+                    
+                    SET route_id = LAST_INSERT_ID();
+
+                    WHILE keyIndex < totalKeys DO
+                        SET class_name = JSON_UNQUOTE(JSON_EXTRACT(JSON_KEYS(base_price_json), CONCAT('$[', keyIndex, ']')));
+                        SET price = JSON_UNQUOTE(JSON_EXTRACT(base_price_json, CONCAT('$.', class_name)));
+
+                        INSERT INTO
+                            base_price (Route, Class, Price)
+                        VALUES
+                            (route_id, class_name, price);
+                        
+                        SET keyIndex = keyIndex + 1;
+                    END WHILE;
+                
+                COMMIT;
+                SET status_var = TRUE;
+            END;
+        """
+        cursor.execute(create_create_route_query)
         #----------------------------------
         
         connection.commit()

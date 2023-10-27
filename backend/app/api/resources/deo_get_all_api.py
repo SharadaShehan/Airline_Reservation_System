@@ -1,25 +1,39 @@
 from flask import make_response
-from app.utils.db import get_db_connection_guest_user
+from app.utils.db import get_db_connection_staff
 from flask_restful import Resource, abort
-from app.api.cache import cache
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
-class GetAllModels(Resource):
-    @cache.cached(timeout=300)
+class DEOGetAllModels(Resource):
+    @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection_guest_user()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
-                cursor = connection.cursor(prepared=True)
+                cursor = connection.cursor(buffered=True)
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT Model_ID, Name FROM model 
                 """
-                # Execute query with username
+                # execute query to get all models
                 cursor.execute(query)
                 items = cursor.fetchall()
                 response=[]
@@ -32,22 +46,38 @@ class GetAllModels(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only staff can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
         
 
-class GetAllRoutes(Resource):
-    @cache.cached(timeout=300)
+class DEOGetAllRoutes(Resource):
+    @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection_guest_user()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
-                cursor = connection.cursor(prepared=True)
+                cursor = connection.cursor(buffered=True)
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT 
@@ -67,6 +97,7 @@ class GetAllRoutes(Resource):
                         INNER JOIN location AS desloc ON desloc.Airport = des.ICAO_Code
                     GROUP BY desloc.Airport , orgloc.Airport;
                 """
+                # Execute query to get all routes
                 cursor.execute(query)
                 items = cursor.fetchall()
                 
@@ -86,22 +117,38 @@ class GetAllRoutes(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only staff can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
 
 
-class GetAllAirports(Resource):
-    @cache.cached(timeout=300)
+class DEOGetAllAirports(Resource):
+    @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection_guest_user()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
-                cursor = connection.cursor(prepared=True)
+                cursor = connection.cursor(buffered=True)
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT 
@@ -112,7 +159,7 @@ class GetAllAirports(Resource):
                         airport
                         LEFT JOIN location ON airport.ICAO_Code = location.Airport AND location.level = 0
                 """
-                # Execute query with username
+                # Execute query to get all airports
                 cursor.execute(query)
                 items = cursor.fetchall()
                 response=[]
@@ -126,22 +173,38 @@ class GetAllAirports(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only staff can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")
         
 
-class GetAllAirplanes(Resource):
-    @cache.cached(timeout=300)
+class DEOGetAllAirplanes(Resource):
+    @jwt_required()
     def get(self):
         try:
-            connection = get_db_connection_guest_user()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
-                cursor = connection.cursor(prepared=True)
+                cursor = connection.cursor(buffered=True)
+
+                # Get current user
+                current_user = get_jwt_identity()
+
+                query = """
+                    SELECT * FROM staff WHERE Username = %s
+                """
+
+                # Execute query with username
+                cursor.execute(query,(current_user,))
+                items = cursor.fetchone()
+
+                if items is None:
+                    raise Exception("403")
                 
                 query = """
                     SELECT 
@@ -151,9 +214,10 @@ class GetAllAirplanes(Resource):
                         airplane 
                         LEFT JOIN model ON airplane.Model = model.Model_ID
                 """
-                # Execute query with username
+                # Execute query to get all airplanes
                 cursor.execute(query)
                 items = cursor.fetchall()
+                print(items)
                 response=[]
                 for item in items:
                     response.append({
@@ -164,6 +228,8 @@ class GetAllAirplanes(Resource):
                 
                 return make_response(response, 200)
             except Exception as ex:
+                if str(ex) == "403":
+                    return abort(403, message="Only staff can access API")
                 return abort(400, message=f"Failed to Access URL. Error: {ex}")
         else:
             return abort(403, message="Unauthorized Access")

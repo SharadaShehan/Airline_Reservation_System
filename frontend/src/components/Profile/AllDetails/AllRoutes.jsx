@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import "./details.css";
 import axios from "axios";
 import Cookies from "js-cookie";
+import ConfirmationPopup from '../../common/ConfirmationPopup';
+import Snackbar from "../../common/Snackbar"
 
 function AllRoutes() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -13,6 +15,18 @@ function AllRoutes() {
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [routesList, setRoutesList] = useState([]);
+
+  const [showPopup, setShowPopup] = useState(false);
+  const snackbarRef_fail = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Failed to Delete Route!"
+  };
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_success = {
+    type: "success",
+    message: "Deleted the Route Successfully !"
+  };
 
   useEffect(
     function () {
@@ -52,7 +66,7 @@ function AllRoutes() {
     setUserMenuItem("view-details");
   }
 
-  async function handleDelete(routeID) {
+  async function handlePopUpConfirmation(routeID) {
     try {
       const response = await axios.delete(
         `${BaseURL}/admin/delete/route/${routeID}`,
@@ -68,11 +82,13 @@ function AllRoutes() {
           (route) => route.routeID !== routeID
         );
         setRoutesList(newRoutesList);
+        snackbarRef_success.current.show();
         // alert("Messaage: Model Deleted Successfully");
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      snackbarRef_fail.current.show();
+
       if (
         error.response &&
         (error.response.status === 401 || error.response.status === 403)
@@ -90,6 +106,14 @@ function AllRoutes() {
     }
   }
 
+  function handleDelete(){
+    setShowPopup(true)
+  }
+
+  function handlePopUpCancel(){
+    setShowPopup(false);
+  }
+  
   return (
     <div className="outer-box">
       <span className="view-revenue">All Routes</span>
@@ -137,6 +161,22 @@ function AllRoutes() {
                         >
                           Delete
                         </button>
+                        <ConfirmationPopup
+                          show={showPopup}
+                          message="Are you sure you want to Delete?"
+                          onConfirm={handlePopUpConfirmation}
+                          onCancel={handlePopUpCancel}
+                        />
+                        <Snackbar
+                          ref={snackbarRef_fail}
+                          message={Snackbardata_fail.message}
+                          type={Snackbardata_fail.type}
+                        />
+                        <Snackbar
+                          ref={snackbarRef_success}
+                          message={Snackbardata_success.message}
+                          type={Snackbardata_success.type}
+                        />
                       </td>
                     )}
                   </tr>

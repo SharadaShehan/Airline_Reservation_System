@@ -43,6 +43,12 @@ def validate_booking_data(flightID, travelClass, passengers):
 def validate_booking_set_id_format(booking_ref_id):
     if isinstance(booking_ref_id, str) and booking_ref_id.isalnum() and len(booking_ref_id) == 12:
         return True
+    return False
+
+def validate_guest_id_format(guest_id):
+    if isinstance(guest_id, str) and guest_id.isalnum() and len(guest_id) == 12:
+        return True
+    return False
 
 def validate_payment(booking_ref_id, transaction_id):
     return validate_booking_set_id_format(booking_ref_id)
@@ -122,10 +128,31 @@ def validate_airplane_data(tail_number, model_id):
             return True
     return False
 
-def validate_route_data(origin, destination, duration_minutes):
+def validate_tail_number(tail_number):
+    if isinstance(tail_number, str) and len(tail_number) >= 4 and re.match(tail_number_pattern, tail_number):
+        return True
+    return False
+
+def validate_model_id(model_id):
+    if isinstance(model_id, int) and model_id > 0:
+        return True
+    return False
+
+def validate_route_id(route_id):
+    if isinstance(route_id, int) and route_id > 0:
+        return True
+    return False
+
+def validate_route_data(origin, destination, duration_minutes, base_price):
     if validate_icao_code(origin) and validate_icao_code(destination):
         if isinstance(duration_minutes, int) and duration_minutes > 0:
-            return True
+            if isinstance(base_price, dict) and len(base_price) > 0:
+                for travel_class, price in base_price.items():
+                    if travel_class not in classes:
+                        return False
+                    if not (isinstance(price, float) or isinstance(price, int)) or price < 0:
+                        return False
+                return True
 
 def validate_date(date):
     if isinstance(date, str) and len(date) == 10 and re.match(date_pattern, date):
@@ -193,5 +220,21 @@ def validate_Username(username):
 def validate_update_delay_data(flight_id, new_delay):
     if isinstance(flight_id, int) and flight_id > 0:
         if isinstance(new_delay, int) and new_delay >= 0:
+            return True
+    return False
+
+def validate_contact_number(contact_number):
+    if isinstance(contact_number, str) and re.match(contact_number_pattern, contact_number):
+        return True
+    return False
+
+def validate_email(email):
+    if isinstance(email, str) and re.match(email_pattern, email):
+        return True
+    return False
+
+def validate_seat_search_parameters(flight_id, travel_class):
+    if isinstance(flight_id, int) and flight_id > 0:
+        if isinstance(travel_class, str) and travel_class in classes:
             return True
     return False

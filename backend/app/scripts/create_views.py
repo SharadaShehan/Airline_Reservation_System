@@ -81,8 +81,8 @@ def create_views():
                     COUNT(*) AS count,
                     GROUP_CONCAT(bk.Seat_Number ORDER BY bk.Seat_Number ASC SEPARATOR ',') AS bookedSeats
                     FROM
-                        booking AS bk
-                        INNER JOIN booking_set AS bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                        booked_seat AS bk
+                        INNER JOIN booking AS bkset ON bk.Booking = bkset.Booking_Ref_ID
                         INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                         INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
                         INNER JOIN scheduled_flight AS shf ON bkset.Scheduled_Flight = shf.Scheduled_ID
@@ -130,8 +130,8 @@ def create_views():
                     ELSE 'Payment Pending'
                 END AS status
             FROM
-                booking AS bk
-                INNER JOIN booking_set bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                booked_seat AS bk
+                INNER JOIN booking AS bkset ON bk.Booking = bkset.Booking_Ref_ID
                 LEFT JOIN registered_user AS usr ON bkset.User = usr.Username
                 INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                 INNER JOIN class AS cls ON bprc.Class = cls.Class_Name
@@ -166,8 +166,8 @@ def create_views():
                 bkset.Booking_Ref_ID AS bookingRefID,
                 IFNULL(ctg.Category_Name, 'Guest') AS userType
             FROM
-                booking AS bk
-                INNER JOIN booking_set bkset ON bk.Booking_Set = bkset.Booking_Ref_ID
+                booked_seat AS bk
+                INNER JOIN booking AS bkset ON bk.Booking = bkset.Booking_Ref_ID
                 LEFT JOIN registered_user AS usr ON bkset.User = usr.Username
                 INNER JOIN base_price AS bprc ON bkset.BPrice_Per_Booking = bprc.Price_ID
                 INNER JOIN class AS cls ON bprc.Class = cls.Class_Name

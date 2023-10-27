@@ -1,5 +1,5 @@
 from flask import make_response
-from app.utils.db import get_db_connection
+from app.utils.db import get_db_connection_staff
 from flask_restful import Resource, abort, reqparse
 from app.utils.validators import validate_staff_update_data_with_password, validate_staff_update_data_without_password
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -16,13 +16,13 @@ class UpdateDEO(Resource):
     @jwt_required()
     def patch(self):
         try:
-            connection = get_db_connection()
+            connection = get_db_connection_staff()
         except Exception as ex:
             return abort(500, message=f"Failed to connect to database. Error: {ex}")
         
         if connection:
             try:
-                cursor = connection.cursor()
+                cursor = connection.cursor(prepared=True)
 
                 try:
                     args = parser.parse_args()
@@ -54,7 +54,7 @@ class UpdateDEO(Resource):
                         raise Exception("Invalid user data")
                     
                     # update user
-                    cursor.execute(f"UPDATE user SET FirstName = '{firstname}', LastName = '{lastname}' WHERE Username = '{current_user}'")
+                    cursor.execute("UPDATE user SET FirstName = %s, LastName = %s WHERE Username = %s", (firstname, lastname, current_user))
 
                 else:
                     # Validate user data
@@ -62,7 +62,7 @@ class UpdateDEO(Resource):
                         raise Exception("Invalid user data")
                     
                     # Check if current password is correct
-                    cursor.execute(f"SELECT Password FROM user WHERE Username = '{current_user}'")
+                    cursor.execute("SELECT Password FROM user WHERE Username = %s", (current_user,))
                     passwordfetched = cursor.fetchone()
                     if passwordfetched is None:
                         raise Exception("Invalid username")
@@ -71,7 +71,7 @@ class UpdateDEO(Resource):
                     
                     # update user
                     hashed_password = generate_password_hash(new_password.strip(), method='scrypt')
-                    cursor.execute(f"UPDATE user SET FirstName = '{firstname}', LastName = '{lastname}', Password = '{hashed_password}' WHERE Username = '{current_user}'")
+                    cursor.execute("UPDATE user SET FirstName = %s, LastName = %s, Password = %s WHERE Username = %s", (firstname, lastname, hashed_password, current_user))
                 
                 connection.commit()
                 connection.close()
@@ -83,4 +83,4 @@ class UpdateDEO(Resource):
                     return abort(403, message="Unauthorized access to Data Entry Operator API")
                 return abort(400, message=f"Failed to update user. Error: {ex}.")
         else:
-            return abort(500, message="Failed to connect to database")
+            return abort(403, message="Unauthorized Access")

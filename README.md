@@ -51,6 +51,14 @@ Please develop the backend in a virtual environment.
     MYSQL_PORT=3306
     MYSQL_USER=root
     MYSQL_PASSWORD=12345678
+    MYSQL_ADMIN_ACCOUNT=adminAccount
+    MYSQL_ADMIN_PASSWORD=P7tZ99pJ2s9
+    MYSQL_STAFF_ACCOUNT=staffAccount
+    MYSQL_STAFF_PASSWORD=MK6dLpY9sPz
+    MYSQL_REGISTERED_USER_ACCOUNT=registeredUserAccount
+    MYSQL_REGISTERED_USER_PASSWORD=0qR3vKnX8w5
+    MYSQL_GUEST_USER_ACCOUNT=guestAccount
+    MYSQL_GUEST_USER_PASSWORD=L2mSgV7hg5e
     MYSQL_DB=project_database
 
     INIT_ENABLED=1
@@ -121,66 +129,4 @@ Recommended Node version : `Node 18.17.1`
     ```
 
 `Visual Studio Code` is the recommended code editor for development of this project.
-
-
-## Essential Git Commands for Project Development
-
-1) Updating and Syncing with the Remote Repository:<br>
-   Before initiating your work, ensure you are within the project directory on your local machine and synchronize your repository with the latest updates from the remote GitHub repository by executing the following command:
-
-    ```bash
-    git pull origin <branch_name>
-    ```
-
-
-2) ( Optional ) Branch Navigation:<br>
-   If required, navigate to an another branch by using the 'checkout' command:
-
-    ```bash
-    git checkout <branch_name>
-    ```
-    If you are navigating to the branch for first time, use -b flag to create the local branch with given name.
-    ```bash
-    git checkout -b <branch_name>
-    ```
-
-3) Implementing Developments and Staging Changes:<br>
-   Progress with your code developments within the local repository. After making necessary developments, stage the changes for commiting by executing:
-   
-   ```bash
-    git add .
-    ```
-
-4) Committing Changes:<br>
-   Commit the staged changes along with an informative commit message explaining the recent changes:
-   
-   ```bash
-   git commit -m '<commit_message>'
-   ```
-
-   Replace '<commit_message>' with a short description about modifications.
-
-5) Incorporating Remote Changes and Handling Merge Conflicts:<br>
-   Use the 'pull' command to fetch potential changes from the GitHub repository, aligning your committed changes with any recent contributions from other project contributors:
-   
-   ```bash
-   git pull origin <branch_name>
-   ```
-
-   If any conflicts arise during this process, solve them through a code editor and then re-run the 'pull' command.
-
-6) Uploading Merged Changes to GitHub:<br>
-   Publish the modifications to the GitHub repository:
-   
-   ```bash
-   git push origin <branch_name>
-   ```
-
-<br>
-Repeat Above sequence of commands to introduce further enhancements to the project.
-
-<p align="center">
-    <br>
-<img src="https://github.com/SharadaShehan/Airline_Reservation_System/blob/c0242b679cd7a9f53cf57ac91fca9ad5acda57a2/git_workflow.png"  width="40%">
-</p>
 
