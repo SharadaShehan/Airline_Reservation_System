@@ -71,6 +71,7 @@ function DEOLoginForm() {
       if (response.status === 200) {
         Cookies.set("access-token", response.data.access_token, { expires: 1 });
         setCurrentUserData(response.data.userData);
+        console.log(response.data.userData);
         //setAdmin profile Details
       } else {
         throw new Error("Something went wrong");
