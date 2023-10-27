@@ -22,6 +22,7 @@ export default function BookedTickets() {
       <img
         className="background-image"
         alt="Rectangle"
+        loading="lazy"
         src={require("../images/booked-Tickets-2.jpg")}
       />
       <div className="bookedTicketsPage-container">

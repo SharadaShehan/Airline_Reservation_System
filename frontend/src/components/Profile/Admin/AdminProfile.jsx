@@ -27,6 +27,7 @@ export default function AdminProfile({ userData }) {
       <img
         className="background-image"
         alt="Rectangle"
+        loading="lazy"
         src={require("../../../images/admin2.jpg")}
       />
       <div className="admin-container">

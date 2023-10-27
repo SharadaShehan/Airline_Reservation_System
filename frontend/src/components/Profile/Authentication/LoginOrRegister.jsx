@@ -19,12 +19,14 @@ export default function LoginOrRegister() {
           <img
             className="background-image"
             alt="Rectangle"
+            loading="lazy"
             src={require("../../../images/user3.jpg")}
           />
         ): (
           <img
             className="background-image"
             alt="Rectangle"
+            loading="lazy"
             src={require("../../../images/StaffLogin.png")}
           />
         )}

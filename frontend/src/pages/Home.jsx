@@ -22,6 +22,7 @@ function HomePage() {
           <img
             className="home-background"
             alt="Rectangle"
+            loading="lazy"
             src={require("../images/HomeBackground.png")}
           />
           <div className="group-4">
@@ -38,6 +39,7 @@ function HomePage() {
                   <img
                     className="service-img"
                     alt="Rectangle"
+                    loading="lazy"
                     src={rectangle91}
                   />
                   <div className="text-wrapper-11">Transportation</div>
@@ -55,6 +57,7 @@ function HomePage() {
                   <img
                     className="service-img"
                     alt="Rectangle"
+                    loading="lazy"
                     src={rectangle94}
                   />
                   <div className="text-wrapper-11">Baggage Handling</div>
@@ -73,6 +76,7 @@ function HomePage() {
                   <img
                     className="service-img"
                     alt="Rectangle"
+                    loading="lazy"
                     src={rectangle92}
                   />
                   <div className="text-wrapper-11">Customer Service</div>
@@ -90,6 +94,7 @@ function HomePage() {
                   <img
                     className="service-img"
                     alt="Rectangle"
+                    loading="lazy"
                     src={rectangle93}
                   />
                   <div className="text-wrapper-11">In-Flight Service</div>
@@ -144,6 +149,7 @@ function HomePage() {
                 <img
                   className="left-loc-img"
                   alt="Rectangle"
+                  loading="lazy"
                   src={rectangle99}
                 />
               </div>
@@ -181,6 +187,7 @@ function HomePage() {
                 <img
                   className="right-loc-img"
                   alt="Rectangle"
+                  loading="lazy"
                   src={rectangle100}
                 />
               </div>
@@ -191,6 +198,7 @@ function HomePage() {
                 <img
                   className="left-loc-img"
                   alt="Rectangle"
+                  loading="lazy"
                   src={rectangle101}
                 />
               </div>
@@ -229,6 +237,7 @@ function HomePage() {
                 <img
                   className="right-loc-img"
                   alt="Rectangle"
+                  loading="lazy"
                   src={rectangle102}
                 />
               </div>
@@ -237,11 +246,13 @@ function HomePage() {
           <img
             className="absolute-img1"
             alt="Pexels erik mclean"
+            loading="lazy"
             src={require("../images/tickets-on-hand.png")}
           />
           <img
             className="absolute-img2"
             alt="Pexels rachel claire"
+            loading="lazy"
             src={require("../images/tickets-in-bag.png")}
           />
 
@@ -251,6 +262,7 @@ function HomePage() {
               <img
                 className="class-img-left"
                 alt="Rectangle"
+                loading="lazy"
                 src={rectangle116}
               />
               <div className="class-text-div1">
@@ -279,6 +291,7 @@ function HomePage() {
               <img
                 className="class-img-right"
                 alt="Rectangle"
+                loading="lazy"
                 src={rectangle117}
               />
             </div>
@@ -286,6 +299,7 @@ function HomePage() {
               <img
                 className="class-img-left"
                 alt="Rectangle"
+                loading="lazy"
                 src={rectangle118}
               />
               <div className="class-text-div3">

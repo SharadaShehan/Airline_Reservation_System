@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import DEOProfileDetails from "./DEOProfileDetails";
 import DEOAddAirport from "./DEOAddAirport";
@@ -18,18 +17,14 @@ import "../scrollMenu.css";
 import "./deoProfile.css";
 
 export default function DEOProfile({ userData }) {
-  const [deoMenuItem, setDEOMenuItem] = useState("profile-details");
   const { userMenuItem } = UserMenuGlobalState();
-
-  useEffect(() => {
-    setDEOMenuItem("profile-details");
-  }, [setDEOMenuItem]);
 
   return (
     <div className="wrapper">
       <img
         className="background-image"
         alt="Rectangle"
+        loading="lazy"
         src={require("../../../images/DEOBackImage.jpg")}
       />
       <div className="deo-container">{renderPage()}</div>

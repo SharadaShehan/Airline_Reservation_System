@@ -15,13 +15,13 @@ const Footer = () => {
           <span className="aboutus">About Us</span>
           <div className="icon">
             <a href="https://twitter.com/MoratuwaUni">
-              <img className="twitter" alt="Vector" src={twitter} />
+              <img className="twitter" alt="Vector" loading="lazy" src={twitter} />
             </a>
             <a href="https://www.linkedin.com/school/university-of-moratuwa/">
-              <img className="linked-in" alt="Vector" src={linkedIn} />
+              <img className="linked-in" alt="Vector" loading="lazy" src={linkedIn} />
             </a>
             <a href="https://www.facebook.com/UOM.Engineering">
-              <img className="fb" alt="Vector" src={fb} />
+              <img className="fb" alt="Vector" loading="lazy" src={fb} />
             </a>
           </div>
           <a className="uom" href="https://uom.lk/">
