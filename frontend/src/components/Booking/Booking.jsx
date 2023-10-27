@@ -39,6 +39,7 @@ export default function Booking() {
       <img
         className="background-image"
         alt="Rectangle"
+        loading="lazy"
         src={require("../../images/BookingBackImage.jpg")}
       />
       <div className="booking-container">{renderPage()}</div>

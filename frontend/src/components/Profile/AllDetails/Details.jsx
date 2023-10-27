@@ -13,12 +13,14 @@ function Details() {
         <img
           className="background-image"
           alt="Rectangle"
+          loading="lazy"
           src={require("../../../images/DEOBackImage.jpg")}
         />
       ) : (
         <img
           className="background-image"
           alt="Rectangle"
+          loading="lazy"
           src={require("../../../images/admin2.jpg")}
         />
       )}

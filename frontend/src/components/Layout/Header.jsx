@@ -25,6 +25,7 @@ export default function Header() {
         {currentUserData.role === "Admin" ||
         currentUserData.role === "DataEntryOperator" ? (
           <img
+            loading="lazy"
             src={require("../../images/Logo.png")}
             alt="logo"
             className="logoImg"
@@ -32,6 +33,7 @@ export default function Header() {
         ) : (
           <Link to="/" style={{ textDecoration: "none" }}>
             <img
+              loading="lazy"
               src={require("../../images/Logo.png")}
               alt="logo"
               className="logoImg"

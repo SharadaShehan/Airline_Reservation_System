@@ -21,6 +21,7 @@ export default function UserProfile({ userData }) {
       <img
         className="background-image"
         alt="Rectangle"
+        loading="lazy"
         src={require("../../../images/UserBackImage.jpg")}
       />
       <div className="registered-user-container">{renderPage()}</div>
