@@ -52,6 +52,8 @@ export default function MakePayment() {
       }
     } catch (error) {
       console.log(error);
+      setShowPopup(false);
+      snackbarRef_fail.current.show();
     }
   }
 
@@ -61,7 +63,6 @@ export default function MakePayment() {
 
   function handlePopUpCancel(){
     setShowPopup(false);
-    snackbarRef_fail.current.show();
   }
 
   console.log(bookingProcessDetails);

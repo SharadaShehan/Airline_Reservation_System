@@ -105,6 +105,8 @@ export default function BookingDetails() {
         }
       } catch (error) {
         console.log(error);
+        setShowPopup(false);
+        snackbarRef_fail.current.show();
       }
     }
     if (currentUserData.username) {
@@ -135,7 +137,6 @@ export default function BookingDetails() {
 
   function handlePopUpCancel(){
     setShowPopup(false);
-    snackbarRef_fail.current.show();
   };
 
   return (

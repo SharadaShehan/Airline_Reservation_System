@@ -82,11 +82,13 @@ function AllRoutes() {
           (route) => route.routeID !== routeID
         );
         setRoutesList(newRoutesList);
+        setShowPopup(false);
         snackbarRef_success.current.show();
         // alert("Messaage: Model Deleted Successfully");
       }
     } catch (error) {
       console.log(error);
+      setShowPopup(false);
       snackbarRef_fail.current.show();
 
       if (
