@@ -157,7 +157,7 @@ def create_triggers():
 
                     IF paid_bookings_count > 0 THEN
                         SIGNAL SQLSTATE '45000'
-                            SET MESSAGE_TEXT = 'Flight has paid bookings';
+                            SET MESSAGE_TEXT = 'Flight has paid bookings, cannot delete';
                     END IF;
                 END;
         """

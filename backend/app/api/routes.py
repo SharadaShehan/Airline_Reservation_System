@@ -14,7 +14,7 @@ from app.api.resources.complete_booking_api import CompleteBooking
 from app.api.resources.cancel_booking_api import GuestCancelBooking, UserCancelBooking
 from app.api.resources.get_available_seats_api import GetAvailableSeats
 from app.api.resources.search_api import SearchFlights
-from app.api.resources.admin_delete_api import AdminDeleteModel, AdminDeleteRoute, AdminDeleteAirport, AdminDeleteAirplane, AdminDeleteScheduledFlight
+from app.api.resources.admin_delete_api import AdminDeleteModel, AdminDeleteRoute, AdminDeleteAirport, AdminDeleteAirplane, AdminDeleteScheduledFlight, AdminHideScheduledFlight
 from app.api.resources.admin_view_reports import GetRevenueByModel
 from app.api.resources.admin_search_api import GetPassengersByNextFlight, GetPassengersByDateDestination, GetBookingCountByDatePassengerType, GetPastFlightsDetails, GetPassengersByRouteID
 from app.api.resources.search_api import SearchBookedTickets,SearchUserBookedTickets, SearchGuestBookedTickets
@@ -49,6 +49,7 @@ api.add_resource(DEOGetAllAirplanes, '/deo/get/airplanes')    # GET method to ge
 api.add_resource(DEOGetAllRoutes, '/deo/get/routes')    # GET method to get all routes
 api.add_resource(DEOGetAllModels, '/deo/get/models')    # GET method to get all models
 
+api.add_resource(AdminHideScheduledFlight, '/admin/hide/scheduled-flight/<flight_id>')    # PATCH method to hide scheduled flight
 api.add_resource(AdminDeleteScheduledFlight, '/admin/delete/scheduled-flight/<flight_id>')    # DELETE method to delete scheduled flight
 api.add_resource(AdminDeleteAirplane, '/admin/delete/airplane/<tail_number>')    # DELETE method to delete airplane
 api.add_resource(AdminDeleteAirport, '/admin/delete/airport/<icao_code>')    # DELETE method to delete airport
