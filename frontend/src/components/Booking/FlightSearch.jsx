@@ -164,6 +164,7 @@ export default function FlightSearch() {
               </button>
             </div>
           </div>
+          
           <div className="table-container front-content">
             {flights.length === 0 ? (
               <div className="no-passengers">

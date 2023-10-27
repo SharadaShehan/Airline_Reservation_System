@@ -22,13 +22,22 @@ export default function Header() {
   return (
     <div>
       <div className="logo">
-        <Link to="/" style={{ textDecoration: "none" }}>
+        {currentUserData.role === "Admin" ||
+        currentUserData.role === "DataEntryOperator" ? (
           <img
             src={require("../../images/Logo.png")}
             alt="logo"
             className="logoImg"
           />
-        </Link>
+        ) : (
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <img
+              src={require("../../images/Logo.png")}
+              alt="logo"
+              className="logoImg"
+            />
+          </Link>
+        )}
       </div>
       <div className="navBarContainer">
         <NavBar />

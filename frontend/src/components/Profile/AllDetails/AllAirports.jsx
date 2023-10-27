@@ -1,18 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import "./details.css";
 import axios from "axios";
 import Cookies from "js-cookie";
+import ConfirmationPopup from '../../common/ConfirmationPopup';
+import Snackbar from "../../common/Snackbar"
 
 function AllAirports() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
 
-  const { currentUserData } = UserGlobalState();
+  const { currentUserData, setCurrentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [airportsList, setAirportsList] = useState([]);
+  
+  const [showPopup, setShowPopup] = useState(false);
+  const snackbarRef_fail = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Failed to Delete Air Port!"
+  };
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_success = {
+    type: "success",
+    message: "Deleted the Air Port Successfully !"
+  };
 
   useEffect(
     function () {
@@ -27,18 +41,32 @@ function AllAirports() {
           setAirportsList(response.data);
         } catch (error) {
           console.log(error);
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getAllModels();
     },
-    [BaseURL, token]
+    [BaseURL, token, setCurrentUserData]
   );
 
   function handleBackClick() {
     setUserMenuItem("view-details");
   }
 
-  async function handleDelete(icaoCode) {
+  async function handlePopUpConfirmation(icaoCode) {
     try {
       const response = await axios.delete(
         `${BaseURL}/admin/delete/airport/${icaoCode}`,
@@ -54,12 +82,38 @@ function AllAirports() {
           (airport) => airport.icaoCode !== icaoCode
         );
         setAirportsList(newAirportsList);
+        setShowPopup(false);
+        snackbarRef_success.current.show();
         // alert("Messaage: Model Deleted Successfully");
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      setShowPopup(false);
+      snackbarRef_fail.current.show();
+
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
+      }
     }
+  }
+
+  function handleDelete(){
+    setShowPopup(true)
+  }
+
+  function handlePopUpCancel(){
+    setShowPopup(false);
   }
 
   return (
@@ -79,18 +133,18 @@ function AllAirports() {
             <table>
               <thead>
                 <tr>
-                  <th>City</th>
-                  <th>IATA Code</th>
-                  <th>ICAO Code</th>
+                  <th className="details-th">City</th>
+                  <th className="details-th">IATA Code</th>
+                  <th className="details-th">ICAO Code</th>
                   {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
                 {airportsList.map((airport) => (
                   <tr key={airport.icaoCode}>
-                    <td>{airport.city}</td>
-                    <td>{airport.iataCode}</td>
-                    <td>{airport.icaoCode}</td>
+                    <td className="details-td">{airport.city}</td>
+                    <td className="details-td">{airport.iataCode}</td>
+                    <td className="details-td">{airport.icaoCode}</td>
                     {currentUserData.role !== "DataEntryOperator" && (
                       <td>
                         <button
@@ -111,11 +165,35 @@ function AllAirports() {
         )}
       </div>
 
-      <div className="buttons-div">
+      <div className="buttons-div-details">
         <button onClick={handleBackClick} className="buttons">
           Back
         </button>
+        {currentUserData.role === "DataEntryOperator" && (
+          <button
+            onClick={() => setUserMenuItem("add-airport")}
+            className="buttons"
+          >
+            Add New Airport
+          </button>
+        )}
       </div>
+      <ConfirmationPopup
+        show={showPopup}
+        message="Are you sure you want to Delete?"
+        onConfirm={handlePopUpConfirmation}
+        onCancel={handlePopUpCancel}
+      />
+      <Snackbar
+        ref={snackbarRef_fail}
+        message={Snackbardata_fail.message}
+        type={Snackbardata_fail.type}
+      />
+      <Snackbar
+        ref={snackbarRef_success}
+        message={Snackbardata_success.message}
+        type={Snackbardata_success.type}
+      />
     </div>
   );
 }

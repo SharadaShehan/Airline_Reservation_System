@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
 import { BookingProcessGlobalState } from "../Layout/BookingProcessGlobalState";
 import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
 import axios from "axios";
 import "./makePayment.css";
 import Cookies from "js-cookie";
 import ConfirmationPopup from '../common/ConfirmationPopup';
+import Snackbar from "../common/Snackbar"
 
 export default function MakePayment() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -14,6 +14,12 @@ export default function MakePayment() {
   const { setBookingStep } = BookingStepGlobalState();
   const [flightDetails, setFlightDetails] = useState({});
   const [showPopup, setShowPopup] = useState(false);
+
+  const snackbarRef_fail = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Failed to create booking !"
+  };
 
   useEffect(() => {
     async function getFlightDetails() {
@@ -46,11 +52,9 @@ export default function MakePayment() {
       }
     } catch (error) {
       console.log(error);
+      setShowPopup(false);
+      snackbarRef_fail.current.show();
     }
-  }
-
-  function handleBack() {
-    setBookingStep("bookingDetails");
   }
 
   function handlePayNow(){
@@ -108,9 +112,6 @@ export default function MakePayment() {
             </div>
           </div>
           <div className="btn-set-2">
-            <button type="button" className="action-button btn" onClick={handleBack}>
-                Back
-            </button>
             <button
               type="button"
               className="action-button btn"
@@ -123,6 +124,11 @@ export default function MakePayment() {
               message="Are you sure you want to Pay?"
               onConfirm={handlePopUpConfirmation}
               onCancel={handlePopUpCancel}
+            />
+            <Snackbar
+              ref={snackbarRef_fail}
+              message={Snackbardata_fail.message}
+              type={Snackbardata_fail.type}
             />
           </div>
         </div>

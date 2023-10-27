@@ -13,7 +13,7 @@ export default function UserLoginForm() {
 
   const { setAuthForm } = AuthFormGlobalState();
   const { setCurrentUserData } = UserGlobalState();
-  const { setBookingStep } = BookingStepGlobalState();
+  const { bookingStep, setBookingStep } = BookingStepGlobalState();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
   const [password, setPassword] = useState("");
@@ -115,26 +115,53 @@ export default function UserLoginForm() {
         </div>
         {randomError && <div className="errorText">{randomError}</div>}
         <div className="button-container">
-          <Link to="/home">
-            <button className="submitBtn">Cancel</button>
-          </Link>
-          <button
-            className="submitBtn"
-            onClick={() => setAuthForm("user-register")}
-          >
-            Register Now
-          </button>
+          {bookingStep !== "userLogin" ? (
+            <Link to="/home">
+              <button className="submitBtn">Cancel</button>
+            </Link>
+          ) : (
+            <Link to="/book-flights">
+              <button
+                className="submitBtn"
+                onClick={() => setBookingStep("flightSearch")}
+              >
+                Back
+              </button>
+            </Link>
+          )}
+          {bookingStep !== "userLogin" ? (
+            <button
+              className="submitBtn"
+              onClick={() => setAuthForm("user-register")}
+            >
+              Register Now
+            </button>
+          ) : (
+            <Link to={"/profile"}>
+              <button
+                className="submitBtn"
+                onClick={() => setAuthForm("user-register")}
+              >
+                Register Now
+              </button>
+            </Link>
+          )}
           <button className="submitBtn" type="submit">
             Log In
           </button>
         </div>
       </form>
-      <div className="swap">
-        One of Ours?&nbsp;
-        <button className="swapBtn" onClick={() => setAuthForm("admin-portal")}>
-          Staff Login
-        </button>
-      </div>
+      {bookingStep !== "userLogin" && (
+        <div className="swap">
+          One of Ours?&nbsp;
+          <button
+            className="swapBtn"
+            onClick={() => setAuthForm("admin-portal")}
+          >
+            Staff Login
+          </button>
+        </div>
+      )}
     </div>
   );
 }

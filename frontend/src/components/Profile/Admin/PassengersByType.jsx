@@ -5,7 +5,6 @@ import "./passengersByType.css";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 
-
 function PassengersByType() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
@@ -40,7 +39,10 @@ function PassengersByType() {
       setResponse(response.data);
     } catch (error) {
       console.log(error);
-      if (error.response && error.response.status === 401) {
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
         setCurrentUserData({
           username: null,
           firstName: null,

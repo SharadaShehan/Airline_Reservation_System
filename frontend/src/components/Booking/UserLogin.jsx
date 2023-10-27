@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { BookingStepGlobalState } from '../Layout/BookingStepGlobalState';
 import { UserGlobalState } from '../Layout/UserGlobalState';
-import { AuthFormGlobalState } from "../Layout/AuthFormGlobalState";
+// import { AuthFormGlobalState } from "../Layout/AuthFormGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./userLogin.css"
@@ -20,7 +20,7 @@ export default function LoginAsk () {
     
     const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
-    const { setAuthForm } = AuthFormGlobalState();
+    // const { setAuthForm } = AuthFormGlobalState();
     const { setCurrentUserData } = UserGlobalState();
     const [username, setUsername] = useState("");
     const [usernameError, setUsernameError] = useState(null);
@@ -132,7 +132,7 @@ export default function LoginAsk () {
                         </form>
                     </div>
                     <div className="btn-set">
-                        <button type="button" class="action-button btn">
+                        <button type="button" class="action-button btn" disabled={randomError ? true : false}>
                             <Link to="/home" style={{color:"black", textDecoration:"none"}}>
                                 Cancel
                             </Link>

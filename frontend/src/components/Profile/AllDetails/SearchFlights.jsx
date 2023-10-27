@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./details.css";
+import ConfirmationPopup from '../../common/ConfirmationPopup';
+import Snackbar from "../../common/Snackbar"
 
 function SearchFlights() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
 
-  const { currentUserData } = UserGlobalState();
+  const { currentUserData, setCurrentUserData } = UserGlobalState();
   const { setUserMenuItem } = UserMenuGlobalState();
 
   const [flightDetails, setFlightDetails] = useState([]);
@@ -17,6 +19,18 @@ function SearchFlights() {
   const [date, setDate] = useState("");
   const [origin, setOrigin] = useState("origin");
   const [destination, setDestination] = useState("destination");
+
+  const [showPopup, setShowPopup] = useState(false);
+  const snackbarRef_fail = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Failed to Delete Flight!"
+  };
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_success = {
+    type: "success",
+    message: "Deleted the Flight Successfully !"
+  };
 
   useEffect(
     function () {
@@ -27,11 +41,25 @@ function SearchFlights() {
           setAirportsList(response.data);
         } catch (error) {
           console.log(error);
+          if (
+            error.response &&
+            (error.response.status === 401 || error.response.status === 403)
+          ) {
+            setCurrentUserData({
+              username: null,
+              firstName: null,
+              lastName: null,
+              isAdmin: null,
+              isDataEntryOperator: null,
+              bookingsCount: null,
+              category: null,
+            });
+          }
         }
       }
       getAirportsList();
     },
-    [BaseURL]
+    [BaseURL, setCurrentUserData]
   );
 
   async function handleSearch() {
@@ -50,7 +78,21 @@ function SearchFlights() {
       console.log(response.data);
       setFlightDetails(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
+      }
     }
   }
 
@@ -58,7 +100,7 @@ function SearchFlights() {
     setUserMenuItem("view-details");
   }
 
-  async function handleDelete(flightID) {
+  async function handlePopUpConfirmation(flightID) {
     try {
       const response = await axios.delete(
         `${BaseURL}/admin/delete/scheduled-flight/${flightID}`,
@@ -74,12 +116,37 @@ function SearchFlights() {
           (flight) => flight.flightID !== flightID
         );
         setFlightDetails(newFlightDetailsList);
+        setShowPopup(false);
+        snackbarRef_success.current.show();
         // alert("Messaage: Model Deleted Successfully");
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      setShowPopup(false);
+      snackbarRef_fail.current.show();
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        setCurrentUserData({
+          username: null,
+          firstName: null,
+          lastName: null,
+          isAdmin: null,
+          isDataEntryOperator: null,
+          bookingsCount: null,
+          category: null,
+        });
+      }
     }
+  }
+
+  function handleDelete(){
+    setShowPopup(true)
+  }
+
+  function handlePopUpCancel(){
+    setShowPopup(false);
   }
 
   return (
@@ -147,34 +214,34 @@ function SearchFlights() {
             <table>
               <thead>
                 <tr>
-                  <th>Flight ID</th>
-                  <th>Airplane Model</th>
-                  <th>Origin Details</th>
-                  <th>Destination Details</th>
-                  <th>Duration (Mins)</th>
+                  <th className="details-th">Flight ID</th>
+                  <th className="details-th">Airplane Model</th>
+                  <th className="details-th">Origin Details</th>
+                  <th className="details-th">Destination Details</th>
+                  <th className="details-th">Duration (Mins)</th>
                   {currentUserData.role !== "DataEntryOperator" && <th></th>}
                 </tr>
               </thead>
               <tbody>
                 {flightDetails.map((flight) => (
                   <tr key={flight.flightID}>
-                    <td>{flight.flightID}</td>
-                    <td>{flight.airplaneModel}</td>
-                    <td>
+                    <td className="details-td">{flight.flightID}</td>
+                    <td className="details-td">{flight.airplaneModel}</td>
+                    <td className="details-td">
                       <ul>
                         <li>{flight.origin.address}</li>
                         <li>{flight.origin.IATA}</li>
                         <li>{flight.origin.dateAndTime}</li>
                       </ul>
                     </td>
-                    <td>
+                    <td className="details-td">
                       <ul>
                         <li>{flight.destination.address}</li>
                         <li>{flight.destination.IATA}</li>
                         <li>{flight.destination.dateAndTime}</li>
                       </ul>
                     </td>
-                    <td>{flight.durationMinutes}</td>
+                    <td className="details-td">{flight.durationMinutes}</td>
                     {currentUserData.role !== "DataEntryOperator" && (
                       <td>
                         <button
@@ -192,14 +259,38 @@ function SearchFlights() {
           </div>
         )}
       </div>
-      <div className="buttons-div">
-        <button onClick={handleBackClick} className="buttons">
+      <div className="buttons-div-search">
+        <button onClick={handleBackClick} className="buttons-search">
           Back
         </button>
-        <button className="buttons" onClick={handleSearch}>
+        {currentUserData.role === "DataEntryOperator" && (
+          <button
+            onClick={() => setUserMenuItem("schedule-flight")}
+            className="buttons-search"
+          >
+            Schedule New Flight
+          </button>
+        )}
+        <button className="buttons-search" onClick={handleSearch}>
           Search
         </button>
       </div>
+      <ConfirmationPopup
+        show={showPopup}
+        message="Are you sure you want to Delete?"
+        onConfirm={handlePopUpConfirmation}
+        onCancel={handlePopUpCancel}
+      />
+      <Snackbar
+        ref={snackbarRef_fail}
+        message={Snackbardata_fail.message}
+        type={Snackbardata_fail.type}
+      />
+      <Snackbar
+        ref={snackbarRef_success}
+        message={Snackbardata_success.message}
+        type={Snackbardata_success.type}
+      />
     </div>
   );
 }

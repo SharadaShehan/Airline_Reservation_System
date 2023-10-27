@@ -19,7 +19,7 @@ function Details() {
         <img
           className="background-image"
           alt="Rectangle"
-          src={require("../../../images/AdminBackImage.jpg")}
+          src={require("../../../images/admin2.jpg")}
         />
       )}
       <div className="deo-container">

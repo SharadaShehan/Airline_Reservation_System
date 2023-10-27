@@ -149,7 +149,7 @@ function GuestPendingPayments() {
                     </button>
                     <ConfirmationPopup
                       show={showPopup}
-                      message="Are you sure you want to Pay?"
+                      message="Are you sure you want to Cancel?"
                       onConfirm={handlePopUpConfirmation}
                       onCancel={handlePopUpCancel}
                     />

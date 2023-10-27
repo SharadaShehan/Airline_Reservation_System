@@ -19,7 +19,7 @@ export default function LoginOrRegister() {
           <img
             className="background-image"
             alt="Rectangle"
-            src={require("../../../images/UserLogin.jpg")}
+            src={require("../../../images/user3.jpg")}
           />
         ): (
           <img
@@ -30,7 +30,7 @@ export default function LoginOrRegister() {
         )}
         <div className="user-login-or-register-container"
           style={{
-            height: (authForm === "user-register" || authForm === "user-login") ? "45vw" : "34vw"
+            height: (authForm === "user-register" || authForm === "user-login") ? "41vw" : "34vw"
           }}
           >
           {renderPage()}
