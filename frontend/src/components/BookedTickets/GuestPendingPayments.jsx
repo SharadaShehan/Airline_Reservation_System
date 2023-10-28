@@ -163,7 +163,7 @@ function GuestPendingPayments() {
         )}
         {pendingPayments.length === 0 && !isLoading && (
           <h4 className="loading-text">
-            You don't have any pending payments remaining...
+            You don't have any pending payments remaining.
           </h4>
         )}
       </div>

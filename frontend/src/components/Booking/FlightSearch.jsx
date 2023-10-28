@@ -108,10 +108,10 @@ export default function FlightSearch() {
           <div className="front-content front-text title">Search Flight</div>
           <div className="front-content ">
             <div className="drop-btn-container">
-              <div className="column-left drop-btn">
+              <div className="left-drop-btn">
                 <div className="dropdown">
                   <select
-                    className="selection-area dropbtn"
+                    className="selection-area-dropbtn"
                     value={origin}
                     onChange={(e) => setOrigin(e.target.value)}
                   >
@@ -126,9 +126,10 @@ export default function FlightSearch() {
                   </select>
                 </div>
               </div>
-              <div className="column-right drop-btn">
+              <div className="right-drop-btn">
+              <div className="dropdown">
                 <select
-                  className="selection-area dropbtn"
+                  className="selection-area-dropbtn"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                 >
@@ -144,11 +145,13 @@ export default function FlightSearch() {
                     ))}
                 </select>
               </div>
+              </div>
             </div>
             <div className="date-btn drop-btn">
               <div className="dropdown">
                 <button className="selection-area dropbtn">
-                  <div className="drop-text">Date</div>
+                  <span></span>
+                  <span className="drop-text-container">Departure Date</span>
                   <input
                     className="selection-area date-input-flightSearch"
                     type="date"
@@ -168,7 +171,7 @@ export default function FlightSearch() {
           <div className="table-container front-content">
             {flights.length === 0 ? (
               <div className="no-passengers">
-                Select Origin and Destination airports
+                Select Origin, Destination airports and Departure Date
               </div>
             ) : (
               <div className="table-wrapper">
@@ -232,7 +235,7 @@ export default function FlightSearch() {
               </div>
             )}
           </div>
-          <div>
+          <div className="lower-btns-container">
             <div className="selected-class-txt">Class : {classType}</div>
             <div className="btn-set">
               <button type="button" className="action-button btn">
