@@ -25,6 +25,10 @@ function GuestBookedTickets() {
           setBookedTickets(response.data);
         } catch (error) {
           console.log(error);
+          if (error.response.status === 404) {
+            setIsLoading(false);
+            setBookedTickets([]);
+          }
           if (error.response && error.response.status === 401) {
             setCurrentUserData({
               username: null,
