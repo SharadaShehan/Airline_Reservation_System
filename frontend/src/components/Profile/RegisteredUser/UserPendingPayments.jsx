@@ -24,6 +24,7 @@ export default function PendingPayments({ fromBookedTickets }) {
 
   const [pendingPayments, setPendingPayments] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [responseCheck, setResponseCheck] = useState(true);
 
   useEffect(
     function () {
@@ -35,6 +36,9 @@ export default function PendingPayments({ fromBookedTickets }) {
             },
           });
           console.log(response.data);
+          if (!response.data.length) {
+            setResponseCheck(false);
+          }
           setPendingPayments(response.data);
         } catch (error) {
           console.log(error);
@@ -160,8 +164,12 @@ export default function PendingPayments({ fromBookedTickets }) {
               ))}
             </tbody>
           </table>
-        ) : (
+        ) : responseCheck ? (
           <h4 className="loading-text">Loading Details Please Wait....</h4>
+        ) : (
+          <h4 className="loading-text">
+            You don't have any Pending Payments left.
+          </h4>
         )}
       </div>
       <div className="user-buttonWrapper">

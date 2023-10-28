@@ -11,6 +11,7 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
 
   const { setUserMenuItem } = UserMenuGlobalState();
   const { setCurrentUserData } = UserGlobalState();
+  const [responseCheck, setResponseCheck] = useState(true);
   const [bookedTickets, setBookedTickets] = useState([]);
 
   useEffect(
@@ -23,9 +24,15 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
             },
           });
           console.log(response.data);
+          if (!response.data.length) {
+            setResponseCheck(false);
+          }
           setBookedTickets(response.data);
         } catch (error) {
           console.log(error);
+          if (error.response.status === 404) {
+            setResponseCheck(false);
+          }
           if (
             error.response &&
             (error.response.status === 401 || error.response.status === 403)
@@ -82,8 +89,10 @@ export default function UserBookedTickets({ userData, fromBookedTickets }) {
               ))}
             </tbody>
           </table>
-        ) : (
+        ) : responseCheck ? (
           <h4 className="loading-text">Loading Details Please Wait....</h4>
+        ) : (
+          <h4 className="loading-text">You haven't Booked any Tickets yet.</h4>
         )}
       </div>
       {!fromBookedTickets && (
