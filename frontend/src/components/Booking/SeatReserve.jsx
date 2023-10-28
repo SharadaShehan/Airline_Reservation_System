@@ -121,7 +121,7 @@ export default function SeatReserve() {
         <div className="glass-background"></div>
         <div className="main-container">
           <div className="front-content front-text title">
-            Seat Reservations : {bookingProcessDetails.travelClass}
+            Seat Reservations : {bookingProcessDetails.travelClass} Class
           </div>
           <div className="tbl-grp">
             <div className="tbl-itm-1">
@@ -188,18 +188,18 @@ export default function SeatReserve() {
                     onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
-                <label>
-                  Adult / Child :&nbsp;&nbsp;
+                <div className="form-group">
+                <label>Adult / Child :</label>
                   <select
                     value={selectedOption}
                     onChange={(e) => setSelectedOption(e.target.value)}
-                    style={{ width: "100%", height: "30px" }}
+                    style={{ width: "100%", height: "2.35em" }}
                     className="selection-area"
                   >
                     <option value="adult">Adult</option>
                     <option value="child">Child</option>
                   </select>
-                </label>
+                </div>
                 <div className="form-group">
                   <label htmlFor="formGroupExampleInput2">Passport ID :</label>
                   <input

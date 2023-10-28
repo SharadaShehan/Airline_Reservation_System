@@ -72,7 +72,7 @@ export default function MakePayment() {
         <div className="glass-background"></div>
         <div className="main-container">
           <div className="front-content front-text title">Pending Payment Details</div>
-          <div className="main-details">
+          <div className="main-details-2">
             <div className="data-col-2">
               <div>
                 <label>Booking Ref ID: &nbsp;</label>
@@ -94,19 +94,19 @@ export default function MakePayment() {
                 <label></label>
               </div>
               <div>
-                <label>Origin : &nbsp;</label>
+                <label>Origin City : &nbsp;</label>
                 <span>{flightDetails.originAddress}</span>
               </div>
               <div>
-                <label>Departure: &nbsp;</label>
+                <label>Departure : &nbsp;</label>
                 <span>{flightDetails.departureDateAndTime}</span>
               </div>
               <div>
-                <label>Destination : &nbsp;</label>
+                <label>Destination City : &nbsp;</label>
                 <span>{flightDetails.destinationAddress}</span>
               </div>
               <div>
-                <label>Arrival: &nbsp;</label>
+                <label>Arrival : &nbsp;</label>
                 <span>{flightDetails.arrivalDateAndTime}</span>
               </div>
             </div>

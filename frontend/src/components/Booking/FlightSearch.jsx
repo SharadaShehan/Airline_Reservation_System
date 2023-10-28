@@ -105,7 +105,7 @@ export default function FlightSearch() {
       <div className="container justify-content-md-center center-box">
         <div className="glass-background"></div>
         <div className="main-container">
-          <div className="front-content front-text title">Search Flight</div>
+          <div className="front-content front-text title">Search Flights</div>
           <div className="front-content ">
             <div className="drop-btn-container">
               <div className="left-drop-btn">
@@ -178,9 +178,9 @@ export default function FlightSearch() {
                 <table>
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Model</th>
-                      <th>Duration</th>
+                      <th>Flight ID</th>
+                      <th>Aircraft Model</th>
+                      <th>Travel Duration</th>
                       <th>Economy</th>
                       <th>Business</th>
                       <th>Platinum</th>
@@ -191,7 +191,7 @@ export default function FlightSearch() {
                       <tr key={uuidv4()}>
                         <td>{flight.flightID}</td>
                         <td>{flight.airplaneModel}</td>
-                        <td>{flight.durationMinutes}</td>
+                        <td>{`${Math.floor(flight.durationMinutes/60)} hr and ${flight.durationMinutes%60} min`}</td>
                         <td>
                           <input
                             className="radio-btn"
