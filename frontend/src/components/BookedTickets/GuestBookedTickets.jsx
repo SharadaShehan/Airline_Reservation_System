@@ -88,7 +88,7 @@ function GuestBookedTickets() {
         )}
         {bookedTickets.length === 0 && !isLoading && (
           <h4 className="loading-text">
-            You haven't booked any tickets yet...
+            You haven't booked any tickets yet.
           </h4>
         )}
       </div>

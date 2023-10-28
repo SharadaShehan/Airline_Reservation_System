@@ -82,7 +82,7 @@
 }
 
 .scrollable-body {
-  height: 375px;
+  height: 350px;
   overflow: auto;
   width: 100%;
 }
