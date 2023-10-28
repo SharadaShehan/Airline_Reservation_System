@@ -1,4 +1,4 @@
-import React,  { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
 import { UserMenuGlobalState } from "../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../Layout/UserGlobalState";
@@ -8,7 +8,7 @@ import axios from "axios";
 import { v4 as uuvidv4 } from "uuid";
 import "../Profile/RegisteredUser/userProfile.css";
 import Cookies from "js-cookie";
-import ConfirmationPopup from '../common/ConfirmationPopup';
+import ConfirmationPopup from "../common/ConfirmationPopup";
 
 function GuestPendingPayments() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -61,7 +61,7 @@ function GuestPendingPayments() {
     setUserMenuItem("profile-details");
     navigate("/book-flights");
   };
-  
+
   async function handlePopUpConfirmation(bookingRefID) {
     console.log("working");
     try {
@@ -81,11 +81,11 @@ function GuestPendingPayments() {
     }
   }
 
-  function handleCancelBooking(){
-    setShowPopup(true)
+  function handleCancelBooking() {
+    setShowPopup(true);
   }
 
-  function handlePopUpCancel(){
+  function handlePopUpCancel() {
     setShowPopup(false);
   }
 
@@ -143,14 +143,16 @@ function GuestPendingPayments() {
                   <td className="user-td">
                     <button
                       className="cancel-btn"
-                      onClick={() => handleCancelBooking(payment.bookingRefID)}
+                      onClick={() => handleCancelBooking()}
                     >
                       Cancel
                     </button>
                     <ConfirmationPopup
                       show={showPopup}
                       message="Are you sure you want to Cancel?"
-                      onConfirm={handlePopUpConfirmation}
+                      onConfirm={() =>
+                        handlePopUpConfirmation(payment.bookingRefID)
+                      }
                       onCancel={handlePopUpCancel}
                     />
                   </td>
