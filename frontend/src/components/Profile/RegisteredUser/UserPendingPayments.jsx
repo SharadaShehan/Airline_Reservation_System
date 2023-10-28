@@ -150,7 +150,7 @@ export default function PendingPayments({ fromBookedTickets }) {
                       ))}
                     </ul>
                   </td>
-                  <td className="user-td">{payment.price}</td>
+                  <td className="user-td">$ {payment.price}</td>
                   <td className="user-td">{payment.travelClass}</td>
                   <td className="user-td">
                     <button

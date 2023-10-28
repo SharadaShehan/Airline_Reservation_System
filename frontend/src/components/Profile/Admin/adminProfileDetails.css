@@ -37,7 +37,7 @@
 }
 
 .details {
-  left: 134px;
+  left: 170px;
   top: 220px;
   position: absolute;
   color: white;
@@ -53,53 +53,41 @@
   left: 0;
   background-color: #1a354e;
   width: 387px;
-  height: 600px;
+  height: 560px;
   opacity: 0.8;
 }
 .search-records {
-  position: absolute;
-  top: 33px;
-  left: 22.89px;
-  font-size: 30px;
+  position: relative;
+  margin: 1em 0 0.5em 0;
+  font-size: 1.2em;
   font-family: "Bruno Ace";
   color: #fff;
   display: inline-block;
   width: 341.23px;
-  height: 39px;
+  /* height: 3em; */
 }
 
 .rectangle-parent1 {
-  top: 95px;
-
   font-size: 20px;
 }
 
 .rectangle-parent2 {
-  top: 174.41px;
   font-size: 20px;
 }
 
 .rectangle-parent3 {
-  top: 345px;
-
   font-size: 18px;
 }
 
 .rectangle-parent4 {
-  top: 257.82px;
-
   font-size: 18px;
 }
 
 .rectangle-parent5 {
-  top: 426.63px;
-
   font-size: 20px;
 }
 
 .rectangle-parent6 {
-  top: 511.63px;
-  z-index: 1;
   font-size: 20px;
 }
 
@@ -109,13 +97,13 @@
 .rectangle-parent4,
 .rectangle-parent5,
 .rectangle-parent6 {
-  position: absolute;
-  left: 75px;
-  width: 237px;
-  height: 51px;
+  position: relative;
+  width: 320px;
+  height: 48px;
   text-align: center;
   border-radius: 42.5px;
   background-color: #fff;
+  margin-top: 0.8em;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
   border: none;
   transition: all 0.3s ease-in-out;
@@ -135,10 +123,14 @@
 
 .group-div {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-start; */
+  padding: 0 0 0 1.2em;
   top: 150px;
   left: 930px;
-  width: 387px;
-  height: 545px;
+  width: 400px;
+  height: 560px;
   text-align: center;
   font-size: 24px;
   color: #000;
