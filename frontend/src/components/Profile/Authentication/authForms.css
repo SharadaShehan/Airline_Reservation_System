@@ -18,7 +18,7 @@
 }
 
 .header {
-  font-size: 2.5em;
+  font-size: 2.2em;
   font-family: "Bree Serif";
   text-align: center;
   margin-bottom: 1em;
@@ -26,7 +26,7 @@
 }
 
 .registerFormWrapper {
-  width: 90%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center; /* Add this line to align items horizontally center */
@@ -51,7 +51,7 @@
   display: flex;
   flex-direction: column;
   width: 80%;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 
 .field-box {
@@ -60,7 +60,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 
 .formField {
@@ -71,29 +71,23 @@
   font-size: 1.2em;
   margin-bottom: 0.5em;
   text-align: center;
-  width: 260px;
-}
-
-.field-label {
+  width: 20%;
   color: #fff;
-  font-size: 1.2em;
-  margin-bottom: 0.5em;
-  text-align: center;
 }
 
 .auth-select {
-  width: 195px;
+  width: 70%;
   font-family: "Lexend";
   color: #fff;
   background: rgb(255, 255, 255, 0.2);
   position: relative;
   display: inline-block;
   border: 2px solid #fff;
-  border-radius: 1em; /* Add this line to add round borders */
+  border-radius: 0.5em; /* Add this line to add round borders */
   outline: none;
   height: 3em;
-  padding-left: 30px;
-  padding-right: 30px;
+  margin: auto;
+  padding-left: 1em;
 }
 
 .auth-option {
@@ -101,7 +95,6 @@
 }
 
 .shortInput {
-  width: 100%;
   font-family: "Lexend";
   background: rgb(255, 255, 255, 0.2);
   color: #fff;
@@ -113,7 +106,7 @@
   height: 3em;
   width: 70%;
   margin: auto;
-  padding: 1.7em;
+  padding: 1em;
 }
 .shortInput::placeholder {
   color: white;

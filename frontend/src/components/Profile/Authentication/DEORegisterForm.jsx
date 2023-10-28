@@ -160,9 +160,9 @@ export default function DEORegisterForm() {
   return (
     <div className="registerFormWrapper">
       <form
-        className="authForm"
+        className="register-authForm"
         onSubmit={submitfunc}
-        style={{ height: "650px", overflow: "auto" }}
+        style={{ height: "100%", overflow: "auto" }}
       >
         <span className="header">DEO Register</span>
         <div className="reg-formField">

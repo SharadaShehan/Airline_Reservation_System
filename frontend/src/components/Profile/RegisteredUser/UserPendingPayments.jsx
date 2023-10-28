@@ -3,13 +3,14 @@ import { BookingStepGlobalState } from "../../Layout/BookingStepGlobalState";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
 import { BookingProcessGlobalState } from "../../Layout/BookingProcessGlobalState";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef  } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { v4 as uuvidv4 } from "uuid";
 import "./userProfile.css";
-
+import ConfirmationPopup from '../../common/ConfirmationPopup';
+import Snackbar from "../../common/Snackbar"
 /* <button className='navigateBtn' onClick={handlePayNow}>Pay For Selected Booking</button> */
 
 export default function PendingPayments({ fromBookedTickets }) {
@@ -25,6 +26,19 @@ export default function PendingPayments({ fromBookedTickets }) {
   const [pendingPayments, setPendingPayments] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [responseCheck, setResponseCheck] = useState(true);
+
+  const [bookingRefID_cancel, setBookingRefID_cancel] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const snackbarRef_fail = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Failed to Cancel!"
+  };
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_success = {
+    type: "success",
+    message: "Canceled the Flight Successfully !"
+  };
 
   useEffect(
     function () {
@@ -67,7 +81,8 @@ export default function PendingPayments({ fromBookedTickets }) {
     navigate("/book-flights");
   };
 
-  async function handleCancelBooking(bookingRefID) {
+  async function handlePopUpConfirmation() {
+    const bookingRefID = bookingRefID_cancel;
     try {
       const response = await axios.delete(
         `${BaseURL}/booking/cancel/user/${bookingRefID}`,
@@ -83,10 +98,14 @@ export default function PendingPayments({ fromBookedTickets }) {
           (payment) => payment.bookingRefID !== bookingRefID
         );
         setPendingPayments(newPendingPayments);
+        setShowPopup(false);
+        snackbarRef_success.current.show();
         // alert("Booking Cancelled Successfully");
       }
     } catch (error) {
       console.log(error);
+      setShowPopup(false);
+      snackbarRef_fail.current.show();
       if (
         error.response &&
         (error.response.status === 401 || error.response.status === 403)
@@ -102,6 +121,16 @@ export default function PendingPayments({ fromBookedTickets }) {
         });
       }
     }
+  }
+
+  function handleCancelBooking(bookingRefID){
+    setBookingRefID_cancel(bookingRefID);
+    setShowPopup(true)
+  }
+
+  function handlePopUpCancel(){
+    setBookingRefID_cancel(null);
+    setShowPopup(false);
   }
 
   console.log(selectedBooking);
@@ -197,6 +226,22 @@ export default function PendingPayments({ fromBookedTickets }) {
           Pay For Selected Booking
         </button>
       </div>
+      <ConfirmationPopup
+        show={showPopup}
+        message="Are you sure you want to Cancel?"
+        onConfirm={handlePopUpConfirmation}
+        onCancel={handlePopUpCancel}
+      />
+      <Snackbar
+        ref={snackbarRef_fail}
+        message={Snackbardata_fail.message}
+        type={Snackbardata_fail.type}
+      />
+      <Snackbar
+        ref={snackbarRef_success}
+        message={Snackbardata_success.message}
+        type={Snackbardata_success.type}
+      />
     </div>
   );
 }

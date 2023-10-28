@@ -184,7 +184,7 @@ export default function UserRegisterForm() {
       <form
         className="register-authForm"
         onSubmit={submitfunc}
-        style={{ height: "600px", overflow: "auto" }}
+        style={{ height: "60%", overflow: "auto" }}
       >
         <span className="header">Register</span>
         <div className="reg-formField">

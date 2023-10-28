@@ -160,9 +160,9 @@ export default function AdminRegisterForm() {
   return (
     <div className="registerFormWrapper">
       <form
-        className="authForm"
+        className="register-authForm"
         onSubmit={submitfunc}
-        style={{ height: "650px", overflow: "auto" }}
+        style={{ height: "auto", overflow: "auto" }}
       >
         <span className="header">Admin Register</span>
         <div className="reg-formField">
