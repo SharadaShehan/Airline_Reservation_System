@@ -125,7 +125,7 @@ function GuestPendingPayments() {
                   </td>
                   <td className="user-td">{payment.bookingRefID}</td>
                   <td className="user-td">{payment.flightID}</td>
-                  <td className="user-td">
+                  <td className="user-td-psg">
                     <ul>
                       {payment.passengers.map((passenger) => (
                         <li key={uuvidv4()}>
