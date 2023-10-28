@@ -5,6 +5,7 @@ import SeatReserve from "./SeatReserve";
 import BookingSuccess from "./BookingSuccess";
 import MakePayment from "./MakePayment";
 import UserLoginForm from "./../Profile/Authentication/UserLoginForm";
+import UserRegisterForm from "../Profile/Authentication/UserRegisterForm";
 import BookingDetails from "./BookingDetails";
 import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
 import "./booking.css";
@@ -29,6 +30,8 @@ export default function Booking() {
         return <BookingSuccess />;
       case "userLogin":
         return <UserLoginForm />;
+      case "userRegister":
+        return <UserRegisterForm />;
       default:
         return <h1>Not Found</h1>;
     }

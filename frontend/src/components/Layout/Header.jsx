@@ -45,11 +45,14 @@ export default function Header() {
         <NavBar />
       </div>
       <div className="profile-btns">
-        <Link to="/profile" style={{ textDecoration: "none" }}>
-          <button className="profile-btn">
-            {currentUserData.username ? "Profile" : "Log in"}
-          </button>
-        </Link>
+        {currentUserData.role === "Admin" ||
+          (currentUserData.role === "DataEntryOperator" ? null : (
+            <Link to="/profile" style={{ textDecoration: "none" }}>
+              <button className="profile-btn">
+                {currentUserData.username ? "Profile" : "Log in"}
+              </button>
+            </Link>
+          ))}
         {currentUserData.username && (
           <button className="profile-btn" onClick={logout}>
             Log Out

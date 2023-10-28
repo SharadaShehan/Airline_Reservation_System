@@ -137,14 +137,12 @@ export default function UserLoginForm() {
               Register Now
             </button>
           ) : (
-            <Link to={"/profile"}>
-              <button
-                className="submitBtn"
-                onClick={() => setAuthForm("user-register")}
-              >
-                Register Now
-              </button>
-            </Link>
+            <button
+              className="submitBtn"
+              onClick={() => setBookingStep("userRegister")}
+            >
+              Register Now
+            </button>
           )}
           <button className="submitBtn" type="submit">
             Log In
