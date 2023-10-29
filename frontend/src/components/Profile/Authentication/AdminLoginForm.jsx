@@ -118,12 +118,12 @@ function AdminLoginForm() {
           >
             Back
           </button>
-          <button
+          {/* <button
             className="submitBtn"
             onClick={() => setAuthForm("admin-register")}
           >
             Register Now
-          </button>
+          </button> */}
           <button className="submitBtn" type="submit">
             Log In
           </button>
