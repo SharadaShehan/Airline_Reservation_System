@@ -1,4 +1,7 @@
-# Airline_Reservation_System
+<h1 align="center">✈️ Airline_Reservation_System ✈️</h1>
+<p align="center">
+<img src="https://github.com/SharadaShehan/Airline_Reservation_System/assets/107914899/2806d3eb-40a2-499e-b208-3400c8efe236">
+</p>
 
 * First, clone the repository. 
     
