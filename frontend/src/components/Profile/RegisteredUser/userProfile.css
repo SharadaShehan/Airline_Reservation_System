@@ -31,6 +31,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 2em;
+  padding-bottom: 1em;
 }
 
 .user-header {
@@ -133,6 +134,16 @@
 }
 
 .user-td {
+  color: #fff;
+  font-weight: 400;
+}
+
+.user-td-psg {
+  padding: 10px;
+  padding-right: 0;
+  text-align: left;
+  font-family: "Montserrat";
+  font-size: 18px;
   color: #fff;
   font-weight: 400;
 }

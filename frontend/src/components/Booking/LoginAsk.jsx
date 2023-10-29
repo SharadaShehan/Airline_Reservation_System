@@ -28,8 +28,8 @@ export default function LoginAsk() {
       <div className="back-box">
         <div className="glass-background"></div>
         <div className="main-container">
-          <div className="front-content front-text title">Book Flight</div>
-          <div className="sub-content">Continue as ...</div>
+          <div className="front-content front-text title">Book Flights</div>
+          <div className="sub-content">Continue as Guest or Login ?</div>
           <div className="search-btn">
             <button className="transparent-button" onClick={handleGuest}>
               Guest
@@ -40,7 +40,11 @@ export default function LoginAsk() {
               Log in
             </button>
           </div>
-          <div className="btn-set">
+          <div className="btn-set" style={{
+            "paddingRight": "5vw",
+            "paddingTop": "1.5vw",
+            "margin": "0"
+          }}>
             <button type="button" className="action-button btn">
               <Link
                 to="/home"

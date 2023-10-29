@@ -21,20 +21,28 @@
 .front-content{
     color: white;
     z-index: 0;
+    font-family: "Bruno Ace", sans-serif;
 }
 .front-text{
     z-index: 1;
 }
 .title{
+    /* font-family: "Bruno Ace"; */
+    /* font-family: "Lexend"; */
     font-size: 2em;
     padding: 0.5em 0 0.5em 0;
 }
 .drop-btn-container{
+    /* font-family: "Bruno Ace"; */
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Create 3 equal-width columns */
     gap: 1%; /* Add some spacing between columns */
 }
+.drop-text-container{
+    font-family: "Lexend";
+}
 .drop-btn{
+    /* font-family: "Bruno Ace"; */
     justify-content: left;
     text-align: left;
 }
@@ -45,31 +53,53 @@
     margin: 1% 10% 1% 1%;
 }
 .date-btn{
-    margin: 1% 5% 1% 5%;
+    /* font-family: "Bruno Ace"; */
+    font-family: "Lexend";
+    margin: 1% 8% 1% 8%;
 }
 .date-input-flightSearch{
+    /* font-family: "Bruno Ace"; */
+    font-family: "Lexend";
     border: none;
 }
 .search-btn{
-    margin: 1% 5% 1% 5%;
-    width: 90%;
+    /* font-family: "Bruno Ace"; */
+    font-family: "Lexend";
+    margin: 1% 15% 1% 15%;
+    width: auto;
+}
+.left-drop-btn{
+    margin: 0 0 0 4%;
+}
+.right-drop-btn{
+    margin: 0 4% 0 0%;
 }
 .dropdown {
+    /* font-family: "Bruno Ace"; */
+    font-family: "Lexend";
     position: relative;
     display: inline-block;
     opacity: 1;
     height: 100%;
     width: 100%;
 }
+.selection-area-dropbtn{
+    height: 100%;
+    width: 100%;
+    padding: 0.6em 0 0.6em 0;
+    text-align: center;
+    border: none;
+    border-radius: 0.8em;
+}
 .dropbtn {
-    padding: 10px 20px;
+    padding: 0.5em 0 0.5em 0;
     border: none;
     cursor: pointer;
-    text-align: left;
+    text-align: center;
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 13% 77% 10%;
+    grid-template-columns: 20% 30% 30% 20%;
     align-items: center;
 }
 .dropdown-content {
@@ -90,7 +120,6 @@
     text-align: left;
     height: 100%;
     width: 100%;
-    vertical-align: middle;
 }
 .dropdown-content a:hover {
     background-color: #ffffff;
@@ -116,24 +145,34 @@
     justify-content: right;
 }
 .table-container {
-    max-height: 30vh;
-    width: 90%;
-    margin: 2% 5% 2% 5%;
+    max-height: 25vw;
+    min-height: 16vw;
+    width: 94%;
+    margin: 2% 3% 2% 3%;
     overflow-y: scroll;
-    border-radius: 0.5em;
-    border: 1px solid #ccc;
+    border-radius: 1em;
+    border: 2px solid #ccc;
     background-color: transparent;
     align-items: left;
 }
-
+.no-passengers{
+    max-height: 24vw;
+    min-height: 15vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Lexend";
+}
 table {
-    width: 90%;
+    width: 92%;
     padding: 0;
     margin: auto;
     border-collapse: collapse;
     text-align: center;
 }
 thead th {
+    /* font-family: "Bruno Ace"; */
+    font-family: "Lexend";
     background-color: transparent;
     text-align: center;
     padding: 1%;
@@ -150,15 +189,22 @@ tbody tr.selected {
     color: #fff;
 }
 td {
+    /* font-family: "Bruno Ace"; */
+    font-family: "Lexend";
+    font-size: 1.1em;
     padding: 10px 0;
 }
+/* .duration {
+    padding: 0 0;
+    margin: 0;
+} */
 .table-container::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
 .table-container::-webkit-scrollbar-thumb {
     background-color: #007bff; 
-    border-radius: 6px; 
+    border-radius: 8px; 
 }
 .table-container::-webkit-scrollbar-track:hover {
     background-color: transparent
@@ -166,13 +212,23 @@ td {
 .table-container::-webkit-scrollbar-thumb:hover {
     background-color: #0056b3; 
 }
+.lower-btns-container{
+    /* display: flex; */
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    /* gap: 2%; */
+}
 .btn-set{
     display: flex;
     justify-content: right;
     gap: 2%;
-    margin: 2% 5% 2% 0;
+    width: 100%;
+    margin: 0% 5% 2% 0;
 } 
 .selected-class-txt{
+    font-family: "Lexend";
     margin-left: 3em;
     width: 10em;
     text-align: left;

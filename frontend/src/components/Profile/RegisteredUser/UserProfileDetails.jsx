@@ -69,7 +69,7 @@ export default function UserProfileDetails({ userData }) {
         </div>
         <div>
           <label>BirthDate:</label>
-          <span>{userData.birthDate}</span>
+          <span>{userData.birthDate.slice(0, -12)}</span>
         </div>
 
         <div>

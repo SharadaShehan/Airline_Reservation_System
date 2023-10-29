@@ -10,7 +10,7 @@ import "./authForms.css";
 export default function UserRegisterForm() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const { setCurrentUserData } = UserGlobalState();
-  const { setBookingStep } = BookingStepGlobalState();
+  const { bookingStep, setBookingStep } = BookingStepGlobalState();
   const [randomError, setRandomError] = useState(null);
 
   const { setAuthForm } = AuthFormGlobalState();
@@ -76,7 +76,7 @@ export default function UserRegisterForm() {
             });
             setCurrentUserData(responseToken.data.userData);
             setBookingStep("seatReserve");
-            setAuthForm("user-login");
+            console.log("User registered successfully");
           } else {
             throw new Error("Something went wrong");
           }
@@ -184,7 +184,7 @@ export default function UserRegisterForm() {
       <form
         className="register-authForm"
         onSubmit={submitfunc}
-        style={{ height: "600px", overflow: "auto" }}
+        style={{ height: "60%", overflow: "auto" }}
       >
         <span className="header">Register</span>
         <div className="reg-formField">
@@ -349,17 +349,27 @@ export default function UserRegisterForm() {
         </div>
         {randomError && <div className="errorText">{randomError}</div>}
         <div className="button-container">
+          {bookingStep === "userRegister" && (
+            <button
+              className="submitBtn"
+              onClick={() => setBookingStep("userLogin")}
+            >
+              Back
+            </button>
+          )}
           <button className="submitBtn" type="submit" disabled={!isFormValid()}>
             Register
           </button>
         </div>
       </form>
-      <div className="swap">
-        Do you already have an account?&nbsp;
-        <button className="swapBtn" onClick={() => setAuthForm("user-login")}>
-          Login
-        </button>
-      </div>
+      {bookingStep !== "userRegister" && (
+        <div className="swap">
+          Do you already have an account?&nbsp;
+          <button className="swapBtn" onClick={() => setAuthForm("user-login")}>
+            Login
+          </button>
+        </div>
+      )}
     </div>
   );
 }

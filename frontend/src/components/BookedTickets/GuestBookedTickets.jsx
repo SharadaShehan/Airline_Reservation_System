@@ -25,6 +25,10 @@ function GuestBookedTickets() {
           setBookedTickets(response.data);
         } catch (error) {
           console.log(error);
+          if (error.response.status === 404) {
+            setIsLoading(false);
+            setBookedTickets([]);
+          }
           if (error.response && error.response.status === 401) {
             setCurrentUserData({
               username: null,
@@ -84,7 +88,7 @@ function GuestBookedTickets() {
         )}
         {bookedTickets.length === 0 && !isLoading && (
           <h4 className="loading-text">
-            You haven't booked any tickets yet...
+            You haven't booked any tickets yet.
           </h4>
         )}
       </div>

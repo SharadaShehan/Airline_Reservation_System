@@ -1,7 +1,7 @@
 .formWrapper {
   background-color: rgba(0, 0, 0, 0);
   padding-top: 2em;
-  padding-bottom: 2em;
+  padding-bottom: 1em;
 }
 
 .authForm {
@@ -18,7 +18,7 @@
 }
 
 .header {
-  font-size: 2.5em;
+  font-size: 2.2em;
   font-family: "Bree Serif";
   text-align: center;
   margin-bottom: 1em;
@@ -26,20 +26,25 @@
 }
 
 .registerFormWrapper {
-  width: 90%;
+  width: 60%;
   display: flex;
   flex-direction: column;
   justify-content: center; /* Add this line to align items horizontally center */
   align-items: center;
 }
 
+.register-authForm::-webkit-scrollbar {
+  width: 0;
+}
+
 .register-authForm {
   margin-top: 0;
   margin-bottom: 0;
-  padding: 2em 0;
+  padding: 1em 0;
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   /* transform: translateX(30%); */
   background-color: rgba(0, 0, 0, 0.5);
   /* border-radius: 2.5em; */
@@ -50,17 +55,17 @@
   margin: auto;
   display: flex;
   flex-direction: column;
-  width: 80%;
-  margin-bottom: 1em;
+  width: 100%;
+  margin-bottom: 0.2em;
 }
 
 .field-box {
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 
 .formField {
@@ -71,29 +76,23 @@
   font-size: 1.2em;
   margin-bottom: 0.5em;
   text-align: center;
-  width: 260px;
-}
-
-.field-label {
+  width: 25%;
   color: #fff;
-  font-size: 1.2em;
-  margin-bottom: 0.5em;
-  text-align: center;
 }
 
 .auth-select {
-  width: 195px;
+  width: 65%;
   font-family: "Lexend";
   color: #fff;
   background: rgb(255, 255, 255, 0.2);
   position: relative;
   display: inline-block;
   border: 2px solid #fff;
-  border-radius: 1em; /* Add this line to add round borders */
+  border-radius: 0.5em; /* Add this line to add round borders */
   outline: none;
   height: 3em;
-  padding-left: 30px;
-  padding-right: 30px;
+  margin: auto;
+  padding-left: 1em;
 }
 
 .auth-option {
@@ -101,7 +100,6 @@
 }
 
 .shortInput {
-  width: 100%;
   font-family: "Lexend";
   background: rgb(255, 255, 255, 0.2);
   color: #fff;
@@ -111,9 +109,9 @@
   border-radius: 0.5em;
   outline: none;
   height: 3em;
-  width: 70%;
+  width: 65%;
   margin: auto;
-  padding: 1.7em;
+  padding: 1em;
 }
 .shortInput::placeholder {
   color: white;

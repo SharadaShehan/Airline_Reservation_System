@@ -105,13 +105,13 @@ export default function FlightSearch() {
       <div className="container justify-content-md-center center-box">
         <div className="glass-background"></div>
         <div className="main-container">
-          <div className="front-content front-text title">Search Flight</div>
+          <div className="front-content front-text title">Search Flights</div>
           <div className="front-content ">
             <div className="drop-btn-container">
-              <div className="column-left drop-btn">
+              <div className="left-drop-btn">
                 <div className="dropdown">
                   <select
-                    className="selection-area dropbtn"
+                    className="selection-area-dropbtn"
                     value={origin}
                     onChange={(e) => setOrigin(e.target.value)}
                   >
@@ -126,9 +126,10 @@ export default function FlightSearch() {
                   </select>
                 </div>
               </div>
-              <div className="column-right drop-btn">
+              <div className="right-drop-btn">
+              <div className="dropdown">
                 <select
-                  className="selection-area dropbtn"
+                  className="selection-area-dropbtn"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                 >
@@ -144,11 +145,13 @@ export default function FlightSearch() {
                     ))}
                 </select>
               </div>
+              </div>
             </div>
             <div className="date-btn drop-btn">
               <div className="dropdown">
                 <button className="selection-area dropbtn">
-                  <div className="drop-text">Date</div>
+                  <span></span>
+                  <span className="drop-text-container">Departure Date</span>
                   <input
                     className="selection-area date-input-flightSearch"
                     type="date"
@@ -168,16 +171,16 @@ export default function FlightSearch() {
           <div className="table-container front-content">
             {flights.length === 0 ? (
               <div className="no-passengers">
-                Select Origin and Destination airports
+                Select Origin, Destination airports and Departure Date
               </div>
             ) : (
               <div className="table-wrapper">
                 <table>
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Model</th>
-                      <th>Duration</th>
+                      <th>Flight ID</th>
+                      <th>Aircraft Model</th>
+                      <th>Travel Duration</th>
                       <th>Economy</th>
                       <th>Business</th>
                       <th>Platinum</th>
@@ -188,7 +191,7 @@ export default function FlightSearch() {
                       <tr key={uuidv4()}>
                         <td>{flight.flightID}</td>
                         <td>{flight.airplaneModel}</td>
-                        <td>{flight.durationMinutes}</td>
+                        <td>{`${Math.floor(flight.durationMinutes/60)} hr and ${flight.durationMinutes%60} min`}</td>
                         <td>
                           <input
                             className="radio-btn"
@@ -232,7 +235,7 @@ export default function FlightSearch() {
               </div>
             )}
           </div>
-          <div>
+          <div className="lower-btns-container">
             <div className="selected-class-txt">Class : {classType}</div>
             <div className="btn-set">
               <button type="button" className="action-button btn">

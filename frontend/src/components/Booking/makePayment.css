@@ -1,14 +1,15 @@
 .main-details{
-    width: 80%;
+    width: 63%;
     height: 25%;
-    margin: 0 10% 0 10%;
+    margin: 1% 15% 0 22%;
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 .data-col{
     width: 50%;
     height: 100%;
-    padding-left: 5%;
+    /* padding-left: 10%; */
     text-align: left;
     color: #ffffff;
     display: flex;
@@ -17,10 +18,19 @@
 .tck-details{
     max-width: 80vw;
     height: 40%;
-    margin: 1% 5% 0 5%;
+    margin: 1% 5% 1% 5%;
     border: 1px solid #ffffff;
+    border-radius: 0.7em;
     overflow-x: auto;
     display: flex;
+}
+.main-details-2{
+    width: 80%;
+    height: 23%;
+    margin: 1% 14% 0 6%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 .data-col-2{
     width: 80%;
@@ -37,12 +47,14 @@
     justify-content: center;
     gap: 2%;
     margin: 20% 5% 2% 0;
-} 
+}
 .ticket-box{
     min-width: 20%;
-    height: 100%;
+    /* width: auto; */
+    height: 95%;
     position: relative;
     margin: 0 0.25em 0 0.25em;
+    padding: 0.3em 0 0 0.3em;
 }
 .ticket-box-back{
     border-radius: 5%;
@@ -52,12 +64,27 @@
     opacity: 0.7;
     background-color: rgb(100, 100, 100);
 }
+.tck-data{
+    /* padding: auto; */
+    padding-top: 0.7em;
+}
+.ticket-data{
+    display: flex;
+    justify-content: center;
+}
+.ticket-data1{
+    display: flex;
+    justify-content: center;
+    padding-top: 0.1em;
+    padding-left: 1.3em;
+}
 .tck-details::-webkit-scrollbar {
     width: 12px;
+    height: 0;
 }
 .tck-details::-webkit-scrollbar-thumb {
     background-color: #007bff; 
-    border-radius: 6px; 
+    border-radius: 6px;
 }
 .tck-details::-webkit-scrollbar-track:hover {
     background-color: transparent; 

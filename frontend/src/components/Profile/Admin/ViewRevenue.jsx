@@ -116,7 +116,7 @@ function ViewRevenue() {
                   <tr key={model.model}>
                     <td>{model.model}</td>
                     <td>{model.bookingSetsCount}</td>
-                    <td>{model.revenue}</td>
+                    <td>$ {model.revenue}</td>
                   </tr>
                 ))}
               </tbody>

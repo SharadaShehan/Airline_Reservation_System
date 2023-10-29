@@ -148,7 +148,7 @@ export default function BookingDetails() {
           <div className="main-details">
             <div className="data-col">
               <div>
-                <label>Date & Time of Departure: &nbsp;</label>
+                <label>Departure : &nbsp;</label>
                 <span>{flightDetails.departureDateAndTime}</span>
               </div>
               <div>
@@ -166,7 +166,7 @@ export default function BookingDetails() {
             </div>
             <div className="data-col">
               <div>
-                <label>Date & Time of Arrival: &nbsp;</label>
+                <label>Arrival : &nbsp;</label>
                 <span>{flightDetails.arrivalDateAndTime}</span>
               </div>
               <div>
@@ -210,14 +210,14 @@ export default function BookingDetails() {
                       <label>Seat Number : &nbsp; </label>
                       <span>{passenger.seatNumber}</span>
                     </div>
-                    <div className="ticket-data">
+                    <div className="ticket-data1">
                       <button
                         onClick={() =>
                           handleRemoveBooking(passenger.seatNumber)
                         }
                         className="rmv-bk"
                       >
-                        Remove Booked Seat
+                        Remove Reservation
                       </button>
                     </div>
                   </div>
@@ -225,7 +225,7 @@ export default function BookingDetails() {
               );
             })}
           </div>
-          <div className="btn-set">
+          <div className="btn-set-1">
             <button type="button" className="action-button btn">
               <Link
                 to="/home"

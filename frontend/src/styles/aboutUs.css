@@ -87,7 +87,8 @@
 
 .about-us-page .content {
   color: #000000;
-  font-family: "Inter", Helvetica;
+  /* font-family: "Inter", Helvetica; */
+  font-family: "Lexend";
   font-size: 1.3vw;
   font-weight: 500;
   letter-spacing: 0;
@@ -97,10 +98,12 @@
 
 .about-us-page .sub-topic {
   color: #000000;
-  font-family: "Inter", Helvetica;
+  /* font-family: "Inter", Helvetica; */
+  font-family: "Lexend";
   font-size: 2.1vw;
   font-weight: 500;
   letter-spacing: 0;
+  margin-top: 5%;
   line-height: normal;
   text-align: center;
 }
@@ -169,9 +172,10 @@
 
 .about-us-page .thank-you-for {
   color: #ffffff;
-  font-family: "Inter", Helvetica;
+  /* font-family: "Inter", Helvetica; */
+  font-family: "Lexend";
   font-size: 1.2vw;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0;
   line-height: normal;
   position: relative;
@@ -195,17 +199,16 @@
 
 .about-us-page .we-invite-you-to {
   color: #ffffff;
-  font-family: "Inter", Helvetica;
+  /* font-family: "Inter", Helvetica; */
+  font-family: "Lexend";
   font-size: 1.2vw;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0;
   line-height: normal;
   position: relative;
   text-align: center;
   margin: 1%;
 }
-
-
 
 @media only screen and (max-width: 768px) {
   .about-us-page .our-company-box {
