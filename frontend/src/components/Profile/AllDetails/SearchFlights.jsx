@@ -4,8 +4,8 @@ import { UserGlobalState } from "../../Layout/UserGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./details.css";
-import ConfirmationPopup from '../../common/ConfirmationPopup';
-import Snackbar from "../../common/Snackbar"
+import ConfirmationPopup from "../../common/ConfirmationPopup";
+import Snackbar from "../../common/Snackbar";
 
 function SearchFlights() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -20,16 +20,18 @@ function SearchFlights() {
   const [origin, setOrigin] = useState("origin");
   const [destination, setDestination] = useState("destination");
 
+  const [isSearched, setIsSearched] = useState(false);
+
   const [showPopup, setShowPopup] = useState(false);
   const snackbarRef_fail = useRef(null);
   const Snackbardata_fail = {
     type: "fail",
-    message: "Failed to Delete Flight!"
+    message: "Failed to Delete Flight!",
   };
   const snackbarRef_success = useRef(null);
   const Snackbardata_success = {
     type: "success",
-    message: "Deleted the Flight Successfully !"
+    message: "Deleted the Flight Successfully !",
   };
 
   useEffect(
@@ -79,6 +81,10 @@ function SearchFlights() {
       setFlightDetails(response.data);
     } catch (error) {
       console.log(error);
+      if (error.response.status === 404) {
+        setFlightDetails([]);
+        setIsSearched(true);
+      }
       if (
         error.response &&
         (error.response.status === 401 || error.response.status === 403)
@@ -141,11 +147,11 @@ function SearchFlights() {
     }
   }
 
-  function handleDelete(){
-    setShowPopup(true)
+  function handleDelete() {
+    setShowPopup(true);
   }
 
-  function handlePopUpCancel(){
+  function handlePopUpCancel() {
     setShowPopup(false);
   }
 
@@ -206,9 +212,13 @@ function SearchFlights() {
       </div>
       <div className="inner-box">
         {flightDetails.length === 0 ? (
-          <div className="no-passengers">
-            Select Origin, Destination and Date to Search Flights
-          </div>
+          isSearched ? (
+            <div className="no-passengers">No results found!</div>
+          ) : (
+            <div className="no-passengers">
+              Select Origin, Destination and Date to Search Flights
+            </div>
+          )
         ) : (
           <div style={{ height: "375px", overflow: "auto", width: "100%" }}>
             <table>
