@@ -209,7 +209,7 @@ export default function DEOUpdateDelay() {
                   <tr>
                     <td className="data-cell">
                       <select
-                        className="input-area form-control"
+                        className="input-area-delay form-control"
                         value={origin}
                         onChange={onClickOrigin}
                       >
@@ -228,7 +228,7 @@ export default function DEOUpdateDelay() {
                     </td>
                     <td className="data-cell">
                       <select
-                        className="input-area form-control"
+                        className="input-area-delay form-control"
                         value={destination}
                         onChange={onClickDestination}
                       >
@@ -271,7 +271,7 @@ export default function DEOUpdateDelay() {
                 </table>
                 <div className="data-view-tbl">
                   {flights.length === 0 ? (
-                    <div className="no-passengers">
+                    <div className="no-passengers-deo">
                       Select Origin and Destination airports
                     </div>
                   ) : (
@@ -318,7 +318,7 @@ export default function DEOUpdateDelay() {
                       <input
                         type="number"
                         value={delayMinutes}
-                        class="input-area form-control"
+                        class="delay-input form-control"
                         placeholder="Delay"
                         onChange={handleDelayChange}
                         min="0"

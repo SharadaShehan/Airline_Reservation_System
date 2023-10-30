@@ -167,7 +167,7 @@ export default function DEOScheduleFlight() {
         <div className="mid-content-group">
           <div className="form-txt">Select Route</div>
           <select
-            className="input-area form-control"
+            className="input-area form-input"
             value={routeID}
             onChange={handleRouteID}
           >
@@ -185,7 +185,7 @@ export default function DEOScheduleFlight() {
           <div className="form-txt">Select Air Plane</div>
 
           <select
-            className="input-area form-control"
+            className="input-area form-input"
             value={tailNumber}
             onChange={handleTailNumber}
           >
