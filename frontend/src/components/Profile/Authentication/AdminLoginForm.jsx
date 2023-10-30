@@ -87,7 +87,7 @@ function AdminLoginForm() {
   return (
     <div className="loginFormWrapper">
       <form className="authForm" onSubmit={handleSubmitClick}>
-        <span className="header">Admin Log in</span>
+        <span className="header">Admin Portal</span>
         <div className="formField">
           <input
             className="shortInput"

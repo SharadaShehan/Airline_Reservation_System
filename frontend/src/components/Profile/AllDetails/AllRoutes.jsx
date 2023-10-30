@@ -184,7 +184,7 @@ function AllRoutes() {
             onClick={() => setUserMenuItem("add-route")}
             className="buttons"
           >
-            Add New Route
+            Add Route
           </button>
         )}
       </div>

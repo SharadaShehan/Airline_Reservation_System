@@ -268,7 +268,7 @@ function SearchFlights() {
             onClick={() => setUserMenuItem("schedule-flight")}
             className="buttons-search"
           >
-            Schedule New Flight
+            Schedule a Flight
           </button>
         )}
         <button className="buttons-search" onClick={handleSearch}>

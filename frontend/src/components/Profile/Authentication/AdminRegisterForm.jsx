@@ -149,7 +149,7 @@ export default function AdminRegisterForm() {
         onSubmit={submitfunc}
         style={{ height: "auto", overflow: "auto" }}
       >
-        <span className="header">Admin Register</span>
+        <span className="header">Register Admin</span>
         <div className="reg-formField">
           <div className="field-box">
             <label className="field-label">First Name</label>

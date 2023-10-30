@@ -172,7 +172,7 @@ function AllAirplanes() {
             onClick={() => setUserMenuItem("add-airplane")}
             className="buttons"
           >
-            Add New Airplane
+            Add Airplane
           </button>
         )}
       </div>

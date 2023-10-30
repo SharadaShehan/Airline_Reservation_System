@@ -98,7 +98,7 @@ export default function DEOAddAirport() {
   };
 
   const validateLocation = () => {
-    const locationRegex = /^[A-Za-z0-9 ]{1,20}$/;
+    const locationRegex = /^[A-Za-z0-9, ]{1,20}$/;
     if (locationRegex.test(location) === false) {
       setlocationError(`
             Location cannot be empty and can only contain letters
