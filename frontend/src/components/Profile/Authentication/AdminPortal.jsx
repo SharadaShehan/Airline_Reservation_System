@@ -8,13 +8,13 @@ function AdminPortal() {
   return (
     <div className="loginFormWrapper">
       <form className="authForm">
-        <span className="header">Admin Portal</span>
+        <span className="header">Staff Login</span>
         <div className="formField">
           <button
             className="portal-button"
             onClick={() => setAuthForm("admin-login")}
           >
-            Log In As An Admin
+            Admin
           </button>
         </div>
         <div className="formField">
@@ -22,7 +22,7 @@ function AdminPortal() {
             className="portal-button"
             onClick={() => setAuthForm("deo-login")}
           >
-            Log In As A DEO
+             Data Entry Operator
           </button>
         </div>
         <div className="portal-button-container">

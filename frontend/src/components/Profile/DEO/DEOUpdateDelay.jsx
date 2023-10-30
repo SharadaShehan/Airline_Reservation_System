@@ -208,19 +208,8 @@ export default function DEOUpdateDelay() {
                 <table>
                   <tr>
                     <td className="data-cell">
-                      <div className="form-txt">Origin</div>
-                    </td>
-                    <td className="data-cell">
-                      <div className="form-txt">Destination</div>
-                    </td>
-                    <td className="data-cell">
-                      <div className="form-txt">Date</div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="data-cell">
                       <select
-                        className="input-area form-control"
+                        className="input-area-delay form-control"
                         value={origin}
                         onChange={onClickOrigin}
                       >
@@ -232,14 +221,14 @@ export default function DEOUpdateDelay() {
                             value={airport.icaoCode}
                             key={airport.icaoCode}
                           >
-                            {airport.city}
+                            {airport.city} ({airport.iataCode})
                           </option>
                         ))}
                       </select>
                     </td>
                     <td className="data-cell">
                       <select
-                        className="input-area form-control"
+                        className="input-area-delay form-control"
                         value={destination}
                         onChange={onClickDestination}
                       >
@@ -251,11 +240,13 @@ export default function DEOUpdateDelay() {
                             value={airport.icaoCode}
                             key={airport.icaoCode}
                           >
-                            {airport.city}
+                            {airport.city} ({airport.iataCode})
                           </option>
                         ))}
                       </select>
                     </td>
+                  </tr>
+                  <tr>
                     <td className="data-cell">
                       <input
                         value={date}
@@ -269,17 +260,18 @@ export default function DEOUpdateDelay() {
                     <td className="data-cell">
                       <button
                         type="button"
-                        class="update-button btn"
+                        class="update-button-search btn"
                         onClick={handleSearch}
                       >
                         Search
                       </button>
                     </td>
                   </tr>
+                  
                 </table>
                 <div className="data-view-tbl">
                   {flights.length === 0 ? (
-                    <div className="no-passengers">
+                    <div className="no-passengers-deo">
                       Select Origin and Destination airports
                     </div>
                   ) : (
@@ -298,7 +290,7 @@ export default function DEOUpdateDelay() {
                             <tr key={uuidv4()}>
                               <td>{flight.flightID}</td>
                               <td>{flight.airplaneModel}</td>
-                              <td>{flight.durationMinutes}</td>
+                              <td>{flight.durationMinutes} mins</td>
                               <td>
                                 {" "}
                                 <button
@@ -326,7 +318,7 @@ export default function DEOUpdateDelay() {
                       <input
                         type="number"
                         value={delayMinutes}
-                        class="input-area form-control"
+                        class="delay-input form-control"
                         placeholder="Delay"
                         onChange={handleDelayChange}
                         min="0"
@@ -371,15 +363,15 @@ export default function DEOUpdateDelay() {
               <div className="form-sub-title">Flight Details</div>
               <div className="data-txt">Flight ID : {scheduledFlightID}</div>
               <div className="data-txt">Air Plane Model : {flightModel}</div>
-              <div className="data-txt">Duration : {duration}</div>
+              <div className="data-txt">Duration : {`${Math.floor(duration/60)} hr and ${duration%60} min`}</div>
               <div className="data-txt">Origin : {origin}</div>
               <div className="data-txt">Origin Airport : {address_1}</div>
               <div className="data-txt">IATA : {IATA_1}</div>
-              <div className="data-txt">Date & Time : {begintime}</div>
+              <div className="data-txt">Departure : {begintime}</div>
               <div className="data-txt">Destination : {destination}</div>
               <div className="data-txt">IATA : {IATA_2}</div>
               <div className="data-txt">Destination Airport : {address_2}</div>
-              <div className="data-txt">Date & Time : {endtime}</div>
+              <div className="data-txt">Arrival : {endtime}</div>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
-import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import Cookies from "js-cookie";
 import axios from "axios";
 import "./authForms.css";
@@ -11,7 +11,7 @@ export default function AdminRegisterForm() {
   const { setCurrentUserData } = UserGlobalState();
   const [randomError, setRandomError] = useState(null);
 
-  const { setAuthForm } = AuthFormGlobalState();
+  const { setUserMenuItem } = UserMenuGlobalState();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
   const [password, setPassword] = useState("");
@@ -42,35 +42,20 @@ export default function AdminRegisterForm() {
     };
 
     try {
-      const response = await axios.post(`${BaseURL}/admin/register`, postData);
+      const accessToken = Cookies.get("access-token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      const response = await axios.post(
+        `${BaseURL}/admin/register`,
+        postData,
+        config
+      );
       console.log(response);
       if (response.status === 201) {
-        const postDataToken = {
-          username: username,
-          password: password,
-        };
-        try {
-          const responseToken = await axios.post(
-            `${BaseURL}/admin/auth`,
-            postDataToken
-          );
-
-          if (responseToken.status === 200) {
-            Cookies.set("access-token", responseToken.data.access_token, {
-              expires: 1,
-            });
-            setCurrentUserData(responseToken.data.userData);
-            setAuthForm("admin-login");
-          } else {
-            throw new Error("Something went wrong");
-          }
-        } catch (error) {
-          if (error.responseToken.status) {
-            if (error.responseToken.status === 401) {
-              setRandomError("Invalid username or password");
-            }
-          }
-        }
+        alert("Admin Registered Successfully");
       }
     } catch (err) {
       console.log(err);
@@ -160,11 +145,11 @@ export default function AdminRegisterForm() {
   return (
     <div className="registerFormWrapper">
       <form
-        className="register-authForm"
+        className="register-authForm-admin"
         onSubmit={submitfunc}
         style={{ height: "auto", overflow: "auto" }}
       >
-        <span className="header">Admin Register</span>
+        <span className="header">Register Admin</span>
         <div className="reg-formField">
           <div className="field-box">
             <label className="field-label">First Name</label>
@@ -237,17 +222,18 @@ export default function AdminRegisterForm() {
         </div>
         {randomError && <div className="errorText">{randomError}</div>}
         <div className="button-container">
+          <button
+            className="submitBtn"
+            type="submit"
+            onClick={() => setUserMenuItem("register-portal")}
+          >
+            Back
+          </button>
           <button className="submitBtn" type="submit" disabled={!isFormValid()}>
             Register
           </button>
         </div>
       </form>
-      <div className="swap">
-        Do you already have an account?&nbsp;
-        <button className="swapBtn" onClick={() => setAuthForm("admin-login")}>
-          Login
-        </button>
-      </div>
     </div>
   );
 }

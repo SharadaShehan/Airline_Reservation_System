@@ -4,6 +4,11 @@
   padding-bottom: 1em;
 }
 
+/*
+    opacity: 0.8;
+    background: #1a354e;
+  */
+
 .authForm {
   margin-top: 0;
   margin-bottom: 0;
@@ -13,6 +18,20 @@
   width: 50vw;
   /* transform: translateX(30%); */
   background-color: rgba(0, 0, 0, 0.5);
+  /* border-radius: 2.5em; */
+  box-shadow: 0 0 0.4em 0 #000;
+}
+
+.authForm-admin {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 2em 0;
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  /* transform: translateX(30%); */
+  opacity: 0.8;
+  background: #1a354e;
   /* border-radius: 2.5em; */
   box-shadow: 0 0 0.4em 0 #000;
 }
@@ -47,6 +66,21 @@
   height: 100%;
   /* transform: translateX(30%); */
   background-color: rgba(0, 0, 0, 0.5);
+  /* border-radius: 2.5em; */
+  box-shadow: 0 0 0.4em 0 #000;
+}
+
+.register-authForm-admin {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 1em 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  /* transform: translateX(30%); */
+  opacity: 0.8;
+  background: #1a354e;
   /* border-radius: 2.5em; */
   box-shadow: 0 0 0.4em 0 #000;
 }

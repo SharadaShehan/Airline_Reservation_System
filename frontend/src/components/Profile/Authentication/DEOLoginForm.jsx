@@ -88,7 +88,7 @@ function DEOLoginForm() {
   return (
     <div className="loginFormWrapper">
       <form className="authForm" onSubmit={handleSubmitClick}>
-        <span className="header">DEO Log in</span>
+        <span className="header">Data Entry Operator Login</span>
         <div className="formField">
           <input
             className="shortInput"
@@ -119,12 +119,12 @@ function DEOLoginForm() {
           >
             Back
           </button>
-          <button
+          {/* <button
             className="submitBtn"
             onClick={() => setAuthForm("deo-register")}
           >
             Register Now
-          </button>
+          </button> */}
           <button className="submitBtn" type="submit">
             Log In
           </button>

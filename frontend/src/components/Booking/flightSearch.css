@@ -205,12 +205,18 @@ td {
 .table-container::-webkit-scrollbar-thumb {
     background-color: #007bff; 
     border-radius: 8px; 
+    width: 0;
+    height: 0;
 }
 .table-container::-webkit-scrollbar-track:hover {
-    background-color: transparent
+    background-color: transparent;
+    width: 0;
+    height: 0;
 }
 .table-container::-webkit-scrollbar-thumb:hover {
     background-color: #0056b3; 
+    width: 0;
+    height: 0;
 }
 .lower-btns-container{
     /* display: flex; */

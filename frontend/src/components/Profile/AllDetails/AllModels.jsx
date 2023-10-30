@@ -174,7 +174,7 @@ function AllModels() {
             onClick={() => setUserMenuItem("add-model")}
             className="buttons"
           >
-            Add New Model
+            Add Model
           </button>
         )}
       </div>

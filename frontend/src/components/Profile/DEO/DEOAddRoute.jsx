@@ -202,7 +202,7 @@ export default function DEOAddRoute() {
             type="number"
             value={durationMinutes}
             className="input-area form-input"
-            placeholder="Enter Destination in Minutes"
+            placeholder="Enter Duration in Minutes"
             onChange={handleDurationChange}
             min={"0"}
             required
