@@ -152,9 +152,9 @@ function SearchFlights() {
   return (
     <div className="outer-box">
       <span className="view-revenue">Search Flights</span>
-      <div className="selection-box">
+      <div className="selection-box-div">
         <select
-          className="model-selection"
+          className="model-selection-search"
           value={origin}
           onChange={(e) => setOrigin(e.target.value)}
         >
@@ -172,7 +172,7 @@ function SearchFlights() {
           ))}
         </select>
         <select
-          className="model-selection"
+          className="model-selection-search"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
         >
@@ -191,10 +191,10 @@ function SearchFlights() {
               </option>
             ))}
         </select>
-        <div className="date-selection-dest">
+        <div className="model-selection-search">
           <input
             id="start-date-input"
-            className="model-selection"
+            className="date-model-selection-search"
             type="date"
             name="start-date"
             min="2023-10-01"

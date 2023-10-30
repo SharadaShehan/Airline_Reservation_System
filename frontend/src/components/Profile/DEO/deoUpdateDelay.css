@@ -52,6 +52,23 @@
     text-align: left;
     color: rgb(117, 117, 117);
 }
+.update-button-search {
+    border-radius: 42.5px;
+    width: 50%;
+    background-color: #ffffff;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 5;
+    transition: all 0.3s ease-in-out;
+}
+.update-button-search:hover {
+    background-color: #005EF5; /* Change background color to blue on hover */
+    color: white;
+    border: none;
+    transform: scale(1.1);
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+}
 .update-button {
     border-radius: 42.5px;
     width: 8em;
@@ -60,9 +77,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     z-index: 5;
-    margin: 5% 2% 1% 1% ;
-    
-  transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 .update-button:hover {
     background-color: #005EF5; /* Change background color to blue on hover */
@@ -89,6 +104,8 @@
 .data-cell{
     width: 25%;
     vertical-align: middle;
+    justify-content: center;
+    align-items: center;
 }
 .data-view-tbl{
     width: 60%;
@@ -121,4 +138,5 @@
     text-align: center;
     align-items: center;
     justify-content: center;
+    width: 80%;
 }

@@ -76,7 +76,7 @@ th {
   text-align: center;
 }
 
-.date-selection {
+.date-selection-input {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -86,6 +86,8 @@ th {
   font-family: "Montserrat";
   font-size: 20px;
   text-align: center;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 .date-selection input {
@@ -95,7 +97,7 @@ th {
   left: 10px;
 }
 
-.to {
+.to-input-box {
   margin: 0;
   font-family: "Montserrat";
   color: #fff;
@@ -105,7 +107,7 @@ th {
   left: -24px;
 }
 
-.from {
+.from-input-box {
   margin: 0;
   font-family: "Montserrat";
   color: #fff;

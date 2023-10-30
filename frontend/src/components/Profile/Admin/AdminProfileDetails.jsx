@@ -31,10 +31,10 @@ export default function AdminProfileDetails({ userData }) {
 
   return (
     <div className="container">
-      <div className="group163">
-        <div className="rectangle77" />
+      <div className="left-container-details">
+        <div className="background-glass-effect" />
         <div className="administratorProfile">Administrator profile</div>
-        <div className="details">
+        <div className="details-admin">
           First Name : {userData.firstName}
           <br />
           last Name : {userData.lastName}
@@ -43,8 +43,8 @@ export default function AdminProfileDetails({ userData }) {
           <br />
         </div>
       </div>
-      <div className="group-div">
-        <div className="rectangle-div" />
+      <div className="right-container-details">
+        <div className="background-glass-effect" />
         <div className="search-records">Search Records</div>
 
         <button className="rectangle-parent1" onClick={handleClickRevenue}>

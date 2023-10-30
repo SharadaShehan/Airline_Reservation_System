@@ -208,17 +208,6 @@ export default function DEOUpdateDelay() {
                 <table>
                   <tr>
                     <td className="data-cell">
-                      <div className="form-txt">Origin</div>
-                    </td>
-                    <td className="data-cell">
-                      <div className="form-txt">Destination</div>
-                    </td>
-                    <td className="data-cell">
-                      <div className="form-txt">Date</div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="data-cell">
                       <select
                         className="input-area form-control"
                         value={origin}
@@ -256,6 +245,8 @@ export default function DEOUpdateDelay() {
                         ))}
                       </select>
                     </td>
+                  </tr>
+                  <tr>
                     <td className="data-cell">
                       <input
                         value={date}
@@ -269,13 +260,14 @@ export default function DEOUpdateDelay() {
                     <td className="data-cell">
                       <button
                         type="button"
-                        class="update-button btn"
+                        class="update-button-search btn"
                         onClick={handleSearch}
                       >
                         Search
                       </button>
                     </td>
                   </tr>
+                  
                 </table>
                 <div className="data-view-tbl">
                   {flights.length === 0 ? (

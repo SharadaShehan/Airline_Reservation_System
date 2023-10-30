@@ -59,8 +59,8 @@ function PassengersByType() {
     <div className="outer-box">
       <span className="view-by-date-dest">View Passenger By Date & Type</span>
       <div className="selection-box">
-        <div className="date-selection">
-          <label className="from" htmlFor="start-date-input">
+        <div className="date-selection-input">
+          <label className="from-input-box" htmlFor="start-date-input">
             From
           </label>
           <input
@@ -74,8 +74,8 @@ function PassengersByType() {
             onChange={(e) => setFrom(e.target.value)}
           />
         </div>
-        <div className="date-selection">
-          <label className="to" htmlFor="end-date-input">
+        <div className="date-selection-input">
+          <label className="to-input-box" htmlFor="end-date-input">
             To
           </label>
           <input
