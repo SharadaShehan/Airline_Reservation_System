@@ -14,6 +14,7 @@ from app.api.resources.complete_booking_api import CompleteBooking
 from app.api.resources.cancel_booking_api import GuestCancelBooking, UserCancelBooking
 from app.api.resources.get_available_seats_api import GetAvailableSeats
 from app.api.resources.search_api import SearchFlights
+from app.api.resources.admin_delete_api import AdminDeleteModel, AdminDeleteRoute, AdminDeleteAirport, AdminDeleteAirplane, AdminDeleteScheduledFlight, AdminHideScheduledFlight
 from app.api.resources.admin_view_reports import GetRevenueByModel
 from app.api.resources.admin_search_api import GetPassengersByNextFlight, GetPassengersByDateDestination, GetBookingCountByDatePassengerType, GetPastFlightsDetails, GetPassengersByRouteID
 from app.api.resources.search_api import SearchBookedTickets,SearchUserBookedTickets, SearchGuestBookedTickets
@@ -24,7 +25,8 @@ from app.api.resources.deo_create_model_api import CreateModel
 from app.api.resources.deo_create_airport_api import CreateAirport
 from app.api.resources.deo_create_airplane_api import CreateAirplane
 from app.api.resources.deo_create_route_api import CreateRoute
-from app.api.resources.deo_update_delay_api import DEOupdateDelay 
+from app.api.resources.deo_update_delay_api import DEOupdateDelay
+from app.api.resources.get_flight_details_api import GetFlightByID
 from flask_restful import Api
 
 api_bp = Blueprint('api', __name__)
@@ -47,6 +49,12 @@ api.add_resource(DEOGetAllAirplanes, '/deo/get/airplanes')    # GET method to ge
 api.add_resource(DEOGetAllRoutes, '/deo/get/routes')    # GET method to get all routes
 api.add_resource(DEOGetAllModels, '/deo/get/models')    # GET method to get all models
 
+api.add_resource(AdminHideScheduledFlight, '/admin/hide/scheduled-flight/<flight_id>')    # PATCH method to hide scheduled flight
+api.add_resource(AdminDeleteScheduledFlight, '/admin/delete/scheduled-flight/<flight_id>')    # DELETE method to delete scheduled flight
+api.add_resource(AdminDeleteAirplane, '/admin/delete/airplane/<tail_number>')    # DELETE method to delete airplane
+api.add_resource(AdminDeleteAirport, '/admin/delete/airport/<icao_code>')    # DELETE method to delete airport
+api.add_resource(AdminDeleteRoute, '/admin/delete/route/<route_id>')    # DELETE method to delete route
+api.add_resource(AdminDeleteModel, '/admin/delete/model/<model_id>')    # DELETE method to delete model
 api.add_resource(GetPastFlightsDetails, '/admin/past-flights')    # GET method to get past flights details
 api.add_resource(GetBookingCountByDatePassengerType, '/admin/bookings-by-ptype')    # GET method to get booking count by date and passenger type
 api.add_resource(GetPassengersByDateDestination, '/admin/passengers-to-destination')    # GET method to get passengers by date and destination
@@ -76,6 +84,7 @@ api.add_resource(GuestPendingPayments, '/guest/pending-payments/<guest_id>')    
 api.add_resource(GuestCreateBooking, '/booking/create/guest')    # POST method to create booking
 api.add_resource(GetAvailableSeats, '/flight/<int:flight_id>/seats')    # GET method to get available seats
 api.add_resource(SearchFlights, '/flight/search')    # GET method to search flights
+api.add_resource(GetFlightByID, '/flight/<int:flight_id>')    # GET method to get flight details
 
 api.add_resource(GetAllModels, '/get/models')    # GET method to get all models
 api.add_resource(GetAllRoutes, '/get/routes')    # GET method to get all routes

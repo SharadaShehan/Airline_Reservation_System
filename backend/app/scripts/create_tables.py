@@ -59,7 +59,7 @@ def create_tables():
             CREATE TABLE IF NOT EXISTS airplane (
             Tail_Number VARCHAR(10) PRIMARY KEY,
             Model SMALLINT NOT NULL,
-            FOREIGN KEY (Model) REFERENCES model(Model_ID) );
+            FOREIGN KEY (Model) REFERENCES model(Model_ID) ON DELETE CASCADE );
         """
         cursor.execute(create_airplane_table_query)
         #----------------------------------
@@ -92,8 +92,8 @@ def create_tables():
             Origin CHAR(4) NOT NULL,
             Destination CHAR(4) NOT NULL,
             Duration_Minutes SMALLINT NOT NULL,
-            FOREIGN KEY (Origin) REFERENCES airport(ICAO_Code),
-            FOREIGN KEY (Destination) REFERENCES airport(ICAO_Code),
+            FOREIGN KEY (Origin) REFERENCES airport(ICAO_Code) ON DELETE CASCADE,
+            FOREIGN KEY (Destination) REFERENCES airport(ICAO_Code) ON DELETE CASCADE,
             CONSTRAINT Unique_Route_Pair UNIQUE (Origin, Destination) );
         """
         cursor.execute(create_route_table_query)
@@ -107,8 +107,8 @@ def create_tables():
             Airplane VARCHAR(10) NOT NULL,
             Departure_Time DATETIME NOT NULL,
             Delay_Minutes SMALLINT NOT NULL DEFAULT 0,
-            FOREIGN KEY (Route) REFERENCES route(Route_ID),
-            FOREIGN KEY (Airplane) REFERENCES airplane(Tail_Number) );
+            FOREIGN KEY (Route) REFERENCES route(Route_ID) ON DELETE CASCADE,
+            FOREIGN KEY (Airplane) REFERENCES airplane(Tail_Number) ON DELETE CASCADE );
         """
         cursor.execute(create_scheduled_flight_table_query)
         #----------------------------------
@@ -130,7 +130,7 @@ def create_tables():
             Class ENUM('Economy', 'Business', 'Platinum') NOT NULL,
             Seats_Count SMALLINT NOT NULL,
             FOREIGN KEY (Model) REFERENCES model(Model_ID) ON DELETE CASCADE,
-            FOREIGN KEY (Class) REFERENCES class(Class_Name) );
+            FOREIGN KEY (Class) REFERENCES class(Class_Name) ON DELETE CASCADE );
         """
         cursor.execute(create_capacity_table_query)
         #----------------------------------
@@ -142,8 +142,8 @@ def create_tables():
             Class ENUM('Economy', 'Business', 'Platinum') NOT NULL,
             Route SMALLINT NOT NULL,
             Price DECIMAL(8,2) NOT NULL,
-            FOREIGN KEY (Class) REFERENCES class(Class_Name),
-            FOREIGN KEY (Route) REFERENCES route(Route_ID),
+            FOREIGN KEY (Class) REFERENCES class(Class_Name) ON DELETE CASCADE,
+            FOREIGN KEY (Route) REFERENCES route(Route_ID) ON DELETE CASCADE,
             CONSTRAINT Unique_Price_Pair UNIQUE (Class, Route) );
         """
         cursor.execute(create_base_price_table_query)
@@ -183,8 +183,8 @@ def create_tables():
             Email VARCHAR(50) NOT NULL,
             Contact_Number VARCHAR(16) NOT NULL UNIQUE,
             Bookings_Count SMALLINT NOT NULL DEFAULT 0,
-            FOREIGN KEY (Category) REFERENCES user_category(Category_ID),
-            FOREIGN KEY (Username) REFERENCES user(Username) );
+            FOREIGN KEY (Category) REFERENCES user_category(Category_ID) ON DELETE CASCADE,
+            FOREIGN KEY (Username) REFERENCES user(Username) ON DELETE CASCADE);
         """
         cursor.execute(create_registered_user_table_query)
         #----------------------------------
@@ -194,7 +194,7 @@ def create_tables():
             CREATE TABLE IF NOT EXISTS staff (
             Username VARCHAR(30) PRIMARY KEY,
             Role ENUM('Admin', 'Data Entry Operator') NOT NULL,
-            FOREIGN KEY (Username) REFERENCES user(Username) );
+            FOREIGN KEY (Username) REFERENCES user(Username) ON DELETE CASCADE );
         """
         cursor.execute(create_staff_table_query)
         #----------------------------------
@@ -209,9 +209,9 @@ def create_tables():
             Final_Price DECIMAL(8,2) NOT NULL,
             Completed BOOLEAN NOT NULL DEFAULT 0,
             Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (Scheduled_Flight) REFERENCES scheduled_flight(Scheduled_ID),
-            FOREIGN KEY (User) REFERENCES user(Username),
-            FOREIGN KEY (BPrice_Per_Booking) REFERENCES base_price(Price_ID) );
+            FOREIGN KEY (Scheduled_Flight) REFERENCES scheduled_flight(Scheduled_ID) ON DELETE CASCADE,
+            FOREIGN KEY (User) REFERENCES user(Username) ON DELETE CASCADE,
+            FOREIGN KEY (BPrice_Per_Booking) REFERENCES base_price(Price_ID) ON DELETE CASCADE );
         """
         cursor.execute(create_booking_table_query)
         #----------------------------------

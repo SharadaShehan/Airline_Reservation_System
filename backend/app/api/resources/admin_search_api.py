@@ -1,7 +1,7 @@
 from flask import make_response, request
 from app.utils.db import get_db_connection_admin
 from flask_restful import Resource, abort
-from app.utils.validators import validate_origin_destination_parameters, validate_date_range, validate_icao_code, validate_flight_id
+from app.utils.validators import validate_origin_destination_parameters, validate_date_range, validate_icao_code, validate_flight_id, validate_route_id
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
@@ -292,8 +292,9 @@ class GetPassengersByRouteID(Resource):
                 
                 if query_result is None or query_result[0] is None:
                     raise Exception("403")
+                
                 # Validate search parameters
-                if not validate_flight_id(int(route_id)):
+                if not validate_route_id(int(route_id)):
                     raise Exception("Invalid search parameters")
                 
                 # Get passengers by route ID
