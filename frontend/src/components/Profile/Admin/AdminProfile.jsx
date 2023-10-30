@@ -13,6 +13,9 @@ import AllAirplanes from "../AllDetails/AllAirplanes";
 import AllAirports from "../AllDetails/AllAirports";
 import AllRoutes from "../AllDetails/AllRoutes";
 import SearchFlights from "../AllDetails/SearchFlights";
+import RegisterPortal from "./RegisterPortal";
+import AdminRegisterForm from "./../Authentication/AdminRegisterForm";
+import DEORegisterForm from "./../Authentication/DEORegisterForm";
 import "./adminProfile.css";
 
 export default function AdminProfile({ userData }) {
@@ -77,6 +80,12 @@ export default function AdminProfile({ userData }) {
       return <AllRoutes />;
     } else if (userMenuItem === "search-flights") {
       return <SearchFlights />;
+    } else if (userMenuItem === "register-portal") {
+      return <RegisterPortal />;
+    } else if (userMenuItem === "admin-register") {
+      return <AdminRegisterForm />;
+    } else if (userMenuItem === "deo-register") {
+      return <DEORegisterForm />;
     } else {
       return <AdminProfileDetails userData={userData} />;
     }

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { UserGlobalState } from "../../Layout/UserGlobalState";
-import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
+import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import Cookies from "js-cookie";
 import axios from "axios";
 import "./authForms.css";
@@ -11,7 +11,7 @@ export default function DEORegisterForm() {
   const { setCurrentUserData } = UserGlobalState();
   const [randomError, setRandomError] = useState(null);
 
-  const { setAuthForm } = AuthFormGlobalState();
+  const { setUserMenuItem } = UserMenuGlobalState();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
   const [password, setPassword] = useState("");
@@ -42,35 +42,46 @@ export default function DEORegisterForm() {
     };
 
     try {
-      const response = await axios.post(`${BaseURL}/deo/register`, postData);
+      const accessToken = Cookies.get("access-token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      const response = await axios.post(
+        `${BaseURL}/deo/register`,
+        postData,
+        config
+      );
       console.log(response);
       if (response.status === 201) {
-        const postDataToken = {
-          username: username,
-          password: password,
-        };
-        try {
-          const responseToken = await axios.post(
-            `${BaseURL}/deo/auth`,
-            postDataToken
-          );
+        alert("DEO Registered Successfully");
+        // const postDataToken = {
+        //   username: username,
+        //   password: password,
+        // };
+        // try {
+        //   const responseToken = await axios.post(
+        //     `${BaseURL}/deo/auth`,
+        //     postDataToken
+        //   );
 
-          if (responseToken.status === 200) {
-            Cookies.set("access-token", responseToken.data.access_token, {
-              expires: 1,
-            });
-            setCurrentUserData(responseToken.data.userData);
-            setAuthForm("deo-login");
-          } else {
-            throw new Error("Something went wrong");
-          }
-        } catch (error) {
-          if (error.responseToken.status) {
-            if (error.responseToken.status === 401) {
-              setRandomError("Invalid username or password");
-            }
-          }
-        }
+        //   if (responseToken.status === 200) {
+        //     Cookies.set("access-token", responseToken.data.access_token, {
+        //       expires: 1,
+        //     });
+        //     setCurrentUserData(responseToken.data.userData);
+        //     setAuthForm("deo-login");
+        //   } else {
+        //     throw new Error("Something went wrong");
+        //   }
+        // } catch (error) {
+        //   if (error.responseToken.status) {
+        //     if (error.responseToken.status === 401) {
+        //       setRandomError("Invalid username or password");
+        //     }
+        //   }
+        // }
       }
     } catch (err) {
       console.log(err);
@@ -160,7 +171,7 @@ export default function DEORegisterForm() {
   return (
     <div className="registerFormWrapper">
       <form
-        className="register-authForm"
+        className="register-authForm-admin"
         onSubmit={submitfunc}
         style={{ height: "100%", overflow: "auto" }}
       >
@@ -237,17 +248,20 @@ export default function DEORegisterForm() {
         </div>
         {randomError && <div className="errorText">{randomError}</div>}
         <div className="button-container">
+          <button
+            className="submitBtn"
+            type="submit"
+            onClick={() => {
+              setUserMenuItem("register-portal");
+            }}
+          >
+            Back
+          </button>
           <button className="submitBtn" type="submit" disabled={!isFormValid()}>
             Register
           </button>
         </div>
       </form>
-      <div className="swap">
-        Do you already have an account?&nbsp;
-        <button className="swapBtn" onClick={() => setAuthForm("deo-login")}>
-          Login
-        </button>
-      </div>
     </div>
   );
 }

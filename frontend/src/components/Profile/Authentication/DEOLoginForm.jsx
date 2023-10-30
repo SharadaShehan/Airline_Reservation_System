@@ -119,12 +119,12 @@ function DEOLoginForm() {
           >
             Back
           </button>
-          <button
+          {/* <button
             className="submitBtn"
             onClick={() => setAuthForm("deo-register")}
           >
             Register Now
-          </button>
+          </button> */}
           <button className="submitBtn" type="submit">
             Log In
           </button>

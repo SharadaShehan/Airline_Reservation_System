@@ -5,9 +5,9 @@ import AdminRegisterForm from "./AdminRegisterForm";
 import DEOLoginForm from "./DEOLoginForm";
 import DEORegisterForm from "./DEORegisterForm";
 import AdminPortal from "./AdminPortal";
+import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
 import "./authForms.css";
 import "./loginOrRegister.css";
-import { AuthFormGlobalState } from "../../Layout/AuthFormGlobalState";
 
 export default function LoginOrRegister() {
   const { authForm } = AuthFormGlobalState();

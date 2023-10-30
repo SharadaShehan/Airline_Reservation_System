@@ -251,7 +251,7 @@ export default function BookingDetails() {
             </button>
             <ConfirmationPopup
               show={showPopup}
-              message="Are you sure you want to Reserve Now?"
+              message="Are you sure all the booking details are correct  ?"
               onConfirm={handlePopUpConfirmation}
               onCancel={handlePopUpCancel}
             />

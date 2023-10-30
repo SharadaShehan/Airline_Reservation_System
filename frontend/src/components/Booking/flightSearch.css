@@ -145,7 +145,7 @@
     justify-content: right;
 }
 .table-container {
-    max-height: 16vw;
+    max-height: 25vw;
     min-height: 16vw;
     width: 94%;
     margin: 2% 3% 2% 3%;
@@ -156,7 +156,8 @@
     align-items: left;
 }
 .no-passengers{
-    height: 15vw;
+    max-height: 24vw;
+    min-height: 15vw;
     display: flex;
     justify-content: center;
     align-items: center;
