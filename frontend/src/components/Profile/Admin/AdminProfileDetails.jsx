@@ -29,10 +29,6 @@ export default function AdminProfileDetails({ userData }) {
     setUserMenuItem("view-details");
   }
 
-  function handleRegisterStaff() {
-    setUserMenuItem("register-portal");
-  }
-
   return (
     <div className="container">
       <div className="left-container-details">
@@ -76,9 +72,6 @@ export default function AdminProfileDetails({ userData }) {
 
         <button onClick={handleViewDetails} className="rectangle-parent6">
           View Details
-        </button>
-        <button onClick={handleRegisterStaff} className="rectangle-parent6">
-          Register Staff
         </button>
       </div>
     </div>
