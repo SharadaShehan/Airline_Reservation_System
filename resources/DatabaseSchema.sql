@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS model (
 CREATE TABLE IF NOT EXISTS airplane (
             Tail_Number VARCHAR(10) PRIMARY KEY,
             Model SMALLINT NOT NULL,
-            FOREIGN KEY (Model) REFERENCES model(Model_ID) );
+            FOREIGN KEY (Model) REFERENCES model(Model_ID) ON DELETE CASCADE );
 
 CREATE TABLE IF NOT EXISTS airport (
             ICAO_Code CHAR(4) PRIMARY KEY,
@@ -92,8 +92,8 @@ CREATE TABLE IF NOT EXISTS route (
             Origin CHAR(4) NOT NULL,
             Destination CHAR(4) NOT NULL,
             Duration_Minutes SMALLINT NOT NULL,
-            FOREIGN KEY (Origin) REFERENCES airport(ICAO_Code),
-            FOREIGN KEY (Destination) REFERENCES airport(ICAO_Code),
+            FOREIGN KEY (Origin) REFERENCES airport(ICAO_Code) ON DELETE CASCADE ,
+            FOREIGN KEY (Destination) REFERENCES airport(ICAO_Code) ON DELETE CASCADE,
             CONSTRAINT Unique_Route_Pair UNIQUE (Origin, Destination) );
 
 CREATE TABLE IF NOT EXISTS scheduled_flight (
@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS scheduled_flight (
             Airplane VARCHAR(10) NOT NULL,
             Departure_Time DATETIME NOT NULL,
             Delay_Minutes SMALLINT NOT NULL DEFAULT 0,
-            FOREIGN KEY (Route) REFERENCES route(Route_ID),
-            FOREIGN KEY (Airplane) REFERENCES airplane(Tail_Number) );
+            FOREIGN KEY (Route) REFERENCES route(Route_ID) ON DELETE CASCADE,
+            FOREIGN KEY (Airplane) REFERENCES airplane(Tail_Number) ON DELETE CASCADE );
 
 CREATE TABLE IF NOT EXISTS class (
             Class_Name ENUM('Economy', 'Business', 'Platinum') PRIMARY KEY,
@@ -115,16 +115,16 @@ CREATE TABLE IF NOT EXISTS capacity (
             Class ENUM('Economy', 'Business', 'Platinum') NOT NULL,
             Seats_Count SMALLINT NOT NULL,
             FOREIGN KEY (Model) REFERENCES model(Model_ID) ON DELETE CASCADE,
-            FOREIGN KEY (Class) REFERENCES class(Class_Name) );
+            FOREIGN KEY (Class) REFERENCES class(Class_Name) ON DELETE CASCADE );
 
 CREATE TABLE IF NOT EXISTS base_price (
             Price_ID SMALLINT PRIMARY KEY AUTO_INCREMENT,
             Class ENUM('Economy', 'Business', 'Platinum') NOT NULL,
             Route SMALLINT NOT NULL,
             Price DECIMAL(8,2) NOT NULL,
-            FOREIGN KEY (Class) REFERENCES class(Class_Name),
+            FOREIGN KEY (Class) REFERENCES class(Class_Name) ON DELETE CASCADE,
             FOREIGN KEY (Route) REFERENCES route(Route_ID),
-            CONSTRAINT Unique_Price_Pair UNIQUE (Class, Route) );
+            CONSTRAINT Unique_Price_Pair UNIQUE (Class, Route) ON DELETE CASCADE );
 
 CREATE TABLE IF NOT EXISTS user_category (
             Category_ID SMALLINT PRIMARY KEY AUTO_INCREMENT,
@@ -148,13 +148,13 @@ CREATE TABLE IF NOT EXISTS registered_user (
             Email VARCHAR(50) NOT NULL,
             Contact_Number VARCHAR(16) NOT NULL UNIQUE,
             Bookings_Count SMALLINT NOT NULL DEFAULT 0,
-            FOREIGN KEY (Category) REFERENCES user_category(Category_ID),
-            FOREIGN KEY (Username) REFERENCES user(Username) );
+            FOREIGN KEY (Category) REFERENCES user_category(Category_ID) ON DELETE CASCADE,
+            FOREIGN KEY (Username) REFERENCES user(Username) ON DELETE CASCADE);
 
 CREATE TABLE IF NOT EXISTS staff (
             Username VARCHAR(30) PRIMARY KEY,
             Role ENUM('Admin', 'Data Entry Operator') NOT NULL,
-            FOREIGN KEY (Username) REFERENCES user(Username) );
+            FOREIGN KEY (Username) REFERENCES user(Username) ON DELETE CASCADE );
 
 CREATE TABLE IF NOT EXISTS booking (
             Booking_Ref_ID CHAR(12) PRIMARY KEY ,
@@ -164,9 +164,9 @@ CREATE TABLE IF NOT EXISTS booking (
             Final_Price DECIMAL(8,2) NOT NULL,
             Completed BOOLEAN NOT NULL DEFAULT 0,
             Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (Scheduled_Flight) REFERENCES scheduled_flight(Scheduled_ID),
-            FOREIGN KEY (User) REFERENCES user(Username),
-            FOREIGN KEY (BPrice_Per_Booking) REFERENCES base_price(Price_ID) );
+            FOREIGN KEY (Scheduled_Flight) REFERENCES scheduled_flight(Scheduled_ID) ON DELETE CASCADE,
+            FOREIGN KEY (User) REFERENCES user(Username) ON DELETE CASCADE,
+            FOREIGN KEY (BPrice_Per_Booking) REFERENCES base_price(Price_ID) ON DELETE CASCADE );
 
 CREATE TABLE IF NOT EXISTS booked_seat (
             Ticket_Number INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -998,6 +998,94 @@ CREATE TRIGGER check_airport_has_locations
                     END LOOP airport_loop;
                     CLOSE airport_cursor;
                 END;
+
+CREATE TRIGGER check_flight_has_paid_bookings
+                BEFORE DELETE ON scheduled_flight
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking
+                    WHERE Scheduled_Flight = OLD.Scheduled_ID AND Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Flight has paid bookings, cannot delete';
+                    END IF;
+                END;
+
+CREATE TRIGGER check_airport_has_paid_bookings
+                BEFORE DELETE ON airport
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking as bk
+                    INNER JOIN scheduled_flight as sf ON bk.Scheduled_Flight = sf.Scheduled_ID
+                    INNER JOIN route as rt ON sf.Route = rt.Route_ID
+                    WHERE rt.Origin = OLD.ICAO_Code OR rt.Destination = OLD.ICAO_Code AND bk.Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Airport has paid bookings, cannot delete';
+                    END IF;
+                END;
+
+CREATE TRIGGER check_airplane_has_paid_bookings
+                BEFORE DELETE ON airplane
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking as bk
+                    INNER JOIN scheduled_flight as sf ON bk.Scheduled_Flight = sf.Scheduled_ID
+                    WHERE sf.Airplane = OLD.Tail_Number AND bk.Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Airplane has paid bookings, cannot delete';
+                    END IF;
+                END;
+
+CREATE TRIGGER check_model_has_paid_bookings
+                BEFORE DELETE ON model
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking as bk
+                    INNER JOIN scheduled_flight as sf ON bk.Scheduled_Flight = sf.Scheduled_ID
+                    INNER JOIN airplane as ap ON sf.Airplane = ap.Tail_Number
+                    WHERE ap.Model = OLD.Model_ID AND bk.Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Model has paid bookings, cannot delete';
+                    END IF;
+                END;
+
+CREATE TRIGGER check_route_has_paid_bookings
+                BEFORE DELETE ON route
+                FOR EACH ROW
+                BEGIN
+                    DECLARE paid_bookings_count SMALLINT;
+
+                    SELECT COUNT(*) INTO paid_bookings_count
+                    FROM booking as bk
+                    INNER JOIN scheduled_flight as sf ON bk.Scheduled_Flight = sf.Scheduled_ID
+                    WHERE sf.Route = OLD.Route_ID AND bk.Completed = 1;
+
+                    IF paid_bookings_count > 0 THEN
+                        SIGNAL SQLSTATE '45000'
+                            SET MESSAGE_TEXT = 'Route has paid bookings, cannot delete';
+                    END IF;
+                END;
+        
+
 
 -- create roles and users
 CREATE ROLE IF NOT EXISTS admin, staff, registeredUser, guest;
