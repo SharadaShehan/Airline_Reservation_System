@@ -33,7 +33,12 @@ export default function DEOAddRoute() {
     function () {
       async function getAirportsList() {
         try {
-          const response = await axios.get(`${BaseURL}/get/airports`);
+          const token = Cookies.get("access-token");
+          const response = await axios.get(`${BaseURL}/deo/get/airports`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           console.log(response.data);
           setAirportList(response.data);
         } catch (error) {
@@ -168,13 +173,14 @@ export default function DEOAddRoute() {
               className="input-area dropbtn"
               value={origin}
               onChange={inputOrigin}
+              placeholder="Select Origin"
             >
               <option disabled value="origin">
                 Select Origin
               </option>
               {airportList.map((airport) => (
                 <option value={airport.icaoCode} key={airport.city}>
-                  {airport.city} : ({airport.iataCode})
+                  {airport.city} ({airport.iataCode})
                 </option>
               ))}
             </select>
@@ -191,7 +197,7 @@ export default function DEOAddRoute() {
               </option>
               {airportList.map((airport) => (
                 <option value={airport.icaoCode} key={airport.city}>
-                  {airport.city} : ({airport.icaoCode}) : ({airport.iataCode})
+                  {airport.city} ({airport.iataCode})
                 </option>
               ))}
             </select>

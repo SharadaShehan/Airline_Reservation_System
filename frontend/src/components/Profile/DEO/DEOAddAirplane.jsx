@@ -29,8 +29,13 @@ export default function DEOAddFlight() {
   useEffect(
     function () {
       async function getModelsList() {
+        const token = Cookies.get("access-token");
         try {
-          const response = await axios.get(`${BaseURL}/get/models`);
+          const response = await axios.get(`${BaseURL}/deo/get/models`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           console.log(response.data);
           setModelList(response.data);
         } catch (error) {

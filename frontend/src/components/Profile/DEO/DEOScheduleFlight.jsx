@@ -79,7 +79,12 @@ export default function DEOScheduleFlight() {
     function () {
       async function getRoutesList() {
         try {
-          const response = await axios.get(`${BaseURL}/get/routes`);
+          const token = Cookies.get("access-token");
+          const response = await axios.get(`${BaseURL}/deo/get/routes`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           console.log(response.data);
           setRouteList(response.data);
         } catch (error) {
@@ -109,7 +114,12 @@ export default function DEOScheduleFlight() {
     function () {
       async function getAirplanesList() {
         try {
-          const response = await axios.get(`${BaseURL}/get/airplanes`);
+          const token = Cookies.get("access-token");
+          const response = await axios.get(`${BaseURL}/deo/get/airplanes`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           console.log(response.data);
           setAirplanesList(response.data);
         } catch (error) {
