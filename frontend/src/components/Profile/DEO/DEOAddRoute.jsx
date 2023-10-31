@@ -10,8 +10,8 @@ export default function DEOAddRoute() {
   const { setUserMenuItem } = UserMenuGlobalState();
   const { setCurrentUserData } = UserGlobalState();
   const [airportList, setAirportList] = useState([]);
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
+  const [origin, setOrigin] = useState("origin");
+  const [destination, setDestination] = useState("destination");
   const [durationMinutes, setDurationMinutes] = useState();
   const [Economy, setEconomy] = useState();
   const [Business, setBusiness] = useState();
@@ -33,7 +33,12 @@ export default function DEOAddRoute() {
     function () {
       async function getAirportsList() {
         try {
-          const response = await axios.get(`${BaseURL}/get/airports`);
+          const token = Cookies.get("access-token");
+          const response = await axios.get(`${BaseURL}/deo/get/airports`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           console.log(response.data);
           setAirportList(response.data);
         } catch (error) {
@@ -149,8 +154,8 @@ export default function DEOAddRoute() {
   }
 
   function handleClear() {
-    setOrigin("");
-    setDestination("");
+    setOrigin("origin");
+    setDestination("destination");
     setDurationMinutes();
     setEconomy();
     setBusiness();
@@ -168,13 +173,14 @@ export default function DEOAddRoute() {
               className="input-area dropbtn"
               value={origin}
               onChange={inputOrigin}
+              placeholder="Select Origin"
             >
               <option disabled value="origin">
-                Select Origin
+                Origin
               </option>
               {airportList.map((airport) => (
                 <option value={airport.icaoCode} key={airport.city}>
-                  {airport.city} : ({airport.iataCode})
+                  {airport.city} ({airport.iataCode})
                 </option>
               ))}
             </select>
@@ -187,11 +193,11 @@ export default function DEOAddRoute() {
               onChange={inputDestination}
             >
               <option disabled value="destination">
-                Select Destination
+                Destination
               </option>
               {airportList.map((airport) => (
                 <option value={airport.icaoCode} key={airport.city}>
-                  {airport.city} : ({airport.icaoCode}) : ({airport.iataCode})
+                  {airport.city} ({airport.iataCode})
                 </option>
               ))}
             </select>

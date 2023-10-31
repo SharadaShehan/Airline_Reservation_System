@@ -10,9 +10,9 @@ export default function DEOScheduleFlight() {
   const { setUserMenuItem } = UserMenuGlobalState();
   const { setCurrentUserData } = UserGlobalState();
   const [routeList, setRouteList] = useState([]);
-  const [routeID, setRouteID] = useState("");
+  const [routeID, setRouteID] = useState("Route");
   const [airplanesList, setAirplanesList] = useState([]);
-  const [tailNumber, setTailNumber] = useState("");
+  const [tailNumber, setTailNumber] = useState("Airplane");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -79,7 +79,12 @@ export default function DEOScheduleFlight() {
     function () {
       async function getRoutesList() {
         try {
-          const response = await axios.get(`${BaseURL}/get/routes`);
+          const token = Cookies.get("access-token");
+          const response = await axios.get(`${BaseURL}/deo/get/routes`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           console.log(response.data);
           setRouteList(response.data);
         } catch (error) {
@@ -109,7 +114,12 @@ export default function DEOScheduleFlight() {
     function () {
       async function getAirplanesList() {
         try {
-          const response = await axios.get(`${BaseURL}/get/airplanes`);
+          const token = Cookies.get("access-token");
+          const response = await axios.get(`${BaseURL}/deo/get/airplanes`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           console.log(response.data);
           setAirplanesList(response.data);
         } catch (error) {
@@ -136,8 +146,8 @@ export default function DEOScheduleFlight() {
   );
 
   function handleClear() {
-    setRouteID("");
-    setTailNumber("");
+    setRouteID("Route");
+    setTailNumber("Airplane");
     setDate("");
     setTime("");
   }
@@ -148,7 +158,6 @@ export default function DEOScheduleFlight() {
 
   const handleRouteID = (event) => {
     setRouteID(event.target.value);
-    console.log(routeID);
   };
   const handleTailNumber = (event) => {
     setTailNumber(event.target.value);
@@ -171,7 +180,7 @@ export default function DEOScheduleFlight() {
             value={routeID}
             onChange={handleRouteID}
           >
-            <option disabled value="routeID">
+            <option disabled value="Route">
               Route
             </option>
             {routeList.map((route) => (
@@ -189,8 +198,8 @@ export default function DEOScheduleFlight() {
             value={tailNumber}
             onChange={handleTailNumber}
           >
-            <option disabled value="tailNumber">
-              Airplane Tail Number
+            <option disabled value="Airplane">
+              Airplane
             </option>
             {airplanesList.map((airplane) => (
               <option value={airplane.tailNumber}>{airplane.tailNumber}</option>
