@@ -154,8 +154,8 @@ export default function DEOAddRoute() {
   }
 
   function handleClear() {
-    setOrigin("");
-    setDestination("");
+    setOrigin("origin");
+    setDestination("destination");
     setDurationMinutes();
     setEconomy();
     setBusiness();

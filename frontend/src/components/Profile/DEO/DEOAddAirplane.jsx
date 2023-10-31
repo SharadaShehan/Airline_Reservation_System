@@ -127,7 +127,7 @@ export default function DEOAddFlight() {
 
   function handleCancel() {
     setTailNumber("");
-    setModelID("Select Model");
+    setModelID("model");
   }
 
   const onClickModel = (event) => {
