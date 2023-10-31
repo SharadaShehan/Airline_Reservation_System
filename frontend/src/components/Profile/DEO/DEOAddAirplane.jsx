@@ -9,7 +9,7 @@ import Snackbar from "../../common/Snackbar";
 export default function DEOAddFlight() {
   const { setUserMenuItem } = UserMenuGlobalState();
   const { setCurrentUserData } = UserGlobalState();
-  const [modelID, setModelID] = useState(1);
+  const [modelID, setModelID] = useState("model");
   const [modelList, setModelList] = useState([]);
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const [tailNumber, setTailNumber] = useState();
@@ -127,7 +127,11 @@ export default function DEOAddFlight() {
 
   function handleCancel() {
     setTailNumber("");
-    setModelID(1);
+    setModelID("Select Model");
+  }
+
+  const onClickModel = (event) => {
+    setModelID(event.target.value);
   }
 
   return (
@@ -140,14 +144,13 @@ export default function DEOAddFlight() {
             <select
               className="input-area dropbtn"
               value={modelID}
-              placeholder="Select Airplane Model"
-              onChange={(e) => setModelID(e.target.value)}
+              onChange={onClickModel}
             >
               <option disabled value="model">
-                Select AirpLane Model
+                Model
               </option>
               {modelList.map((airplaneModel) => (
-                <option value={airplaneModel.modelID} key={airplaneModel.name}>
+                <option value={airplaneModel.modelID}>
                   {airplaneModel.name}
                 </option>
               ))}

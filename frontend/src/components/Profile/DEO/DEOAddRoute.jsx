@@ -10,8 +10,8 @@ export default function DEOAddRoute() {
   const { setUserMenuItem } = UserMenuGlobalState();
   const { setCurrentUserData } = UserGlobalState();
   const [airportList, setAirportList] = useState([]);
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
+  const [origin, setOrigin] = useState("origin");
+  const [destination, setDestination] = useState("destination");
   const [durationMinutes, setDurationMinutes] = useState();
   const [Economy, setEconomy] = useState();
   const [Business, setBusiness] = useState();
@@ -176,7 +176,7 @@ export default function DEOAddRoute() {
               placeholder="Select Origin"
             >
               <option disabled value="origin">
-                Select Origin
+                Origin
               </option>
               {airportList.map((airport) => (
                 <option value={airport.icaoCode} key={airport.city}>
@@ -193,7 +193,7 @@ export default function DEOAddRoute() {
               onChange={inputDestination}
             >
               <option disabled value="destination">
-                Select Destination
+                Destination
               </option>
               {airportList.map((airport) => (
                 <option value={airport.icaoCode} key={airport.city}>
