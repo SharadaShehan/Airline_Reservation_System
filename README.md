@@ -119,7 +119,7 @@ Recommended Node version : `Node 18.17.1`
 3) Now replace content of `.env` file in the frontend directory with following codeline
 
     ```bash
-    REACT_APP_BACKEND_API_URL=http://127.0.0.1/api
+    REACT_APP_BACKEND_API_URL=http://127.0.0.1:5000/api
     ```
 
 4) Run the Development Server
