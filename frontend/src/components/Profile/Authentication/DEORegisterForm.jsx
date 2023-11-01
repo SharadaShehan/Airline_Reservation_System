@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useRef  } from "react";
-import { UserGlobalState } from "../../Layout/UserGlobalState";
+// import { UserGlobalState } from "../../Layout/UserGlobalState";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -9,8 +9,8 @@ import Snackbar from "../../common/Snackbar";
 
 export default function DEORegisterForm() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
-  const { setCurrentUserData } = UserGlobalState();
-  const [randomError, setRandomError] = useState(null);
+  // const { setCurrentUserData } = UserGlobalState();
+  const [randomError] = useState(null);
 
   const { setUserMenuItem } = UserMenuGlobalState();
   const [username, setUsername] = useState("");
