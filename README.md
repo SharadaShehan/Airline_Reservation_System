@@ -1,6 +1,6 @@
 <h1 align="center">✈️ Airline_Reservation_System ✈️</h1>
 <p align="center">
-<img src="https://github.com/SharadaShehan/Airline_Reservation_System/assets/107914899/2806d3eb-40a2-499e-b208-3400c8efe236">
+<img src="https://github.com/SharadaShehan/Airline_Reservation_System/blob/963e65339bb5c7b60e7ff1b4c194c72297749ddc/resources/HomePage.png">
 </p>
 <br>
 
