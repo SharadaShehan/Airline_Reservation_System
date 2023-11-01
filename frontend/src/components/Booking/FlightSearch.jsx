@@ -34,7 +34,7 @@ export default function FlightSearch() {
       flightID: selectedFlightID,
       travelClass: classType,
       price: null,
-      passengers: []
+      passengers: [],
     });
     setBookingStep(nextPage);
   }
@@ -127,24 +127,24 @@ export default function FlightSearch() {
                 </div>
               </div>
               <div className="right-drop-btn">
-              <div className="dropdown">
-                <select
-                  className="selection-area-dropbtn"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                >
-                  <option disabled value="destination">
-                    To
-                  </option>
-                  {airportsList
-                    .filter((airport) => airport.icaoCode !== origin)
-                    .map((airport) => (
-                      <option value={airport.icaoCode} key={airport.icaoCode}>
-                        {airport.city} ({airport.iataCode})
-                      </option>
-                    ))}
-                </select>
-              </div>
+                <div className="dropdown">
+                  <select
+                    className="selection-area-dropbtn"
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
+                  >
+                    <option disabled value="destination">
+                      To
+                    </option>
+                    {airportsList
+                      .filter((airport) => airport.icaoCode !== origin)
+                      .map((airport) => (
+                        <option value={airport.icaoCode} key={airport.icaoCode}>
+                          {airport.city} ({airport.iataCode})
+                        </option>
+                      ))}
+                  </select>
+                </div>
               </div>
             </div>
             <div className="date-btn drop-btn">
@@ -167,7 +167,7 @@ export default function FlightSearch() {
               </button>
             </div>
           </div>
-          
+
           <div className="table-container front-content">
             {flights.length === 0 ? (
               <div className="no-passengers">
@@ -178,8 +178,8 @@ export default function FlightSearch() {
                 <table>
                   <thead>
                     <tr>
-                      <th>Flight ID</th>
                       <th>Aircraft Model</th>
+                      <th>Departure Time</th>
                       <th>Travel Duration</th>
                       <th>Economy</th>
                       <th>Business</th>
@@ -189,9 +189,18 @@ export default function FlightSearch() {
                   <tbody>
                     {flights.map((flight) => (
                       <tr key={uuidv4()}>
-                        <td>{flight.flightID}</td>
                         <td>{flight.airplaneModel}</td>
-                        <td>{`${Math.floor(flight.durationMinutes/60)} hr and ${flight.durationMinutes%60} min`}</td>
+                        <td>
+                          {new Date(
+                            flight.origin.dateAndTime
+                          ).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </td>
+                        <td>{`${Math.floor(
+                          flight.durationMinutes / 60
+                        )} hr and ${flight.durationMinutes % 60} min`}</td>
                         <td>
                           <input
                             className="radio-btn"
@@ -250,9 +259,7 @@ export default function FlightSearch() {
                 type="button"
                 className="action-button btn"
                 onClick={handleNext}
-                disabled={
-                  !(classType && selectedFlightID)
-                }
+                disabled={!(classType && selectedFlightID)}
               >
                 Next
               </button>
