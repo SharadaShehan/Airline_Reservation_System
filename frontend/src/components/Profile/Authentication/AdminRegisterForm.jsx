@@ -1,15 +1,16 @@
 import React from "react";
-import { useState } from "react";
-import { UserGlobalState } from "../../Layout/UserGlobalState";
+import { useState, useRef } from "react";
+// import { UserGlobalState } from "../../Layout/UserGlobalState";
 import { UserMenuGlobalState } from "../../Layout/UserMenuGlobalState";
 import Cookies from "js-cookie";
 import axios from "axios";
 import "./authForms.css";
+import Snackbar from "../../common/Snackbar";
 
 export default function AdminRegisterForm() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
-  const { setCurrentUserData } = UserGlobalState();
-  const [randomError, setRandomError] = useState(null);
+  // const { setCurrentUserData } = UserGlobalState();
+  const [randomError] = useState(null);
 
   const { setUserMenuItem } = UserMenuGlobalState();
   const [username, setUsername] = useState("");
@@ -21,6 +22,17 @@ export default function AdminRegisterForm() {
   const [firstNameError, setFirstNameError] = useState(null);
   const [lastName, setLastName] = useState("");
   const [lastNameError, setLastNameError] = useState(null);
+
+  const snackbarRef_fail = useRef(null);
+  const snackbarRef_success = useRef(null);
+  const Snackbardata_fail = {
+    type: "fail",
+    message: "Check the data and try again!",
+  };
+  const Snackbardata_success = {
+    type: "success",
+    message: "Admin Registered Successfully!",
+  };
 
   const submitfunc = async (e) => {
     e.preventDefault();
@@ -55,9 +67,12 @@ export default function AdminRegisterForm() {
       );
       console.log(response);
       if (response.status === 201) {
-        alert("Admin Registered Successfully");
+        snackbarRef_success.current.show();
+        clear();
       }
     } catch (err) {
+      snackbarRef_fail.current.show();
+      clear();
       console.log(err);
     }
   };
@@ -76,6 +91,14 @@ export default function AdminRegisterForm() {
     );
   };
 
+  function clear(){
+      setUsername(null);
+      setPassword(null);
+      setConfirmPassword(null);
+      setFirstName(null);
+      setLastName(null);
+  }
+  
   const validateUsername = () => {
     const usernameRegex = /^[a-zA-Z0-9_@]{3,30}$/;
     if (usernameRegex.test(username) === false) {
@@ -234,6 +257,16 @@ export default function AdminRegisterForm() {
           </button>
         </div>
       </form>
+      <Snackbar
+        ref={snackbarRef_fail}
+        message={Snackbardata_fail.message}
+        type={Snackbardata_fail.type}
+      />
+      <Snackbar
+        ref={snackbarRef_success}
+        message={Snackbardata_success.message}
+        type={Snackbardata_success.type}
+      />
     </div>
   );
 }
