@@ -37,6 +37,7 @@ Please develop the backend in a virtual environment.
     python -m venv "venv"
     venv\bin\activate
     ```
+    If you are using a different version of python, you may have to type `venv\Scripts\Activate` to activate the created virtual environment.
 
     If your Python virtual environment works fine, then in the command line should be something similar to this.
     
@@ -71,15 +72,16 @@ Please develop the backend in a virtual environment.
 
     INIT_ENABLED=1
     ```
-    Replace above environment variables values with relevant credentials for your local MYSQL database. Set `INIT_ENABLED=1` in development enviroment.
+    Replace MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB environment variables values with relevant credentials for your local MYSQL database.
+    When in development mode, Set `INIT_ENABLED=1` in order to enable running scripts for populating database.
 
-5) Run this command to run the Local Server.
+6) Run this command to run the Local Server.
 
     ```bash
     python run.py
     ```
 
-6) If Local Server is running, it must show something similar to below.
+7) If Local Server is running, it must show something similar to below.
 
     ```bash
     * Serving Flask app 'run'
