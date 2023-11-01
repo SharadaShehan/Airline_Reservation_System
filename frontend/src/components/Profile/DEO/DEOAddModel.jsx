@@ -132,7 +132,7 @@ export default function DEOAddModel() {
             type="text"
             value={name}
             className="input-area form-input"
-            placeholder="Enter Air Plane Name"
+            placeholder="Enter Model Name"
             onChange={handleNameChange}
             onBlur={validateName}
           />

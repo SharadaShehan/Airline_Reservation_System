@@ -174,7 +174,7 @@ function AllAirports() {
             onClick={() => setUserMenuItem("add-airport")}
             className="buttons"
           >
-            Add New Airport
+            Add Airport
           </button>
         )}
       </div>

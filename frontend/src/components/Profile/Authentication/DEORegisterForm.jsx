@@ -175,7 +175,7 @@ export default function DEORegisterForm() {
         onSubmit={submitfunc}
         style={{ height: "100%", overflow: "auto" }}
       >
-        <span className="header">DEO Register</span>
+        <span className="header">Register Data Entry Operator</span>
         <div className="reg-formField">
           <div className="field-box">
             <label className="field-label">First Name</label>

@@ -14,7 +14,7 @@ function RegisterPortal() {
             className="portal-button"
             onClick={() => setUserMenuItem("admin-register")}
           >
-            Register An Admin
+            Register Admin
           </button>
         </div>
         <div className="formField">
@@ -22,7 +22,7 @@ function RegisterPortal() {
             className="portal-button"
             onClick={() => setUserMenuItem("deo-register")}
           >
-            Register A DEO
+            Register Data Entry Operator
           </button>
         </div>
         <div className="portal-button-container">

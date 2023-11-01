@@ -90,7 +90,7 @@ export default function UserLoginForm() {
   return (
     <div className="loginFormWrapper">
       <form className="authForm" onSubmit={handleSubmitClick}>
-        <span className="header">Log in</span>
+        <span className="header">User Login</span>
         <div className="formField">
           <input
             className="shortInput"
