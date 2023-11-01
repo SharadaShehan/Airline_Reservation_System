@@ -48,6 +48,7 @@ Please develop the backend in a virtual environment.
     ```bash
     pip install -r requirements.txt
     ```
+    
 4) create `.env` file in `/backend/app/` location with following variables in it.
 
     ```bash
@@ -110,13 +111,19 @@ Recommended Node version : `Node 18.17.1`
     npm install
     ```
 
-3) Run the Development Server
+3) Now replace content of `.env` file in the frontend directory with following codeline
+
+    ```bash
+    REACT_APP_BACKEND_API_URL=https://20.219.191.110/api
+    ```
+
+4) Run the Development Server
 
     ```bash
     npm start
     ```
 
-4) If Development Server is running, it must show something similar to below
+5) If Development Server is running, it must show something similar to below
 
     ```bash
     Starting the development server...
