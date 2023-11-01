@@ -1,29 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserGlobalState } from "../Layout/UserGlobalState";
 import { BookingProcessGlobalState } from "../Layout/BookingProcessGlobalState";
 import { BookingStepGlobalState } from "../Layout/BookingStepGlobalState";
 import axios from "axios";
 import "./BookingDetails.css";
 import Cookies from "js-cookie";
-import ConfirmationPopup from '../common/ConfirmationPopup';
-import Snackbar from "../common/Snackbar"
+import ConfirmationPopup from "../common/ConfirmationPopup";
+import Snackbar from "../common/Snackbar";
 
 export default function BookingDetails() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
   const accessToken = Cookies.get("access-token");
   const guestID = Cookies.get("guest-id");
-  const { currentUserData } = UserGlobalState();
+  const { currentUserData, setCurrentUserData } = UserGlobalState();
   const { bookingProcessDetails, setBookingProcessDetails } =
     BookingProcessGlobalState();
   const { setBookingStep } = BookingStepGlobalState();
   const [flightDetails, setFlightDetails] = useState({});
   const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
 
   const snackbarRef_fail = useRef(null);
   const Snackbardata_fail = {
     type: "fail",
-    message: "Fail to create Booking !"
+    message: "Fail to create Booking !",
   };
 
   useEffect(() => {
@@ -62,14 +63,26 @@ export default function BookingDetails() {
           Cookies.set("bookingRef", response.data.bookingRefID);
           setBookingProcessDetails((prevState) => ({
             ...prevState,
-            price : response.data.price,
-            bookingRefID: response.data.bookingRefID
+            price: response.data.price,
+            bookingRefID: response.data.bookingRefID,
           }));
           console.log("confirmed !");
           setBookingStep("makePayment");
         }
       } catch (error) {
         console.log(error);
+        if (error.response && error.response.status === 401) {
+          setCurrentUserData({
+            username: null,
+            firstName: null,
+            lastName: null,
+            isAdmin: null,
+            isDataEntryOperator: null,
+            bookingsCount: null,
+            category: null,
+          });
+          navigate("/profile");
+        }
       }
     }
 
@@ -98,8 +111,8 @@ export default function BookingDetails() {
           Cookies.set("bookingRef", response.data.bookingRefID);
           setBookingProcessDetails((prevState) => ({
             ...prevState,
-            price : response.data.price,
-            bookingRefID: response.data.bookingRefID
+            price: response.data.price,
+            bookingRefID: response.data.bookingRefID,
           }));
           setBookingStep("makePayment");
         }
@@ -130,14 +143,14 @@ export default function BookingDetails() {
     setBookingStep("seatReserve");
   }
 
-  function handleReserveNow(){
-    setShowPopup(true)
-    console.log("reserve now")
+  function handleReserveNow() {
+    setShowPopup(true);
+    console.log("reserve now");
   }
 
-  function handlePopUpCancel(){
+  function handlePopUpCancel() {
     setShowPopup(false);
-  };
+  }
 
   return (
     <>
@@ -245,7 +258,7 @@ export default function BookingDetails() {
               type="button"
               className="action-button btn"
               onClick={handleReserveNow}
-              disabled={!(bookingProcessDetails.passengers.length)}
+              disabled={!bookingProcessDetails.passengers.length}
             >
               Reserve Now
             </button>
