@@ -1,4 +1,4 @@
-<h1 align="center">✈️ Airline_Reservation_System ✈️</h1>
+<h1 align="center">✈️ Airline Reservation System ✈️</h1>
 <p align="center">
 <img src="https://github.com/SharadaShehan/Airline_Reservation_System/blob/963e65339bb5c7b60e7ff1b4c194c72297749ddc/resources/HomePage.png">
 </p>
