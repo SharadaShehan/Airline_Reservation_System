@@ -1,0 +1,26 @@
+# Exclude Python bytecode files
+*.pyc
+
+# Exclude virtual environment directory
+venv/
+
+# Exclude any local environment files
+.env
+app/.env
+
+# Exclude any local development files or directories
+*.log
+*.sqlite
+__pycache__
+app/__pycache__
+app/api/__pycache__
+app/utils/__pycache__
+app/scripts/__pycache__
+.vscode/
+
+# Exclude cache files
+cache/
+app/api/cache/
+
+# Exclude test files
+tests/
