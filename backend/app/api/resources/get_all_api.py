@@ -1,11 +1,12 @@
 from flask import make_response
 from app.utils.db import get_db_connection_guest_user
 from flask_restful import Resource, abort
-from app.api.cache import cache
+from app.api.cache import AppCache
 
+# cache = AppCache.get_cache()
 
 class GetAllModels(Resource):
-    @cache.cached(timeout=300)
+    @(AppCache.get_cache()).cached(timeout=30)
     def get(self):
         try:
             connection = get_db_connection_guest_user()
@@ -38,7 +39,7 @@ class GetAllModels(Resource):
         
 
 class GetAllRoutes(Resource):
-    @cache.cached(timeout=300)
+    @(AppCache.get_cache()).cached(timeout=30)
     def get(self):
         try:
             connection = get_db_connection_guest_user()
@@ -92,7 +93,7 @@ class GetAllRoutes(Resource):
 
 
 class GetAllAirports(Resource):
-    @cache.cached(timeout=300)
+    @(AppCache.get_cache()).cached(timeout=30)
     def get(self):
         try:
             connection = get_db_connection_guest_user()
@@ -132,7 +133,7 @@ class GetAllAirports(Resource):
         
 
 class GetAllAirplanes(Resource):
-    @cache.cached(timeout=300)
+    @(AppCache.get_cache()).cached(timeout=30)
     def get(self):
         try:
             connection = get_db_connection_guest_user()
