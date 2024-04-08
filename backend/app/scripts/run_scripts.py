@@ -24,7 +24,7 @@ class RunScripts(Resource):
                 drop_all_events()
                 drop_all_triggers()
                 create_tables()
-                create_indexes()
+                # create_indexes()
                 create_views()
                 create_procedures()
                 create_functions()

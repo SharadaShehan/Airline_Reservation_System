@@ -8,10 +8,10 @@ def drop_all_users_roles():
         cursor = connection.cursor()
         drop_queries = []
         users_list = [
-            "'adminAccount'@'localhost'",
-            "'staffAccount'@'localhost'",
-            "'registeredUserAccount'@'localhost'",
-            "'guestAccount'@'localhost'"
+            "'adminAccount'@'%'",
+            "'staffAccount'@'%'",
+            "'registeredUserAccount'@'%'",
+            "'guestAccount'@'%'"
         ]
         roles_list = [
             "'admin'",
@@ -49,10 +49,10 @@ def create_and_grant_users_roles():
         cursor.execute("CREATE ROLE IF NOT EXISTS 'admin', 'staff', 'registeredUser', 'guest';")
 
         # Create users
-        cursor.execute("CREATE USER IF NOT EXISTS 'adminAccount'@'localhost' IDENTIFIED BY 'P7tZ99pJ2s9';")
-        cursor.execute("CREATE USER IF NOT EXISTS 'staffAccount'@'localhost' IDENTIFIED BY 'MK6dLpY9sPz';")
-        cursor.execute("CREATE USER IF NOT EXISTS 'registeredUserAccount'@'localhost' IDENTIFIED BY '0qR3vKnX8w5';")
-        cursor.execute("CREATE USER IF NOT EXISTS 'guestAccount'@'localhost' IDENTIFIED BY 'L2mSgV7hg5e';")
+        cursor.execute("CREATE USER IF NOT EXISTS 'adminAccount'@'%' IDENTIFIED BY 'P7tZ99pJ2s9';")
+        cursor.execute("CREATE USER IF NOT EXISTS 'staffAccount'@'%' IDENTIFIED BY 'MK6dLpY9sPz';")
+        cursor.execute("CREATE USER IF NOT EXISTS 'registeredUserAccount'@'%' IDENTIFIED BY '0qR3vKnX8w5';")
+        cursor.execute("CREATE USER IF NOT EXISTS 'guestAccount'@'%' IDENTIFIED BY 'L2mSgV7hg5e';")
 
         # Grant privileges to admin role
         cursor.execute(f"GRANT ALL PRIVILEGES ON {database}.* TO 'admin';")
@@ -123,14 +123,14 @@ def create_and_grant_users_roles():
         cursor.execute(f"GRANT EXECUTE ON PROCEDURE {database}.CompleteBooking TO 'guest';")
         
         # Grant roles to users
-        cursor.execute("GRANT 'admin' TO 'adminAccount'@'localhost';")
-        cursor.execute("SET DEFAULT ROLE 'admin' TO 'adminAccount'@'localhost';")
-        cursor.execute("GRANT 'staff' TO 'staffAccount'@'localhost';")
-        cursor.execute("SET DEFAULT ROLE 'staff' TO 'staffAccount'@'localhost';")
-        cursor.execute("GRANT 'registeredUser' TO 'registeredUserAccount'@'localhost';")
-        cursor.execute("SET DEFAULT ROLE 'registeredUser' TO 'registeredUserAccount'@'localhost';")
-        cursor.execute("GRANT 'guest' TO 'guestAccount'@'localhost';")
-        cursor.execute("SET DEFAULT ROLE 'guest' TO 'guestAccount'@'localhost';")
+        cursor.execute("GRANT 'admin' TO 'adminAccount'@'%';")
+        cursor.execute("SET DEFAULT ROLE 'admin' TO 'adminAccount'@'%';")
+        cursor.execute("GRANT 'staff' TO 'staffAccount'@'%';")
+        cursor.execute("SET DEFAULT ROLE 'staff' TO 'staffAccount'@'%';")
+        cursor.execute("GRANT 'registeredUser' TO 'registeredUserAccount'@'%';")
+        cursor.execute("SET DEFAULT ROLE 'registeredUser' TO 'registeredUserAccount'@'%';")
+        cursor.execute("GRANT 'guest' TO 'guestAccount'@'%';")
+        cursor.execute("SET DEFAULT ROLE 'guest' TO 'guestAccount'@'%';")
 
         connection.commit()
         connection.close()
