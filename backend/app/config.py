@@ -21,6 +21,8 @@ class Config:
     MYSQL_GUEST_USER_ACCOUNT = os.environ.get('MYSQL_GUEST_USER_ACCOUNT')
     MYSQL_GUEST_USER_PASSWORD = os.environ.get('MYSQL_GUEST_USER_PASSWORD')
     MYSQL_DB = os.environ.get('MYSQL_DB')
+    REDIS_HOST = os.environ.get('REDIS_HOST')
+    REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
 
     INIT_ENABLED = int(os.environ.get('INIT_ENABLED', 0))
     MYSQL_CURSORCLASS = 'DictCursor'    # ensures that query results are returned as dictionaries
