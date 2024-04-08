@@ -8,7 +8,7 @@ export default function BookFlights () {
     if (bookingStep !== "makePayment") {
       setBookingStep("flightSearch");
     };
-  }, [setBookingStep]);
+  }, [setBookingStep, bookingStep]);
   
   return <Booking />;
 };
