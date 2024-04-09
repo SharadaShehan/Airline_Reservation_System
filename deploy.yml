@@ -1,0 +1,550 @@
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: external-load-balancer
+  namespace: default
+spec:
+  gatewayClassName: gke-l7-gxlb
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+
+---
+
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: http-route
+  namespace: default
+  labels:
+    gateway: external-load-balancer
+spec:
+  parentRefs:
+  - name: external-load-balancer
+  rules:
+  - backendRefs:
+    - name: nginx-service
+      port: 80
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    upstream backend-web {
+      server flask-app-service:5000;
+    }
+
+    upstream frontend-web {
+        server react-app-service:3000;
+    }
+
+    server {
+        listen 80;
+
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        location /api/ {
+            proxy_pass http://backend-web;
+
+            proxy_set_header   Host $host;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Host $server_name;
+        }
+
+        location /init {                        # remove this block after initialization
+            proxy_pass http://backend-web;
+
+            proxy_set_header   Host $host;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Host $server_name;
+        }
+
+        location / {                            # External Load Balancer requires this path for health check
+            proxy_pass http://frontend-web;
+
+            proxy_set_header   Host $host;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Host $server_name;
+        }
+
+    }
+
+---
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx
+  minReplicas: 1
+  maxReplicas: 3
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 20
+        periodSeconds: 15
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 80
+        periodSeconds: 15
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  replicas: 1       # number of pods at the start
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
+          limits:
+            cpu: 400m
+            memory: 400Mi
+        volumeMounts:
+        - name: config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+      volumes:
+      - name: config
+        configMap:
+          name: nginx-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:latest
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: config
+          mountPath: /usr/local/etc/redis/redis.conf
+          subPath: redis.conf
+        args:
+        - redis-server
+        - /usr/local/etc/redis/redis.conf
+      volumes:
+      - name: config
+        configMap:
+          name: redis-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+spec:
+  selector:
+    app: redis
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+
+---
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: flask-app-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: flask-app
+  minReplicas: 1
+  maxReplicas: 3
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 20
+        periodSeconds: 15
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 80
+        periodSeconds: 15
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-app
+        image: <DOCKER_IMAGE_OF_FLASK_APP>    # replace with docker_image:tag
+        ports:
+        - containerPort: 5000
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: SECRET_KEY
+        - name: MYSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_HOST
+        - name: MYSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_PORT
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_PASSWORD
+        - name: MYSQL_ADMIN_ACCOUNT
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_ADMIN_ACCOUNT
+        - name: MYSQL_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_ADMIN_PASSWORD
+        - name: MYSQL_STAFF_ACCOUNT
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_STAFF_ACCOUNT
+        - name: MYSQL_STAFF_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_STAFF_PASSWORD
+        - name: MYSQL_REGISTERED_USER_ACCOUNT
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_REGISTERED_USER_ACCOUNT
+        - name: MYSQL_REGISTERED_USER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_REGISTERED_USER_PASSWORD
+        - name: MYSQL_GUEST_USER_ACCOUNT
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_GUEST_USER_ACCOUNT
+        - name: MYSQL_GUEST_USER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_GUEST_USER_PASSWORD
+        - name: MYSQL_DB
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_DB
+        - name: REDIS_HOST
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: REDIS_HOST
+        - name: REDIS_PORT
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: REDIS_PORT
+        - name: INIT_ENABLED
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: INIT_ENABLED
+        resources:
+          requests:
+            cpu: 400m
+            memory: 400Mi
+          limits:
+            cpu: 800m
+            memory: 800Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+spec:
+  selector:
+    app: flask-app
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: default
+spec:
+  serviceName: mysql-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_DB
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: MYSQL_PASSWORD
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-persistent-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 6Gi
+        limits:
+          storage: 10Gi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+  type: ClusterIP
+
+---
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: react-app-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: react-app
+  minReplicas: 1
+  maxReplicas: 2
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 20
+        periodSeconds: 15
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 80
+        periodSeconds: 15
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      containers:
+      - name: react-app
+        image: <DOCKER_IMAGE_OF_REACT_APP>    # replace with docker_image:tag
+        ports:
+        - containerPort: 3000
+        env:
+        - name: REACT_APP_BACKEND_API_URL
+          valueFrom:
+            secretKeyRef:
+              name: environment-variables
+              key: BACKEND_API_URL
+        resources:
+          requests:
+            cpu: 400m
+            memory: 400Mi
+          limits:
+            cpu: 800m
+            memory: 800Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-app-service
+spec:
+  selector:
+    app: react-app
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: environment-variables
+type: Opaque
+stringData:
+  SECRET_KEY: "<SECRET_KEY>"
+  MYSQL_HOST: "mysql-service"   # service name of mysql
+  MYSQL_PORT: "3306"
+  MYSQL_USER: "root"
+  MYSQL_PASSWORD: "<MYSQL_ROOT_PASSWORD>"   # replace with mysql password
+  MYSQL_ADMIN_ACCOUNT: "adminAccount"
+  MYSQL_ADMIN_PASSWORD: "<MYSQL_ADMIN_PASSWORD>"   # replace with admin password in init script
+  MYSQL_STAFF_ACCOUNT: "staffAccount"
+  MYSQL_STAFF_PASSWORD: "<MYSQL_STAFF_PASSWORD>"   # replace with staff password in init script
+  MYSQL_REGISTERED_USER_ACCOUNT: "registeredUserAccount"
+  MYSQL_REGISTERED_USER_PASSWORD: "<MYSQL_REGISTERED_USER_PASSWORD>"   # replace with registered user password in init script
+  MYSQL_GUEST_USER_ACCOUNT: "guestAccount"
+  MYSQL_GUEST_USER_PASSWORD: "<MYSQL_GUEST_USER_PASSWORD>"   # replace with guest user password in init script
+  MYSQL_DB: "<MYSQL_DATABASE_NAME>"   # replace with database name
+  REDIS_HOST: "redis-service"   # service name of redis
+  REDIS_PORT: "6379"
+  INIT_ENABLED: "1"   # after initialization, change to "0" and re-deploy
+  BACKEND_API_URL: "http://www.b-airlines.online/api"   # replace with backend api url
+
