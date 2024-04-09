@@ -69,13 +69,13 @@ Triggers :
 - Checking whether an airport, airplane, model, or route is referenced by flights with at least one paid booking before deleting the corresponding record.
 - Verifying whether a scheduled flight has at least one paid booking before deleting the scheduled flight record.
 
-Optimizations :
+### Optimizations
 
 - Server-Side Caching : Enhanced performance through the implementation of server-side caching (using a redis cache) for frequently accessed APIs delivering relatively static content. This strategy significantly reduces the number of requests made to the database, leading to decreased response times.
 
 - Indexing : Implemented indexing on tables frequently accessed and containing large datasets, enabling the system to swiftly locate and retrieve specific records. This optimization reduces the time and resources required for data retrieval operations. Indexed tables include Scheduled Flight, Registered User, Guest, Booking, Booked_Seat, and Guest.
 
-Security :
+### Security
 
 - Authentication and Authorization : SQL roles were established to mitigate unauthorized accesses at the database level. Additionally, JWT (JSON Web Tokens) Authentication was integrated at the application level, providing an additional layer of authentication and authorization to manage API access.
 
