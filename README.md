@@ -2,13 +2,13 @@
 
 This system was developed with the aim of automating the ticket booking process of B airlines. Employing a three-tier architecture, the system was designed to uphold scalability and maintainability. Leveraging MySQL as the database management system, the solution optimizes data handling through the adept utilization of SQL. The frontend interface, developed with React.js, delivers an user-friendly experience for both customers and administrators. Flask backend orchestrates business logic execution and facilitates seamless interaction with the database, ensuring robust performance and application security.
 
-### Frontend
+## Frontend
 
 <p align="center">
 <img src="resources/HomePage.png" width="80%">
 </p>
 
-#### Flight Search & Seat Reservation
+### Flight Search & Seat Reservation
 
 <p align="center">
 <img src="resources/FlightSearch.png" width="80%">
@@ -17,7 +17,7 @@ This system was developed with the aim of automating the ticket booking process 
 <img src="resources/SeatReservation.jpg" width="80%">
 </p>
 
-#### Pending Payments & Payment Success
+### Pending Payments & Payment Success
 
 <p align="center">
 <img src="resources/PendingPayments.jpg" width="80%">
@@ -25,7 +25,7 @@ This system was developed with the aim of automating the ticket booking process 
 <p align="center">
 <img src="resources/PaymentSuccessful.png" width="80%">
 
-#### Admin Portal
+### Admin Portal
 
 <p align="center">
 <img src="resources/AdminLogin.png" width="80%">
@@ -33,15 +33,15 @@ This system was developed with the aim of automating the ticket booking process 
 <p align="center">
 <img src="resources/AdminProfile.png" width="80%">
 
-### Backend & Database
+## Backend & Database
 
-#### Logical View of Database
+### Logical View of Database
 
 <p align="center">
 <img src="resources/ERDiagram.jpg" width="90%">
 </p>
 
-#### SQL stored procedures
+### SQL stored procedures
 
 The database has been constructed with the implementation of SQL constraints, procedures, functions, and triggers to uphold the ACID (Atomicity, Consistency, Isolation, Durability) properties. This ensures the application's adherence to data integrity and reliability standards.
 
@@ -85,9 +85,9 @@ Security :
 
 - Throttling : Employed rate limitations to restrict the number of bookings created within a short timeframe from a single IP address, effectively countering brute force attacks targeting seat reservations.
 
-### Deployment
+## Deployment
 
-#### Architecture
+### Architecture
 
 The system was deployed on Google Kubernetes Engine (GKE) to ensure scalability, reliability, and high availability. The deployment architecture consists of a web server (NGINX) acting as a reverse proxy, routing incoming requests to the frontend and backend services, then a frontend service, running the React.js application, a backend service, executing the Flask application, and a database service, managing the MySQL database. Additionally, a Redis cache service was deployed to enhance performance through server-side caching. 
 
@@ -97,7 +97,7 @@ Web Server and backend servers were configured to horizontally autoscale based o
 <img src="resources/Deployment.png" width="90%">
 </p>
 
-#### Monitoring
+### Monitoring
 
 <p align="center">
 <img src="resources/Monitoring.png" width="90%">
