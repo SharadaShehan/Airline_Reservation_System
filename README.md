@@ -67,6 +67,8 @@ Please develop the backend in a virtual environment.
     MYSQL_GUEST_USER_ACCOUNT=guestAccount
     MYSQL_GUEST_USER_PASSWORD=L2mSgV7hg5e
     MYSQL_DB=project_database
+    REDIS_HOST=localhost
+    REDIS_PORT=6379
 
     INIT_ENABLED=1
     ```
